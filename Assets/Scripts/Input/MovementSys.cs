@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MovementSysTest : MonoBehaviour
+public class MovementSys : MonoBehaviour
 {
     //Cache for the last input direction. 
     Vector3 _lastInput = Vector2.zero;
