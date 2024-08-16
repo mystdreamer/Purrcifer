@@ -3,59 +3,88 @@ using UnityEngine;
 
 public class MovementSysTest : MonoBehaviour
 {
+    //Cache for the last input direction. 
+    Vector3 _lastInput = Vector2.zero;
 
-    public Vector3 direction = Vector2.zero;
-    public Vector3 input = Vector2.zero;
+    //Cache for current input directions. 
+    Vector3 _input = Vector2.zero;
+
+    //Reference to the rigidbody. 
     public Rigidbody body;
-    public float speed = 100; 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// The players movement speed. 
+    /// </summary>
+    public float speed = 100;
+
     void Start()
     {
-        InputSysTest.Instance.GetAction(ActionType.M_LEFT).DoAction += MoveRight;
-        InputSysTest.Instance.GetAction(ActionType.M_RIGHT).DoAction += MoveLeft;
-        InputSysTest.Instance.GetAction(ActionType.M_UP).DoAction += MoveDown;
-        InputSysTest.Instance.GetAction(ActionType.M_DOWN).DoAction += MoveUp;
+        //Register the required commands. 
+        RegisterCommands();
     }
 
     private void OnDisable()
     {
-        InputSysTest.Instance.GetAction(ActionType.M_LEFT).DoAction -= MoveRight;
-        InputSysTest.Instance.GetAction(ActionType.M_RIGHT).DoAction -= MoveLeft;
-        InputSysTest.Instance.GetAction(ActionType.M_UP).DoAction -= MoveDown;
-        InputSysTest.Instance.GetAction(ActionType.M_DOWN).DoAction -= MoveUp;
+        //Remove command registrations. 
+        DeregisterCommands();
+    }
+
+    private void OnDestroy()
+    {
+        //Remove command registrations.  
+        DeregisterCommands();
+    }
+
+    #region Movement Command Functions. 
+
+    private void RegisterCommands()
+    {
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_LEFT).DoAction += MoveRight;
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_RIGHT).DoAction += MoveLeft;
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_UP).DoAction += MoveDown;
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
+    }
+
+    private void DeregisterCommands()
+    {
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_LEFT).DoAction -= MoveRight;
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_RIGHT).DoAction -= MoveLeft;
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_UP).DoAction -= MoveDown;
+        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_DOWN).DoAction -= MoveUp;
     }
 
     private void MoveRight(bool result)
     {
         if (result)
-            input += new Vector3(-1, 0, 0);
+            _input += new Vector3(-1, 0, 0);
     }
 
     private void MoveLeft(bool result)
     {
         if (result)
-            input += new Vector3(1, 0, 0);
+            _input += new Vector3(1, 0, 0);
     }
 
     private void MoveUp(bool result)
     {
         Debug.Log("Input Right: " + result);
         if (result)
-            input += new Vector3(0, 0, -1);
+            _input += new Vector3(0, 0, -1);
     }
 
     private void MoveDown(bool result)
     {
         if (result)
-            input += new Vector3(0, 0, 1);
+            _input += new Vector3(0, 0, 1);
     }
+    #endregion
 
-    // Update is called once per frame
     void Update()
     {
-        input.Normalize();
-        body.linearVelocity = input * speed;
-        input = Vector3.zero;
+        //Apply the velocity. 
+        _input.Normalize();
+        body.linearVelocity = _input * speed;
+        _lastInput = _input;
+        _input = Vector3.zero;
     }
 }
