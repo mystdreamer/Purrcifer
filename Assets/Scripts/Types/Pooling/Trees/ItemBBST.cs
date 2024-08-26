@@ -152,27 +152,17 @@ namespace ItemPool
                     if (root.Left != null)
                     {
                         if (root.Left.key == node.key)
-                        {
                             return false;
-                        }
                         else if (root.Left.key > node.key)
-                        {
-                            Debug.Log("Insert left child.");
                             return Insert(root.Left, node);
-                        }
                     }
 
                     if (root.Right != null)
                     {
                         if (root.Right.key == node.key)
-                        {
                             return false;
-                        }
                         else if (root.Right.key < node.key)
-                        {
-                            Debug.Log("Insert right child.");
                             return Insert(root.Right, node);
-                        }
                     }
                 }
             }
@@ -209,9 +199,7 @@ namespace ItemPool
                     if (root.Left.key == key)
                         return root.Left;
                     else if (root.Left.key > key)
-                    {
                         return Search(root.Left, key);
-                    }
                 }
 
                 if (root.Right != null)
