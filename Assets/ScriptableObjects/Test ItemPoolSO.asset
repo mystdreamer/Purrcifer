@@ -18,13 +18,13 @@ MonoBehaviour:
   itemData:
   - itemName: TestItemA
     key: 0
-    probabilityWeight: 0
+    probabilityWeight: 20
     objectPrefab: {fileID: 7995820944518466326, guid: c9a4e85b2bf8e504e8c371d43a08bb65, type: 3}
   - itemName: TestItemB
     key: 1
-    probabilityWeight: 0
+    probabilityWeight: 8
     objectPrefab: {fileID: 6723544507839231825, guid: b51cea761a812ce488fdafb8c48a26a5, type: 3}
   - itemName: TestItemC
     key: 2
-    probabilityWeight: 0
+    probabilityWeight: 2
     objectPrefab: {fileID: 3444953081275231778, guid: 9281eae0488f0fb44a38faafa477213d, type: 3}

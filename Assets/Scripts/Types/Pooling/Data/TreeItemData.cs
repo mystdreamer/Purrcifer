@@ -9,21 +9,25 @@ public class TreeItemData
     /// <summary>
     /// The name of the item. 
     /// </summary>
+    [Header("The name of the item.")]
     public string itemName;
 
     /// <summary>
     /// The items internal value. 
     /// </summary>
+    [Header("The ID key of the item.")]
     public int key;
     
     /// <summary>
     /// The probability assigned to the item. 
     /// </summary>
+    [Header("The weighted probability of the tree.")]
     public int probabilityWeight;
 
     /// <summary>
     /// The prefab to generate. 
     /// </summary>
+    [Header("The object to spawn.")]
     public GameObject objectPrefab;
 
     /// <summary>

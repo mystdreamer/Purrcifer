@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace ItemPool
@@ -20,9 +21,40 @@ namespace ItemPool
         [SerializeField] private List<int> keys = new List<int>();
 
         /// <summary>
+        /// The keys held in the tree. 
+        /// </summary>
+        [SerializeField] private List<int> weightedKeys = new List<int>();
+
+        /// <summary>
         /// Returns a list of the keys actively held in the tree. 
         /// </summary>
         public List<int> Keys => keys;
+
+        private int AddID
+        {
+            set { keys.Add(value); }
+        }
+
+        #region Weighting Calculations. 
+        private void AddWeighting(ItemTreeNode node)
+        {
+            for (int i = 0; i < node.data.probabilityWeight; i++)
+                weightedKeys.Add(node.key);
+        }
+
+        private void RegenWeighting(int itemID)
+        {
+            List<int> newWeighting = new List<int>();
+
+            for (int i = 0; i < weightedKeys.Count; i++)
+            {
+                if (keys[i] != itemID)
+                    newWeighting.Add(weightedKeys[i]);
+            }
+
+            weightedKeys = newWeighting;
+        }
+        #endregion
 
         #region CTORS. 
         public ItemBBST() { }
@@ -35,6 +67,8 @@ namespace ItemPool
         }
         #endregion
 
+        #region Item Retrival. 
+
         /// <summary>
         /// Returns a randomly selected item from within the tree. 
         /// </summary>
@@ -42,7 +76,8 @@ namespace ItemPool
         /// <returns> GameObject Prefab reference. </returns>
         public GameObject GetRandomPrefab(bool remove)
         {
-            int rand = UnityEngine.Random.Range(0, keys.Count);
+            int rand = UnityEngine.Random.Range(0, weightedKeys.Count);
+            rand = weightedKeys[rand];
             ItemTreeNode val = Search(rand);
 
             if (remove && val != null)
@@ -54,12 +89,13 @@ namespace ItemPool
 
             return null;
         }
+        #endregion
 
         #region Insertion.
         public bool Insert(ItemTreeNode node)
         {
             ItemTreeNode searchedNode = Search(node.key);
-            if(searchedNode != null)
+            if (searchedNode != null)
                 return false;
             else
             {
@@ -68,14 +104,17 @@ namespace ItemPool
                 {
                     Debug.Log("Inserted root: " + node.AsString());
                     root = node;
-                    keys.Add(node.key);
+
+                    //Add the weighted probability. 
+                    AddWeighting(node);
                     Heapify(root);
                     return true;
                 }
                 else
                 {
                     bool result = Insert(root, node);
-                    keys.Add(node.key);
+                    //Add the weighted probability. 
+                    AddWeighting(node);
                     Heapify(root);
                     return result;
                 }
@@ -107,8 +146,9 @@ namespace ItemPool
                     root.Right = node;
                     return true;
                 }
-                else {
-                    
+                else
+                {
+
                     if (root.Left != null)
                     {
                         if (root.Left.key == node.key)
@@ -200,6 +240,7 @@ namespace ItemPool
         {
             root = Delete(root, targetKey);
             keys.Remove(targetKey);
+            RegenWeighting(targetKey);
         }
 
         /// <summary>
