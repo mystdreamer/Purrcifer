@@ -389,8 +389,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 426008062}
-  - component: {fileID: 426008061}
   - component: {fileID: 426008063}
+  - component: {fileID: 426008064}
   m_Layer: 0
   m_Name: PoolTester
   m_TagString: Untagged
@@ -398,30 +398,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &426008061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426008060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9393d1cf9a34c4da2984246197b218, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pool: {fileID: 11400000, guid: efe93c22780eeb34a95cdeb6c5769bdf, type: 2}
-  poolTree:
-    root:
-      key: 0
-      data:
-        key: 0
-        probability: 0
-        objectPrefab: {fileID: 0}
-    keys: 
-  poolRange:
-    min: 0
-    max: 0
 --- !u!4 &426008062
 Transform:
   m_ObjectHideFlags: 0
@@ -449,7 +425,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 883fe5f7cdb2fdf49864de6cef48f728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiTree: {fileID: 0}
+  multiTree: {fileID: 11400000, guid: 8292b4540745cf642826a641d7f22e81, type: 2}
+--- !u!114 &426008064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426008060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c9121eba81be240ab53db6636c168c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiTree: {fileID: 426008063}
 --- !u!1 &528750336
 GameObject:
   m_ObjectHideFlags: 0

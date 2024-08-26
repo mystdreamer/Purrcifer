@@ -20,6 +20,7 @@ public partial class MultiTree
     public GameObject GetRandomPrefab(bool removable)
     {
         int randomTreeSelector = UnityEngine.Random.Range(0, trees.Length -1);
+        Console.WriteLine("RandSelector: " + randomTreeSelector);
         TreeInstanceData tree = trees[randomTreeSelector];
         return tree.ItemTree.GetRandomPrefab(removable);
     }
