@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
+
 /// <summary>
 /// The basic pool item data class. 
 /// </summary>
 [System.Serializable]
-public class PoolItemData
+public class TreeItemData
 {
+    /// <summary>
+    /// The name of the item. 
+    /// </summary>
+    public string itemName;
+
     /// <summary>
     /// The items internal value. 
     /// </summary>
@@ -13,7 +19,7 @@ public class PoolItemData
     /// <summary>
     /// The probability assigned to the item. 
     /// </summary>
-    public int probability;
+    public int probabilityWeight;
 
     /// <summary>
     /// The prefab to generate. 
@@ -26,10 +32,10 @@ public class PoolItemData
     /// <param name="id"> The id of the object. </param>
     /// <param name="probability"> The probability weighting assigned to the object. </param>
     /// <param name="objectPrefab"> The prefab to generate. </param>
-    public PoolItemData(int id, int probability, GameObject objectPrefab)
+    public TreeItemData(int id, int probability, GameObject objectPrefab)
     {
         this.key = id;
-        this.probability = probability;
+        this.probabilityWeight = probability;
         this.objectPrefab = objectPrefab;
     }
 }

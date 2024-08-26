@@ -3,25 +3,62 @@ using UnityEngine;
 
 namespace ItemPool
 {
-
+    /// <summary>
+    /// Class used to handle item pools. 
+    /// </summary>
     [System.Serializable]
-    public class ItemBBT
+    public class ItemBBST
     {
-        public Node root = null;
+        /// <summary>
+        /// The current root node in the tree. 
+        /// </summary>
+        public ItemTreeNode root = null;
+
+        /// <summary>
+        /// The keys held in the tree. 
+        /// </summary>
         [SerializeField] private List<int> keys = new List<int>();
 
-        public ItemBBT() { }
+        /// <summary>
+        /// Returns a list of the keys actively held in the tree. 
+        /// </summary>
+        public List<int> Keys => keys;
 
-        public ItemBBT(Node value) { root = value; }
+        #region CTORS. 
+        public ItemBBST() { }
 
-        public ItemBBT(ProbPoolSO itemPool)
+        public ItemBBST(ItemTreeNode value) { root = value; }
+
+        public ItemBBST(ItemTreeSO itemPool)
         {
             InsertRange(itemPool.itemData.ToArray());
         }
+        #endregion
 
-        public bool Insert(Node node)
+        /// <summary>
+        /// Returns a randomly selected item from within the tree. 
+        /// </summary>
+        /// <param name="remove"> Should the item be removed from the tree upon retrieval. </param>
+        /// <returns> GameObject Prefab reference. </returns>
+        public GameObject GetRandomPrefab(bool remove)
         {
-            Node searchedNode = Search(node.key);
+            int rand = UnityEngine.Random.Range(0, keys.Count);
+            ItemTreeNode val = Search(rand);
+
+            if (remove && val != null)
+            {
+                Delete(rand);
+            }
+            if (val != null)
+                return val.data.objectPrefab;
+
+            return null;
+        }
+
+        #region Insertion.
+        public bool Insert(ItemTreeNode node)
+        {
+            ItemTreeNode searchedNode = Search(node.key);
             if(searchedNode != null)
                 return false;
             else
@@ -45,13 +82,13 @@ namespace ItemPool
             }
         }
 
-        public void InsertRange(PoolItemData[] nodes)
+        public void InsertRange(TreeItemData[] nodes)
         {
             for (int i = 0; i < nodes.Length; i++)
-                Insert((Node)nodes[i]);
+                Insert((ItemTreeNode)nodes[i]);
         }
 
-        private bool Insert(Node root, Node node)
+        private bool Insert(ItemTreeNode root, ItemTreeNode node)
         {
             //Root is a duplicate. 
             if (root.key == node.key)
@@ -102,13 +139,16 @@ namespace ItemPool
 
             return false;
         }
+        #endregion
+
+        #region Search. 
 
         /// <summary>
         /// Searches and retrieves a Node from within using the provided key.
         /// </summary>
         /// <param name="key"> The ID to search. </param>
         /// <returns> Node instance if found, or NULL if not found. </returns>
-        public Node Search(int key)
+        public ItemTreeNode Search(int key)
         {
             return Search(root, key);
         }
@@ -118,7 +158,7 @@ namespace ItemPool
         /// </summary>
         /// <param name="root"> The root Node to search. </param>
         /// <param name="key"> The ID to search. </param>
-        private Node Search(Node root, int key)
+        private ItemTreeNode Search(ItemTreeNode root, int key)
         {
             if (root == null || root.key == key)
                 return root;
@@ -148,6 +188,10 @@ namespace ItemPool
             return null;
         }
 
+        #endregion
+
+        #region Deletion. 
+
         /// <summary>
         /// Remove a given node from the tree.
         /// </summary>
@@ -164,9 +208,9 @@ namespace ItemPool
         /// <param name="node"> The root node to search. </param>
         /// <param name="targetKey"> The key of the node to remove.  </param>
         /// <returns> The node once removed from the tree. </returns>
-        private Node Delete(Node node, int targetKey)
+        private ItemTreeNode Delete(ItemTreeNode node, int targetKey)
         {
-            Node parent;
+            ItemTreeNode parent;
             if (node == null)
             { return null; }
             else
@@ -225,6 +269,7 @@ namespace ItemPool
             }
             return node;
         }
+        #endregion
 
         #region AVL Sorting. 
         /// <summary>
@@ -232,7 +277,7 @@ namespace ItemPool
         /// </summary>
         /// <param name="root"> The root node to rebalance. </param>
         /// <returns> a balanced version of the provided Node. </returns>
-        private Node Heapify(Node root)
+        private ItemTreeNode Heapify(ItemTreeNode root)
         {
             if (root == null)
                 return root;
@@ -264,7 +309,7 @@ namespace ItemPool
         /// </summary>
         /// <param name="node"> The node to calculate the height of. </param>
         /// <returns> int representing the height of the node. </returns>
-        private int GetHeight(Node node)
+        private int GetHeight(ItemTreeNode node)
         {
             int height = 0;
             if (node != null)
@@ -287,7 +332,7 @@ namespace ItemPool
         /// </summary>
         /// <param name="node"> The node to calculate. </param>
         /// <returns> Int with current balance of the node and its given children. </returns>
-        private int GetBalance(Node node)
+        private int GetBalance(ItemTreeNode node)
         {
             int l = GetHeight(node.Left);
             int r = GetHeight(node.Right);
@@ -295,37 +340,37 @@ namespace ItemPool
             return factor;
         }
 
-        private Node LLRotation(Node node)
+        private ItemTreeNode LLRotation(ItemTreeNode node)
         {
-            Node newRoot = node.Left;
+            ItemTreeNode newRoot = node.Left;
             newRoot.Left = node.Left.Left;
             newRoot.Right = node;
 
             return newRoot;
         }
 
-        private Node RRRotation(Node node)
+        private ItemTreeNode RRRotation(ItemTreeNode node)
         {
-            Node newRoot = node.Right;
+            ItemTreeNode newRoot = node.Right;
             newRoot.Left = node;
             newRoot.Right = node.Right.Right;
             return newRoot;
         }
 
-        private Node LRRotation(Node node)
+        private ItemTreeNode LRRotation(ItemTreeNode node)
         {
-            Node newRoot = node;
-            Node temp = newRoot.Left;
+            ItemTreeNode newRoot = node;
+            ItemTreeNode temp = newRoot.Left;
             newRoot.Left = node.Left.Right;
             newRoot.Left.Left = temp;
 
             return RRRotation(newRoot);
         }
 
-        private Node RLRotation(Node node)
+        private ItemTreeNode RLRotation(ItemTreeNode node)
         {
-            Node newRoot = node;
-            Node temp = newRoot.Right;
+            ItemTreeNode newRoot = node;
+            ItemTreeNode temp = newRoot.Right;
             newRoot.Right = node.Right.Left;
             newRoot.Right.Right = temp;
             return LLRotation(newRoot);

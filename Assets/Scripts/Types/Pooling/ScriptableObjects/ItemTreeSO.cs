@@ -4,8 +4,8 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object data structure for defining pool contents. 
 /// </summary>
-[CreateAssetMenu(order = 0, fileName = "ItemPoolSO", menuName = "Purrcifer/Scriptable Objects/ItemPoolSO")]
-public class ProbPoolSO : ScriptableObject
+[CreateAssetMenu(order = 0, fileName = "ItemPoolSO", menuName = "Purrcifer/Scriptable Objects/ItemTreeSO")]
+public class ItemTreeSO : ScriptableObject
 {
     /// <summary>
     /// The range applied to the pool. 
@@ -15,5 +15,5 @@ public class ProbPoolSO : ScriptableObject
     /// <summary>
     /// The list of items held within the pool. 
     /// </summary>
-    public List<PoolItemData> itemData;
+    public List<TreeItemData> itemData;
 }

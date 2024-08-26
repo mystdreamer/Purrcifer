@@ -390,6 +390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 426008062}
   - component: {fileID: 426008061}
+  - component: {fileID: 426008063}
   m_Layer: 0
   m_Name: PoolTester
   m_TagString: Untagged
@@ -414,7 +415,7 @@ MonoBehaviour:
     root:
       key: 0
       data:
-        id: 0
+        key: 0
         probability: 0
         objectPrefab: {fileID: 0}
     keys: 
@@ -436,6 +437,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &426008063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426008060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883fe5f7cdb2fdf49864de6cef48f728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiTree: {fileID: 0}
 --- !u!1 &528750336
 GameObject:
   m_ObjectHideFlags: 0
