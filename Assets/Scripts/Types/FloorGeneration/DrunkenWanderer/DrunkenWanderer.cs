@@ -1,13 +1,40 @@
-using JetBrains.Annotations;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Net;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Decorator;
+
+public static class MapBuilder
+{
+    private static DecoratorRule startDecorator = new StartDecorator();
+    private static DecoratorRule bossDecorator = new ExitDecorator();
+    private static DecoratorRule treasureDecorator = new TreasureDecorator();
+
+    public static FloorPlan GenerateMap(FloorData data)
+    {
+        bool success = false;
+        FloorPlan floorPlan = null;
+
+        while (!success) {
+            floorPlan = MapGenerator(data, out success);
+        }
+
+        return floorPlan;
+    }
+
+    private static FloorPlan MapGenerator(FloorData data, out bool result)
+    {
+        FloorPlan plan = DrunkenWanderer.GenerateFloorMap(data);
+        bool startSet;
+        bool bossSet;
+        bool treasureSet;
+
+        startDecorator.Decorate(plan, out startSet);
+        bossDecorator.Decorate(plan, out bossSet);
+        treasureDecorator.Decorate(plan, out treasureSet);
+        FloorPlan.Print2DArray<int>(plan.plan);
+
+        result = (bossSet == true && startSet == true && treasureSet == true);
+        return plan;
+    }
+}
 
 [System.Serializable]
 public struct FloorData
@@ -312,12 +339,12 @@ public struct NeighbourResults
     }
 }
 
-public abstract class Decorator
+public abstract class DecoratorRule
 {
     public abstract FloorPlan Decorate(FloorPlan plan, out bool success);
 }
 
-public class ApplyStart : Decorator
+public class StartDecorator : DecoratorRule
 {
     public override FloorPlan Decorate(FloorPlan plan, out bool success)
     {
@@ -327,7 +354,7 @@ public class ApplyStart : Decorator
     }
 }
 
-public class DefineExit : Decorator
+public class ExitDecorator : DecoratorRule
 {
     public override FloorPlan Decorate(FloorPlan plan, out bool success)
     {
@@ -347,6 +374,37 @@ public class DefineExit : Decorator
                     if (endpoints[i, j] == 1)
                     {
                         plan.plan[i, j] = (int)DecoratorMarkers.BOSS;
+                        success = true;
+                        return plan;
+                    }
+                }
+            }
+        }
+        success = false;
+        return plan;
+    }
+}
+
+public class TreasureDecorator : DecoratorRule
+{
+    public override FloorPlan Decorate(FloorPlan plan, out bool success)
+    {
+        int epCount = plan.GetEndpointCount();
+        if (epCount == 0)
+        {
+            success = false;
+            return plan;
+        }
+        else
+        {
+            int[,] endpoints = plan.GetEndpointMap();
+            for (int i = 0; i < endpoints.GetLength(0); i++)
+            {
+                for (int j = 0; j < endpoints.GetLength(1); j++)
+                {
+                    if (endpoints[i, j] == 1)
+                    {
+                        plan.plan[i, j] = (int)DecoratorMarkers.TREASURE;
                         success = true;
                         return plan;
                     }
