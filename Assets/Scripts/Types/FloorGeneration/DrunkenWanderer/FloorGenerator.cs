@@ -10,20 +10,20 @@ public class FloorGenerator : MonoBehaviour
     void Start()
     {
         Generate();
+        FloorPlan.Print2DArray<int>(plan.plan);
         FloorPlan.Print2DArray<int>(plan.GetEndpointMap());
 
         ApplyStart applyStartDec = new ApplyStart();
-        //DefineExit exitDec = new DefineExit();
+        DefineExit exitDec = new DefineExit();
 
         bool startSet;
         applyStartDec.Decorate(plan, out startSet);
         FloorPlan.Print2DArray<int>(plan.plan);
 
-        //bool bossSet;
-        //exitDec.Decorate(plan, out bossSet);
-        //Debug.Log("Adding boss room state: " + bossSet);
-        //FloorPlan.Print2DArray<int>(plan.plan);
-
+        bool bossSet;
+        exitDec.Decorate(plan, out bossSet);
+        Debug.Log("Adding boss room state: " + bossSet);
+        FloorPlan.Print2DArray<int>(plan.plan);
     }
 
     void Update()

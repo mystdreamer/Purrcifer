@@ -223,10 +223,9 @@ public class DrunkenWanderer
             //add more endpoints: 
             Vector2Int randPos = plan.GetRandomRoom();
             GenerateRoom(plan, randPos);
-            endpointCount = plan.GetEndpointCount(); 
+            endpointCount = plan.GetEndpointCount();
         }
 
-        FloorPlan.Print2DArray<int>(plan.plan);
         return plan;
     }
 
@@ -328,9 +327,33 @@ public class ApplyStart : Decorator
     }
 }
 
-//public class DefineExit : Decorator
-//{
-//    public override FloorPlan Decorate(FloorPlan plan, out bool success)
-//    {
-//    }
-//}
+public class DefineExit : Decorator
+{
+    public override FloorPlan Decorate(FloorPlan plan, out bool success)
+    {
+        int epCount = plan.GetEndpointCount();
+        if (epCount == 0)
+        {
+            success = false;
+            return plan;
+        }
+        else
+        {
+            int[,] endpoints = plan.GetEndpointMap();
+            for (int i = 0; i < endpoints.GetLength(0); i++)
+            {
+                for (int j = 0; j < endpoints.GetLength(1); j++)
+                {
+                    if (endpoints[i, j] == 1)
+                    {
+                        plan.plan[i, j] = (int)DecoratorMarkers.BOSS;
+                        success = true;
+                        return plan;
+                    }
+                }
+            }
+        }
+        success = false;
+        return plan;
+    }
+}

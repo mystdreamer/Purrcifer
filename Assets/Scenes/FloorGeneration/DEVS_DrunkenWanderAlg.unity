@@ -149,10 +149,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorData:
     roomCount: 15
-    floorWidth: 20
-    floorHeight: 20
+    floorWidth: 12
+    floorHeight: 12
     initialX: 0
     initialY: 0
+    rangeProbX:
+      min: 0
+      max: 4
+    spawnOver: 1
+  plan:
+    roomCount: 0
+    floorCenter: {x: 0, y: 0}
 --- !u!4 &445455162
 Transform:
   m_ObjectHideFlags: 0
