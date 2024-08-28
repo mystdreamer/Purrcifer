@@ -1,41 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MapBuilder
-{
-    private static DecoratorRule startDecorator = new StartDecorator();
-    private static DecoratorRule bossDecorator = new ExitDecorator();
-    private static DecoratorRule treasureDecorator = new TreasureDecorator();
-
-    public static FloorPlan GenerateMap(FloorData data)
-    {
-        bool success = false;
-        FloorPlan floorPlan = null;
-
-        while (!success) {
-            floorPlan = MapGenerator(data, out success);
-        }
-
-        return floorPlan;
-    }
-
-    private static FloorPlan MapGenerator(FloorData data, out bool result)
-    {
-        FloorPlan plan = DrunkenWanderer.GenerateFloorMap(data);
-        bool startSet;
-        bool bossSet;
-        bool treasureSet;
-
-        startDecorator.Decorate(plan, out startSet);
-        bossDecorator.Decorate(plan, out bossSet);
-        treasureDecorator.Decorate(plan, out treasureSet);
-        FloorPlan.Print2DArray<int>(plan.plan);
-
-        result = (bossSet == true && startSet == true && treasureSet == true);
-        return plan;
-    }
-}
-
 [System.Serializable]
 public struct FloorData
 {
@@ -45,6 +10,8 @@ public struct FloorData
     public int initialX, initialY;
     public Range rangeProbX;
     public float spawnOver;
+    public float roomWidth; 
+    public float roomHeight;
 
     public bool SpawnChance => UnityEngine.Random.Range(rangeProbX.min, rangeProbX.max) > spawnOver;
 }

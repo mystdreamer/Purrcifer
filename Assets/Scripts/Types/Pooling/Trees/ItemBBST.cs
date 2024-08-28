@@ -102,7 +102,6 @@ namespace ItemPool
                 //No root case, insert as root. 
                 if (root == null)
                 {
-                    Debug.Log("Inserted root: " + node.AsString());
                     root = node;
 
                     //Add the weighted probability. 
@@ -136,13 +135,11 @@ namespace ItemPool
             {
                 if (root.Left == null && node.key < root.key)
                 {
-                    Debug.Log("Insert into left.");
                     root.Left = node;
                     return true;
                 }
                 else if (root.Right == null && node.key > root.key)
                 {
-                    Debug.Log("Insert into right.");
                     root.Right = node;
                     return true;
                 }
