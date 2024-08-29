@@ -67,7 +67,6 @@ public class MovementSys : MonoBehaviour
 
     private void MoveUp(bool result)
     {
-        Debug.Log("Input Right: " + result);
         if (result)
             _input += new Vector3(0, 0, -1);
     }

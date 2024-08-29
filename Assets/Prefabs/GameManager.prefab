@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3866778943140996821}
   - component: {fileID: 4607499271989059048}
+  - component: {fileID: 2982066868734396406}
+  - component: {fileID: 4957711391843769506}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,3 +46,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b1b73768199ec44a9530c192a36b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
+  playerCameraPrefab: {fileID: 0}
+  floorGenerationHandler: {fileID: 2982066868734396406}
+--- !u!114 &2982066868734396406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842408124202293865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df4705708555eac449115c70abb86056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4957711391843769506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842408124202293865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104e0a064da2ac149b33ecc6889625c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keycodeData:
+  - actionName: Move Up
+    key: 119
+    Button: 111
+    type: 2
+  - actionName: Move_Down
+    key: 115
+    Button: 0
+    type: 3
+  - actionName: Move_Right
+    key: 100
+    Button: 0
+    type: 1
+  - actionName: Move_Left
+    key: 97
+    Button: 0
+    type: 0
+  - actionName: Attack_Up
+    key: 0
+    Button: 0
+    type: 4
+  - actionName: Attack_Down
+    key: 0
+    Button: 0
+    type: 5
+  - actionName: Attack_Left
+    key: 0
+    Button: 0
+    type: 6
+  - actionName: Attack_Right
+    key: 0
+    Button: 0
+    type: 7
+  - actionName: Interact
+    key: 101
+    Button: 0
+    type: 8

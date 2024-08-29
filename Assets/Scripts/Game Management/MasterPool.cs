@@ -36,6 +36,13 @@ public class MasterPool : MonoBehaviour
     private void Awake()
     {
         //Generate singleton. 
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+            DestroyImmediate(_instance);
 
         //Initialise all the trees. 
         _startRoomTree = new ItemBBST(startRoomTree);

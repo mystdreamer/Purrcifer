@@ -1,384 +1,157 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
-
-[System.Serializable]
-public struct FloorData
-{
-    public int roomCount;
-    public int floorWidth;
-    public int floorHeight;
-    public int initialX, initialY;
-    public Range rangeProbX;
-    public float spawnOver;
-    public float roomWidth; 
-    public float roomHeight;
-
-    public bool SpawnChance => UnityEngine.Random.Range(rangeProbX.min, rangeProbX.max) > spawnOver;
-}
-
-[System.Serializable]
-public class FloorPlan
-{
-    private const int MIN = -1;
-    public int[,] plan;
-    public int roomCount;
-    public Vector2Int floorCenter;
-
-    public int Width => plan.GetLength(0);
-    public int Height => plan.GetLength(1);
-
-    public FloorPlan(FloorData data)
-    {
-        roomCount = 0;
-        plan = new int[data.floorWidth, data.floorHeight];
-        floorCenter = new Vector2Int(data.floorWidth / 2, data.floorHeight / 2);
-        plan[floorCenter.x, floorCenter.y] = 1;
-    }
-
-    public void SetMark(Vector2Int pos)
-    {
-        plan[pos.x, pos.y] = 1;
-        roomCount++;
-    }
-
-    public void ChangeMark(Vector2Int pos, int marker)
-    {
-        plan[pos.x, pos.y] = marker;
-    }
-
-    public bool WithinRange(Vector2Int point)
-    {
-        return WithinRange(point.x, point.y);
-    }
-
-    public bool WithinRange(int x, int y)
-    {
-        return (x > MIN && y > MIN && x < plan.GetLength(0) && y < plan.GetLength(1)) && (plan[x, y] != 1);
-    }
-
-    public Vector2Int GetRandomRoom()
-    {
-        for (int i = 0; i < plan.GetLength(0); i++)
-        {
-            for (int j = 0; j < plan.GetLength(1); j++)
-            {
-                if (plan[i, j] == 1)
-                {
-                    return new Vector2Int(i, j);
-                }
-            }
-        }
-
-        return floorCenter;
-    }
-
-    public int GetRoomState(Vector2Int position)
-    {
-        if (!WithinRange(position))
-            return -1;
-        else
-        {
-            return plan[position.x, position.y];
-        }
-    }
-
-    public int GetRoomState(int x, int y)
-    {
-        return plan[x, y];
-    }
-
-    public int[,] GetEndpointMap()
-    {
-        int[,] map = new int[plan.GetLength(0), plan.GetLength(1)];
-
-        for (int i = 0; i < plan.GetLength(0); i++)
-        {
-            for (int j = 0; j < plan.GetLength(1); j++)
-            {
-                if (plan[i, j] == 1)
-                {
-                    int result = SumCellsAdj(i, j);
-                    if (result == 1)
-                        map[i, j] = 1;
-                }
-            }
-        }
-
-        return map;
-    }
-
-    public int GetEndpointCount()
-    {
-        int count = 0;
-
-        for (int i = 0; i < plan.GetLength(0); i++)
-        {
-            for (int j = 0; j < plan.GetLength(1); j++)
-            {
-                if (plan[i, j] == 1)
-                {
-                    int result = SumCellsAdj(i, j);
-                    if (result == 1)
-                        count++;
-                }
-            }
-        }
-
-        return count;
-    }
-
-    int SumCellsAdj(int i, int j)
-    {
-        int count = 0;
-        count += CheckAdjCell(i + 1, j);
-        count += CheckAdjCell(i - 1, j);
-        count += CheckAdjCell(i, j + 1);
-        count += CheckAdjCell(i, j - 1);
-        return count;
-    }
-
-    int CheckAdjCell(int x, int y)
-    {
-        int state;
-        if (x > plan.GetLength(0) - 1 | x < 0 | y > plan.GetLength(1) - 1 | y < 0)
-            return 0;
-
-        state = GetRoomState(x, y);
-        if (state == 1 || state == 2)
-            return 1;
-        return 0;
-    }
-
-    public static void Print2DArray<T>(T[,] matrix)
-    {
-        string outP = "";
-        for (int i = 0; i < matrix.GetLength(0); i++)
-        {
-            for (int j = 0; j < matrix.GetLength(1); j++)
-            {
-                outP += (matrix[i, j] + "\t");
-            }
-            outP += "\n";
-        }
-        Debug.Log(outP);
-    }
-}
 
 public class DrunkenWanderer
 {
-    private static Vector2Int up = new Vector2Int(0, 1);
-    private static Vector2Int down = new Vector2Int(0, -1);
-    private static Vector2Int right = new Vector2Int(1, 0);
-    private static Vector2Int left = new Vector2Int(1, 0);
+    private Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
 
-    public static FloorPlan GenerateFloorMap(FloorData mapData)
+    public FloorPlan plan;
+    public bool wanderComplete = false;
+    public bool extraComplete = false;
+
+    public IEnumerator Wander(FloorData data)
     {
-        FloorPlan plan = new FloorPlan(mapData);
-        Queue<Vector2Int> roomQueue = new Queue<Vector2Int>();
-        roomQueue.Enqueue(new Vector2Int(mapData.floorWidth / 2, mapData.floorHeight / 2));
-        int drunkEnergy = mapData.roomCount;
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        plan = new FloorPlan(data);
+        roomQueue.Enqueue(new Vector2Int(data.floorWidth / 2, data.floorHeight / 2));
         Vector2Int roomPos;
-        int direction;
 
         //Generates the core of the map. 
-        while (plan.roomCount < mapData.roomCount)
+        while (plan.roomCount < data.roomCountMin)
         {
-            if (roomQueue.Count > 0)
-                roomPos = roomQueue.Dequeue();
-            else
-                roomPos = plan.GetRandomRoom();
-
-            direction = UnityEngine.Random.Range(0, 4);
+            roomPos = (roomQueue.Count > 0) ? roomQueue.Dequeue() : plan.GetRandomRoom();
 
             //Generate room connections. 
 
-            switch (direction)
+            switch (UnityEngine.Random.Range(0, 4))
             {
                 case 0:
-                    AttemptRoomGen(ref plan, ref roomQueue, roomPos + up, true, mapData);
+                    AttemptRoomGen(ref plan, roomPos.x, roomPos.y - 1);
                     break;
                 case 1:
-                    AttemptRoomGen(ref plan, ref roomQueue, roomPos + down, true, mapData);
+                    AttemptRoomGen(ref plan, roomPos.x, roomPos.y + 1);
                     break;
                 case 2:
-                    AttemptRoomGen(ref plan, ref roomQueue, roomPos + left, true, mapData);
+                    AttemptRoomGen(ref plan, roomPos.x + 1, roomPos.y);
                     break;
                 case 3:
-                    AttemptRoomGen(ref plan, ref roomQueue, roomPos + right, true, mapData);
+                    AttemptRoomGen(ref plan, roomPos.x - 1, roomPos.y);
                     break;
             }
+
+            yield return new WaitForEndOfFrame();
         }
 
-        //Summate if there are enough end points.
-        int endpointCount = plan.GetEndpointCount();
-
-        while (endpointCount < 3)
-        {
-            //add more endpoints: 
-            Vector2Int randPos = plan.GetRandomRoom();
-            GenerateRoom(plan, randPos);
-            endpointCount = plan.GetEndpointCount();
-        }
-
-        return plan;
+        stopwatch.Stop();
+        UnityEngine.Debug.Log("Time taken to generate base map: " + stopwatch.ElapsedMilliseconds.ToString() + " ms.");
+        FloorPlan.Print2DArray(plan.plan);
+        wanderComplete = true;
     }
 
-    private static void GenerateRoom(FloorPlan plan, Vector2Int point)
+    public IEnumerator AddExtraEndpoints(FloorData data)
+    {
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        //Summate if there are enough end points.
+        plan.CacheEndpoints();
+
+        bool triedEndpoint = false;
+
+        while (plan.EndPoints.Length < 3)
+        {
+            Vector2Int randPos = plan.GetRandomRoom();
+
+            //add more endpoints: 
+            if (triedEndpoint == false)
+            {
+                Vector2Int[] _endPoints = plan.EndPoints;
+
+                for (int i = 0; i < _endPoints.Length; i++)
+                {
+                    if (GenerateIntersectRooms(plan, _endPoints[i].x, _endPoints[i].y))
+                    {
+                        plan.CacheEndpoints();
+                        if (plan.EndPoints.Length >= 3)
+                        {
+                            break;
+                        }
+                    }
+                    yield return new WaitForEndOfFrame();
+                }
+
+                triedEndpoint = true;
+            }
+            else
+            {
+                randPos = plan.GetRandomRoom();
+                if (!GenerateIntersectRooms(plan, randPos.x, randPos.y))
+                {
+                    GenerateRoom(plan, randPos.x, randPos.y);
+                }
+            }
+
+            plan.CacheEndpoints();
+            yield return new WaitForEndOfFrame();
+        }
+
+        FloorPlan.Print2DArray(plan.plan);
+        stopwatch.Stop();
+        UnityEngine.Debug.Log("Time taken to generate extra endpoints map: " + stopwatch.ElapsedMilliseconds.ToString() + " ms.");
+
+        extraComplete = true;
+    }
+
+    private void GenerateRoom(FloorPlan plan, int x, int y)
     {
         switch (UnityEngine.Random.Range(0, 4))
         {
             case 0:
-                if (!plan.WithinRange(point + up))
+                if (!plan.WithinRange(x, y - 1))
                     return;
-                plan.SetMark(point + up);
+                plan.SetMark(x, y - 1);
                 break;
             case 1:
-                if (!plan.WithinRange(point + down))
+                if (!plan.WithinRange(x, y + 1))
                     return;
-                plan.SetMark(point + down);
+                plan.SetMark(x, y + 1);
                 break;
             case 2:
-                if (!plan.WithinRange(point + left))
+                if (!plan.WithinRange(x - 1, y))
                     return;
-                plan.SetMark(point + left);
+                plan.SetMark(x - 1, y);
                 break;
             case 3:
-                if (!plan.WithinRange(point + right))
+                if (!plan.WithinRange(x + 1, y))
                     return;
-                plan.SetMark(point + right);
+                plan.SetMark(x + 1, y);
                 break;
         }
     }
 
-    private static void AttemptRoomGen(ref FloorPlan plan, ref Queue<Vector2Int> queue, Vector2Int point, bool rand, FloorData data)
+    private bool GenerateIntersectRooms(FloorPlan plan, int x, int y)
     {
-        if (!plan.WithinRange(point))
+        if (plan.WithinRange(x - 1, y) && plan.WithinRange(x + 1, y))
+        {
+            plan.SetMark(x - 1, y);
+            plan.SetMark(x + 1, y);
+            return true;
+        }
+        else if (plan.WithinRange(x, y - 1) && plan.WithinRange(x, y + 1))
+        {
+            plan.SetMark(x, y - 1);
+            plan.SetMark(x, y + 1);
+            return true;
+        }
+        return false;
+    }
+
+    private void AttemptRoomGen(ref FloorPlan plan, int x, int y)
+    {
+        if (!plan.WithinRange(x, y))
             return;
-        plan.SetMark(point);
-        queue.Enqueue(point);
-    }
-}
-
-public enum DecoratorMarkers
-{
-    NONE = 0,
-    ROOM = 1,
-    START = 2,
-    BOSS = 3,
-    TREASURE = 4
-}
-
-public class MapEndPoint
-{
-    public Vector2Int position;
-    public NeighbourResults NeighbourResults;
-
-    public MapEndPoint(Vector2Int pos, NeighbourResults results)
-    {
-        this.position = pos;
-        this.NeighbourResults = results;
-    }
-}
-
-public struct NeighbourResults
-{
-    public int upState;
-    public int downState;
-    public int leftState;
-    public int rightState;
-    public Vector2Int upIndex;
-    public Vector2Int downIndex;
-    public Vector2Int leftIndex;
-    public Vector2Int rightIndex;
-
-    public int GetNormalAttachedCount()
-    {
-        int count = 0;
-        if (upState != (int)DecoratorMarkers.NONE)
-            count++;
-        if (downState != (int)DecoratorMarkers.NONE)
-            count++;
-        if (rightState != (int)DecoratorMarkers.NONE)
-            count++;
-        if (leftState != (int)DecoratorMarkers.NONE)
-            count++;
-        return count;
-    }
-}
-
-public abstract class DecoratorRule
-{
-    public abstract FloorPlan Decorate(FloorPlan plan, out bool success);
-}
-
-public class StartDecorator : DecoratorRule
-{
-    public override FloorPlan Decorate(FloorPlan plan, out bool success)
-    {
-        plan.plan[plan.floorCenter.x, plan.floorCenter.y] = (int)DecoratorMarkers.START;
-        success = true;
-        return plan;
-    }
-}
-
-public class ExitDecorator : DecoratorRule
-{
-    public override FloorPlan Decorate(FloorPlan plan, out bool success)
-    {
-        int epCount = plan.GetEndpointCount();
-        if (epCount == 0)
-        {
-            success = false;
-            return plan;
-        }
-        else
-        {
-            int[,] endpoints = plan.GetEndpointMap();
-            for (int i = 0; i < endpoints.GetLength(0); i++)
-            {
-                for (int j = 0; j < endpoints.GetLength(1); j++)
-                {
-                    if (endpoints[i, j] == 1)
-                    {
-                        plan.plan[i, j] = (int)DecoratorMarkers.BOSS;
-                        success = true;
-                        return plan;
-                    }
-                }
-            }
-        }
-        success = false;
-        return plan;
-    }
-}
-
-public class TreasureDecorator : DecoratorRule
-{
-    public override FloorPlan Decorate(FloorPlan plan, out bool success)
-    {
-        int epCount = plan.GetEndpointCount();
-        if (epCount == 0)
-        {
-            success = false;
-            return plan;
-        }
-        else
-        {
-            int[,] endpoints = plan.GetEndpointMap();
-            for (int i = 0; i < endpoints.GetLength(0); i++)
-            {
-                for (int j = 0; j < endpoints.GetLength(1); j++)
-                {
-                    if (endpoints[i, j] == 1)
-                    {
-                        plan.plan[i, j] = (int)DecoratorMarkers.TREASURE;
-                        success = true;
-                        return plan;
-                    }
-                }
-            }
-        }
-        success = false;
-        return plan;
+        plan.SetMark(x, y);
+        roomQueue.Enqueue(new Vector2Int(x, y));
     }
 }

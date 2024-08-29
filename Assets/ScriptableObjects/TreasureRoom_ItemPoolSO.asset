@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   probabilityRange:
     min: 0
-    max: 0
+    max: 100
   itemData:
   - itemName: TreasureRoom_A
     key: 0
     probabilityWeight: 10
-    objectPrefab: {fileID: 1222744980458618914, guid: ef8e6b4dbb116d740bbcad3748e2c885, type: 3}
+    objectPrefab: {fileID: 2114465874693219711, guid: ef8e6b4dbb116d740bbcad3748e2c885, type: 3}
   - itemName: TreasureRoom_B
     key: 1
     probabilityWeight: 10
-    objectPrefab: {fileID: 1222744980458618914, guid: ef8e6b4dbb116d740bbcad3748e2c885, type: 3}
+    objectPrefab: {fileID: 2114465874693219711, guid: ef8e6b4dbb116d740bbcad3748e2c885, type: 3}

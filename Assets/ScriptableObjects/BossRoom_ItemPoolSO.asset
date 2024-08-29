@@ -19,8 +19,8 @@ MonoBehaviour:
   - itemName: BossRoom_A
     key: 0
     probabilityWeight: 10
-    objectPrefab: {fileID: 4691016435110795268, guid: 101091e4c1e9f0645a105ccd06cc83ca, type: 3}
+    objectPrefab: {fileID: 670161666596522716, guid: 7e2d52c8a006d374d9873ddfbf3df1b8, type: 3}
   - itemName: BossRoom_B
     key: 1
     probabilityWeight: 10
-    objectPrefab: {fileID: 4691016435110795268, guid: 101091e4c1e9f0645a105ccd06cc83ca, type: 3}
+    objectPrefab: {fileID: 670161666596522716, guid: 7e2d52c8a006d374d9873ddfbf3df1b8, type: 3}
