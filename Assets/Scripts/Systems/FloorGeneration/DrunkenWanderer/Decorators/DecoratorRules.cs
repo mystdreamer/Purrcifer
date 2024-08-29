@@ -23,20 +23,21 @@ public static class DecoratorRules
     /// <param name="success"> Returns true if the operation was successful</param>
     public static void BossDecorator(ref FloorPlan plan, out bool success)
     {
+        int startMarker = (int)MapIntMarkers.START;
         Vector2Int[] endpoints = plan.EndPoints;
+        Vector2Int[] neighbors;
 
         foreach (Vector2Int endpoint in endpoints)
         {
-            if (plan[endpoint.x + 1, endpoint.y] != (int)MapIntMarkers.START &&
-                plan[endpoint.x - 1, endpoint.y] != (int)MapIntMarkers.START &&
-                plan[endpoint.x, endpoint.y + 1] != (int)MapIntMarkers.START &&
-                plan[endpoint.x, endpoint.y - 1] != (int)MapIntMarkers.START)
-            {
+            neighbors = plan.GetAdjacentCells(endpoint.x, endpoint.y);
 
+            if(plan.GetMarkCount(neighbors, startMarker) == 0)
+            {
                 plan[endpoint.x, endpoint.y] = (int)MapIntMarkers.BOSS;
                 break;
             }
         }
+
         plan.CacheEndpoints();
         success = true;
     }

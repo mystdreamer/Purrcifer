@@ -56,6 +56,14 @@ public class FloorPlan
         return matched;
     }
 
+    public int GetMarkCount(Vector2Int[] points, int mark)
+    {
+        int count = 0;
+        for (int i = 0; i < points.Length; i++)
+            count += (this[points[i]] != mark) ? 0 : 1;
+        return count;
+    }
+
     public void SetMark(int x, int y)
     {
         plan[x, y] = 1;
