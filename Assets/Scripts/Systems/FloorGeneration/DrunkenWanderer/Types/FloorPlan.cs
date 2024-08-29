@@ -14,12 +14,13 @@ public class FloorPlan
     public int Height => plan.GetLength(1);
     public Vector2Int[] EndPoints => endPoints;
 
+    private Vector2Int FloorCenter => new Vector2Int(Width / 2, Height / 2);
+
     public FloorPlan(FloorData data)
     {
         roomCount = 0;
         plan = new int[data.floorWidth, data.floorHeight];
-        floorCenter = new Vector2Int(data.floorWidth / 2, data.floorHeight / 2);
-        plan[floorCenter.x, floorCenter.y] = 1;
+        this[FloorCenter] = 1;
     }
 
     public void CacheEndpoints()
@@ -56,31 +57,15 @@ public class FloorPlan
         return matched;
     }
 
-    public void SetMark(Vector2Int pos)
-    {
-        plan[pos.x, pos.y] = 1;
-        roomCount++;
-    }
-
     public void SetMark(int x, int y)
     {
         plan[x, y] = 1;
         roomCount++;
     }
 
-    public void ChangeMark(Vector2Int pos, int marker)
-    {
-        plan[pos.x, pos.y] = marker;
-    }
-
-    public bool WithinRange(Vector2Int point)
-    {
-        return WithinRange(point.x, point.y);
-    }
-
     public bool WithinRange(int x, int y)
     {
-        return (x > MIN && y > MIN && x < plan.GetLength(0) && y < plan.GetLength(1)) && (plan[x, y] != 1);
+        return (plan[x, y] != -1) && (plan[x, y] != 1);
     }
 
     public Vector2Int GetRandomRoom()
@@ -89,39 +74,17 @@ public class FloorPlan
         return _rooms[UnityEngine.Random.Range(0, _rooms.Count)];
     }
 
-    public int GetRoomState(int x, int y)
-    {
-        if (x < 0 || y < 0 || x > Width || y > Height)
-            return -1;
-        return plan[x, y];
-    }
-
     int SumCellsAdj(int i, int j)
     {
         int count = 0;
-        count += CheckAdjCell(i + 1, j);
-        count += CheckAdjCell(i - 1, j);
-        count += CheckAdjCell(i, j + 1);
-        count += CheckAdjCell(i, j - 1);
+        count += (this[i + 1, j] != 0 && this[i + 1, j] != -1) ? 1 : 0;
+        count += (this[i - 1, j] != 0 && this[i - 1, j] != -1) ? 1 : 0;
+        count += (this[i, j + 1] != 0 && this[i, j + 1] != -1) ? 1 : 0;
+        count += (this[i, j - 1] != 0 && this[i, j - 1] != -1) ? 1 : 0;
         return count;
     }
 
-    int CheckAdjCell(int x, int y)
-    {
-        int state;
-        if (x > plan.GetLength(0) - 1 | x < 0 | y > plan.GetLength(1) - 1 | y < 0)
-            return 0;
-
-        state = GetRoomState(x, y);
-        if (state != 0)
-            return 1;
-        return 0;
-    }
-
-    public void Print()
-    {
-        FloorPlan.Print2DArray(plan);
-    }
+    public void Print() => FloorPlan.Print2DArray(plan);
 
     public int GetRoomCount()
     {
@@ -140,7 +103,7 @@ public class FloorPlan
         return count;
     }
 
-    public static void Print2DArray<T>(T[,] matrix)
+    private static void Print2DArray<T>(T[,] matrix)
     {
         string outP = "";
         for (int i = 0; i < matrix.GetLength(0); i++)
@@ -152,5 +115,33 @@ public class FloorPlan
             outP += "\n";
         }
         Debug.Log(outP);
+    }
+
+    public int this[int x, int y]
+    {
+        get
+        {
+            if(x > MIN && y > MIN && x < Width && y < Height)
+            {
+                return plan[x, y];
+            }
+            return -1; 
+        }
+
+        set => plan[x, y] = value;
+    }
+
+    private int this[Vector2Int v]
+    {
+        get
+        {
+            if (v.x > MIN && v.y > MIN && v.x < Width && v.y < Height)
+            {
+                return plan[v.x, v.y];
+            }
+            return -1;
+        }
+
+        set => plan[v.x, v.y] = value;
     }
 }

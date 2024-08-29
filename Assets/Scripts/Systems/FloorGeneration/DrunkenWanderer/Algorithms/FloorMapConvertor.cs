@@ -52,7 +52,7 @@ public class ObjectMap
 
     private void BuildBossRoom(int x, int y)
     {
-        GameObject bRoomPrefab = MasterPool.Instance.BossRoomTree.GetRandomPrefab(false);
+        GameObject bRoomPrefab = MasterTree.Instance.BossRoomTree.GetRandomPrefab(false);
         GameObject bossRoom = GameObject.Instantiate(bRoomPrefab);
         bossRoomPos = new Vector2Int(x, y);
         SetPosition(bossRoom, x, y);
@@ -61,7 +61,7 @@ public class ObjectMap
 
     private void BuildStartRoom(int x, int y)
     {
-        GameObject startRoomPrefab = MasterPool.Instance.StartRoomTree.GetRandomPrefab(false);
+        GameObject startRoomPrefab = MasterTree.Instance.StartRoomTree.GetRandomPrefab(false);
         GameObject startRoom = GameObject.Instantiate(startRoomPrefab);
         startRoomPos = new Vector2Int(x, y);
         //TODO: Change player spawn handling. 
@@ -71,7 +71,7 @@ public class ObjectMap
 
     private void BuildRoom(int x, int y)
     {
-        GameObject roomPrefab = MasterPool.Instance.NormalRoomTree.GetRandomPrefab(false);
+        GameObject roomPrefab = MasterTree.Instance.NormalRoomTree.GetRandomPrefab(false);
         GameObject roomInst = GameObject.Instantiate(roomPrefab);
         SetPosition(roomInst, x, y);
         SetToIndex(roomInst, x, y);
@@ -79,7 +79,7 @@ public class ObjectMap
 
     private void BuildTreasureRoom(int x, int y)
     {
-        GameObject treasureRoomPrefab = MasterPool.Instance.TreasureRoomTree.GetRandomPrefab(false);
+        GameObject treasureRoomPrefab = MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false);
         GameObject tRoomInst = GameObject.Instantiate(treasureRoomPrefab);
         //TODO: Setup handling randomising item drops and placing in the room. 
         treasureRoomPos = new Vector2Int(x, y);

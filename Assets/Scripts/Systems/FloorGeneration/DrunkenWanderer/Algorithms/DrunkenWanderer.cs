@@ -47,7 +47,7 @@ public class DrunkenWanderer
 
         stopwatch.Stop();
         UnityEngine.Debug.Log("Time taken to generate base map: " + stopwatch.ElapsedMilliseconds.ToString() + " ms.");
-        FloorPlan.Print2DArray(plan.plan);
+        plan.Print();
         wanderComplete = true;
     }
 
@@ -96,7 +96,7 @@ public class DrunkenWanderer
             yield return new WaitForEndOfFrame();
         }
 
-        FloorPlan.Print2DArray(plan.plan);
+        plan.Print();
         stopwatch.Stop();
         UnityEngine.Debug.Log("Time taken to generate extra endpoints map: " + stopwatch.ElapsedMilliseconds.ToString() + " ms.");
 
@@ -108,24 +108,20 @@ public class DrunkenWanderer
         switch (UnityEngine.Random.Range(0, 4))
         {
             case 0:
-                if (!plan.WithinRange(x, y - 1))
-                    return;
-                plan.SetMark(x, y - 1);
+                if (plan[x, y - 1] != -1)
+                    plan[x, y - 1] = 1;
                 break;
             case 1:
-                if (!plan.WithinRange(x, y + 1))
-                    return;
-                plan.SetMark(x, y + 1);
+                if (plan[x, y + 1] != -1)
+                    plan[x, y + 1] = 1;
                 break;
             case 2:
-                if (!plan.WithinRange(x - 1, y))
-                    return;
-                plan.SetMark(x - 1, y);
+                if (plan[x + 1, y] != -1)
+                    plan[x + 1, y] = 1;
                 break;
             case 3:
-                if (!plan.WithinRange(x + 1, y))
-                    return;
-                plan.SetMark(x + 1, y);
+                if (plan[x - 1, y] != -1)
+                    plan[x - 1, y] = 1;
                 break;
         }
     }
@@ -134,14 +130,14 @@ public class DrunkenWanderer
     {
         if (plan.WithinRange(x - 1, y) && plan.WithinRange(x + 1, y))
         {
-            plan.SetMark(x - 1, y);
-            plan.SetMark(x + 1, y);
+            plan[x - 1, y] = 1;
+            plan[x + 1, y] = 1;
             return true;
         }
         else if (plan.WithinRange(x, y - 1) && plan.WithinRange(x, y + 1))
         {
-            plan.SetMark(x, y - 1);
-            plan.SetMark(x, y + 1);
+            plan[x, y - 1] = 1;
+            plan[x, y + 1] = 1;
             return true;
         }
         return false;

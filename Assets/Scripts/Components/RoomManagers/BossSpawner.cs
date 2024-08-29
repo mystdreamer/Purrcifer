@@ -12,7 +12,7 @@ public class BossSpawner : MonoBehaviour
     void Start()
     {
         ///Get an item type to spawn. 
-        GameObject itemPrefab = MasterPool.Instance.BossPrefabTree.GetRandomPrefab(false);
+        GameObject itemPrefab = MasterTree.Instance.BossPrefabTree.GetRandomPrefab(false);
 
         //Spawn the item and update its position. 
         itemSpawned = GameObject.Instantiate(itemPrefab);
