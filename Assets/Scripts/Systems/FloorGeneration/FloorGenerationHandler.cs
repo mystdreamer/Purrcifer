@@ -48,15 +48,17 @@ namespace Assets.Scripts.Types.FloorGeneration
             wanderer.plan.Print();
             yield return new WaitForFixedUpdate();
 
-            if (!(bossSet && startSet && treasureSet))
+            if (!bossSet | !startSet | !treasureSet)
             {
                 UnityEngine.Debug.Log(">>GameManager: Rebuilding map");
-                yield return new WaitForFixedUpdate();
+                GenerateRandomMap(data);
             }
             else
+            {
                 UnityEngine.Debug.Log(">>GameManager: Map successfully built.");
+                StartCoroutine(GenerateFloorObjects(data, wanderer.plan));
+            }
 
-            StartCoroutine(GenerateFloorObjects(data, wanderer.plan));
         }
 
         private IEnumerator GenerateFloorObjects(FloorData data, FloorPlan plan)
