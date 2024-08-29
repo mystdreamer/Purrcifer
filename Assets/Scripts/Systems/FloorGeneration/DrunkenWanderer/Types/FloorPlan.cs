@@ -1,19 +1,56 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class responsible for handling int maps. 
+/// </summary>
 [System.Serializable]
 public class FloorPlan
 {
+    /// <summary>
+    /// The minimum value of the map. 
+    /// </summary>
     private const int MIN = -1;
-    public int[,] plan;
-    public int roomCount;
-    public Vector2Int floorCenter;
-    private Vector2Int[] endPoints;
 
+    /// <summary>
+    /// The integer map representing the world.
+    /// </summary>
+    public int[,] plan;
+
+    /// <summary>
+    /// The current number of rooms within the map. 
+    /// </summary>
+    public int roomCount;
+
+    /// <summary>
+    /// The center position of the map. 
+    /// </summary>
+    public Vector2Int floorCenter;
+
+    /// <summary>
+    /// The cached list of endpoints. 
+    /// </summary>
+    private Vector2Int[] endPoints;
+    
+    /// <summary>
+    /// Provides the width of the map. 
+    /// </summary>
     public int Width => plan.GetLength(0);
+
+    /// <summary>
+    /// Provides the height of the map. 
+    /// </summary>
     public int Height => plan.GetLength(1);
+
+    /// <summary>
+    /// Returns an array containing all the endpoints in the level. 
+    /// </summary>
     public Vector2Int[] EndPoints => endPoints;
 
+    /// <summary>
+    /// CTOR.
+    /// </summary>
+    /// <param name="data"> The floor data required for constructing the map. </param>
     public FloorPlan(FloorData data)
     {
         roomCount = 0;
@@ -22,24 +59,38 @@ public class FloorPlan
         this[data.floorWidth / 2, data.floorHeight / 2] = 1;
     }
 
+    /// <summary>
+    /// Caches the endpoints within the level. 
+    /// </summary>
     public void CacheEndpoints()
     {
         List<Vector2Int> matched = GetTypeMark((int)MapIntMarkers.ROOM);
         endPoints = SortByAdjacency(matched, 1).ToArray();
     }
 
+    /// <summary>
+    /// Returns a list of cells that match the required adjacency. 
+    /// </summary>
+    /// <param name="values"> The values to check. </param>
+    /// <param name="adjCount"> The number of cells adjacent to the list provided. </param>
+    /// <returns> List of cells matching the required adjacency count. </returns>
     public List<Vector2Int> SortByAdjacency(List<Vector2Int> values, int adjCount)
     {
         List<Vector2Int> resulting = new List<Vector2Int>();
         for (int i = 0; i < values.Count; i++)
         {
-            if (SumCellsAdj(values[i].x, values[i].y) == adjCount)
+            if (SumCellsAdjacent(values[i].x, values[i].y) == adjCount)
                 resulting.Add(values[i]);
         }
         return resulting;
     }
 
-    public List<Vector2Int> GetTypeMark(int type)
+    /// <summary>
+    /// Get a list of positions associated with the given mark. 
+    /// </summary>
+    /// <param name="mark"> The mark type to retrieve, </param>
+    /// <returns> List of Vector2Int positions with the provided mark. </returns>
+    public List<Vector2Int> GetTypeMark(int mark)
     {
         List<Vector2Int> matched = new List<Vector2Int>();
 
@@ -47,7 +98,7 @@ public class FloorPlan
         {
             for (int j = 0; j < plan.GetLength(1); j++)
             {
-                if (plan[i, j] == type)
+                if (plan[i, j] == mark)
                 {
                     matched.Add(new Vector2Int(i, j));
                 }
@@ -56,6 +107,11 @@ public class FloorPlan
         return matched;
     }
 
+    /// <summary>
+    /// Returns the number of rooms with a given mark. 
+    /// </summary>
+    /// <param name="points"> The array to check. </param>
+    /// <param name="mark"> The mark to compare with. </param>
     public int GetMarkCount(Vector2Int[] points, int mark)
     {
         int count = 0;
@@ -64,26 +120,34 @@ public class FloorPlan
         return count;
     }
 
-    public void SetMark(int x, int y)
-    {
-        plan[x, y] = 1;
-        roomCount++;
-    }
+    /// <summary>
+    /// Returns if the mark is a real value and is not a default room. 
+    /// </summary>
+    /// <param name="x"> The x coord to check. </param>
+    /// <param name="y"> The y coord to check. </param>
+    /// <returns> True if within range, else false. </returns>
+    public bool WithinRange(int x, int y) => 
+        (this[x, y] != -1) && (this[x, y] != 1);
 
-    public bool WithinRange(int x, int y)
-    {
-        return (this[x, y] != -1) && (this[x, y] != 1);
-    }
-
+    /// <summary>
+    /// Returns a random normal room from the map. 
+    /// </summary>
+    /// <returns> Vector2Int with the map coords of the room. </returns>
     public Vector2Int GetRandomRoom()
     {
         List<Vector2Int> _rooms = GetTypeMark(1);
         return _rooms[UnityEngine.Random.Range(0, _rooms.Count)];
     }
 
-    int SumCellsAdj(int i, int j)
+    /// <summary>
+    /// Sums the number of rooms adjacent to the cell. 
+    /// </summary>
+    /// <param name="x"> The x coord of the cell. </param>
+    /// <param name="y"> The y coord of the cell. </param>
+    /// <returns> Integer number representing the cells attached.</returns>
+    int SumCellsAdjacent(int x, int y)
     {
-        Vector2Int[] neighbours = GetAdjacentCells(i, j);
+        Vector2Int[] neighbours = GetAdjacentCells(x, y);
         int count = 0;
 
         foreach (Vector2Int n in neighbours)
@@ -93,8 +157,14 @@ public class FloorPlan
         return count;
     }
 
+    /// <summary>
+    /// Prints the map to the console. 
+    /// </summary>
     public void Print() => FloorPlan.Print2DArray(plan);
 
+    /// <summary>
+    /// Returns the total number of cells in the map. 
+    /// </summary>
     public int GetRoomCount()
     {
         int count = 0;
@@ -112,6 +182,12 @@ public class FloorPlan
         return count;
     }
 
+    /// <summary>
+    /// Returns the positions of cells neighbouring the provided cell. 
+    /// </summary>
+    /// <param name="x"> The x position of the cell. </param>
+    /// <param name="y"> The y position of the cell. </param>
+    /// <returns> Vector2Int[] list containing the neighbouring addresses. </returns>
     public Vector2Int[] GetAdjacentCells(int x, int y)
     {
         return new Vector2Int[]
@@ -123,6 +199,9 @@ public class FloorPlan
         };
     }
 
+    /// <summary>
+    /// Static function for compiling the map into a string and printing to the console. 
+    /// </summary>
     private static void Print2DArray<T>(T[,] matrix)
     {
         string outP = "";
@@ -137,6 +216,13 @@ public class FloorPlan
         Debug.Log(outP);
     }
 
+    /// <summary>
+    /// Index operator overload [].
+    /// Assigns/reads from a provided cell address. 
+    /// </summary>
+    /// <param name="x"> The x coordinate of the cell. </param>
+    /// <param name="y"> The y coordinate of the cell. </param>
+    /// <returns> The cell address's mark if defined, otherwise -1. </returns>
     public int this[int x, int y]
     {
         get => (x > MIN && y > MIN && x < Width && y < Height) ? plan[x, y] : -1;
@@ -147,6 +233,12 @@ public class FloorPlan
         }
     }
 
+    /// <summary>
+    /// Index operator overload [].
+    /// Assigns/reads from a provided cell address. 
+    /// </summary>
+    /// <param name="v"> The vector position to read/assign to. </param>
+    /// <returns> The cell address's mark if defined, otherwise -1. </returns>
     public int this[Vector2Int v]
     {
         get => (v.x > MIN && v.y > MIN && v.x < Width && v.y < Height) ? plan[v.x, v.y] : -1;

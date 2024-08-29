@@ -121,7 +121,8 @@ public class DrunkenWanderer
     {
         if (plan.WithinRange(x, y))
         {
-            plan.SetMark(x, y);
+            plan[x, y] = 1;
+            plan.roomCount++;
             roomQueue.Enqueue(new Vector2Int(x, y));
         }
     }

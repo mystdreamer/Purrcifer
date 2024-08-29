@@ -1,4 +1,8 @@
-﻿[System.Serializable]
+﻿
+/// <summary>
+/// Data class used to generate FloorMaps. 
+/// </summary>
+[System.Serializable]
 public class FloorData
 {
     public int roomCountMin;
@@ -10,6 +14,4 @@ public class FloorData
     public float spawnOver;
     public float roomWidth;
     public float roomHeight;
-
-    public bool SpawnChance => UnityEngine.Random.Range(rangeProbX.min, rangeProbX.max) > spawnOver;
 }

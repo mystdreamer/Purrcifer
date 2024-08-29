@@ -93,6 +93,12 @@ public class ObjectMap
     public void SetToIndex(GameObject prefab, int x, int y) =>
         objectMap[x, y] = prefab;
 
+    /// <summary>
+    /// Get an object from within the object map. 
+    /// </summary>
+    /// <param name="x"> The map x coord of the item. </param>
+    /// <param name="y"> The map y coord of the object. </param>
+    /// <returns></returns>
     private GameObject GetObject(int x, int y)
     {
         if (x < objectMap.GetLength(0) && x >= 0 &&
@@ -101,6 +107,11 @@ public class ObjectMap
         return null;
     }
 
+    /// <summary>
+    /// Enables doors around a give cell. 
+    /// </summary>
+    /// <param name="x"> The x coord of the cell. </param>
+    /// <param name="y"> The y coord of the cell. </param>
     public void EnableDoors(int x, int y)
     {
         //Cache neighbour marks.
@@ -146,10 +157,4 @@ public class ObjectMap
             _roomCTRLR.SetDoorState(DoorOpenOp.DOWN);
         }
     }
-
-    #region Convenience functions. 
-
-    public void SetToIndex(GameObject prefab, Vector2Int position) =>
-        SetToIndex(prefab, position.x, position.y);
-    #endregion
 }

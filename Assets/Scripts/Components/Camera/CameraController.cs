@@ -132,7 +132,7 @@ public class CameraController : MonoBehaviour
                 _distance = Vector3.Distance(new Vector3(transform.position.x, 0, 0), handler.XDecomposed);
                 _differenceVec.Normalize();
 
-                //Determine axis on which the player has breached AABB.
+                //Determine direction on which the player has breached AABB.
                 if (Mathf.Sign(_differenceVec.x) * _distance < bounds.MaxX) //Breached left, move camera left. 
                     StartCoroutine(StepCamera(transform.position, new Vector3(-bounds.width, 0, 0)));
                 else if (Mathf.Sign(_differenceVec.x) * _distance > bounds.MaxX) //Breached right, move camera right. 
@@ -146,7 +146,7 @@ public class CameraController : MonoBehaviour
                 _distance = Vector3.Distance(new Vector3(0, 0, transform.position.z), handler.ZDecomposed);
                 _differenceVec.Normalize();
 
-                //Determine axis on which the player has breached AABB.
+                //Determine direction on which the player has breached AABB.
                 if (Mathf.Sign(_differenceVec.z) * _distance < bounds.MaxZ) //Breached up, move camera up. 
                     StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, -bounds.height)));
                 if (Mathf.Sign(_differenceVec.z) * _distance > bounds.MaxZ) //Breached down, move camera down.
