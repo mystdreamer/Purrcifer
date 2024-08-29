@@ -84,11 +84,6 @@ namespace Assets.Scripts.Types.FloorGeneration
                     yield return new WaitForEndOfFrame();
                 }
             }
-
-            objMap.EnableDoors(objMap.bossRoomPos.x, objMap.bossRoomPos.y);
-            objMap.EnableDoors(objMap.startRoomPos.x, objMap.startRoomPos.y);
-            objMap.EnableDoors(objMap.treasureRoomPos.x, objMap.treasureRoomPos.y);
-
         }
     }
 }

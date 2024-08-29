@@ -1,6 +1,9 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
+/// <summary>
+/// Enums representing a door opening operation. 
+/// </summary>
 public enum DoorOpenOp
 {
     LEFT,
@@ -9,102 +12,99 @@ public enum DoorOpenOp
     DOWN
 }
 
+/// <summary>
+/// Class used to convert the FloorMap int map into an object map. 
+/// </summary>
 public class ObjectMap
 {
-    public GameObject[,] objectMap;
-    public float roomSizeWidth;
-    public float roomSizeHeight;
-    public Vector3 initalPosition;
-    public Vector2Int bossRoomPos; 
-    public Vector2Int startRoomPos; 
-    public Vector2Int treasureRoomPos; 
+    /// <summary>
+    /// Const representing the minimum bounds value.
+    /// </summary>
+    private const int MIN = -1;
 
+    /// <summary>
+    /// The map held by the game. 
+    /// </summary>
+    public GameObject[,] objectMap;
+
+    /// <summary>
+    /// The width per room. 
+    /// </summary>
+    public float roomSizeWidth;
+
+    /// <summary>
+    /// The height per room. 
+    /// </summary>
+    public float roomSizeHeight;
+
+    /// <summary>
+    /// The initial position defined by the map. 
+    /// </summary>
+    public Vector3 initialPosition;
+
+    /// <summary>
+    /// Provides the width of the map. 
+    /// </summary>
+    public int Width => objectMap.GetLength(0);
+
+    /// <summary>
+    /// Provides the height of the map. 
+    /// </summary>
+    public int Height => objectMap.GetLength(1);
+
+    /// <summary>
+    /// CTOR. 
+    /// </summary>
+    /// <param name="data"> The data instance used to build the floor plan. </param>
+    /// <param name="plan"> The FloorPlan representing the world map. </param>
     public ObjectMap(FloorData data, FloorPlan plan)
     {
-        initalPosition = new Vector3(data.initialX, data.initialY);
+        initialPosition = new Vector3(data.initialX, data.initialY);
         roomSizeWidth = data.roomWidth;
         roomSizeHeight = data.roomHeight;
         objectMap = new GameObject[plan.plan.GetLength(0), plan.plan.GetLength(1)];
     }
 
-    public void GenerateObject(int value, int x, int y)
+    /// <summary>
+    /// Generates an object within the map. 
+    /// </summary>
+    /// <param name="marker"> The marker type representing the object. </param>
+    /// <param name="x"> The x coordinate of the object. </param>
+    /// <param name="y"> The y coordinate of the object. </param>
+    public void GenerateObject(int marker, int x, int y)
     {
-        switch (value)
+        switch (marker)
         {
             case (int)MapIntMarkers.NONE:
                 break;
             case (int)MapIntMarkers.BOSS:
-                BuildBossRoom(x, y);
+                BuildRoom(MasterTree.Instance.BossRoomTree.GetRandomPrefab(false), x, y);
                 break;
             case (int)MapIntMarkers.START:
-                BuildStartRoom(x, y);
+                BuildRoom(MasterTree.Instance.StartRoomTree.GetRandomPrefab(false), x, y);
                 break;
             case (int)MapIntMarkers.ROOM:
-                BuildRoom(x, y);
+                BuildRoom(MasterTree.Instance.NormalRoomTree.GetRandomPrefab(false), x, y);
                 break;
             case (int)MapIntMarkers.TREASURE:
-                BuildTreasureRoom(x, y);
+                BuildRoom(MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false), x, y);
                 break;
             default:
                 break;
         }
     }
 
-    private void BuildBossRoom(int x, int y)
-    {
-        GameObject bRoomPrefab = MasterTree.Instance.BossRoomTree.GetRandomPrefab(false);
-        GameObject bossRoom = GameObject.Instantiate(bRoomPrefab);
-        bossRoomPos = new Vector2Int(x, y);
-        SetPosition(bossRoom, x, y);
-        SetToIndex(bossRoom, x, y);
-    }
-
-    private void BuildStartRoom(int x, int y)
-    {
-        GameObject startRoomPrefab = MasterTree.Instance.StartRoomTree.GetRandomPrefab(false);
-        GameObject startRoom = GameObject.Instantiate(startRoomPrefab);
-        startRoomPos = new Vector2Int(x, y);
-        //TODO: Change player spawn handling. 
-        SetPosition(startRoom, x, y);
-        SetToIndex(startRoom, x, y);
-    }
-
-    private void BuildRoom(int x, int y)
-    {
-        GameObject roomPrefab = MasterTree.Instance.NormalRoomTree.GetRandomPrefab(false);
-        GameObject roomInst = GameObject.Instantiate(roomPrefab);
-        SetPosition(roomInst, x, y);
-        SetToIndex(roomInst, x, y);
-    }
-
-    private void BuildTreasureRoom(int x, int y)
-    {
-        GameObject treasureRoomPrefab = MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false);
-        GameObject tRoomInst = GameObject.Instantiate(treasureRoomPrefab);
-        //TODO: Setup handling randomising item drops and placing in the room. 
-        treasureRoomPos = new Vector2Int(x, y);
-        SetPosition(tRoomInst, x, y);
-        SetToIndex(tRoomInst, x, y);
-    }
-
-    public void SetPosition(GameObject gameObject, int x, int y) =>
-        gameObject.transform.position = new Vector3(initalPosition.x + x * roomSizeWidth, 0, initalPosition.y - y * roomSizeHeight);
-
-    public void SetToIndex(GameObject prefab, int x, int y) =>
-        objectMap[x, y] = prefab;
-
     /// <summary>
-    /// Get an object from within the object map. 
+    /// Builds a room within world space and adds it to the object map.
     /// </summary>
-    /// <param name="x"> The map x coord of the item. </param>
-    /// <param name="y"> The map y coord of the object. </param>
-    /// <returns></returns>
-    private GameObject GetObject(int x, int y)
+    /// <param name="prefab"> The prefab to create. </param>
+    /// <param name="x"> The x coordinate of the object. </param>
+    /// <param name="y"> The y coordinate of the object. </param>
+    private void BuildRoom(GameObject prefab, int x, int y)
     {
-        if (x < objectMap.GetLength(0) && x >= 0 &&
-            y < objectMap.GetLength(1) && y >= 0)
-            return objectMap[x, y];
-        return null;
+        this[x, y] = GameObject.Instantiate(prefab);
+        //Set the position of the object in world space. 
+        this[x, y].transform.position = new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
     }
 
     /// <summary>
@@ -115,8 +115,7 @@ public class ObjectMap
     public void EnableDoors(int x, int y)
     {
         //Cache neighbour marks.
-        GameObject _room = GetObject(x, y);
-        GameObject _obj;
+        GameObject _room = this[x, y];
 
         if (_room == null)
             return;
@@ -125,36 +124,51 @@ public class ObjectMap
         if (_roomCTRLR == null)
             return;
 
-        _obj = GetObject(x + 1, y);
+        DoorSetup(_roomCTRLR, x + 1, y, DoorOpenOp.RIGHT, DoorOpenOp.LEFT);
+        DoorSetup(_roomCTRLR, x - 1, y, DoorOpenOp.LEFT, DoorOpenOp.RIGHT);
+        DoorSetup(_roomCTRLR, x, y - 1, DoorOpenOp.UP, DoorOpenOp.DOWN);
+        DoorSetup(_roomCTRLR, x, y + 1, DoorOpenOp.DOWN, DoorOpenOp.UP);
 
-        if (_obj != null)
+        void DoorSetup(RoomDoorController ctrllr, int x, int y, DoorOpenOp aOp, DoorOpenOp bOp)
         {
-            _obj.GetComponent<RoomDoorController>().SetDoorState(DoorOpenOp.LEFT);
-            _roomCTRLR.SetDoorState(DoorOpenOp.RIGHT);
+            if (this[x, y] != null)
+            {
+                ctrllr.SetDoorState(aOp);
+                this[x, y].GetComponent<RoomDoorController>().SetDoorState(bOp);
+            }
         }
+    }
 
-        _obj = GetObject(x - 1, y);
-
-        if (_obj != null)
+    /// <summary>
+    /// Index operator overload [].
+    /// Assigns/reads from a provided cell address. 
+    /// </summary>
+    /// <param name="x"> The x coordinate of the cell. </param>
+    /// <param name="y"> The y coordinate of the cell. </param>
+    /// <returns> The cell address's mark if defined, otherwise -1. </returns>
+    public GameObject this[int x, int y]
+    {
+        get => (x > MIN && y > MIN && x < Width && y < Height) ? this.objectMap[x, y] : null;
+        set
         {
-            _obj.GetComponent<RoomDoorController>().SetDoorState(DoorOpenOp.RIGHT);
-            _roomCTRLR.SetDoorState(DoorOpenOp.LEFT);
+            if (x > MIN && y > MIN && x < Width && y < Height)
+                this.objectMap[x, y] = value;
         }
+    }
 
-        _obj = GetObject(x, y - 1);
-
-        if (_obj != null)
+    /// <summary>
+    /// Index operator overload [].
+    /// Assigns/reads from a provided cell address. 
+    /// </summary>
+    /// <param name="v"> The vector position to read/assign to. </param>
+    /// <returns> The cell address's mark if defined, otherwise -1. </returns>
+    public GameObject this[Vector2Int v]
+    {
+        get => (v.x > MIN && v.y > MIN && v.x < Width && v.y < Height) ? this[v.x, v.y] : null;
+        set
         {
-            _obj.GetComponent<RoomDoorController>().SetDoorState(DoorOpenOp.DOWN);
-            _roomCTRLR.SetDoorState(DoorOpenOp.UP);
-        }
-
-        _obj = GetObject(x, y + 1);
-
-        if (_obj != null)
-        {
-            _obj.GetComponent<RoomDoorController>().SetDoorState(DoorOpenOp.UP);
-            _roomCTRLR.SetDoorState(DoorOpenOp.DOWN);
+            if (v.x > MIN && v.y > MIN && v.x < Width && v.y < Height)
+                this[v.x, v.y] = value;
         }
     }
 }
