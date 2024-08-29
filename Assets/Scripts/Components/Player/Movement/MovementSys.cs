@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class MovementSys : MonoBehaviour
@@ -17,7 +16,7 @@ public class MovementSys : MonoBehaviour
     /// </summary>
     public float speed = 100;
 
-    void Start()
+    void Start() 
     {
         //Register the required commands. 
         RegisterCommands();
@@ -37,6 +36,14 @@ public class MovementSys : MonoBehaviour
 
     #region Movement Command Functions. 
 
+    // ---------------------------------
+    // These act as registerable commands that interface with the custom input manager (PlayerInputSys). 
+    // The input system is set up this way to allow for extra control with assigning/reassigning inputs. 
+    // ---------------------------------
+
+    /// <summary>
+    /// Register the commands functions used by this class with the command events in the input system. 
+    /// </summary>
     private void RegisterCommands()
     {
         PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_LEFT).DoAction += MoveRight;
@@ -45,6 +52,9 @@ public class MovementSys : MonoBehaviour
         PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
     }
 
+    /// <summary>
+    /// Deregister the commands functions used by this class from the command events in the input system. 
+    /// </summary>
     private void DeregisterCommands()
     {
         PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_LEFT).DoAction -= MoveRight;
@@ -53,24 +63,40 @@ public class MovementSys : MonoBehaviour
         PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_DOWN).DoAction -= MoveUp;
     }
 
-    private void MoveRight(bool result)
+    /// <summary>
+    /// Function handling right movement input from the input handler (PlayerInputSys).
+    /// </summary>
+    /// <param name="state"> The current input state provided. </param>
+    private void MoveRight(bool state)
     {
-        if (result)
+        if (state)
             _input += new Vector3(-1, 0, 0);
     }
 
+    /// <summary>
+    /// Function handling left movement input from the input handler (PlayerInputSys).
+    /// </summary>
+    /// <param name="state"> The current input state provided. </param>
     private void MoveLeft(bool result)
     {
         if (result)
             _input += new Vector3(1, 0, 0);
     }
 
+    /// <summary>
+    /// Function handling up movement input from the input handler (PlayerInputSys).
+    /// </summary>
+    /// <param name="state"> The current input state provided. </param>
     private void MoveUp(bool result)
     {
         if (result)
             _input += new Vector3(0, 0, -1);
     }
 
+    /// <summary>
+    /// Function handling down movement input from the input handler (PlayerInputSys).
+    /// </summary>
+    /// <param name="state"> The current input state provided. </param>
     private void MoveDown(bool result)
     {
         if (result)
@@ -81,9 +107,18 @@ public class MovementSys : MonoBehaviour
     void Update()
     {
         //Apply the velocity. 
+
+        //Normalise the given input. 
         _input.Normalize();
+
+        //Apply the given movement to the players rigidbody multiplied by the players speed. 
         body.linearVelocity = _input * speed;
+        
+        //Cache the last input (possible to be used for attacks).
+        //TODO: Remove later if unused. 
         _lastInput = _input;
+
+        //Reset the current input. 
         _input = Vector3.zero;
     }
 }

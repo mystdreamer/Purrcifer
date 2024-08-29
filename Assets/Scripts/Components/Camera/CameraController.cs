@@ -1,41 +1,103 @@
+using CameraHelpers;
 using System.Collections;
 using UnityEngine;
 
-public enum CameraBehaviour
+namespace CameraHelpers
 {
-    TARGET_STEP, 
-    LOCK,
-    TRANSVERSE
+    /// <summary>
+    /// Enum representing the current behaviour state of the camera. 
+    /// </summary>
+    public enum CameraBehaviour
+    {
+        TARGET_STEP,
+        LOCK,
+        TRANSVERSE
+    }
+
+    /// <summary>
+    /// Generates a custom, lightweight bounds representation for AABB checks. 
+    /// </summary>
+    [System.Serializable]
+    public struct CameraBounds
+    {
+        public float width;
+        public float height;
+
+        public readonly float MinX => -width / 2;
+        public readonly float MaxX => width / 2;
+        public readonly float MinZ => -height / 2;
+        public readonly float MaxZ => height / 2;
+
+        public void DrawBounds(Vector3 position)
+        {
+            //Draw frame. 
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireCube(position, new Vector3(width, 0, height));
+
+            //Draw the edge points.
+            Gizmos.color = new Color(1, 0, 0, 0.5F);
+            Gizmos.DrawSphere(position + new Vector3(MinX, 0, 0), 0.5f);
+            Gizmos.DrawSphere(position + new Vector3(MaxX, 0, 0), 0.5f);
+            Gizmos.DrawSphere(position + new Vector3(0, 0, MinZ), 0.5f);
+            Gizmos.DrawSphere(position + new Vector3(0, 0, MaxZ), 0.5f);
+        }
+    }
+
+    /// <summary>
+    /// Generates a custom class for handling the target of the camera. 
+    /// </summary>
+    [System.Serializable]
+    public struct TargetHandler
+    {
+        public Transform target;
+
+        public readonly Vector3 Position => target.position;
+        public readonly Vector3 XDecomposed => new Vector3(Position.x, 0, 0);
+        public readonly Vector3 ZDecomposed => new Vector3(0, 0, Position.z);
+
+        public bool InsideXAxis(Vector3 position, CameraBounds bounds)
+        {
+            return Position.x > position.x + bounds.MinX && Position.x < position.x + bounds.MaxX;
+        }
+
+        public bool InsideZAxis(Vector3 position, CameraBounds bounds)
+        {
+            return Position.z > position.z + bounds.MinZ && Position.z < position.z + bounds.MaxZ;
+        }
+    }
 }
 
 public class CameraController : MonoBehaviour
 {
-    public Camera cameraTarget;
-    public GameObject playerObj;
-    public float moveWidth;
-    public float moveHeight;
+    /// <summary>
+    /// Used for storing the difference of two vectors. 
+    /// </summary>
+    Vector3 _differenceVec;
+
+    /// <summary>
+    /// Stores the distance between the player position and the camera position. 
+    /// </summary>
+    float _distance; 
+    
+    /// <summary>
+    /// Bounds class, used to define the AABB box of the camera. 
+    /// </summary>
+    public CameraBounds bounds;
+
+    /// <summary>
+    /// The target handler used to track the players position/handle AABB x/y tests. 
+    /// </summary>
+    public TargetHandler handler;
+
+    /// <summary>
+    /// The current behavioural state used by the camera. 
+    /// </summary>
     public CameraBehaviour currentBehaviour = CameraBehaviour.TARGET_STEP;
+
+    /// <summary>
+    /// Is the camera currently stepping. 
+    /// </summary>
     public bool isStepping = false; 
-
-    private Vector3 PlayerPosition =>
-        (playerObj != null) ? playerObj.transform.position : transform.position;
-    private Vector3 PlayerPositionX =>
-        (playerObj != null) ? new Vector3(playerObj.transform.position.x, 0, 0) : new Vector3(transform.position.x, 0, 0);
-    private Vector3 PlayerPositionZ =>
-        (playerObj != null) ? new Vector3(0, 0, playerObj.transform.position.z) : new Vector3(0, 0, transform.position.z);
-
-    private float GetMinX => -moveWidth / 2;
-    private float GetMaxX => moveWidth / 2;
-    private float GetMinZ => -moveHeight / 2;
-    private float GetMaxZ => moveHeight / 2;
-
-    private bool InsideX => PlayerPosition.x > transform.position.x + GetMinX && PlayerPositionX.x < transform.position.x + GetMaxX;
-    private bool InsideZ => PlayerPosition.z > transform.position.z + GetMinZ && PlayerPosition.z < transform.position.z + GetMaxZ;
-
-    public float distX;
-    public float distZ;
-    public Vector3 diffVecX;
-    public Vector3 diffVecZ;
 
     public void Update()
     {
@@ -52,63 +114,76 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates the direction to step, if a step is required. 
+    /// </summary>
     private void CameraStepper()
     {
         //Cache player if not cached. 
-        if (playerObj == null)
-            playerObj = GameManager.Instance.playerCurrent;
-
-        if (!InsideX)
+        if (handler.target == null && GameManager.Instance.playerCurrent != null)
+            handler.target = GameManager.Instance.playerCurrent.transform;
+        
+        if(handler.target != null)
         {
-            //Get the direction vector. 
-            diffVecX = PlayerPositionX - new Vector3(transform.position.x, 0, 0);
-            distX = Vector3.Distance(new Vector3(transform.position.x, 0, 0), PlayerPositionX);
-            diffVecZ.Normalize();
+            if (!handler.InsideXAxis(transform.position, bounds))
+            {
+                //Get the direction vector. 
+                _differenceVec = handler.XDecomposed - new Vector3(transform.position.x, 0, 0);
+                _distance = Vector3.Distance(new Vector3(transform.position.x, 0, 0), handler.XDecomposed);
+                _differenceVec.Normalize();
 
-            //Determine axis on which the player has breached AABB.
-            if (Mathf.Sign(diffVecX.x) * distX < moveWidth / 2)
-                StartCoroutine(StepCamera(transform.position, new Vector3(-moveWidth, 0, 0)));
-            else if (Mathf.Sign(diffVecX.x) * distX > moveWidth / 2)
-                StartCoroutine(StepCamera(transform.position, new Vector3(moveWidth, 0, 0)));
-        }
+                //Determine axis on which the player has breached AABB.
+                if (Mathf.Sign(_differenceVec.x) * _distance < bounds.MaxX) //Breached left, move camera left. 
+                    StartCoroutine(StepCamera(transform.position, new Vector3(-bounds.width, 0, 0)));
+                else if (Mathf.Sign(_differenceVec.x) * _distance > bounds.MaxX) //Breached right, move camera right. 
+                    StartCoroutine(StepCamera(transform.position, new Vector3(bounds.width, 0, 0)));
+            }
 
-        if (!InsideZ)
-        {
-            //Get the direction vector. 
-            diffVecZ = PlayerPositionZ - new Vector3(0, 0, transform.position.z);
-            distZ = Vector3.Distance(new Vector3(0, 0, transform.position.z), PlayerPositionZ);
-            diffVecX.Normalize();
+            if (!handler.InsideZAxis(transform.position, bounds))
+            {
+                //Get the direction vector. 
+                _differenceVec = handler.ZDecomposed - new Vector3(0, 0, transform.position.z);
+                _distance = Vector3.Distance(new Vector3(0, 0, transform.position.z), handler.ZDecomposed);
+                _differenceVec.Normalize();
 
-            if (Mathf.Sign(diffVecZ.z) * distZ < moveHeight / 2)
-                StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, -moveHeight)));
-            if (Mathf.Sign(diffVecZ.z) * distZ > moveHeight / 2)
-                StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, moveHeight)));
+                //Determine axis on which the player has breached AABB.
+                if (Mathf.Sign(_differenceVec.z) * _distance < bounds.MaxZ) //Breached up, move camera up. 
+                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, -bounds.height)));
+                if (Mathf.Sign(_differenceVec.z) * _distance > bounds.MaxZ) //Breached down, move camera down.
+                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, bounds.height)));
+            }
         }
     }
 
+    /// <summary>
+    /// Coroutine handling lerping between the two given points over time. 
+    /// </summary>
+    /// <param name="initial"> The initial position. </param>
+    /// <param name="stepVector"> The translation to apply. </param>
     private IEnumerator StepCamera(Vector3 initial, Vector3 stepVector)
     {
-        isStepping = true;
-        float currentdt = 0;
+        //Cache variable for time and step. 
+        float currentTime = 0;
         Vector3 currentStep = Vector3.zero; 
 
+        //Set the camera to stepping. 
+        isStepping = true;
+
+        //While not reached, increment the time, update the step and apply. 
         while(currentStep != initial + stepVector)
         {
-            currentdt += Time.deltaTime;
-            currentStep = Vector3.Lerp(initial, initial + stepVector, currentdt);
+            currentTime += Time.deltaTime;
+            currentStep = Vector3.Lerp(initial, initial + stepVector, currentTime);
             transform.position = currentStep;
             yield return new WaitForEndOfFrame(); 
         }
 
+        //Return control to the camera. 
         isStepping = false; 
     }
 
     public void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 0, 0, 0.5F);
-        Gizmos.DrawSphere(transform.position + new Vector3(GetMinX, 0, 0), 0.5f);
-        Gizmos.DrawSphere(transform.position + new Vector3(GetMaxX, 0, 0), 0.5f);
-        Gizmos.DrawSphere(transform.position + new Vector3(0, 0, GetMinZ), 0.5f);
-        Gizmos.DrawSphere(transform.position + new Vector3(0, 0, GetMaxZ), 0.5f);
+        bounds.DrawBounds(transform.position); 
     }
 }
