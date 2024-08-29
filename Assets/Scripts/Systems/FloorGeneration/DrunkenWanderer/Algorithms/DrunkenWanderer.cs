@@ -23,25 +23,15 @@ public class DrunkenWanderer
         while (plan.roomCount < data.roomCountMin)
         {
             roomPos = (roomQueue.Count > 0) ? roomQueue.Dequeue() : plan.GetRandomRoom();
+            //Generate room connections.
 
-            //Generate room connections. 
+            //Get random neighbouring cell. 
+            Vector2Int n = plan.GetAdjacentCells(roomPos.x, roomPos.y)[UnityEngine.Random.Range(0, 4)];
 
-            switch (UnityEngine.Random.Range(0, 4))
-            {
-                case 0:
-                    AttemptRoomGen(ref plan, roomPos.x, roomPos.y - 1);
-                    break;
-                case 1:
-                    AttemptRoomGen(ref plan, roomPos.x, roomPos.y + 1);
-                    break;
-                case 2:
-                    AttemptRoomGen(ref plan, roomPos.x + 1, roomPos.y);
-                    break;
-                case 3:
-                    AttemptRoomGen(ref plan, roomPos.x - 1, roomPos.y);
-                    break;
-            }
+            //Attempt room generation. 
+            AttemptRoomGen(ref plan, n.x, n.y);
 
+            //Delay
             yield return new WaitForEndOfFrame();
         }
 
@@ -105,49 +95,34 @@ public class DrunkenWanderer
 
     private void GenerateRoom(FloorPlan plan, int x, int y)
     {
-        switch (UnityEngine.Random.Range(0, 4))
-        {
-            case 0:
-                if (plan[x, y - 1] != -1)
-                    plan[x, y - 1] = 1;
-                break;
-            case 1:
-                if (plan[x, y + 1] != -1)
-                    plan[x, y + 1] = 1;
-                break;
-            case 2:
-                if (plan[x + 1, y] != -1)
-                    plan[x + 1, y] = 1;
-                break;
-            case 3:
-                if (plan[x - 1, y] != -1)
-                    plan[x - 1, y] = 1;
-                break;
-        }
+        Vector2Int[] neighbours = plan.GetAdjacentCells(x, y);
+        int random = UnityEngine.Random.Range(0, 4);
+        if (plan[neighbours[random]] != -1)
+            plan[neighbours[random]] = 1;
     }
 
     private bool GenerateIntersectRooms(FloorPlan plan, int x, int y)
     {
-        if (plan.WithinRange(x - 1, y) && plan.WithinRange(x + 1, y))
+        Vector2Int[] n = plan.GetAdjacentCells(x, y);
+
+        for (int i = 0; i < 2; i++)
         {
-            plan[x - 1, y] = 1;
-            plan[x + 1, y] = 1;
-            return true;
-        }
-        else if (plan.WithinRange(x, y - 1) && plan.WithinRange(x, y + 1))
-        {
-            plan[x, y - 1] = 1;
-            plan[x, y + 1] = 1;
-            return true;
+            if (plan.WithinRange(n[0].x, n[0].y) && plan.WithinRange(n[1].x, n[1].y))
+            {
+                plan[n[i]] = 1;
+                plan[n[i + 1]] = 1;
+                return true;
+            }
         }
         return false;
     }
 
     private void AttemptRoomGen(ref FloorPlan plan, int x, int y)
     {
-        if (!plan.WithinRange(x, y))
-            return;
-        plan.SetMark(x, y);
-        roomQueue.Enqueue(new Vector2Int(x, y));
+        if (plan.WithinRange(x, y))
+        {
+            plan.SetMark(x, y);
+            roomQueue.Enqueue(new Vector2Int(x, y));
+        }
     }
 }

@@ -14,13 +14,12 @@ public class FloorPlan
     public int Height => plan.GetLength(1);
     public Vector2Int[] EndPoints => endPoints;
 
-    private Vector2Int FloorCenter => new Vector2Int(Width / 2, Height / 2);
-
     public FloorPlan(FloorData data)
     {
         roomCount = 0;
         plan = new int[data.floorWidth, data.floorHeight];
-        this[FloorCenter] = 1;
+        floorCenter = new Vector2Int(data.floorWidth / 2, data.floorHeight / 2);
+        this[data.floorWidth / 2, data.floorHeight / 2] = 1;
     }
 
     public void CacheEndpoints()
@@ -65,7 +64,7 @@ public class FloorPlan
 
     public bool WithinRange(int x, int y)
     {
-        return (plan[x, y] != -1) && (plan[x, y] != 1);
+        return (this[x, y] != -1) && (this[x, y] != 1);
     }
 
     public Vector2Int GetRandomRoom()
@@ -76,11 +75,13 @@ public class FloorPlan
 
     int SumCellsAdj(int i, int j)
     {
+        Vector2Int[] neighbours = GetAdjacentCells(i, j);
         int count = 0;
-        count += (this[i + 1, j] != 0 && this[i + 1, j] != -1) ? 1 : 0;
-        count += (this[i - 1, j] != 0 && this[i - 1, j] != -1) ? 1 : 0;
-        count += (this[i, j + 1] != 0 && this[i, j + 1] != -1) ? 1 : 0;
-        count += (this[i, j - 1] != 0 && this[i, j - 1] != -1) ? 1 : 0;
+
+        foreach (Vector2Int n in neighbours)
+        {
+            count += (this[n] != 0 && this[n] != -1) ? 1 : 0;
+        }
         return count;
     }
 
@@ -88,19 +89,30 @@ public class FloorPlan
 
     public int GetRoomCount()
     {
-        int count = 0; 
+        int count = 0;
         for (int i = 0; i < plan.GetLength(0); i++)
         {
-            for(int j = 0; j < plan.GetLength(1); j++)
+            for (int j = 0; j < plan.GetLength(1); j++)
             {
-                if(plan[i, j] == 1)
+                if (plan[i, j] == 1)
                 {
-                    count++; 
+                    count++;
                 }
             }
         }
 
         return count;
+    }
+
+    public Vector2Int[] GetAdjacentCells(int x, int y)
+    {
+        return new Vector2Int[]
+        {
+            new Vector2Int(x + 1, y),
+            new Vector2Int(x - 1, y),
+            new Vector2Int(x, y + 1),
+            new Vector2Int(x, y - 1)
+        };
     }
 
     private static void Print2DArray<T>(T[,] matrix)
@@ -119,29 +131,21 @@ public class FloorPlan
 
     public int this[int x, int y]
     {
-        get
+        get => (x > MIN && y > MIN && x < Width && y < Height) ? plan[x, y] : -1;
+        set
         {
-            if(x > MIN && y > MIN && x < Width && y < Height)
-            {
-                return plan[x, y];
-            }
-            return -1; 
+            if (x > MIN && y > MIN && x < Width && y < Height)
+                plan[x, y] = value;
         }
-
-        set => plan[x, y] = value;
     }
 
-    private int this[Vector2Int v]
+    public int this[Vector2Int v]
     {
-        get
+        get => (v.x > MIN && v.y > MIN && v.x < Width && v.y < Height) ? plan[v.x, v.y] : -1;
+        set
         {
             if (v.x > MIN && v.y > MIN && v.x < Width && v.y < Height)
-            {
-                return plan[v.x, v.y];
-            }
-            return -1;
+                plan[v.x, v.y] = value;
         }
-
-        set => plan[v.x, v.y] = value;
     }
 }

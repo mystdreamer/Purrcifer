@@ -153,8 +153,3 @@ public class ObjectMap
         SetToIndex(prefab, position.x, position.y);
     #endregion
 }
-
-public class FloorMapConvertor
-{
-
-}
