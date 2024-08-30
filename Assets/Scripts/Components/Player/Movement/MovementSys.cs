@@ -19,6 +19,9 @@ public class MovementSys : MonoBehaviour
     /// </summary>
     public float speed = 100;
 
+    public Vector3 LastInput => _lastInput;
+    public bool UpdatePause { get; set; } = false;
+
     void Start() 
     {
         //Register the required commands. 
@@ -109,19 +112,26 @@ public class MovementSys : MonoBehaviour
 
     void Update()
     {
-        //Apply the velocity. 
+        if (!UpdatePause)
+        {
+            //Normalise the given input. 
+            _input.Normalize();
 
-        //Normalise the given input. 
-        _input.Normalize();
+            //Apply the given movement to the players rigidbody multiplied by the players speed. 
+            body.linearVelocity = _input * speed;
 
-        //Apply the given movement to the players rigidbody multiplied by the players speed. 
-        body.linearVelocity = _input * speed;
-        
-        //Cache the last input (possible to be used for attacks).
-        //TODO: Remove later if unused. 
-        _lastInput = _input;
+            //Cache the last input (possible to be used for attacks).
+            //TODO: Remove later if unused. 
+            _lastInput = _input;
 
-        //Reset the current input. 
-        _input = Vector3.zero;
+            //Reset the current input. 
+            _input = Vector3.zero;
+        }
+        else
+        {
+            _input = Vector3.zero;
+            _lastInput = Vector3.zero;
+            body.linearVelocity = Vector3.zero;
+        }
     }
 }

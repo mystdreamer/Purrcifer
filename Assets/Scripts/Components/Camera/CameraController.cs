@@ -111,6 +111,8 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    public float jumpDistance;
+
     public void Update()
     {
         switch (currentBehaviour)
@@ -174,6 +176,7 @@ public class CameraController : MonoBehaviour
     /// <param name="stepVector"> The translation to apply. </param>
     private IEnumerator StepCamera(Vector3 initial, Vector3 stepVector)
     {
+        int frameBuffer = 12;
         //Cache variable for time and step. 
         float currentTime = 0;
         Vector3 currentStep = Vector3.zero;
@@ -181,9 +184,22 @@ public class CameraController : MonoBehaviour
         //Set the camera to stepping. 
         isStepping = true;
 
+        Vector3 roomward = handler.target.position - transform.position;
+        roomward.y = 0;
+        roomward.Normalize();
+
+        handler.target.GetComponent<MovementSys>().UpdatePause = true;
+        handler.target.position = handler.target.position + (roomward * jumpDistance);
+
         //While not reached, increment the time, update the step and apply. 
         while (currentStep != initial + stepVector)
         {
+            frameBuffer--;
+            if (frameBuffer <= 0)
+            {
+                handler.target.GetComponent<MovementSys>().UpdatePause = false;
+            }
+
             currentTime += Time.deltaTime;
             currentStep = Vector3.Lerp(initial, initial + stepVector, currentTime);
             Position = currentStep;

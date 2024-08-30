@@ -686,8 +686,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomState: 1
   roomDetector:
-    width: 18
-    height: 10
+    width: 17
+    height: 9
     roomTransform: {fileID: 5817138601403546251}
   roomInterfaceItems:
   - {fileID: 1569649185687505493}

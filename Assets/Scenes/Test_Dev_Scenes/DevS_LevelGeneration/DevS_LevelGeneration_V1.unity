@@ -429,11 +429,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4393407355580978996, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
       propertyPath: m_Name
-      value: Shutout
+      value: Camera_Shutout
       objectReference: {fileID: 0}
     - target: {fileID: 4393407355580978996, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4393407355580978996, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

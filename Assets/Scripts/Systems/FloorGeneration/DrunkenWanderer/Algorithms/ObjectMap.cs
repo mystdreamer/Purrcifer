@@ -103,6 +103,7 @@ public class ObjectMap
     private void BuildRoom(GameObject prefab, int x, int y)
     {
         this[x, y] = GameObject.Instantiate(prefab);
+        this[x, y].name = this[x, y].name + "[" + x + ", " + y + "]";
         //Set the position of the object in world space. 
         this[x, y].transform.position = new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
     }

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,8 @@ using UnityEngine;
 public enum RoomState
 {
     IDLE_ROOM,
-    INACTIVE, 
-    ACTIVE, 
+    INACTIVE,
+    ACTIVE,
     COMPLETED
 }
 
@@ -45,17 +46,26 @@ public class RoomController : MonoBehaviour
     [System.Serializable]
     public struct RoomDetector
     {
-        public int width;
-        public int height;
+        const float WIDTH = 17.5F;
+        const float HEIGHT = 9.5F;
+
         public Transform roomTransform;
         public Vector3 Center => roomTransform.position;
+        public float MinX => Center.x - WIDTH / 2;
+        public float MaxX => Center.x + WIDTH / 2;
+        public float MinZ => Center.z - HEIGHT / 2;
+        public float MaxZ => Center.z + HEIGHT / 2;
 
         public bool PlayerInRoom(Vector3 playerPos)
         {
-            return (playerPos.x > Center.x - width / 2 &&
-                playerPos.z > Center.z - height / 2 &&
-                playerPos.x < Center.x + width / 2 &&
-                playerPos.z < Center.z + height / 2);
+            return (playerPos.x > MinX && playerPos.z > MinZ &&
+                playerPos.x < MaxX &&
+                playerPos.z < MaxZ);
+        }
+
+        public void Draw()
+        {
+            Gizmos.DrawWireCube(Center, new Vector3(WIDTH, 0, HEIGHT));
         }
     }
 
@@ -64,7 +74,20 @@ public class RoomController : MonoBehaviour
     public RoomDetector roomDetector;
     public IRoomInterface[] roomInterfaceObjects;
     public GameObject[] roomInterfaceItems;
-    
+
+    private GameObject Player
+    {
+        get
+        {
+            if (playerReference == null)
+            {
+                playerReference = GameManager.Instance.playerCurrent;
+            }
+
+            return playerReference;
+        }
+    }
+
     private Vector3 PlayerPosition
     {
         get
@@ -77,9 +100,9 @@ public class RoomController : MonoBehaviour
             return playerReference.transform.position;
         }
     }
-    
+
     void Start()
-    {   
+    {
         //Get a list of interfaces from the parent object. 
         List<IRoomInterface> interfaces = new List<IRoomInterface>();
 
@@ -94,14 +117,29 @@ public class RoomController : MonoBehaviour
 
     private void Update()
     {
-        //State machine used for controlling room state. 
+        if (Player == null)
+        {
+            Debug.Log("Player not found.");
+            return;
+        }
+        else
+        {
+            StateMachine();
+        }
+    }
+
+    /// <summary>
+    /// State machine used for controlling the rooms state. 
+    /// </summary>
+    private void StateMachine()
+    {
         if (roomState == RoomState.IDLE_ROOM)
             return;
 
         if (roomState == RoomState.INACTIVE)
             UpdateSleepState();
-        
-        if(roomState == RoomState.ACTIVE)
+
+        if (roomState == RoomState.ACTIVE)
             UpdateActiveState();
     }
 
@@ -110,19 +148,12 @@ public class RoomController : MonoBehaviour
     /// </summary>
     private void UpdateSleepState()
     {
-        roomState = RoomState.ACTIVE;
-
-        if (playerReference != null)
+        //Handle entrance check.
+        if (roomDetector.PlayerInRoom(PlayerPosition))
         {
-            //Handle entrance check.
-            if (roomDetector.PlayerInRoom(PlayerPosition))
-            {
-                //Room should be activated. 
-                for (int i = 0; i < roomInterfaceObjects.Length; i++)
-                {
-                    roomInterfaceObjects[i].Awake();
-                }
-            }
+            roomState = RoomState.ACTIVE;
+            StartCoroutine(EnableDelayOperation(2.5f));
+            EnableInterfaces();
         }
     }
 
@@ -131,22 +162,48 @@ public class RoomController : MonoBehaviour
     /// </summary>
     private void UpdateActiveState()
     {
-        bool complete = true;
+        foreach (IRoomInterface room in roomInterfaceObjects)
+        {
+            if (room.IsComplete() != true)
+                return;
+        }
 
+        StartCoroutine(DisableDelayOperation(2.5f));
+        roomState = RoomState.COMPLETED;
+    }
+
+    private IEnumerator EnableDelayOperation(float time)
+    {
+        yield return new WaitForSeconds(time);
+        EnableInterfaces();
+    }
+
+    private IEnumerator DisableDelayOperation(float time)
+    {
+        yield return new WaitForSeconds(time);
+        DisableInterfaces();
+    }
+
+    private void EnableInterfaces()
+    {
+        //Room should be activated. 
         for (int i = 0; i < roomInterfaceObjects.Length; i++)
         {
-            if ( (complete = roomInterfaceObjects[i].IsComplete()) == false)
-                break;
+            roomInterfaceObjects[i].Awake();
         }
+    }
 
-        if (complete)
+    private void DisableInterfaces()
+    {
+        //Room should be activated. 
+        for (int i = 0; i < roomInterfaceObjects.Length; i++)
         {
-            for(int i = 0;i < roomInterfaceObjects.Length; i++)
-            {
-                roomInterfaceObjects[i].Sleep();
-            }
+            roomInterfaceObjects[i].Sleep();
         }
+    }
 
-        roomState = RoomState.COMPLETED;
+    private void OnDrawGizmos()
+    {
+        roomDetector.Draw();
     }
 }
