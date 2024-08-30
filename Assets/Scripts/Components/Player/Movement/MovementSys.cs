@@ -110,7 +110,7 @@ public class MovementSys : MonoBehaviour
     }
     #endregion
 
-    void Update()
+    void LateUpdate()
     {
         if (!UpdatePause)
         {

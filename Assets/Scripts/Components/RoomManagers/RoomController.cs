@@ -11,7 +11,8 @@ public enum RoomState
     IDLE_ROOM,
     INACTIVE,
     ACTIVE,
-    COMPLETED
+    COMPLETED,
+    TRANSITIONING
 }
 
 /// <summary>
@@ -117,15 +118,10 @@ public class RoomController : MonoBehaviour
 
     private void Update()
     {
-        if (Player == null)
-        {
-            Debug.Log("Player not found.");
+        if (Player == null | roomState == RoomState.COMPLETED)
             return;
-        }
-        else
-        {
-            StateMachine();
-        }
+
+        StateMachine();
     }
 
     /// <summary>
@@ -133,9 +129,6 @@ public class RoomController : MonoBehaviour
     /// </summary>
     private void StateMachine()
     {
-        if (roomState == RoomState.IDLE_ROOM)
-            return;
-
         if (roomState == RoomState.INACTIVE)
             UpdateSleepState();
 
@@ -151,9 +144,8 @@ public class RoomController : MonoBehaviour
         //Handle entrance check.
         if (roomDetector.PlayerInRoom(PlayerPosition))
         {
-            roomState = RoomState.ACTIVE;
-            StartCoroutine(EnableDelayOperation(2.5f));
-            EnableInterfaces();
+            roomState = RoomState.TRANSITIONING;
+            StartCoroutine(EnableDelayOperation(2.8f));
         }
     }
 
@@ -168,8 +160,8 @@ public class RoomController : MonoBehaviour
                 return;
         }
 
+        roomState = RoomState.TRANSITIONING;
         StartCoroutine(DisableDelayOperation(2.5f));
-        roomState = RoomState.COMPLETED;
     }
 
     private IEnumerator EnableDelayOperation(float time)
@@ -191,6 +183,7 @@ public class RoomController : MonoBehaviour
         {
             roomInterfaceObjects[i].Awake();
         }
+        roomState = RoomState.ACTIVE;
     }
 
     private void DisableInterfaces()
@@ -200,6 +193,7 @@ public class RoomController : MonoBehaviour
         {
             roomInterfaceObjects[i].Sleep();
         }
+        roomState = RoomState.COMPLETED;
     }
 
     private void OnDrawGizmos()

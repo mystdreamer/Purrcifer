@@ -684,10 +684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a75811a1d9ab35a44a7b8c8026ce365c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomState: 1
+  roomState: 0
   roomDetector:
-    width: 17
-    height: 9
     roomTransform: {fileID: 5817138601403546251}
   roomInterfaceItems:
   - {fileID: 1569649185687505493}
