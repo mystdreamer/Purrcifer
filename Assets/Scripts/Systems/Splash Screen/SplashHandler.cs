@@ -1,27 +1,37 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Handles loading the main menu from the splash screen. 
+/// </summary>
 public class SplashHandler : MonoBehaviour
 {
+    [Header("Time till the main menu is loaded.")]
     public float waitTime = 0;
     private SplashContentLoader loader;
 
-    // Use this for initialization
     void Start()
     {
+        //Cache loader reference for completion checking.
         loader = SplashContentLoader.GetLoader();
+
+        //Start the timer. 
         StartCoroutine(LoadMain());
     }
 
     public IEnumerator LoadMain()
     {
+        //Wait the inital time required. 
         yield return new WaitForSeconds(waitTime);
 
-        while (!loader.complete)
+        //If loading hasn't completed, 
+        while (!loader.Complete)
         {
+            //wait till the next frame is executed. 
             yield return new WaitForEndOfFrame();
         }
 
-        LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelIDs.MAIN);
+        //Load the main menu.
+        LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelID.MAIN);
     }
 }

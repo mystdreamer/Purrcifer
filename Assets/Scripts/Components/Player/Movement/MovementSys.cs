@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Movement behaviour controlling the main player character. 
+/// </summary>
 public class MovementSys : MonoBehaviour
 {
     //Cache for the last input direction. 
