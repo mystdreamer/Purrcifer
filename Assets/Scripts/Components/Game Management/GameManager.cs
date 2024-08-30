@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     /// <param name="position"> The position to set. </param>
     public void SetCamera(Vector3 position)
     {
-        Camera.main.transform.position = position;
+        Camera.main.GetComponent<CameraController>().Position = position;
     }
 
     /// <summary>

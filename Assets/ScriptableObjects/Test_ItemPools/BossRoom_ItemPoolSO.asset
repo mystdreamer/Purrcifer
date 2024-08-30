@@ -16,11 +16,11 @@ MonoBehaviour:
     min: 0
     max: 0
   itemData:
-  - itemName: BossRoom_A
+  - itemName: BossRoom_A_Idle
     key: 0
     probabilityWeight: 10
-    objectPrefab: {fileID: 670161666596522716, guid: 7e2d52c8a006d374d9873ddfbf3df1b8, type: 3}
+    objectPrefab: {fileID: 6963329836463195833, guid: 6947e655447bf3d41a66564bc3d63660, type: 3}
   - itemName: BossRoom_B
     key: 1
     probabilityWeight: 10
-    objectPrefab: {fileID: 670161666596522716, guid: 7e2d52c8a006d374d9873ddfbf3df1b8, type: 3}
+    objectPrefab: {fileID: 6963329836463195833, guid: 6947e655447bf3d41a66564bc3d63660, type: 3}

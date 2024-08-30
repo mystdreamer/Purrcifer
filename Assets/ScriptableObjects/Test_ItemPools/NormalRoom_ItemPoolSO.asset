@@ -16,11 +16,11 @@ MonoBehaviour:
     min: 0
     max: 0
   itemData:
-  - itemName: NormalRoomA
+  - itemName: NormalRoomA_Idle
     key: 0
     probabilityWeight: 10
-    objectPrefab: {fileID: 7763115884374467078, guid: 83663b83dd4bab04fb7e5b4034605d2e, type: 3}
-  - itemName: NormalRoomB
+    objectPrefab: {fileID: 8031202937322810426, guid: 3b7b8e8608dac554ea5cd151d5d43457, type: 3}
+  - itemName: NormalRoomB_Empty
     key: 1
     probabilityWeight: 10
-    objectPrefab: {fileID: 7763115884374467078, guid: 83663b83dd4bab04fb7e5b4034605d2e, type: 3}
+    objectPrefab: {fileID: 1569649185687505493, guid: 63417a7d7bae5914a890e1e9e9541e16, type: 3}

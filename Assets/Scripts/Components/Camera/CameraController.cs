@@ -1,6 +1,7 @@
 using CameraHelpers;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CameraHelpers
 {
@@ -77,8 +78,8 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// Stores the distance between the player position and the camera position. 
     /// </summary>
-    float _distance; 
-    
+    float _distance;
+
     /// <summary>
     /// Bounds class, used to define the AABB box of the camera. 
     /// </summary>
@@ -89,6 +90,8 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public TargetHandler handler;
 
+    public GameObject cameraCutout;
+
     /// <summary>
     /// The current behavioural state used by the camera. 
     /// </summary>
@@ -97,14 +100,23 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// Is the camera currently stepping. 
     /// </summary>
-    public bool isStepping = false; 
+    public bool isStepping = false;
+
+    public Vector3 Position
+    {
+        set
+        {
+            transform.position = value;
+            cameraCutout.transform.position = new Vector3(value.x, 5.42F, value.z);
+        }
+    }
 
     public void Update()
     {
         switch (currentBehaviour)
         {
             case CameraBehaviour.TARGET_STEP:
-                if(!isStepping)
+                if (!isStepping)
                     CameraStepper();
                 break;
             case CameraBehaviour.LOCK:
@@ -122,8 +134,8 @@ public class CameraController : MonoBehaviour
         //Cache player if not cached. 
         if (handler.target == null && GameManager.Instance.playerCurrent != null)
             handler.target = GameManager.Instance.playerCurrent.transform;
-        
-        if(handler.target != null)
+
+        if (handler.target != null)
         {
             if (!handler.InsideXAxis(transform.position, bounds))
             {
@@ -164,26 +176,26 @@ public class CameraController : MonoBehaviour
     {
         //Cache variable for time and step. 
         float currentTime = 0;
-        Vector3 currentStep = Vector3.zero; 
+        Vector3 currentStep = Vector3.zero;
 
         //Set the camera to stepping. 
         isStepping = true;
 
         //While not reached, increment the time, update the step and apply. 
-        while(currentStep != initial + stepVector)
+        while (currentStep != initial + stepVector)
         {
             currentTime += Time.deltaTime;
             currentStep = Vector3.Lerp(initial, initial + stepVector, currentTime);
-            transform.position = currentStep;
-            yield return new WaitForEndOfFrame(); 
+            Position = currentStep;
+            yield return new WaitForEndOfFrame();
         }
 
         //Return control to the camera. 
-        isStepping = false; 
+        isStepping = false;
     }
 
     public void OnDrawGizmos()
     {
-        bounds.DrawBounds(transform.position); 
+        bounds.DrawBounds(transform.position);
     }
 }
