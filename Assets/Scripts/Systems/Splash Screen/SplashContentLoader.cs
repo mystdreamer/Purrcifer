@@ -20,7 +20,7 @@ public class SplashContentLoader : MonoBehaviour
         /////Preload content here. 
 
         /////Complete loading and allow main to be loaded. 
-        complete = true;
+        _complete = true;
     }
 
     /// <summary>

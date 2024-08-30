@@ -141,18 +141,11 @@ public class RoomDoorController : MonoBehaviour, IRoomInterface
             left.LockDoors(state);
     }
 
-    void IRoomInterface.Awake()
-    {
-        LockRoom(true);
-    }
+    void IRoomInterface.Awake() { LockRoom(true); } //Enable the doors. 
 
-    void IRoomInterface.Sleep()
-    {
-        LockRoom(false);
-    }
+    void IRoomInterface.Sleep() { LockRoom(false); } //Disable the doors. 
 
-    bool IRoomInterface.IsComplete()
-    {
-        return true; 
-    }
+    bool IRoomInterface.IsComplete() { return true; } //Should always return true, as the door will never have checks. 
+
+    void IRoomInterface.WorldStateChange() {    } //The doors are not going to respond to a change in world state. 
 }

@@ -2,6 +2,9 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enum representation of the rooms state. 
+/// </summary>
 public enum RoomState
 {
     IDLE_ROOM,
@@ -10,34 +13,52 @@ public enum RoomState
     COMPLETED
 }
 
-[System.Serializable]
-public struct RoomDetector
-{
-    public int width; 
-    public int height;
-    public Transform roomTransform;
-    public Vector3 Center => roomTransform.position;
-
-    public bool PlayerInRoom(Vector3 playerPos)
-    {
-        return (playerPos.x > Center.x - width / 2 &&
-            playerPos.z > Center.z - height / 2 &&
-            playerPos.x < Center.x + width / 2 &&
-            playerPos.z < Center.z + height / 2);
-    }
-}
-
+/// <summary>
+/// Required for interfacing with room objects. 
+/// </summary>
 public interface IRoomInterface
 {
+    /// <summary>
+    /// Called when a room is awoken.  
+    /// </summary>
     public void Awake();
 
+    /// <summary>
+    /// Used to check if the items purpose is complete. 
+    /// </summary>
+    /// <returns> True if completed. </returns>
     public bool IsComplete();
 
+    /// <summary>
+    /// Used to set the room objects to sleep. 
+    /// </summary>
     public void Sleep();
+
+    /// <summary>
+    /// Used to notify if the world state has changed. 
+    /// </summary>
+    public void WorldStateChange();
 }
 
 public class RoomController : MonoBehaviour
 {
+    [System.Serializable]
+    public struct RoomDetector
+    {
+        public int width;
+        public int height;
+        public Transform roomTransform;
+        public Vector3 Center => roomTransform.position;
+
+        public bool PlayerInRoom(Vector3 playerPos)
+        {
+            return (playerPos.x > Center.x - width / 2 &&
+                playerPos.z > Center.z - height / 2 &&
+                playerPos.x < Center.x + width / 2 &&
+                playerPos.z < Center.z + height / 2);
+        }
+    }
+
     public RoomState roomState;
     private GameObject playerReference;
     public RoomDetector roomDetector;
@@ -59,17 +80,21 @@ public class RoomController : MonoBehaviour
     
     void Start()
     {   
+        //Get a list of interfaces from the parent object. 
         List<IRoomInterface> interfaces = new List<IRoomInterface>();
 
         foreach (GameObject room in roomInterfaceItems)
         {
             interfaces.Add(gameObject.GetComponent<IRoomInterface>());
         }
+
+        //Cache the references. 
         roomInterfaceObjects = interfaces.ToArray();
     }
 
-    void Update()
+    private void Update()
     {
+        //State machine used for controlling room state. 
         if (roomState == RoomState.IDLE_ROOM)
             return;
 
@@ -80,7 +105,10 @@ public class RoomController : MonoBehaviour
             UpdateActiveState();
     }
 
-    void UpdateSleepState()
+    /// <summary>
+    /// Set the room back to its sleep state. 
+    /// </summary>
+    private void UpdateSleepState()
     {
         roomState = RoomState.ACTIVE;
 
@@ -98,7 +126,10 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    public void UpdateActiveState()
+    /// <summary>
+    /// Function required for checking the rooms current completion state. 
+    /// </summary>
+    private void UpdateActiveState()
     {
         bool complete = true;
 
