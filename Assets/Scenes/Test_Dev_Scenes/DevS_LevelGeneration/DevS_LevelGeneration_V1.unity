@@ -209,6 +209,10 @@ PrefabInstance:
       propertyPath: cameraCutout
       value: 
       objectReference: {fileID: 2107601841}
+    - target: {fileID: 5028231676918434338, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
+      propertyPath: jumpDistance
+      value: 1.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
