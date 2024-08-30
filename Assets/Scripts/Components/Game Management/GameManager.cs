@@ -1,5 +1,6 @@
 using UnityEngine;
 using Assets.Scripts.Types.FloorGeneration;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,6 +56,23 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void GenerationComplete()
+    {
+        Debug.Log("Map built.");
+        StartCoroutine(FadeWait());
+    }
+
+    private IEnumerator FadeWait()
+    {
+        UIManager.FadeOut();
+        while (!UIManager.Instance.FadeOpComplete)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        playerCurrent.GetComponent<MovementSys>().UpdatePause = false;
+    }
+
     /// <summary>
     /// Set the current camera's position. 
     /// </summary>
@@ -72,6 +90,7 @@ public class GameManager : MonoBehaviour
     {
         playerCurrent = GameObject.Instantiate(playerPrefab);
         playerCurrent.transform.position = position;
+        playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
     }
 
     /// <summary>

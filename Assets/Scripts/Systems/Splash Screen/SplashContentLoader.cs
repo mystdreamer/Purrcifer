@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Tool for preloading data on the splash screen. 
@@ -18,6 +19,8 @@ public class SplashContentLoader : MonoBehaviour
     private void LoadContent()
     {
         /////Preload content here. 
+
+        SceneManager.LoadSceneAsync("UI_", LoadSceneMode.Additive);
 
         /////Complete loading and allow main to be loaded. 
         _complete = true;

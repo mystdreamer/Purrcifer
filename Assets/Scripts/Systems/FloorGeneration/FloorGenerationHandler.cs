@@ -84,6 +84,8 @@ namespace Assets.Scripts.Types.FloorGeneration
                     yield return new WaitForEndOfFrame();
                 }
             }
+
+            GameManager.Instance.GenerationComplete();
         }
     }
 }

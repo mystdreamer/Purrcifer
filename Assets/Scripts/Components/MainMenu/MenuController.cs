@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,17 @@ public class MenuController : MonoBehaviour
     public void NewGame()
     {
         Debug.Log("New game started.");
+        StartCoroutine(FadeTransitionIn());
+    }
+
+    IEnumerator FadeTransitionIn()
+    {
+        UIManager.FadeIn();
+
+        while (!UIManager.Instance.FadeOpComplete)
+        {
+            yield return new WaitForEndOfFrame();
+        }
         LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelID.LEVEL_1);
     }
 
