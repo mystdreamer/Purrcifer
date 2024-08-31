@@ -73,7 +73,8 @@ public class DataCarrier : MonoBehaviour
     /// </summary>
     private void SaveData()
     {
-        string path = XML_Serialization.AppDirPath + "GS.xml";
+        string path = XML_Serialization.PersistDirPath + "GS.xml";
+        XML_Serialization.CheckPathExists(XML_Serialization.PersistDirPath);
         XML_Serialization.Serialize<GameSaveFileXML>((GameSaveFileXML)_runtime, path);
     }
 

@@ -70,5 +70,13 @@ namespace Purrcifer.Data.Xml
         {
             return File.Exists(path);
         }
+
+        public static void CheckPathExists(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
     }
 }
