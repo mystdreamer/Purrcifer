@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EntityHealth : MonoBehaviour
+public class BossHealth : MonoBehaviour
 {
     /// <summary>
     /// The minimum range of the pool.
@@ -39,7 +39,7 @@ public class EntityHealth : MonoBehaviour
 
         set
         {
-            current = value; 
+            current = value;
             current = Mathf.Clamp(current, min, max);
         }
     }
@@ -68,7 +68,7 @@ public class EntityHealth : MonoBehaviour
     /// <param name="min"> The minimum health value of the player. </param>
     /// <param name="max"> The maximum health value of the player. </param>
     /// <param name="current"> The current health of the player. </param>
-    public EntityHealth(int min, int max, int current)
+    public BossHealth(int min, int max, int current)
     {
         this.min = min;
         this.max = max;
@@ -80,8 +80,8 @@ public class EntityHealth : MonoBehaviour
     /// TODO: Remove or wrap in an in editor preprocessor, as should not be relied upon. 
     /// </summary>
     /// <returns> An instance of the PlayerHealthRange. </returns>
-    public static EntityHealth GetTestDefault()
+    public static BossHealth GetTestDefault()
     {
-        return new EntityHealth(0, 5, 5);
+        return new BossHealth(0, 5, 5);
     }
 }

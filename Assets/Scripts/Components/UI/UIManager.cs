@@ -1,19 +1,23 @@
 ﻿using Purrcifer.UI;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     private static UIManager _instance;
-    [SerializeField] private UIImageFader _transitionFader;
-    [SerializeField] private DialogueManager _dialogueManager;
-    [SerializeField] private PlayerHealthBarController _playerHealthBar;
+    [SerializeField] private UI_ImageFader _transitionFader;
+    [SerializeField] private UI_DialogueManager _dialogueManager;
+    [SerializeField] private UI_PlayerHealthBarController _playerHealthBar;
+    [SerializeField] private UI_BossHealthBar _bossHealthBar;
     private bool _fadeOpComplete = false;
+
+    public BossHealth bossHealth = null; 
 
     public static UIManager Instance => _instance;
 
-    public static DialogueManager DialogueManager => Instance._dialogueManager;
+    public static UI_DialogueManager DialogueManager => Instance._dialogueManager;
 
-    public PlayerHealthBarController PlayerHealthBar => _playerHealthBar;
+    public UI_PlayerHealthBarController PlayerHealthBar => _playerHealthBar;
 
     public bool FadeOpComplete
     {
@@ -38,6 +42,15 @@ public class UIManager : MonoBehaviour
         else DestroyImmediate(gameObject);
     }
 
+    private void Update()
+    {
+        if (bossHealth != null)
+        {
+            //Do boss healthbar updates here. 
+            _bossHealthBar.UpdateState(bossHealth.Health);
+        }
+    }
+
     private void OnDisable()
     {
         _transitionFader.fadeOpComplete -= Instance.FadeOperationComplete;
@@ -46,6 +59,12 @@ public class UIManager : MonoBehaviour
     public static void SetDialogue(Dialogue dialogueData)
     {
         _instance._dialogueManager.StartDialogue(dialogueData);
+    }
+
+    public static void SetBossHealth(BossHealth bossHealth)
+    {
+        Instance.bossHealth = bossHealth;
+        Instance._bossHealthBar.SetUp(bossHealth);
     }
 
     #region UI Fade Functions. 

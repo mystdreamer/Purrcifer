@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealthBarController : MonoBehaviour
+public class UI_PlayerHealthBarController : MonoBehaviour
 {
     public Image underlay;
     public Image[] images;

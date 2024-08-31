@@ -7,7 +7,7 @@ namespace Purrcifer.UI
     /// <summary>
     /// Class responsible for fading UI Image Components. 
     /// </summary>
-    public class UIImageFader : UIFader
+    public class UI_ImageFader : UIFader
     {
 
         /// <summary>

@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Purrcifer.UI
 {
-    public class DialogueManager : MonoBehaviour
+    public class UI_DialogueManager : MonoBehaviour
     {
         private bool inUse = false; 
         private bool _displayStateChangedImage = false; 
         private bool _displayStateChangedText = false; 
-        public UIImageFader displayFader;
+        public UI_ImageFader displayFader;
         public UITextFader textFader;
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI dialogueText;
