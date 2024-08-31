@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace Purrcifer.Data.Xml
 {
+    /// <summary>
+    /// XML serializer for generic types. 
+    /// </summary>
     public static class XML_Serialization
     {
         /// <summary>
@@ -58,6 +61,11 @@ namespace Purrcifer.Data.Xml
             return (T)output;
         }
 
+        /// <summary>
+        /// Check if the data file exists.
+        /// </summary>
+        /// <param name="path"> The path to serialize to. </param>
+        /// <returns> True if the file exist. </returns>
         public static bool DataExists(string path)
         {
             return File.Exists(path);

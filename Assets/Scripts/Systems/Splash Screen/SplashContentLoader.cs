@@ -19,7 +19,7 @@ public class SplashContentLoader : MonoBehaviour
     private void LoadContent()
     {
         /////Preload content here. 
-        DataCarrier.Generate();
+        DataCarrier.Generate(); //Load the game save data. 
         /////Preload content here. 
 
         SceneManager.LoadSceneAsync("UI_", LoadSceneMode.Additive);

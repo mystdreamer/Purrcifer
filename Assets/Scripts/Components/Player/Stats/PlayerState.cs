@@ -15,9 +15,11 @@ public class PlayerState : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR_WIN
-        _health = PlayerHealthRange.GetTestDefault();
-        _damage = PlayerDamageData.GetTestDefault();
-#endif
+        DataCarrier.Instance.GetPlayerState(ref _health, ref _damage);
+    }
+
+    public void OnDestroy()
+    {
+        DataCarrier.Instance.UpdatePlayerState(this);
     }
 }

@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
     public void NewGame()
     {
         Debug.Log("New game started.");
+        DataCarrier.Instance.ResetPlayerData();
         StartCoroutine(FadeTransitionIn());
     }
 
@@ -32,6 +33,7 @@ public class MenuController : MonoBehaviour
     public void LoadGame()
     {
         Debug.Log("Not implemented: Loading game.");
+        LevelLoading.LevelLoadHandler.LoadLevel(DataCarrier.SavedLevel);
     }
 
     /// <summary>

@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public GameObject playerCurrent;
 
+    /// <summary>
+    /// The current state of the player. 
+    /// </summary>
     public PlayerState playerState;
 
     /// <summary>
@@ -50,6 +53,13 @@ public class GameManager : MonoBehaviour
         }
         #endregion
 
+#if UNITY_EDITOR_WIN
+        //If in the editor, check if the data carrier has been loaded.
+        if(DataCarrier.Instance == null)
+        {
+            DataCarrier.Generate(); 
+        }
+#endif
     }
 
     void Update()

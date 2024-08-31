@@ -52,12 +52,30 @@ public struct PlayerDamageData
     }
 
     /// <summary>
+    /// The damage multiplier. 
+    /// </summary>
+    public float DamageMultiplier
+    {
+        get => _damageMultiplier; 
+        set => _damageMultiplier = value;
+    }
+
+    /// <summary>
     /// The critical hit damage. 
     /// </summary>
     public float CriticalHitDamage
     {
         get => _criticalHitDamage;
         set => _criticalHitDamage = value;
+    }
+
+    /// <summary>
+    /// Returns the raw critical hit chance.
+    /// </summary>
+    public float CriticalHitChance
+    {
+        get => _criticalHitChance; 
+        set => _criticalHitChance = value;
     }
 
     /// <summary>
