@@ -17,6 +17,9 @@ namespace Purrcifer.UI
         /// </summary>
         public TextMeshProUGUI[] texts;
 
+        /// <summary>
+        /// Set an alpha state. 
+        /// </summary>
         public override float SetAlpha
         {
             set
@@ -26,6 +29,10 @@ namespace Purrcifer.UI
             }
         }
 
+        /// <summary>
+        /// Set the value to the elements in the array. 
+        /// </summary>
+        /// <param name="value"> The value to set. </param>
         internal override void SetValue(float value)
         {
             Color color = Color.white;
