@@ -16,6 +16,14 @@ public class PlayerState : MonoBehaviour
     private void Start()
     {
         DataCarrier.Instance.GetPlayerState(ref _health, ref _damage);
+        UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
+    }
+
+    private void Update()
+    {
+        if (_health == null)
+            return;
+        UIManager.Instance.PlayerHealthBar.UpdateHealthbar(_health.Health);
     }
 
     public void OnDestroy()

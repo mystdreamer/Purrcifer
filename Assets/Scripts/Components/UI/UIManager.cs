@@ -6,11 +6,14 @@ public class UIManager : MonoBehaviour
     private static UIManager _instance;
     [SerializeField] private UIImageFader _transitionFader;
     [SerializeField] private DialogueManager _dialogueManager;
+    [SerializeField] private PlayerHealthBarController _playerHealthBar;
     private bool _fadeOpComplete = false;
 
     public static UIManager Instance => _instance;
 
     public static DialogueManager DialogueManager => Instance._dialogueManager;
+
+    public PlayerHealthBarController PlayerHealthBar => _playerHealthBar;
 
     public bool FadeOpComplete
     {

@@ -6,6 +6,8 @@
 [System.Serializable]
 public class PlayerHealthRange
 {
+    private const int MAX_HEALTH_CAP_LIMIT = 12;
+
     /// <summary>
     /// The minimum range of the pool.
     /// </summary>
@@ -50,7 +52,14 @@ public class PlayerHealthRange
     public int MaxCap
     {
         get => max;
-        set => max = value; 
+        set
+        {
+            max = value;
+
+            //Cap it within the maximum health value. 
+            if(max > MAX_HEALTH_CAP_LIMIT)
+                max = MAX_HEALTH_CAP_LIMIT;
+        }
     }
 
     /// <summary>
