@@ -26,5 +26,9 @@ MonoBehaviour:
     objectPrefab: {fileID: 1569649185687505493, guid: 63417a7d7bae5914a890e1e9e9541e16, type: 3}
   - itemName: NormalRoomB_Button
     key: 2
-    probabilityWeight: 20
+    probabilityWeight: 2
     objectPrefab: {fileID: 2774372058675508026, guid: 814024c27399fde4fb9254c322b62af6, type: 3}
+  - itemName: NormalRoomB_Heart/Damage Tester
+    key: 3
+    probabilityWeight: 20
+    objectPrefab: {fileID: 7528946263645432192, guid: b2ea577df53156441853fde4c7b349c3, type: 3}

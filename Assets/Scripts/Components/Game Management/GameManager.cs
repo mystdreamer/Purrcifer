@@ -22,7 +22,9 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// The current player instance. 
     /// </summary>
-    public GameObject playerCurrent; 
+    public GameObject playerCurrent;
+
+    public PlayerState playerState;
 
     /// <summary>
     /// The current floor generation handler instance. 
@@ -33,7 +35,6 @@ public class GameManager : MonoBehaviour
     /// Returns the current instance of the GameManager. 
     /// </summary>
     public static GameManager Instance => _instance;
-
 
     void Awake()
     {
@@ -91,6 +92,7 @@ public class GameManager : MonoBehaviour
         playerCurrent = GameObject.Instantiate(playerPrefab);
         playerCurrent.transform.position = position;
         playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
+        playerState = playerCurrent.GetComponent<PlayerState>();
     }
 
     /// <summary>

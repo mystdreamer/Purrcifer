@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9082952655039225740}
+  - component: {fileID: 2343781418740101999}
   m_Layer: 0
   m_Name: Heart_Consumable
   m_TagString: Untagged
@@ -112,13 +113,25 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.67, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.05555556, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3241018234766779205}
   - {fileID: 6402748012734552361}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2343781418740101999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7047562245343021268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2f864217c1cc419a09f8a9432d181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9028055548216133989
 GameObject:
   m_ObjectHideFlags: 0

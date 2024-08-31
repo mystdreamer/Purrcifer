@@ -41,7 +41,7 @@ public class PlayerHealthRange
     {
         get => current; 
         
-        set => current = Mathf.Clamp(current + value, min, max);
+        set => current = Mathf.Clamp(value, min, max);
     }
 
     /// <summary>
