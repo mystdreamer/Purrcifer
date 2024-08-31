@@ -33,6 +33,7 @@ public struct PlayerDamageData
     [Range(0f, 100f)]
     [SerializeField] private float _criticalHitChance;
 
+    #region Access Properties. 
     /// <summary>
     /// Base damage. 
     /// </summary>
@@ -71,6 +72,7 @@ public struct PlayerDamageData
             return (chance <= criticalChanceRemap);
         }
     }
+    #endregion
 
     public PlayerDamageData(float baseDamage, float damageMultiplier, float criticalHitDamage, float criticalHitChance)
     {

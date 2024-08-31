@@ -19,6 +19,8 @@ public class SplashContentLoader : MonoBehaviour
     private void LoadContent()
     {
         /////Preload content here. 
+        DataCarrier.Generate();
+        /////Preload content here. 
 
         SceneManager.LoadSceneAsync("UI_", LoadSceneMode.Additive);
 
