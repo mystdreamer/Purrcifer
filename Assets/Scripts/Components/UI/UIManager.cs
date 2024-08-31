@@ -1,49 +1,67 @@
-﻿using System.Collections;
+﻿using Purrcifer.UI;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour, IFadeCallback
+public class UIManager : MonoBehaviour
 {
-    private static UIManager instance;
-    private bool fadeOpComplete = false;
-    public UIFader transitionFader;
+    private static UIManager _instance;
+    [SerializeField] private UIImageFader _transitionFader;
+    [SerializeField] private DialogueManager _dialogueManager;
+    private bool _fadeOpComplete = false;
 
-    public static UIManager Instance => instance;
+    public static UIManager Instance => _instance;
+
+    public static DialogueManager DialogueManager => Instance._dialogueManager;
 
     public bool FadeOpComplete
     {
         get
         {
-            if (fadeOpComplete)
+            if (_fadeOpComplete)
             {
-                fadeOpComplete = false;
+                _fadeOpComplete = false;
                 return true;
             }
-            return fadeOpComplete;
+            return _fadeOpComplete;
         }
-    }
-
-    void IFadeCallback.FadeOpComplete()
-    {
-        fadeOpComplete = true;
     }
 
     void Start()
     {
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else DestroyImmediate(gameObject);
     }
 
+    private void OnDisable()
+    {
+        _transitionFader.fadeOpComplete -= Instance.FadeOperationComplete;
+    }
+
+    public static void SetDialogue(Dialogue dialogueData)
+    {
+        _instance._dialogueManager.StartDialogue(dialogueData);
+    }
+
+    #region UI Fade Functions. 
+    internal void FadeOperationComplete()
+    {
+        _fadeOpComplete = true;
+        _transitionFader.fadeOpComplete -= Instance.FadeOperationComplete;
+    }
+
     public static void FadeIn()
     {
-        instance.transitionFader.FadeIn(instance);
+        _instance._transitionFader.fadeOpComplete += Instance.FadeOperationComplete;
+        _instance._transitionFader.FadeIn();
     }
 
     public static void FadeOut()
     {
-        instance.transitionFader.FadeOut(instance);
+        _instance._transitionFader.fadeOpComplete += Instance.FadeOperationComplete;
+        _instance._transitionFader.FadeOut();
     }
+    #endregion
 }
