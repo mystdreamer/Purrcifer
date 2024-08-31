@@ -11,20 +11,8 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-        Debug.Log("New game started.");
         DataCarrier.Instance.ResetPlayerData();
-        StartCoroutine(FadeTransitionIn());
-    }
-
-    IEnumerator FadeTransitionIn()
-    {
-        UIManager.FadeIn();
-
-        while (!UIManager.Instance.FadeOpComplete)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelID.LEVEL_1);
+        StartCoroutine(FadeTransitionIn((int)LevelLoading.LevelID.LEVEL_1));
     }
 
     /// <summary>
@@ -32,16 +20,7 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void LoadGame()
     {
-        Debug.Log("Not implemented: Loading game.");
-        LevelLoading.LevelLoadHandler.LoadLevel(DataCarrier.SavedLevel);
-    }
-
-    /// <summary>
-    /// Function used for exiting the application. 
-    /// </summary>
-    public void ExitApplication()
-    {
-        Application.Quit();
+        StartCoroutine(FadeTransitionIn(DataCarrier.SavedLevel));
     }
 
     /// <summary>
@@ -58,5 +37,27 @@ public class MenuController : MonoBehaviour
     public void OpenCredits()
     {
         Debug.Log("Not implemented: Credits.");
+    }
+
+    /// <summary>
+    /// Function used for exiting the application. 
+    /// </summary>
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
+
+    /// <summary>
+    /// Fade transition screen in and load the provided level. 
+    /// </summary>
+    IEnumerator FadeTransitionIn(int levelToLoad)
+    {
+        UIManager.FadeIn();
+
+        while (!UIManager.Instance.FadeOpComplete)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelID.LEVEL_1);
     }
 }
