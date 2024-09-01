@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public PlayerState playerState;
 
+    public WorldClock worldClock;
+
     /// <summary>
     /// The current floor generation handler instance. 
     /// </summary>
