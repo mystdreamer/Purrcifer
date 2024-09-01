@@ -115,9 +115,9 @@ public class DataCarrier : MonoBehaviour
     /// <param name="state"> The state to set. </param>
     public void UpdatePlayerState(PlayerState state)
     {
-        _runtime.playerData.min = state.Health.MinCap;
-        _runtime.playerData.max = state.Health.MaxCap;
-        _runtime.playerData.current = state.Health.Health;
+        _runtime.playerData.min = state.HealthMinCap;
+        _runtime.playerData.max = state.HealthMaxCap;
+        _runtime.playerData.current = state.Health;
 
         _runtime.playerData.baseDamage = state.Damage.BaseDamage;
         _runtime.playerData.damageMultiplier = state.Damage.DamageMultiplier;
