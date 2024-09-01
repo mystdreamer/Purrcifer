@@ -23,7 +23,7 @@ public class DataCarrier : MonoBehaviour
     /// <summary>
     /// Returns the current instance of the GameSaveFileRuntime. 
     /// </summary>
-    public static GameSaveFileRuntime RuntimeData => _instance._runtime;
+    public static GameSaveFileRuntime RuntimeData => _instance._runtime.Copy();
 
     /// <summary>
     /// Returns the currently saved level from save data. 

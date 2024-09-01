@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDeath()
     {
-        Debug.Log("Player found to not be alive");
         playerPrefab.GetComponent<MovementSys>().UpdatePause = true;
         UIManager.EnableGameOverScreen();
     }
@@ -121,6 +120,7 @@ public class GameManager : MonoBehaviour
         playerCurrent.transform.position = position;
         playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
         playerState = playerCurrent.GetComponent<PlayerState>();
+        playerState.SetPlayerData();
     }
 
     /// <summary>

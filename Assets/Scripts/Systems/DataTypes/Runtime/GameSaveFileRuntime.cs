@@ -19,6 +19,16 @@ namespace Purrcifer.Data.Player
             gameState = new GameStateDataRuntime(dataFile.gameStateData);
         }
 
+        public GameSaveFileRuntime Copy()
+        {
+            return new GameSaveFileRuntime()
+            {
+                playerData = playerData.Copy(),
+                settingData = settingData.Copy(),
+                gameState = gameState.Copy()
+            };
+        }
+
         public static GameSaveFileRuntime GetDefault()
         {
             return new GameSaveFileRuntime()
@@ -57,13 +67,13 @@ namespace Purrcifer.Data.Player
         {
             return new PlayerDataRuntime()
             {
-            min = PlayerDefaultData.MIN_HEALTH,
-            max = PlayerDefaultData.MAX_HEALTH,
-            current = PlayerDefaultData.CURRENT_HEALTH,
-            baseDamage = PlayerDefaultData.BASE_DAMAGE,
-            damageMultiplier = PlayerDefaultData.BASE_MULTIPLIER,
-            criticalHitDamage = PlayerDefaultData.CRITICAL_HIT_DAMAGE,
-            criticalHitChance = PlayerDefaultData.CRITICAL_HIT_CHANCE,
+                min = PlayerDefaultData.MIN_HEALTH,
+                max = PlayerDefaultData.MAX_HEALTH,
+                current = PlayerDefaultData.CURRENT_HEALTH,
+                baseDamage = PlayerDefaultData.BASE_DAMAGE,
+                damageMultiplier = PlayerDefaultData.BASE_MULTIPLIER,
+                criticalHitDamage = PlayerDefaultData.CRITICAL_HIT_DAMAGE,
+                criticalHitChance = PlayerDefaultData.CRITICAL_HIT_CHANCE,
             };
         }
 
@@ -76,6 +86,20 @@ namespace Purrcifer.Data.Player
             damageMultiplier = dataFile.damageMultiplier;
             criticalHitDamage = dataFile.criticalHitChance;
             criticalHitChance = dataFile.criticalHitChance;
+        }
+
+        public PlayerDataRuntime Copy()
+        {
+            return new PlayerDataRuntime()
+            {
+                min = this.min,
+                max = this.max,
+                current = this.current,
+                baseDamage = this.baseDamage,
+                damageMultiplier = this.damageMultiplier,
+                criticalHitDamage = this.criticalHitChance,
+                criticalHitChance = this.criticalHitChance,
+            };
         }
 
         public static explicit operator PlayerDataXML(PlayerDataRuntime dataFile)
@@ -111,6 +135,14 @@ namespace Purrcifer.Data.Player
             return new GameStateDataRuntime()
             {
                 currentLevel = DefaultGameStateData.CURRENT_LEVEL
+            };
+        }
+
+        public GameStateDataRuntime Copy()
+        {
+            return new GameStateDataRuntime()
+            {
+                currentLevel = this.currentLevel
             };
         }
 
@@ -150,6 +182,17 @@ namespace Purrcifer.Data.Player
                 sfxVolume = DefaultSettingsData.SFX_VOLUME,
                 uiVolume = DefaultSettingsData.UI_VOLUME,
                 bgmVolume = DefaultSettingsData.BGM_VOLUME
+            };
+        }
+
+        public SettingsDataRuntime Copy()
+        {
+            return new SettingsDataRuntime()
+            {
+                masterVolume = this.masterVolume,
+                sfxVolume = this.sfxVolume,
+                uiVolume = this.uiVolume,
+                bgmVolume = this.bgmVolume
             };
         }
 

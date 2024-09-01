@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class responsible for handling the transition UI. 
+/// </summary>
 public class UI_TransitionScreenHandler : MonoBehaviour
 {
     [SerializeField] private UI_ImageFader _transitionFader;

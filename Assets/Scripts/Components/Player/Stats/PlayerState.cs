@@ -72,7 +72,7 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => _health.current == _health.min;
+    public bool Alive => (_health.current > _health.min);
 
     /// <summary>
     /// Returns the total value of the players health. 
@@ -80,7 +80,7 @@ public class PlayerState : MonoBehaviour
     public int Length => HealthMaxCap - HealthMinCap;
     #endregion
 
-    private void Start()
+    public void SetPlayerData()
     {
         DataCarrier.Instance.GetPlayerState(ref _health, ref _damage);
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
@@ -94,11 +94,6 @@ public class PlayerState : MonoBehaviour
 
         if (!Alive)
             GameManager.Instance.PlayerDeath();
-    }
-
-    public void OnDestroy()
-    {
-        DataCarrier.Instance.UpdatePlayerState(this);
     }
 
     private IEnumerator DamageIframes()
