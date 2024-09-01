@@ -99,9 +99,4 @@ public struct PlayerDamageData
         _criticalHitDamage = criticalHitDamage;
         _criticalHitChance = criticalHitChance;
     }
-
-    public static PlayerDamageData GetTestDefault()
-    {
-        return new PlayerDamageData(1, 1, 1, 10);
-    }
 }

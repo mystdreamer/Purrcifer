@@ -1,4 +1,5 @@
 ﻿using Purrcifer.Data.Xml;
+using Purrcifer.Data.Player.Defaults;
 
 namespace Purrcifer.Data.Player
 {
@@ -56,13 +57,13 @@ namespace Purrcifer.Data.Player
         {
             return new PlayerDataRuntime()
             {
-            min = 0,
-            max = 3,
-            current = 3,
-            baseDamage = 1,
-            damageMultiplier = 1,
-            criticalHitDamage = 3,
-            criticalHitChance = 10,
+            min = PlayerDefaultData.MIN_HEALTH,
+            max = PlayerDefaultData.MAX_HEALTH,
+            current = PlayerDefaultData.CURRENT_HEALTH,
+            baseDamage = PlayerDefaultData.BASE_DAMAGE,
+            damageMultiplier = PlayerDefaultData.BASE_MULTIPLIER,
+            criticalHitDamage = PlayerDefaultData.CRITICAL_HIT_DAMAGE,
+            criticalHitChance = PlayerDefaultData.CRITICAL_HIT_CHANCE,
             };
         }
 
@@ -109,7 +110,7 @@ namespace Purrcifer.Data.Player
         {
             return new GameStateDataRuntime()
             {
-                currentLevel = 0
+                currentLevel = DefaultGameStateData.CURRENT_LEVEL
             };
         }
 
@@ -145,10 +146,10 @@ namespace Purrcifer.Data.Player
         {
             return new SettingsDataRuntime()
             {
-                masterVolume = 50,
-                sfxVolume = 50,
-                uiVolume = 50,
-                bgmVolume = 50
+                masterVolume = DefaultSettingsData.MASTER_VOLUME,
+                sfxVolume = DefaultSettingsData.SFX_VOLUME,
+                uiVolume = DefaultSettingsData.UI_VOLUME,
+                bgmVolume = DefaultSettingsData.BGM_VOLUME
             };
         }
 
