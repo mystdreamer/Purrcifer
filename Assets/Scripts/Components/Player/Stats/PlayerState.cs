@@ -72,7 +72,7 @@ public class PlayerState : MonoBehaviour
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => _health.current > _health.min;
+    public bool Alive => _health.current == _health.min;
 
     /// <summary>
     /// Returns the total value of the players health. 
@@ -91,6 +91,9 @@ public class PlayerState : MonoBehaviour
         if (_health == null)
             return;
         UIManager.Instance.PlayerHealthBar.UpdateHealthbar(_health.current);
+
+        if (!Alive)
+            GameManager.Instance.PlayerDeath();
     }
 
     public void OnDestroy()

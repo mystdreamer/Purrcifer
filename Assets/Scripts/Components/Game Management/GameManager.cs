@@ -65,16 +65,22 @@ public class GameManager : MonoBehaviour
 
 #if UNITY_EDITOR_WIN
         //If in the editor, check if the data carrier has been loaded.
-        if(DataCarrier.Instance == null)
+        if (DataCarrier.Instance == null)
         {
-            DataCarrier.Generate(); 
+            DataCarrier.Generate();
         }
 #endif
     }
 
     void Update()
     {
+    }
 
+    public void PlayerDeath()
+    {
+        Debug.Log("Player found to not be alive");
+        playerPrefab.GetComponent<MovementSys>().UpdatePause = true;
+        UIManager.EnableGameOverScreen();
     }
 
     public void GenerationComplete()
@@ -85,14 +91,15 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FadeWait()
     {
-        UIManager.FadeOut();
-        while (!UIManager.Instance.FadeOpComplete)
+        UIManager.Instance.FadeLevelTransitionOut();
+        while (!UIManager.Instance.TransitionInactive)
         {
             yield return new WaitForEndOfFrame();
         }
 
         _worldClock.TimerActive = true;
         playerCurrent.GetComponent<MovementSys>().UpdatePause = false;
+        yield return true;
     }
 
     /// <summary>

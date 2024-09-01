@@ -1,16 +1,21 @@
 ﻿using Purrcifer.UI;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     private static UIManager _instance;
-    [SerializeField] private UI_ImageFader _transitionFader;
+    [SerializeField] private GameObject _eventSystem;
+    [SerializeField] private GameObject _transitionCanvas;
     [SerializeField] private UI_DialogueManager _dialogueManager;
     [SerializeField] private UI_PlayerHealthBarController _playerHealthBar;
     [SerializeField] private UI_BossHealthBar _bossHealthBar;
-    private bool _fadeOpComplete = false;
+    [SerializeField] private UI_GameOverController _gameOverController;
+    [SerializeField] private UI_TransitionScreenHandler _transitionScreenHandler;
 
+    #region Properties. 
     public BossHealth bossHealth = null; 
 
     public static UIManager Instance => _instance;
@@ -19,18 +24,11 @@ public class UIManager : MonoBehaviour
 
     public UI_PlayerHealthBarController PlayerHealthBar => _playerHealthBar;
 
-    public bool FadeOpComplete
-    {
-        get
-        {
-            if (_fadeOpComplete)
-            {
-                _fadeOpComplete = false;
-                return true;
-            }
-            return _fadeOpComplete;
-        }
-    }
+    public bool TransitionActive => _transitionScreenHandler.FadedIn;
+
+    public bool TransitionInactive => _transitionScreenHandler.FadedOut;
+
+    #endregion
 
     void Start()
     {
@@ -38,11 +36,32 @@ public class UIManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(_gameOverController.gameOverRoot);
+            DontDestroyOnLoad(_transitionCanvas);
         }
-        else DestroyImmediate(gameObject);
+        else
+        {
+            DestroyImmediate(gameObject);
+            DestroyImmediate(_gameOverController.gameOverRoot);
+            DestroyImmediate(_transitionCanvas);
+        }
     }
 
     private void Update()
+    {
+        UpdateBossUI();
+    }
+
+    public void ResetUIState()
+    {
+        _bossHealthBar.Deactivate();
+        _gameOverController.DeactivateGameOverScreen();
+
+    }
+
+    #region Gameplay Updating.
+
+    private void UpdateBossUI()
     {
         if (bossHealth != null)
         {
@@ -51,11 +70,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        _transitionFader.fadeOpComplete -= Instance.FadeOperationComplete;
-    }
+    #endregion
 
+    #region UI Managment.
     public static void SetDialogue(Dialogue dialogueData)
     {
         _instance._dialogueManager.StartDialogue(dialogueData);
@@ -67,23 +84,27 @@ public class UIManager : MonoBehaviour
         Instance._bossHealthBar.SetUp(bossHealth);
     }
 
-    #region UI Fade Functions. 
-    internal void FadeOperationComplete()
+    public static void EnableGameOverScreen()
     {
-        _fadeOpComplete = true;
-        _transitionFader.fadeOpComplete -= Instance.FadeOperationComplete;
+        Instance._gameOverController.EnableGameOverScreen();
+    }
+    #endregion
+
+    #region UI Transition Fade Functions. 
+
+    public void StartLevelTransitionFade(LevelLoading.LevelID levelToLoad, bool fadeOnLoad)
+    {
+        StartLevelTransitionFade((int)levelToLoad, fadeOnLoad);
     }
 
-    public static void FadeIn()
+    public void StartLevelTransitionFade(int levelToLoad, bool fadeOnLoad)
     {
-        _instance._transitionFader.fadeOpComplete += Instance.FadeOperationComplete;
-        _instance._transitionFader.FadeIn();
+        _transitionScreenHandler.StartLevelTransition(levelToLoad, fadeOnLoad);
     }
 
-    public static void FadeOut()
+    public void FadeLevelTransitionOut()
     {
-        _instance._transitionFader.fadeOpComplete += Instance.FadeOperationComplete;
-        _instance._transitionFader.FadeOut();
+        _transitionScreenHandler.EndLevelTransition();
     }
     #endregion
 }

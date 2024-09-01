@@ -4,15 +4,20 @@ using UnityEngine;
 /// <summary>
 /// Controller required for menu functioning. 
 /// </summary>
-public class MenuController : MonoBehaviour
-{   
+public class MainMenuController : MonoBehaviour
+{
+    private void Start()
+    {
+        //UIManager.FadeOut();
+    }
+
     /// <summary>
     /// Function used for loading a new game. 
     /// </summary>
     public void NewGame()
     {
         DataCarrier.Instance.ResetPlayerData();
-        StartCoroutine(FadeTransitionIn((int)LevelLoading.LevelID.LEVEL_1));
+        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
     }
 
     /// <summary>
@@ -20,7 +25,7 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public void LoadGame()
     {
-        StartCoroutine(FadeTransitionIn(DataCarrier.SavedLevel));
+        UIManager.Instance.StartLevelTransitionFade(DataCarrier.SavedLevel, false);
     }
 
     /// <summary>
@@ -45,19 +50,5 @@ public class MenuController : MonoBehaviour
     public void ExitApplication()
     {
         Application.Quit();
-    }
-
-    /// <summary>
-    /// Fade transition screen in and load the provided level. 
-    /// </summary>
-    IEnumerator FadeTransitionIn(int levelToLoad)
-    {
-        UIManager.FadeIn();
-
-        while (!UIManager.Instance.FadeOpComplete)
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelID.LEVEL_1);
     }
 }

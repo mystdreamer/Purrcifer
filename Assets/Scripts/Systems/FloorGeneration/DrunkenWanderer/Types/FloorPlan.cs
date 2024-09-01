@@ -213,7 +213,7 @@ public class FloorPlan
             }
             outP += "\n";
         }
-        Debug.Log(outP);
+        //Debug.Log(outP);
     }
 
     /// <summary>

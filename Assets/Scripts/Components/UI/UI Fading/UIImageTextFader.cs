@@ -1,3 +1,4 @@
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,13 +7,18 @@ namespace Purrcifer.UI
     /// <summary>
     /// Class responsible for fading UI Image Components. 
     /// </summary>
-    public class UI_ImageFader : UIFader
+    public class UIImageTextFader : UIFader
     {
 
         /// <summary>
         /// The array of images to fade. 
         /// </summary>
         public Image[] images;
+
+        /// <summary>
+        /// The array of images to fade. 
+        /// </summary>
+        public TextMeshProUGUI[] texts;
 
         /// <summary>
         /// Set an alpha state. 
@@ -33,7 +39,15 @@ namespace Purrcifer.UI
         internal override void SetValue(float value)
         {
             Color color = Color.white;
+            
             foreach (Image item in images)
+            {
+                color = item.color;
+                color.a = _alphaCurrent;
+                item.color = color;
+            }
+
+            foreach (TextMeshProUGUI item in texts)
             {
                 color = item.color;
                 color.a = _alphaCurrent;
@@ -41,8 +55,4 @@ namespace Purrcifer.UI
             }
         }
     }
-}
-
-namespace Purrcifer.UI
-{
 }

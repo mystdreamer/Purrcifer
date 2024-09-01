@@ -32,6 +32,6 @@ public class SplashHandler : MonoBehaviour
         }
 
         //Load the main menu.
-        LevelLoading.LevelLoadHandler.LoadLevel(LevelLoading.LevelID.MAIN);
+        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.MAIN, true);
     }
 }

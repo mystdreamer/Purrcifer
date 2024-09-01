@@ -9,7 +9,7 @@ namespace Purrcifer.UI
     /// <summary>
     /// Class responsible for fading Text UI Components. 
     /// </summary>
-    public class UITextFader : UIFader
+    public class UI_TextFader : UIFader
     {
 
         /// <summary>

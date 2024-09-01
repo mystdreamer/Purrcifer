@@ -88,7 +88,7 @@ public class DrunkenWanderer
 
         plan.Print();
         stopwatch.Stop();
-        UnityEngine.Debug.Log("Time taken to generate extra endpoints map: " + stopwatch.ElapsedMilliseconds.ToString() + " ms.");
+        //UnityEngine.Debug.Log("Time taken to generate extra endpoints map: " + stopwatch.ElapsedMilliseconds.ToString() + " ms.");
 
         extraComplete = true;
     }

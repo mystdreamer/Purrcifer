@@ -31,5 +31,10 @@ public class UI_BossHealthBar : MonoBehaviour
         panel.SetActive(true);
     }
 
+    public void Deactivate()
+    {
+        panel.SetActive(false);
+    }
+
     public void UpdateState(float currentHealth) => ScaleHealthBar = currentHealth;
 }

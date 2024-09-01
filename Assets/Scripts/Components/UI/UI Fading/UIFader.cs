@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace Purrcifer.UI
 {
+    [System.Serializable]
+    public enum FadeState : int
+    {
+        OUT = 0, 
+        IN = 1
+    }
+
     /// <summary>
     /// Class responsible for fading Text UI Components. 
     /// </summary>
@@ -23,6 +30,8 @@ namespace Purrcifer.UI
         /// Event used to notify fade opeeration completion. 
         /// </summary>
         public FadeEvent fadeOpComplete;
+
+        public FadeState state = FadeState.OUT;
 
         /// <summary>
         /// Set an alpha state. 
@@ -47,13 +56,22 @@ namespace Purrcifer.UI
         /// <param name="callback"> The IFadeCallback to notify on completion. </param>
         private IEnumerator FadeInCoroutine()
         {
-            while (_alphaCurrent < 1)
+            float epsilon = 0.05F;
+
+            do
             {
                 _alphaCurrent += Mathf.Lerp(0, 1, Time.deltaTime);
+                if (_alphaCurrent + epsilon >= 1)
+                    _alphaCurrent = 1;
                 SetValue(_alphaCurrent);
+                Debug.Log("Fade In: " + _alphaCurrent);
                 yield return new WaitForEndOfFrame();
             }
+            while (_alphaCurrent < 1);
 
+            state = FadeState.IN;
+
+            Debug.Log("Fade In Completed and exited");
             fadeOpComplete?.Invoke();
         }
 
@@ -63,12 +81,20 @@ namespace Purrcifer.UI
         /// <param name="callback"> The IFadeCallback to notify on completion. </param>
         private IEnumerator FadeOutCoroutine()
         {
+            float epsilon = 0.05F;
             while (_alphaCurrent > 0)
             {
                 _alphaCurrent -= Mathf.Lerp(0, 1, Time.deltaTime);
+                
+                if(_alphaCurrent - epsilon <= 0)
+                    _alphaCurrent = 0;
+
                 SetValue(_alphaCurrent);
+                Debug.Log("Fade Out: " + _alphaCurrent);
                 yield return new WaitForEndOfFrame();
+
             }
+            state = FadeState.OUT;
             fadeOpComplete?.Invoke();
         }
 

@@ -6,7 +6,6 @@ public class OnApplyDamage : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("Player Collision Occured");
             GameManager.Instance.playerState.Health -= 1;
         }
     }
@@ -15,7 +14,6 @@ public class OnApplyDamage : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("Player Collision Occured");
             GameManager.Instance.playerState.Health -= 1;
         }
     }

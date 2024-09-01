@@ -11,7 +11,7 @@ namespace Purrcifer.UI
         private bool _displayStateChangedImage = false; 
         private bool _displayStateChangedText = false; 
         public UI_ImageFader displayFader;
-        public UITextFader textFader;
+        public UI_TextFader textFader;
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI dialogueText;
         public AudioClip dialogueAudio;
