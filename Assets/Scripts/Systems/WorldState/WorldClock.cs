@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WorldClock : MonoBehaviour
 {
+    #region Fields. 
     /// <summary>
     /// The scale of time per minute. 
     /// </summary>
@@ -52,7 +53,9 @@ public class WorldClock : MonoBehaviour
     /// Whether play time is reversed. 
     /// </summary>
     [SerializeField] private bool timeReversed = false;
+    #endregion
 
+    #region Properties. 
     /// <summary>
     /// Returns the current state of the world.
     /// </summary>
@@ -129,6 +132,8 @@ public class WorldClock : MonoBehaviour
         get;
         set;
     } = false;
+
+    #endregion
 
     void Update()
     {
