@@ -21,16 +21,6 @@ namespace Purrcifer.UI
         /// </summary>
         internal float _alphaCurrent;
 
-        /// <summary>
-        /// Delegate used for fade event callbacks. 
-        /// </summary>
-        public delegate void FadeEvent();
-
-        /// <summary>
-        /// Event used to notify fade opeeration completion. 
-        /// </summary>
-        public FadeEvent fadeOpComplete;
-
         public FadeState state = FadeState.OUT;
 
         /// <summary>
@@ -70,9 +60,6 @@ namespace Purrcifer.UI
             while (_alphaCurrent < 1);
 
             state = FadeState.IN;
-
-            Debug.Log("Fade In Completed and exited");
-            fadeOpComplete?.Invoke();
         }
 
         /// <summary>
@@ -90,12 +77,11 @@ namespace Purrcifer.UI
                     _alphaCurrent = 0;
 
                 SetValue(_alphaCurrent);
-                Debug.Log("Fade Out: " + _alphaCurrent);
                 yield return new WaitForEndOfFrame();
 
             }
+
             state = FadeState.OUT;
-            fadeOpComplete?.Invoke();
         }
 
         /// <summary>

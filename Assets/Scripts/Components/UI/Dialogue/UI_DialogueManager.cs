@@ -8,8 +8,6 @@ namespace Purrcifer.UI
     public class UI_DialogueManager : MonoBehaviour
     {
         private bool inUse = false; 
-        private bool _displayStateChangedImage = false; 
-        private bool _displayStateChangedText = false; 
         public UI_ImageFader displayFader;
         public UI_TextFader textFader;
         public TextMeshProUGUI nameText;
@@ -45,15 +43,11 @@ namespace Purrcifer.UI
             string currentSentence;
 
             //Enable display.
-            textFader.fadeOpComplete += FadeOpCompleteText;
-            displayFader.fadeOpComplete += FadeOpCompleteImage;
             displayFader.FadeIn();
             textFader.FadeIn();
 
-            while (!_displayStateChangedImage && !_displayStateChangedText)
+            while (textFader.state != FadeState.IN && displayFader.state != FadeState.IN)
                 yield return new WaitForEndOfFrame();
-
-            _displayStateChangedImage = _displayStateChangedText = false;
 
             while (sentences.Count > 0)
             {
@@ -70,24 +64,11 @@ namespace Purrcifer.UI
             //Disable display.
             sentences.Clear();
 
-            displayFader.FadeIn();
-            textFader.FadeIn();
-            while (!_displayStateChangedImage && !_displayStateChangedText)
+            displayFader.FadeOut();
+            textFader.FadeOut();
+            while (textFader.state != FadeState.OUT && displayFader.state != FadeState.OUT)
                 yield return new WaitForEndOfFrame();
-
-            textFader.fadeOpComplete -= FadeOpCompleteText;
-            displayFader.fadeOpComplete -= FadeOpCompleteImage;
             inUse = false;
         }
-
-        private void OnDisable()
-        {
-            textFader.fadeOpComplete -= FadeOpCompleteText;
-            displayFader.fadeOpComplete -= FadeOpCompleteImage;
-        }
-
-        public void FadeOpCompleteText() => _displayStateChangedImage = true; 
-
-        public void FadeOpCompleteImage() => _displayStateChangedImage = true;
     }
 }
