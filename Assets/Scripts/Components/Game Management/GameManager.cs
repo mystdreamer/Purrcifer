@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
 
     /// <summary>
+    /// The current world clock instance. 
+    /// </summary>
+    [SerializeField] private WorldClock _worldClock;
+
+    /// <summary>
     /// The current object map.
     /// </summary>
     public ObjectMap map;
@@ -29,8 +34,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public PlayerState playerState;
 
-    public WorldClock worldClock;
-
     /// <summary>
     /// The current floor generation handler instance. 
     /// </summary>
@@ -40,6 +43,11 @@ public class GameManager : MonoBehaviour
     /// Returns the current instance of the GameManager. 
     /// </summary>
     public static GameManager Instance => _instance;
+
+    /// <summary>
+    /// Returns the current world clock instance. 
+    /// </summary>
+    public static WorldClock WorldClock => _instance._worldClock;
 
     void Awake()
     {
@@ -83,6 +91,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        _worldClock.TimerActive = true;
         playerCurrent.GetComponent<MovementSys>().UpdatePause = false;
     }
 

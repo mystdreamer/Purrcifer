@@ -5,9 +5,24 @@ using UnityEngine;
 /// </summary>
 public class WorldTimings
 {
-    public const float WORLD_TIMESCALE_MINUTE = 5;
+    /// <summary>
+    /// The scale of time per minute. 
+    /// </summary>
+    public const float WORLD_TIMESCALE_MINUTE = 60;
+
+    /// <summary>
+    /// When world time actually starts. 
+    /// </summary>
     public const float WORLD_START_TIME = 0.0f;
+
+    /// <summary>
+    /// The threshold for ticking over into witching hour. 
+    /// </summary>
     public const float WORLD_WITCHING_HOUR_TIME = 5.0F;
+
+    /// <summary>
+    /// The threshold for ticking over into hell hour. 
+    /// </summary>
     public const float WORLD_HELL_HOUR_TIME = 10.0F; 
 }
 
