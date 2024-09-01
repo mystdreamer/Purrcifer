@@ -16,15 +16,15 @@ MonoBehaviour:
     min: 1
     max: 100
   itemData:
-  - itemName: TestItemA
+  - itemName: HealthDropA
     key: 0
     probabilityWeight: 20
-    objectPrefab: {fileID: 7995820944518466326, guid: c9a4e85b2bf8e504e8c371d43a08bb65, type: 3}
-  - itemName: TestItemB
+    objectPrefab: {fileID: 1609120740335180721, guid: 751c8ca78428c754db0cd0cb58154ab6, type: 3}
+  - itemName: HealthDropB
     key: 1
     probabilityWeight: 8
-    objectPrefab: {fileID: 6723544507839231825, guid: b51cea761a812ce488fdafb8c48a26a5, type: 3}
-  - itemName: TestItemC
+    objectPrefab: {fileID: 1609120740335180721, guid: 751c8ca78428c754db0cd0cb58154ab6, type: 3}
+  - itemName: HealthDropC
     key: 2
     probabilityWeight: 2
-    objectPrefab: {fileID: 3444953081275231778, guid: 9281eae0488f0fb44a38faafa477213d, type: 3}
+    objectPrefab: {fileID: 1609120740335180721, guid: 751c8ca78428c754db0cd0cb58154ab6, type: 3}

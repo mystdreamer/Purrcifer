@@ -16,6 +16,8 @@ namespace Purrcifer.UI
     /// </summary>
     public abstract class UIFader : MonoBehaviour
     {
+        private const float EPSILION = 0.05F;
+
         /// <summary>
         /// The current alpha of the images. 
         /// </summary>
@@ -46,15 +48,12 @@ namespace Purrcifer.UI
         /// <param name="callback"> The IFadeCallback to notify on completion. </param>
         private IEnumerator FadeInCoroutine()
         {
-            float epsilon = 0.05F;
-
             do
             {
                 _alphaCurrent += Mathf.Lerp(0, 1, Time.deltaTime);
-                if (_alphaCurrent + epsilon >= 1)
+                if (_alphaCurrent + EPSILION >= 1)
                     _alphaCurrent = 1;
                 SetValue(_alphaCurrent);
-                Debug.Log("Fade In: " + _alphaCurrent);
                 yield return new WaitForEndOfFrame();
             }
             while (_alphaCurrent < 1);
@@ -68,12 +67,11 @@ namespace Purrcifer.UI
         /// <param name="callback"> The IFadeCallback to notify on completion. </param>
         private IEnumerator FadeOutCoroutine()
         {
-            float epsilon = 0.05F;
             while (_alphaCurrent > 0)
             {
                 _alphaCurrent -= Mathf.Lerp(0, 1, Time.deltaTime);
                 
-                if(_alphaCurrent - epsilon <= 0)
+                if(_alphaCurrent - EPSILION <= 0)
                     _alphaCurrent = 0;
 
                 SetValue(_alphaCurrent);

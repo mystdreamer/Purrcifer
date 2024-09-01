@@ -107,7 +107,7 @@ public class CameraController : MonoBehaviour
         set
         {
             transform.position = value;
-            cameraCutout.transform.position = new Vector3(value.x, 5.42F, value.z);
+            cameraCutout.transform.position = new Vector3(value.x, 5.62F, value.z);
         }
     }
 

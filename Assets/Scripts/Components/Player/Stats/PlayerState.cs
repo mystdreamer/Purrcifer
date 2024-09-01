@@ -24,21 +24,34 @@ public class PlayerState : MonoBehaviour
     {
         get => _health.current;
 
+        private set => _health.current = value;
+    }
+
+    public int AddDamage
+    {
         set
         {
             if (invincible)
                 return;
 
-            int initial = _health.current;
-            _health.current = value;
-            _health.current = math.clamp(_health.current, _health.min, _health.max);
+            int _value = value;
+            int sign = MathF.Sign(value);
+            if (sign != -1)
+                _value *= -1; //Force to be negative. 
+            Health += _value;
+            invincible = true;
+            StartCoroutine(DamageIframes());
+        }
+    }
 
-            if (_health.current < initial)
-            {
-                //Player has taken damage. 
-                StartCoroutine(DamageIframes());
-                //--> start IFrames. 
-            }
+    public int AddHealth
+    {
+        set
+        {
+            int abs = Mathf.Abs(value);
+            Health += abs;
+            if (Health > HealthMaxCap)
+                Health = HealthMaxCap; 
         }
     }
 
@@ -99,7 +112,6 @@ public class PlayerState : MonoBehaviour
     private IEnumerator DamageIframes()
     {
         int iframes = IFRAMES;
-        invincible = true;
         while (0 < iframes)
         {
             //--> Display damage effect. 

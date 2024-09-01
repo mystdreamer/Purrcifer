@@ -290,7 +290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitionFader: {fileID: 50033192}
   _fadeOnLoad: 0
-  _fadeOpComplete: 0
 --- !u!1001 &111481003203283550
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -551,6 +550,10 @@ PrefabInstance:
     - target: {fileID: 4880501296691992044, guid: 54d3533a33ddd9748995a5b68d838762, type: 3}
       propertyPath: m_Name
       value: UI_GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880501296691992044, guid: 54d3533a33ddd9748995a5b68d838762, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5948571272354309301, guid: 54d3533a33ddd9748995a5b68d838762, type: 3}
       propertyPath: m_FirstSelected

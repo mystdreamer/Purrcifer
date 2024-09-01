@@ -10,7 +10,6 @@ public class UI_TransitionScreenHandler : MonoBehaviour
 {
     [SerializeField] private UI_ImageFader _transitionFader;
     [SerializeField] private bool _fadeOnLoad = false;
-    [SerializeField] private bool _fadeOpComplete = false;
 
     public bool FadeOnLoad
     {

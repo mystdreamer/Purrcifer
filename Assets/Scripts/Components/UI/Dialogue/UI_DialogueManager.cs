@@ -7,7 +7,7 @@ namespace Purrcifer.UI
 {
     public class UI_DialogueManager : MonoBehaviour
     {
-        private bool inUse = false; 
+        private bool inUse = false;
         public UI_ImageFader displayFader;
         public UI_TextFader textFader;
         public TextMeshProUGUI nameText;
@@ -45,6 +45,8 @@ namespace Purrcifer.UI
             //Enable display.
             displayFader.FadeIn();
             textFader.FadeIn();
+            dialogueText.text = "";
+            nameText.text = dialogue.itemName;
 
             while (textFader.state != FadeState.IN && displayFader.state != FadeState.IN)
                 yield return new WaitForEndOfFrame();
@@ -57,12 +59,13 @@ namespace Purrcifer.UI
                 foreach (char letter in currentSentence.ToCharArray())
                 {
                     dialogueText.text += letter;
-                    yield return null;
+                    yield return new WaitForEndOfFrame();
                 }
             }
 
             //Disable display.
             sentences.Clear();
+            yield return new WaitForSeconds(1F);
 
             displayFader.FadeOut();
             textFader.FadeOut();

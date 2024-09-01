@@ -72,7 +72,7 @@ public class UIManager : MonoBehaviour
 
     #endregion
 
-    #region UI Managment.
+    #region UI Management.
     public static void SetDialogue(Dialogue dialogueData)
     {
         _instance._dialogueManager.StartDialogue(dialogueData);

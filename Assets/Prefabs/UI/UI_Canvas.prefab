@@ -975,6 +975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41f4a13fb376bf47b1ae451be81e4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   images:
   - {fileID: 5007045677614714650}
 --- !u!1 &4687952085388768050
@@ -1143,6 +1144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41f4a13fb376bf47b1ae451be81e4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   images:
   - {fileID: 8654960885386589735}
   - {fileID: 1912927830419291896}
@@ -1158,6 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c6db562792a0c47b9f025669bc11a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   texts:
   - {fileID: 6861801471826958491}
   - {fileID: 6788199521590471406}
@@ -1347,8 +1350,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4151550708478806620}
-  - {fileID: 8514328982552795078}
   - {fileID: 1449338340946328317}
+  - {fileID: 8514328982552795078}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
