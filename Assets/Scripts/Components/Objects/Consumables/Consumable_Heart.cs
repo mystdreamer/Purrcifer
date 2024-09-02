@@ -6,7 +6,6 @@ public class Consumable_Heart : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Debug.Log("Player Collision Occured");
             GameManager.Instance.playerState.AddHealth = 1;
             gameObject.SetActive(false);
         }

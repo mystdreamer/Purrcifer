@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
@@ -13,33 +14,6 @@ public enum RoomState
     ACTIVE,
     COMPLETED,
     TRANSITIONING
-}
-
-/// <summary>
-/// Required for interfacing with room objects. 
-/// </summary>
-public interface IRoomInterface
-{
-    /// <summary>
-    /// Called when a room is awoken.  
-    /// </summary>
-    public void Awake();
-
-    /// <summary>
-    /// Used to check if the items purpose is complete. 
-    /// </summary>
-    /// <returns> True if completed. </returns>
-    public bool IsComplete();
-
-    /// <summary>
-    /// Used to set the room objects to sleep. 
-    /// </summary>
-    public void Sleep();
-
-    /// <summary>
-    /// Used to notify if the world state has changed. 
-    /// </summary>
-    public void WorldStateChange();
 }
 
 public class RoomController : MonoBehaviour
@@ -70,11 +44,12 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    private const float ROOM_CLOSE_DELAY = 1.5f;
+    private const float ROOM_OPEN_DELAY = 1f;
     public RoomState roomState;
     private GameObject playerReference;
     public RoomDetector roomDetector;
-    public IRoomInterface[] roomInterfaceObjects;
-    public GameObject[] roomInterfaceItems;
+    public RoomObject[] roomObjects;
 
     private GameObject Player
     {
@@ -100,20 +75,6 @@ public class RoomController : MonoBehaviour
             }
             return playerReference.transform.position;
         }
-    }
-
-    void Start()
-    {
-        //Get a list of interfaces from the parent object. 
-        List<IRoomInterface> interfaces = new List<IRoomInterface>();
-
-        foreach (GameObject room in roomInterfaceItems)
-        {
-            interfaces.Add(gameObject.GetComponent<IRoomInterface>());
-        }
-
-        //Cache the references. 
-        roomInterfaceObjects = interfaces.ToArray();
     }
 
     private void Update()
@@ -144,8 +105,9 @@ public class RoomController : MonoBehaviour
         //Handle entrance check.
         if (roomDetector.PlayerInRoom(PlayerPosition))
         {
+            Debug.Log("Player Detected In room.");
             roomState = RoomState.TRANSITIONING;
-            StartCoroutine(EnableDelayOperation(2.8f));
+            StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
         }
     }
 
@@ -154,46 +116,65 @@ public class RoomController : MonoBehaviour
     /// </summary>
     private void UpdateActiveState()
     {
-        foreach (IRoomInterface room in roomInterfaceObjects)
+        bool roomContentsCheck = CheckIfItemsCompleted();
+        if (roomContentsCheck)
         {
-            if (room.IsComplete() != true)
-                return;
+            roomState = RoomState.TRANSITIONING;
+            StartCoroutine(DisableDelayOperation(ROOM_CLOSE_DELAY));
         }
-
-        roomState = RoomState.TRANSITIONING;
-        StartCoroutine(DisableDelayOperation(2.5f));
     }
 
     private IEnumerator EnableDelayOperation(float time)
     {
+        Debug.Log("Beginning Delay On Room Enter.");
         yield return new WaitForSeconds(time);
         EnableInterfaces();
     }
 
     private IEnumerator DisableDelayOperation(float time)
     {
+        Debug.Log("Beginning Delay On Room Exit.");
         yield return new WaitForSeconds(time);
         DisableInterfaces();
     }
 
     private void EnableInterfaces()
     {
+        Debug.Log("Activating objects.");
         //Room should be activated. 
-        for (int i = 0; i < roomInterfaceObjects.Length; i++)
-        {
-            roomInterfaceObjects[i].Awake();
-        }
+        SetRoomContentsEnableState(true);
         roomState = RoomState.ACTIVE;
     }
 
     private void DisableInterfaces()
     {
-        //Room should be activated. 
-        for (int i = 0; i < roomInterfaceObjects.Length; i++)
-        {
-            roomInterfaceObjects[i].Sleep();
-        }
+        Debug.Log("Deactivating objects.");
+        //Room should be deactivated. 
+        SetRoomContentsEnableState(false);
         roomState = RoomState.COMPLETED;
+    }
+
+    private bool CheckIfItemsCompleted()
+    {
+        for (int i = 0; i < roomObjects.Length; i++)
+        {
+            //Debug.Log("Room State Object Check: " + roomObjects[i].GetName() + " - " + roomObjects[i].Complete);
+            if (!roomObjects[i].Complete)
+                return false;
+        }
+
+        return true;
+    }
+
+    private void SetRoomContentsEnableState(bool state)
+    {
+        for (int i = 0; i < roomObjects.Length; i++)
+        {
+            if (state == true)
+                roomObjects[i].AwakenRoom();
+            else if (state == false)
+                roomObjects[i].SleepRoom();
+        }
     }
 
     private void OnDrawGizmos()

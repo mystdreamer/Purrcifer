@@ -1323,11 +1323,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomState: 0
   roomDetector:
-    width: 18
-    height: 10
     roomTransform: {fileID: 950251801354176698}
-  roomInterfaceItems:
-  - {fileID: 4056657841414575939}
+  roomObjects:
+  - {fileID: 6499638308635119288}
 --- !u!114 &6499638308635119288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1340,6 +1338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 570e80488a080904a828cda54c9c26c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactable: 0
   up:
     door: {fileID: 8123091714517959941}
     doorWall: {fileID: 908079385979151758}
@@ -1364,6 +1363,7 @@ MonoBehaviour:
     wall: {fileID: 1377313833026821617}
     state: 0
     isDoor: 0
+  doorsLocked: 0
 --- !u!1 &4409195892407122447
 GameObject:
   m_ObjectHideFlags: 0

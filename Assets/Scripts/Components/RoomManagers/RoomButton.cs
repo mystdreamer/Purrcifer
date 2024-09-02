@@ -1,37 +1,70 @@
+using System.Numerics;
 using UnityEngine;
 
-/// <summary>
-/// Simple button for the pressing. 
-/// </summary>
-public class RoomButton : MonoBehaviour, IRoomInterface
+public abstract class RoomObject : MonoBehaviour
 {
-    public bool interactable = false;
-    public bool complete = false; 
+    [SerializeField] private bool interactable = false;
+    [SerializeField] private bool completed = false;
+    public bool Complete
+    {
+        get => completed;
+        internal set => completed = value;
+    }
+    public bool Interactable { get => interactable; }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject == GameManager.Instance.playerPrefab && interactable)
-        {
-            complete = true;    
-        }
+        if (!interactable) return;
+        Event_Collision(collision.gameObject);
     }
 
-    void IRoomInterface.Awake()
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == GameManager.Instance.playerPrefab && interactable)
+            Event_Triggered(other.gameObject);
+    }
+
+    public virtual void AwakenRoom()
     {
         interactable = true;
     }
 
-    bool IRoomInterface.IsComplete()
+    public virtual void SleepRoom()
     {
-        return complete;
+        interactable = false;
     }
 
-    void IRoomInterface.Sleep()
+    internal abstract void Event_Collision(GameObject collision);
+    internal abstract void Event_Triggered(GameObject collision);
+
+    internal abstract void SetWorldState(WorldStateEnum state);
+
+    public string GetName()
     {
-        interactable = false; 
+        return gameObject.name;
+    }
+}
+
+/// <summary>
+/// Simple button for the pressing. 
+/// </summary>
+public class RoomButton : RoomObject
+{
+
+    internal override void Event_Collision(GameObject collision)
+    {
+        if(collision.gameObject.tag == "Player" && Interactable)
+        {
+            Debug.Log("Item was interactable and collided with.");
+            Complete = true;
+        }
     }
 
-    void IRoomInterface.WorldStateChange()
+    internal override void Event_Triggered(GameObject collision)
+    {
+    }
+
+    internal override void SetWorldState(WorldStateEnum state)
     {
 
     }
