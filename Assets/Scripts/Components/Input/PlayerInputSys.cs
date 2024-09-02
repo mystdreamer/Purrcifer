@@ -6,13 +6,16 @@ using UnityEngine;
 /// Component used for handling player input commands. 
 /// </summary>
 public class PlayerInputSys : MonoBehaviour
-{ 
+{
     private static PlayerInputSys instance;
 
     /// <summary>
     /// The current keycode data assigned in the editor. 
     /// </summary>
-    public List<PlayerInput> keycodeData;
+    public List<PlayerInputKey> keycodeData;
+    public List<PlayerInput_ControllerButton> buttonData;
+    public PlayerInput_ControllerAxis axisData;
+    public PlayerInput[] inputs;
 
     /// <summary>
     /// Returns the current instance of InputSys. 
@@ -25,15 +28,23 @@ public class PlayerInputSys : MonoBehaviour
     void Awake()
     {
         ///Setup singleton. 
-        if(instance == null)
+        if (instance == null)
         {
-            instance = this; 
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             DestroyImmediate(this);
         }
+
+        // Generate Array. 
+        List<PlayerInput> list = new List<PlayerInput>();
+        list.AddRange(keycodeData);
+        list.AddRange(buttonData);
+        list.Add(axisData);
+
+        inputs = list.ToArray();
     }
 
     void Update()
@@ -42,20 +53,28 @@ public class PlayerInputSys : MonoBehaviour
         UpdateInput();
     }
 
-    /// <summary>
-    /// Gets an action from the manager. 
-    /// </summary>
-    /// <param name="type"> The action type to return. </param>
-    /// <returns></returns>
-    public PlayerInput GetAction(PlayerActionIdentifier type)
-    {
+    public PlayerInputKey GetKey(PlayerActionIdentifier type) {
         for (int i = 0; i < keycodeData.Count; i++)
         {
-            if (keycodeData[i].type == type)
+            if (keycodeData[i].IsInput(type))
                 return keycodeData[i];
         }
-
         return null;
+    }
+
+    public PlayerInput_ControllerButton GetButton(PlayerActionIdentifier type)
+    {
+        for (int i = 0; i < buttonData.Count; i++)
+        {
+            if (buttonData[i].IsInput(type))
+                return buttonData[i];
+        }
+        return null;
+    }
+
+    public PlayerInput_ControllerAxis GetAxisInput()
+    {
+        return axisData;
     }
 
     /// <summary>
@@ -63,9 +82,9 @@ public class PlayerInputSys : MonoBehaviour
     /// </summary>
     public void UpdateInput()
     {
-        for (int i = 0; i < keycodeData.Count; i++)
+        for (int i = 0; i < inputs.Length; i++)
         {
-            keycodeData[i].Command_Key();
+            inputs[i].Command();
         }
     }
 }

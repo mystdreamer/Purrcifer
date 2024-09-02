@@ -23,12 +23,13 @@ public class MovementSys : MonoBehaviour
 
     public Vector3 LastInput => _lastInput;
 
-    public bool UpdatePause { 
-        get => canUpdate; 
+    public bool UpdatePause
+    {
+        get => canUpdate;
         set => canUpdate = value;
-    } 
+    }
 
-    void Start() 
+    void Start()
     {
         canUpdate = false;
         //Register the required commands. 
@@ -59,10 +60,11 @@ public class MovementSys : MonoBehaviour
     /// </summary>
     private void RegisterCommands()
     {
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_LEFT).DoAction += MoveRight;
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_RIGHT).DoAction += MoveLeft;
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_UP).DoAction += MoveDown;
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_LEFT).DoAction += MoveRight;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction += MoveLeft;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction += MoveDown;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
+        PlayerInputSys.Instance.axisData.DoAction += MoveAxis;
     }
 
     /// <summary>
@@ -70,10 +72,11 @@ public class MovementSys : MonoBehaviour
     /// </summary>
     private void DeregisterCommands()
     {
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_LEFT).DoAction -= MoveRight;
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_RIGHT).DoAction -= MoveLeft;
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_UP).DoAction -= MoveDown;
-        PlayerInputSys.Instance.GetAction(PlayerActionIdentifier.M_DOWN).DoAction -= MoveUp;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_LEFT).DoAction -= MoveRight;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction -= MoveLeft;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction -= MoveDown;
+        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction -= MoveUp;
+        PlayerInputSys.Instance.axisData.DoAction -= MoveAxis;
     }
 
     /// <summary>
@@ -115,6 +118,16 @@ public class MovementSys : MonoBehaviour
         if (result)
             _input += new Vector3(0, 0, 1);
     }
+
+    /// <summary>
+    /// Function handling down movement input from the input handler (PlayerInputSys).
+    /// </summary>
+    /// <param name="state"> The current input state provided. </param>
+    private void MoveAxis(Vector3 result)
+    {
+        _input += result;
+    }
+
     #endregion
 
     private void Update()

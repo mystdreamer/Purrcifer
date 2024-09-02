@@ -4,13 +4,14 @@
 /// </summary>
 public enum PlayerActionIdentifier
 {
-    M_LEFT, 
-    M_RIGHT, 
-    M_UP, 
-    M_DOWN,
-    A_UP, 
-    A_DOWN,
-    A_LEFT, 
-    A_RIGHT, 
-    A_INTERACT
+    M_LEFT = 0, 
+    M_RIGHT = 1, 
+    M_UP = 2, 
+    M_DOWN = 3,
+    A_UP = 4, 
+    A_DOWN = 5,
+    A_LEFT = 6, 
+    A_RIGHT = 7, 
+    A_INTERACT = 8,
+    AXIS_LEFTSTICK = 9
 }

@@ -66,7 +66,6 @@ MonoBehaviour:
   playerPrefab: {fileID: 6831002017157304993, guid: a602e1391837eaa4eaed7ccf84e66b6b, type: 3}
   playerCurrent: {fileID: 0}
   playerState: {fileID: 0}
-  floorGenerationHandler: {fileID: 0}
 --- !u!114 &4957711391843769506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,41 +80,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keycodeData:
   - actionName: Move Up
-    key: 119
-    Button: 111
     type: 2
+    key: 119
   - actionName: Move_Down
-    key: 115
-    Button: 0
     type: 3
+    key: 115
   - actionName: Move_Right
-    key: 100
-    Button: 0
     type: 1
+    key: 100
   - actionName: Move_Left
-    key: 97
-    Button: 0
     type: 0
+    key: 97
   - actionName: Attack_Up
-    key: 0
-    Button: 0
     type: 4
+    key: 0
   - actionName: Attack_Down
-    key: 0
-    Button: 0
     type: 5
+    key: 0
   - actionName: Attack_Left
-    key: 0
-    Button: 0
     type: 6
-  - actionName: Attack_Right
     key: 0
-    Button: 0
+  - actionName: Attack_Right
     type: 7
+    key: 0
   - actionName: Interact
-    key: 101
-    Button: 0
     type: 8
+    key: 101
+  buttonData: []
+  axisData:
+    actionName: AxisData
+    type: 9
 --- !u!114 &1777684823346026313
 MonoBehaviour:
   m_ObjectHideFlags: 0
