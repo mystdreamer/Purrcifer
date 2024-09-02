@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public abstract class PlayerInput
@@ -86,6 +87,14 @@ public class PlayerInput_ControllerButton : PlayerInput
 [System.Serializable]
 public class PlayerInput_ControllerAxis : PlayerInput
 {
+    public const string LEFT_STICK_H = "Horizontal";
+    public const string LEFT_STICK_V = "Vertical";
+    public const string RIGHT_STICK_H = "RS_H";
+    public const string RIGHT_STICK_V = "RS_V";
+
+    public float axisValueX;
+    public float axisValueZ;
+
     /// <summary>
     /// Delegate used by this action. 
     /// </summary>
@@ -99,11 +108,30 @@ public class PlayerInput_ControllerAxis : PlayerInput
 
     public override void Command()
     {
-        float axisValueX = Input.GetAxis("Horizontal");
-        float axisValueZ = Input.GetAxis("Vertical");
+        axisValueX = 0;
+        axisValueZ = 0;
+
+        if (type == PlayerActionIdentifier.AXIS_LEFTSTICK)
+        {
+            axisValueX = Input.GetAxis(LEFT_STICK_H);
+            axisValueZ = Input.GetAxis(LEFT_STICK_V);
+        }
+
+        if (type == PlayerActionIdentifier.AXIS_RIGHTSTICK)
+        {
+            axisValueX = Input.GetAxis(RIGHT_STICK_H);
+            axisValueZ = -1 * Input.GetAxis(RIGHT_STICK_V);
+        }
+
+        if (type == PlayerActionIdentifier.AXIS_DPAD)
+        {
+            axisValueX = Input.GetAxis("DPAD_H");
+            axisValueZ = Input.GetAxis("DPAD_V");
+        }
+
         float deadZone = 0.15f;
         Vector3 direction = new Vector3(axisValueX, 0, axisValueZ);
-        Vector3 returnVal = Vector3.zero; 
+        Vector3 returnVal = Vector3.zero;
 
         if (axisValueX > deadZone || axisValueX < -deadZone)
         {

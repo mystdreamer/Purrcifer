@@ -108,8 +108,18 @@ MonoBehaviour:
     key: 101
   buttonData: []
   axisData:
-    actionName: AxisData
+  - actionName: LS_Axis
     type: 9
+    axisValueX: 0
+    axisValueZ: 0
+  - actionName: RH_Axis
+    type: 10
+    axisValueX: 0
+    axisValueZ: 0
+  - actionName: DPAD_AXIS
+    type: 11
+    axisValueX: 0
+    axisValueZ: 0
 --- !u!114 &1777684823346026313
 MonoBehaviour:
   m_ObjectHideFlags: 0

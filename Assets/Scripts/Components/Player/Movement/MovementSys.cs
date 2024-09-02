@@ -64,7 +64,7 @@ public class MovementSys : MonoBehaviour
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction += MoveLeft;
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction += MoveDown;
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
-        PlayerInputSys.Instance.axisData.DoAction += MoveAxis;
+        PlayerInputSys.Instance.GetAxis(PlayerActionIdentifier.AXIS_LEFTSTICK).DoAction += MoveAxis;
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class MovementSys : MonoBehaviour
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction -= MoveLeft;
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction -= MoveDown;
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction -= MoveUp;
-        PlayerInputSys.Instance.axisData.DoAction -= MoveAxis;
+        PlayerInputSys.Instance.GetAxis(PlayerActionIdentifier.AXIS_LEFTSTICK).DoAction -= MoveAxis;
     }
 
     /// <summary>

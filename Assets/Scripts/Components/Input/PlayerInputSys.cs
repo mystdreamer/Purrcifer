@@ -14,7 +14,7 @@ public class PlayerInputSys : MonoBehaviour
     /// </summary>
     public List<PlayerInputKey> keycodeData;
     public List<PlayerInput_ControllerButton> buttonData;
-    public PlayerInput_ControllerAxis axisData;
+    public List<PlayerInput_ControllerAxis> axisData;
     public PlayerInput[] inputs;
 
     /// <summary>
@@ -42,7 +42,7 @@ public class PlayerInputSys : MonoBehaviour
         List<PlayerInput> list = new List<PlayerInput>();
         list.AddRange(keycodeData);
         list.AddRange(buttonData);
-        list.Add(axisData);
+        list.AddRange(axisData);
 
         inputs = list.ToArray();
     }
@@ -72,9 +72,14 @@ public class PlayerInputSys : MonoBehaviour
         return null;
     }
 
-    public PlayerInput_ControllerAxis GetAxisInput()
+    public PlayerInput_ControllerAxis GetAxis(PlayerActionIdentifier type)
     {
-        return axisData;
+        for (int i = 0; i < axisData.Count; i++)
+        {
+            if (axisData[i].IsInput(type))
+                return axisData[i];
+        }
+        return null;
     }
 
     /// <summary>
