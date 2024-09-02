@@ -11,37 +11,35 @@ public enum WallState
 /// <summary>
 /// Component class handling the state of doors at runtime. 
 /// </summary>
-public class RoomDoorController : RoomObject
+public class RoomWallController : RoomObject
 {
     /// <summary>
     /// The door heading upward. 
     /// </summary>
-    public WallStateHandler up;
+    public RoomWallData up;
 
     /// <summary>
     /// The door heading downwards. 
     /// </summary>
-    public WallStateHandler down;
+    public RoomWallData down;
 
     /// <summary>
     /// The door heading left. 
     /// </summary>
-    public WallStateHandler left;
+    public RoomWallData left;
 
     /// <summary>
     /// The door heading right. 
     /// </summary>
-    public WallStateHandler right;
-
-    public bool doorsLocked = false;
+    public RoomWallData right;
 
     private void Start()
     {
         //Set the initial states for each wall. 
-        up.SetState(WallState.WALL);
-        down.SetState(WallState.WALL);
-        left.SetState(WallState.WALL);
-        right.SetState(WallState.WALL);
+        up.WallType = WallState.WALL;
+        down.WallType = WallState.WALL;
+        left.WallType = WallState.WALL;
+        right.WallType = WallState.WALL;
     }
 
     private void Update()
@@ -65,17 +63,24 @@ public class RoomDoorController : RoomObject
     /// <summary>
     /// Set the given side to be a door. 
     /// </summary>
-    /// <param name="op"> The side to set. </param>
-    public void SetDoorState(DoorOpenOp op)
+    /// <param name="direction"> The side to set. </param>
+    public void SetDoorState(WallDirection direction)
     {
-        if (op == DoorOpenOp.LEFT)
-            left.SetState(WallState.DOOR);
-        if (op == DoorOpenOp.RIGHT)
-            right.SetState(WallState.DOOR);
-        if (op == DoorOpenOp.UP)
-            up.SetState(WallState.DOOR);
-        if (op == DoorOpenOp.DOWN)
-            down.SetState(WallState.DOOR);
+        switch (direction)
+        {
+            case WallDirection.LEFT:
+                left.WallType = WallState.DOOR;
+                break;
+            case WallDirection.RIGHT:
+                right.WallType = WallState.DOOR;
+                break;
+            case WallDirection.UP:
+                up.WallType = WallState.DOOR;
+                break;
+            case WallDirection.DOWN:
+                down.WallType = WallState.DOOR;
+                break;
+        }
     }
 
     /// <summary>
@@ -84,14 +89,10 @@ public class RoomDoorController : RoomObject
     /// <param name="state"> The flag indicating whether to lock or unlock (true = lock). </param>
     public void LockRoom(bool state)
     {
-        if (up.isDoor)
-            up.LockDoors(state);
-        if (down.isDoor)
-            down.LockDoors(state);
-        if (right.isDoor)
-            right.LockDoors(state);
-        if (left.isDoor)
-            left.LockDoors(state);
+        up.SetDoorLockState = state;
+        down.SetDoorLockState = state;
+        right.SetDoorLockState = state;
+        left.SetDoorLockState = state;
     }
 
     internal override void Event_Collision(GameObject collision)

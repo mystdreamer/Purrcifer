@@ -1,13 +1,10 @@
 using UnityEngine;
 
-public class Consumable_Heart : MonoBehaviour
+public class Consumable_Heart : AbsConsumable
 {
-    private void OnCollisionEnter(Collision collision)
+    internal override void ConsumableEffect()
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            GameManager.Instance.playerState.AddHealth = 1;
-            gameObject.SetActive(false);
-        }
+        GameManager.Instance.playerState.AddHealth = 1;
+        gameObject.SetActive(false);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Enums representing a door opening operation. 
 /// </summary>
-public enum DoorOpenOp
+public enum WallDirection
 {
     LEFT,
     RIGHT,
@@ -120,22 +120,22 @@ public class ObjectMap
 
         if (_room == null)
             return;
-        RoomDoorController _roomCTRLR = _room.GetComponent<RoomDoorController>();
+        RoomWallController _roomCTRLR = _room.GetComponent<RoomWallController>();
 
         if (_roomCTRLR == null)
             return;
 
-        DoorSetup(_roomCTRLR, x + 1, y, DoorOpenOp.RIGHT, DoorOpenOp.LEFT);
-        DoorSetup(_roomCTRLR, x - 1, y, DoorOpenOp.LEFT, DoorOpenOp.RIGHT);
-        DoorSetup(_roomCTRLR, x, y - 1, DoorOpenOp.UP, DoorOpenOp.DOWN);
-        DoorSetup(_roomCTRLR, x, y + 1, DoorOpenOp.DOWN, DoorOpenOp.UP);
+        DoorSetup(_roomCTRLR, x + 1, y, WallDirection.RIGHT, WallDirection.LEFT);
+        DoorSetup(_roomCTRLR, x - 1, y, WallDirection.LEFT, WallDirection.RIGHT);
+        DoorSetup(_roomCTRLR, x, y - 1, WallDirection.UP, WallDirection.DOWN);
+        DoorSetup(_roomCTRLR, x, y + 1, WallDirection.DOWN, WallDirection.UP);
 
-        void DoorSetup(RoomDoorController ctrllr, int x, int y, DoorOpenOp aOp, DoorOpenOp bOp)
+        void DoorSetup(RoomWallController ctrllr, int x, int y, WallDirection aOp, WallDirection bOp)
         {
             if (this[x, y] != null)
             {
                 ctrllr.SetDoorState(aOp);
-                this[x, y].GetComponent<RoomDoorController>().SetDoorState(bOp);
+                this[x, y].GetComponent<RoomWallController>().SetDoorState(bOp);
             }
         }
     }
