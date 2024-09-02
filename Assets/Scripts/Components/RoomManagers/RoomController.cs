@@ -45,7 +45,7 @@ public class RoomController : MonoBehaviour
     }
 
     private const float ROOM_CLOSE_DELAY = 1.5f;
-    private const float ROOM_OPEN_DELAY = 1f;
+    private const float ROOM_OPEN_DELAY = 0.15f;
     public RoomState roomState;
     private GameObject playerReference;
     public RoomDetector roomDetector;
@@ -105,6 +105,9 @@ public class RoomController : MonoBehaviour
         //Handle entrance check.
         if (roomDetector.PlayerInRoom(PlayerPosition))
         {
+            if (ItemsCompleted())
+                return;
+
             Debug.Log("Player Detected In room.");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
@@ -116,7 +119,7 @@ public class RoomController : MonoBehaviour
     /// </summary>
     private void UpdateActiveState()
     {
-        bool roomContentsCheck = CheckIfItemsCompleted();
+        bool roomContentsCheck = ItemsCompleted();
         if (roomContentsCheck)
         {
             roomState = RoomState.TRANSITIONING;
@@ -154,7 +157,7 @@ public class RoomController : MonoBehaviour
         roomState = RoomState.COMPLETED;
     }
 
-    private bool CheckIfItemsCompleted()
+    private bool ItemsCompleted()
     {
         for (int i = 0; i < roomObjects.Length; i++)
         {
