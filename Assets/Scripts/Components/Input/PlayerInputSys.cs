@@ -38,6 +38,11 @@ public class PlayerInputSys : MonoBehaviour
             DestroyImmediate(this);
         }
 
+        Setup();
+    }
+
+    public void Setup()
+    {
         // Generate Array. 
         List<PlayerInput> list = new List<PlayerInput>();
         list.AddRange(keycodeData);

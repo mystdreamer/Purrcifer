@@ -261,6 +261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135284842}
   - component: {fileID: 135284841}
+  - component: {fileID: 135284843}
   m_Layer: 0
   m_Name: MainMenuController
   m_TagString: Untagged
@@ -280,6 +281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c5d379e8610e349a5dfef56eafbb01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSys: {fileID: 135284843}
+  menuIndexer:
+    currentIndex: 0
+    minIndex: 0
+    maxIndex: 0
 --- !u!4 &135284842
 Transform:
   m_ObjectHideFlags: 0
@@ -295,6 +301,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &135284843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135284840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104e0a064da2ac149b33ecc6889625c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keycodeData:
+  - actionName: UP
+    type: 2
+    key: 119
+  - actionName: DOWN
+    type: 3
+    key: 115
+  - actionName: ACCEPT
+    type: 8
+    key: 32
+  buttonData:
+  - actionName: ACCEPT_BTN
+    type: 8
+    Button: 330
+  axisData:
+  - actionName: AXIS_LEFT_STICK
+    type: 9
+    axisValueX: 0
+    axisValueZ: 0
+  - actionName: AXIS_DPAD
+    type: 11
+    axisValueX: 0
+    axisValueZ: 0
 --- !u!1 &239392130
 GameObject:
   m_ObjectHideFlags: 0
