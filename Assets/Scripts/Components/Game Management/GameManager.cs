@@ -1,5 +1,5 @@
 using UnityEngine;
-using Assets.Scripts.Types.FloorGeneration;
+using FloorGeneration;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +13,13 @@ public class GameManager : MonoBehaviour
     /// The current world clock instance. 
     /// </summary>
     [SerializeField] private WorldClock _worldClock;
+
+    [SerializeField] private FloorData floorData;
+
+    [SerializeField] private FloorPlan floorMap;
+
+    [SerializeField] private ObjectMap objectMap;
+
 
     /// <summary>
     /// The current object map.
@@ -35,11 +42,6 @@ public class GameManager : MonoBehaviour
     public PlayerState playerState;
 
     /// <summary>
-    /// The current floor generation handler instance. 
-    /// </summary>
-    public FloorGenerationHandler floorGenerationHandler;
-
-    /// <summary>
     /// Returns the current instance of the GameManager. 
     /// </summary>
     public static GameManager Instance => _instance;
@@ -48,6 +50,40 @@ public class GameManager : MonoBehaviour
     /// Returns the current world clock instance. 
     /// </summary>
     public static WorldClock WorldClock => _instance._worldClock;
+
+    /// <summary>
+    /// Generate a random map based on provided FloorData. 
+    /// </summary>
+    public static FloorData FloorData
+    {
+        set
+        {
+            _instance.floorData = value;
+            FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
+        }
+    }
+
+    /// <summary>
+    /// Generate a random map based on provided FloorData. 
+    /// </summary>
+    public static FloorPlan FloorPlan
+    {
+        set
+        {
+            _instance.floorMap = value;
+            FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
+            Debug.Log("Map built.");
+            _instance.GenerationComplete(); 
+        }
+    }
+
+    public static ObjectMap ObjectMap
+    {
+        set
+        {
+            _instance.objectMap = value;
+        }
+    }
 
     void Awake()
     {
@@ -84,16 +120,16 @@ public class GameManager : MonoBehaviour
 
     public void GenerationComplete()
     {
-        Debug.Log("Map built.");
         StartCoroutine(FadeWait());
     }
 
     private IEnumerator FadeWait()
     {
+        yield return new WaitForSeconds(0.5f);
         UIManager.Instance.FadeLevelTransitionOut();
         while (!UIManager.Instance.TransitionInactive)
         {
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.5f);
         }
 
         _worldClock.TimerActive = true;
@@ -123,9 +159,4 @@ public class GameManager : MonoBehaviour
         playerState.SetPlayerData();
     }
 
-    /// <summary>
-    /// Generates a random map. 
-    /// </summary>
-    /// <param name="data"></param>
-    public void GenerateRandomMap(FloorData data) => floorGenerationHandler.GenerateRandomMap(data);
 }

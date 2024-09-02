@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3866778943140996821}
   - component: {fileID: 4607499271989059048}
-  - component: {fileID: 2982066868734396406}
   - component: {fileID: 4957711391843769506}
   - component: {fileID: 1777684823346026313}
   m_Layer: 0
@@ -47,23 +46,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b1b73768199ec44a9530c192a36b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _worldClock: {fileID: 1777684823346026313}
+  floorData:
+    roomCountMin: 0
+    roomCountMax: 0
+    floorWidth: 0
+    floorHeight: 0
+    initialX: 0
+    initialY: 0
+    rangeProbX:
+      min: 0
+      max: 0
+    spawnOver: 0
+    roomWidth: 0
+    roomHeight: 0
+  floorMap:
+    roomCount: 0
+    floorCenter: {x: 0, y: 0}
   playerPrefab: {fileID: 6831002017157304993, guid: a602e1391837eaa4eaed7ccf84e66b6b, type: 3}
   playerCurrent: {fileID: 0}
   playerState: {fileID: 0}
-  worldClock: {fileID: 1777684823346026313}
-  floorGenerationHandler: {fileID: 2982066868734396406}
---- !u!114 &2982066868734396406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842408124202293865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4705708555eac449115c70abb86056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  floorGenerationHandler: {fileID: 0}
 --- !u!114 &4957711391843769506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,5 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8e8f58861b65347841fce2cb3bbb69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
+  timescaleMinute: 60
+  witchingThreshold: 5
+  hellThreshold: 10
+  timePlay: 0
+  timeReal: 0
+  totalMinutes: 0
   currentMinutes: 0
+  currentState: 0
+  lastState: 0
+  timeReversed: 0
