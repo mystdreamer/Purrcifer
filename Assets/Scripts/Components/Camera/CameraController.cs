@@ -90,8 +90,6 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public TargetHandler handler;
 
-    public GameObject cameraCutout;
-
     /// <summary>
     /// The current behavioural state used by the camera. 
     /// </summary>
@@ -104,11 +102,7 @@ public class CameraController : MonoBehaviour
 
     public Vector3 Position
     {
-        set
-        {
-            transform.position = value;
-            cameraCutout.transform.position = new Vector3(value.x, 5.62F, value.z);
-        }
+        set => transform.position = value;
     }
 
     public float jumpDistance;

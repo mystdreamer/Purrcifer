@@ -22,13 +22,10 @@ public class MovementSys : MonoBehaviour
     public float speed = 100;
 
     public Vector3 LastInput => _lastInput;
+
     public bool UpdatePause { 
         get => canUpdate; 
-        set
-        {
-            Debug.Log(">>Player::MoveSys - State [" +  value + "].");
-            canUpdate = value;
-        } 
+        set => canUpdate = value;
     } 
 
     void Start() 
