@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDeath()
     {
-        playerPrefab.GetComponent<MovementSys>().UpdatePause = true;
+        playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
         UIManager.EnableGameOverScreen();
     }
 

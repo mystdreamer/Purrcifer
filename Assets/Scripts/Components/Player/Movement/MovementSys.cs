@@ -14,16 +14,26 @@ public class MovementSys : MonoBehaviour
     //Reference to the rigidbody. 
     public Rigidbody body;
 
+    [SerializeField] private bool canUpdate = false;
+
     /// <summary>
     /// The players movement speed. 
     /// </summary>
     public float speed = 100;
 
     public Vector3 LastInput => _lastInput;
-    public bool UpdatePause { get; set; } = false;
+    public bool UpdatePause { 
+        get => canUpdate; 
+        set
+        {
+            Debug.Log(">>Player::MoveSys - State [" +  value + "].");
+            canUpdate = value;
+        } 
+    } 
 
     void Start() 
     {
+        canUpdate = false;
         //Register the required commands. 
         RegisterCommands();
     }
@@ -110,28 +120,32 @@ public class MovementSys : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        if (UpdatePause)
+        {
+            _input = _lastInput = Vector3.zero;
+            body.linearVelocity = Vector3.zero;
+            return;
+        }
+    }
+
     void LateUpdate()
     {
-        if (!UpdatePause)
-        {
-            //Normalise the given input. 
-            _input.Normalize();
+        if (UpdatePause)
+            return;
 
-            //Apply the given movement to the players rigidbody multiplied by the players speed. 
-            body.linearVelocity = _input * speed;
+        //Normalise the given input. 
+        _input.Normalize();
 
-            //Cache the last input (possible to be used for attacks).
-            //TODO: Remove later if unused. 
-            _lastInput = _input;
+        //Apply the given movement to the players rigidbody multiplied by the players speed. 
+        body.linearVelocity = _input * speed;
 
-            //Reset the current input. 
-            _input = Vector3.zero;
-        }
-        else
-        {
-            _input = Vector3.zero;
-            _lastInput = Vector3.zero;
-            body.linearVelocity = Vector3.zero;
-        }
+        //Cache the last input (possible to be used for attacks).
+        //TODO: Remove later if unused. 
+        _lastInput = _input;
+
+        //Reset the current input. 
+        _input = Vector3.zero;
     }
 }

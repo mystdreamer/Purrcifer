@@ -13,6 +13,7 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private PlayerHealthRange _health;
     [SerializeField] private PlayerDamageData _damage;
     [SerializeField] private bool invincible = false;
+    [SerializeField] private bool deathNotified = false;
 
     public PlayerDamageData Damage => _damage;
 
@@ -105,8 +106,12 @@ public class PlayerState : MonoBehaviour
             return;
         UIManager.Instance.PlayerHealthBar.UpdateHealthbar(_health.current);
 
-        if (!Alive)
+        if (!Alive && !deathNotified)
+        {
+            deathNotified = true;
+            Debug.Log("Player Died.");
             GameManager.Instance.PlayerDeath();
+        }
     }
 
     private IEnumerator DamageIframes()

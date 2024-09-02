@@ -492,6 +492,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 14.2
       objectReference: {fileID: 0}
+    - target: {fileID: 4271520518258985644, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4393407355580978996, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
       propertyPath: m_Name
       value: Camera_Shutout
@@ -503,6 +507,18 @@ PrefabInstance:
     - target: {fileID: 4393407355580978996, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
       propertyPath: m_TagString
       value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 5448449072174625154, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555035212220286929, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563192350024692461, guid: 70386b2dfab097b4391cdd431cc94915, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
