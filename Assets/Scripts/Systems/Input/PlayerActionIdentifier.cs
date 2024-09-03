@@ -12,7 +12,6 @@ public enum PlayerActionIdentifier
     ACTION_LEFT = 5,
     ACTION_DOWN = 6, 
     ACTION_RIGHT = 7, 
-    A_INTERACT = 8,
     AXIS_LEFT_STICK = 9,
     AXIS_RIGHT_STICK = 10,
     AXIS_DPAD = 11,

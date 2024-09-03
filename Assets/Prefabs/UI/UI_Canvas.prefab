@@ -1901,9 +1901,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42787bd806cce7540a11a3c63cebd559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuIndexer:
+    _currentIndex: 0
+    _minIndex: 0
+    _maxIndex: 0
   gameOverRoot: {fileID: 0}
   imageFader: {fileID: 0}
   textFader: {fileID: 0}
+  textElements:
+  - {fileID: 0}
+  - {fileID: 0}
+  inactiveColor: {r: 0, g: 0, b: 0, a: 0}
+  activeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7341746791388669863
 GameObject:
   m_ObjectHideFlags: 0

@@ -54,6 +54,7 @@ public class MainMenuController : MonoBehaviour
     public PlayerInputSys inputSysRef;
     public MenuIndexer menuIndexer;
     bool canUpdate = true;
+    bool opActive = false;
     public TextMeshProUGUI[] textElements;
     public Color inactiveColor;
     public Color activeColor;
@@ -71,8 +72,8 @@ public class MainMenuController : MonoBehaviour
         inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_DPAD).DoAction += ResolveVector;
         inputSysRef.GetKey(PlayerActionIdentifier.M_UP).DoAction += UpKey;
         inputSysRef.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += DownKey;
-        inputSysRef.GetKey(PlayerActionIdentifier.A_INTERACT).DoAction += Accept;
-        inputSysRef.GetButton(PlayerActionIdentifier.A_INTERACT).DoAction += Accept;
+        inputSysRef.GetKey(PlayerActionIdentifier.ACTION_DOWN).DoAction += Accept;
+        inputSysRef.GetButton(PlayerActionIdentifier.ACTION_DOWN).DoAction += Accept;
     }
 
     private void ResolveVector(Vector3 result)
@@ -106,7 +107,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Accept(bool result)
     {
-        if (result)
+        if (result && !opActive)
         {
             switch (menuIndexer.CurrentIndex)
             {
@@ -126,6 +127,8 @@ public class MainMenuController : MonoBehaviour
                     ExitApplication();
                     break;
             }
+
+            opActive = true;
         }
     }
 
@@ -134,7 +137,6 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     public void NewGame()
     {
-        Debug.LogError(">> Menu: New Game. ");
         DataCarrier.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
     }

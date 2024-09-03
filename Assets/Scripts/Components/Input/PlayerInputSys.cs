@@ -126,11 +126,11 @@ public class PlayerInputSys : MonoBehaviour
         {
             new Player_InputKey(KeyCode.W, PlayerActionIdentifier.M_UP, "Move Up"),
             new Player_InputKey(KeyCode.S, PlayerActionIdentifier.M_DOWN, "Move Down"),
-            new Player_InputKey(KeyCode.Space, PlayerActionIdentifier.A_INTERACT, "Action Submit")
+            new Player_InputKey(KeyCode.Space, PlayerActionIdentifier.ACTION_DOWN, "Action Submit")
         };
 
         buttonData = new List<PlayerInput_ControllerButton>() {
-            new PlayerInput_ControllerButton(KeyCode.Joystick1Button0, PlayerActionIdentifier.A_INTERACT, "Action Submit")
+            new PlayerInput_ControllerButton(KeyCode.Joystick1Button0, PlayerActionIdentifier.ACTION_DOWN, "Action Submit")
         };
 
         axisData = new List<PlayerInput_ControllerAxis>()

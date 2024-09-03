@@ -444,6 +444,46 @@ PrefabInstance:
       propertyPath: gameOverRoot
       value: 
       objectReference: {fileID: 7939842139995677475}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: activeColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: activeColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: activeColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: activeColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: inactiveColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: inactiveColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: inactiveColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: inactiveColor.r
+      value: 0.3207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: 'textElements.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7939842139995677479}
+    - target: {fileID: 3845440628756785755, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
+      propertyPath: 'textElements.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7939842139995677478}
     - target: {fileID: 7164394234106065368, guid: 83d1b06221e86c748877816b6a7ad84a, type: 3}
       propertyPath: m_Name
       value: UI_Canvas
@@ -791,6 +831,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b41f4a13fb376bf47b1ae451be81e4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7939842139995677478 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4648210188719182128, guid: 54d3533a33ddd9748995a5b68d838762, type: 3}
+  m_PrefabInstance: {fileID: 7939842139995677474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7939842139995677479 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3485210174095943361, guid: 54d3533a33ddd9748995a5b68d838762, type: 3}
+  m_PrefabInstance: {fileID: 7939842139995677474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
