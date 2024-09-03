@@ -12,6 +12,9 @@ public class SplashHandler : MonoBehaviour
 
     void Start()
     {
+        Screen.SetResolution(1920, 1080, false);
+        Debug.developerConsoleEnabled = true;
+
         //Cache loader reference for completion checking.
         loader = SplashContentLoader.GetLoader();
 

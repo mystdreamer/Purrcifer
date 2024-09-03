@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8006632741209967316}
   - component: {fileID: 6068314111561116979}
   - component: {fileID: -6251202584187075783}
+  - component: {fileID: 5545469451611894756}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 8006632741209967316}
+  canUpdate: 0
   speed: 10
 --- !u!114 &-6251202584187075783
 MonoBehaviour:
@@ -164,3 +166,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799055d58eba2f84bb574baf9a45e6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health:
+    min: 0
+    max: 0
+    current: 0
+  _damage:
+    _baseDamage: 0
+    _damageMultiplier: 0
+    _criticalHitDamage: 0
+    _criticalHitChance: 0
+  invincible: 0
+  deathNotified: 0
+--- !u!114 &5545469451611894756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831002017157304993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf0f4e8c964bcb48bc96b5ead4d87cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swordPrefab: {fileID: 0}
+  detectionPoints: 10

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3866778943140996821}
   - component: {fileID: 4607499271989059048}
-  - component: {fileID: 4957711391843769506}
   - component: {fileID: 1777684823346026313}
   m_Layer: 0
   m_Name: GameManager
@@ -63,63 +62,11 @@ MonoBehaviour:
   floorMap:
     roomCount: 0
     floorCenter: {x: 0, y: 0}
+  menuInputSysPrefab: {fileID: 0}
+  gameplayInputSysPrefab: {fileID: 0}
   playerPrefab: {fileID: 6831002017157304993, guid: a602e1391837eaa4eaed7ccf84e66b6b, type: 3}
   playerCurrent: {fileID: 0}
   playerState: {fileID: 0}
---- !u!114 &4957711391843769506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842408124202293865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104e0a064da2ac149b33ecc6889625c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keycodeData:
-  - actionName: Move Up
-    type: 2
-    key: 119
-  - actionName: Move_Down
-    type: 3
-    key: 115
-  - actionName: Move_Right
-    type: 1
-    key: 100
-  - actionName: Move_Left
-    type: 0
-    key: 97
-  - actionName: Attack_Up
-    type: 4
-    key: 0
-  - actionName: Attack_Down
-    type: 5
-    key: 0
-  - actionName: Attack_Left
-    type: 6
-    key: 0
-  - actionName: Attack_Right
-    type: 7
-    key: 0
-  - actionName: Interact
-    type: 8
-    key: 101
-  buttonData: []
-  axisData:
-  - actionName: LS_Axis
-    type: 9
-    axisValueX: 0
-    axisValueZ: 0
-  - actionName: RH_Axis
-    type: 10
-    axisValueX: 0
-    axisValueZ: 0
-  - actionName: DPAD_AXIS
-    type: 11
-    axisValueX: 0
-    axisValueZ: 0
 --- !u!114 &1777684823346026313
 MonoBehaviour:
   m_ObjectHideFlags: 0

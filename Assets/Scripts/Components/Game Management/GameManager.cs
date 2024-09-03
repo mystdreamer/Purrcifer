@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private ObjectMap objectMap;
 
-
     /// <summary>
     /// The current object map.
     /// </summary>
@@ -154,9 +153,9 @@ public class GameManager : MonoBehaviour
     {
         playerCurrent = GameObject.Instantiate(playerPrefab);
         playerCurrent.transform.position = position;
-        playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
+        MovementSys mSys = playerCurrent.GetComponent<MovementSys>();
+        mSys.UpdatePause = true;
         playerState = playerCurrent.GetComponent<PlayerState>();
         playerState.SetPlayerData();
     }
-
 }

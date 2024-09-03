@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ public struct MenuIndexer
     [SerializeField] private int _currentIndex;
     [SerializeField] private int _minIndex;
     [SerializeField] private int _maxIndex;
-    [SerializeField] private TextMeshProUGUI[] _textElements;
+    private TextMeshProUGUI[] _textElements;
     Color _inactiveColor;
     Color _activeColor; 
 
@@ -53,7 +51,7 @@ public struct MenuIndexer
 /// </summary>
 public class MainMenuController : MonoBehaviour
 {
-    public PlayerInputSys inputSys;
+    public PlayerInputSys inputSysRef;
     public MenuIndexer menuIndexer;
     bool canUpdate = true;
     public TextMeshProUGUI[] textElements;
@@ -68,23 +66,13 @@ public class MainMenuController : MonoBehaviour
 
     private void RegisterInputs()
     {
-        inputSys.GetAxis(PlayerActionIdentifier.AXIS_LEFTSTICK).DoAction += ResolveVector;
-        inputSys.GetAxis(PlayerActionIdentifier.AXIS_DPAD).DoAction += ResolveVector;
-        inputSys.GetKey(PlayerActionIdentifier.M_UP).DoAction += UpKey;
-        inputSys.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += DownKey;
-        inputSys.GetKey(PlayerActionIdentifier.A_INTERACT).DoAction += Accept;
-        inputSys.GetButton(PlayerActionIdentifier.A_INTERACT).DoAction += Accept;
-    }
-
-    private void DeregisterInputs()
-    {
-        inputSys.GetAxis(PlayerActionIdentifier.AXIS_LEFTSTICK).DoAction -= ResolveVector;
-        inputSys.GetAxis(PlayerActionIdentifier.AXIS_DPAD).DoAction -= ResolveVector;
-        inputSys.GetKey(PlayerActionIdentifier.M_UP).DoAction -= UpKey;
-        inputSys.GetKey(PlayerActionIdentifier.M_DOWN).DoAction -= DownKey;
-        inputSys.GetKey(PlayerActionIdentifier.M_UP).DoAction -= Accept;
-        inputSys.GetButton(PlayerActionIdentifier.A_INTERACT).DoAction -= Accept;
-        DestroyImmediate(inputSys);
+        inputSysRef = PlayerInputSys.Instance; 
+        inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_LEFT_STICK).DoAction += ResolveVector;
+        inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_DPAD).DoAction += ResolveVector;
+        inputSysRef.GetKey(PlayerActionIdentifier.M_UP).DoAction += UpKey;
+        inputSysRef.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += DownKey;
+        inputSysRef.GetKey(PlayerActionIdentifier.A_INTERACT).DoAction += Accept;
+        inputSysRef.GetButton(PlayerActionIdentifier.A_INTERACT).DoAction += Accept;
     }
 
     private void ResolveVector(Vector3 result)
@@ -141,13 +129,12 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Function used for loading a new game. 
     /// </summary>
     public void NewGame()
     {
-        DeregisterInputs();
+        Debug.LogError(">> Menu: New Game. ");
         DataCarrier.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
     }
@@ -157,7 +144,7 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     public void LoadGame()
     {
-        DeregisterInputs();
+        Debug.LogError(">> Menu: Loading Game. ");
         UIManager.Instance.StartLevelTransitionFade(DataCarrier.SavedLevel, false);
     }
 
@@ -166,8 +153,7 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     public void OpenSettings()
     {
-        DeregisterInputs();
-        Debug.Log("Not implemented: Settings.");
+        Debug.LogError(">> Menu: Opening Settings. ");
     }
 
     /// <summary>
@@ -175,8 +161,8 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     public void OpenCredits()
     {
-        DeregisterInputs();
-        Debug.Log("Not implemented: Credits.");
+        Debug.LogError(">> Menu: Opening Credits. ");
+
     }
 
     /// <summary>
@@ -184,7 +170,7 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     public void ExitApplication()
     {
-        DeregisterInputs();
+        Debug.LogError(">> Menu: Exiting Application. ");
         Application.Quit();
     }
 

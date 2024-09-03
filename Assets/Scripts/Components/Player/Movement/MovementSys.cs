@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovementSys : MonoBehaviour
 {
     //Cache for the last input direction. 
-    Vector3 _lastInput = Vector2.zero;
+    static Vector3 _lastInput = Vector2.zero;
 
     //Cache for current input directions. 
     Vector3 _input = Vector2.zero;
@@ -21,7 +21,7 @@ public class MovementSys : MonoBehaviour
     /// </summary>
     public float speed = 100;
 
-    public Vector3 LastInput => _lastInput;
+    public static Vector3 LastInput => _lastInput;
 
     public bool UpdatePause
     {
@@ -34,18 +34,6 @@ public class MovementSys : MonoBehaviour
         canUpdate = false;
         //Register the required commands. 
         RegisterCommands();
-    }
-
-    private void OnDisable()
-    {
-        //Remove command registrations. 
-        DeregisterCommands();
-    }
-
-    private void OnDestroy()
-    {
-        //Remove command registrations.  
-        DeregisterCommands();
     }
 
     #region Movement Command Functions. 
@@ -64,19 +52,7 @@ public class MovementSys : MonoBehaviour
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction += MoveLeft;
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction += MoveDown;
         PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
-        PlayerInputSys.Instance.GetAxis(PlayerActionIdentifier.AXIS_LEFTSTICK).DoAction += MoveAxis;
-    }
-
-    /// <summary>
-    /// Deregister the commands functions used by this class from the command events in the input system. 
-    /// </summary>
-    private void DeregisterCommands()
-    {
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_LEFT).DoAction -= MoveRight;
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction -= MoveLeft;
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction -= MoveDown;
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction -= MoveUp;
-        PlayerInputSys.Instance.GetAxis(PlayerActionIdentifier.AXIS_LEFTSTICK).DoAction -= MoveAxis;
+        PlayerInputSys.Instance.GetAxis(PlayerActionIdentifier.AXIS_LEFT_STICK).DoAction += MoveAxis;
     }
 
     /// <summary>

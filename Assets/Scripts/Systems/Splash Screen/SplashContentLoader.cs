@@ -20,6 +20,7 @@ public class SplashContentLoader : MonoBehaviour
     {
         /////Preload content here. 
         DataCarrier.Generate(); //Load the game save data. 
+        PlayerInputSys refSet = PlayerInputSys.Instance; 
         /////Preload content here. 
 
         SceneManager.LoadSceneAsync("UI_", LoadSceneMode.Additive);
