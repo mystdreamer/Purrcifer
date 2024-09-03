@@ -286,6 +286,14 @@ MonoBehaviour:
     currentIndex: 0
     minIndex: 0
     maxIndex: 0
+    textElements: []
+  textElements:
+  - {fileID: 239392132}
+  - {fileID: 1986995846}
+  - {fileID: 1396916930}
+  - {fileID: 2126134285}
+  inactiveColor: {r: 0.5566038, g: 0, b: 0, a: 1}
+  activeColor: {r: 1, g: 0.023584902, b: 0.023584902, a: 1}
 --- !u!4 &135284842
 Transform:
   m_ObjectHideFlags: 0

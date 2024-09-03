@@ -1,33 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 
 [System.Serializable]
 public struct MenuIndexer
 {
-    [SerializeField] private int currentIndex;
-    [SerializeField] private int minIndex;
-    [SerializeField] private int maxIndex;
+    [SerializeField] private int _currentIndex;
+    [SerializeField] private int _minIndex;
+    [SerializeField] private int _maxIndex;
+    [SerializeField] private TextMeshProUGUI[] _textElements;
+    Color _inactiveColor;
+    Color _activeColor; 
 
-    public MenuIndexer(int currentIndex, int minIndex, int maxIndex)
+    public MenuIndexer(int currentIndex, int minIndex, int maxIndex, TextMeshProUGUI[] textElements, Color inactiveColor, Color activeColor)
     {
-        this.currentIndex = currentIndex;
-        this.minIndex = minIndex;
-        this.maxIndex = maxIndex;
+        this._currentIndex = currentIndex;
+        this._minIndex = minIndex;
+        this._maxIndex = maxIndex;
+        this._textElements = textElements;
+        this._inactiveColor = inactiveColor;
+        this._activeColor = activeColor;
+        UpdateIndex();
     }
 
     public int CurrentIndex
     {
-        get => currentIndex;
+        get => _currentIndex;
         set
         {
-            currentIndex = value;
-            if (currentIndex < minIndex)
-                currentIndex = maxIndex;
-            if (currentIndex > maxIndex)
-                currentIndex = minIndex;
+            _currentIndex = value;
+            UpdateIndex();
         }
+    }
+
+    private void UpdateIndex()
+    {
+        if (_currentIndex < _minIndex)
+            _currentIndex = _maxIndex;
+        if (_currentIndex > _maxIndex)
+            _currentIndex = _minIndex;
+
+        for (int i = 0; i < _textElements.Length; i++)
+            if (_textElements[i] != null)
+                _textElements[i].color = (i == _currentIndex) ? _activeColor : _inactiveColor;
     }
 }
 
@@ -39,10 +56,13 @@ public class MainMenuController : MonoBehaviour
     public PlayerInputSys inputSys;
     public MenuIndexer menuIndexer;
     bool canUpdate = true;
+    public TextMeshProUGUI[] textElements;
+    public Color inactiveColor;
+    public Color activeColor;
 
     private void Start()
     {
-        menuIndexer = new MenuIndexer(0, 0, 4);
+        menuIndexer = new MenuIndexer(0, 0, 4, textElements, inactiveColor, activeColor);
         RegisterInputs();
     }
 
@@ -81,7 +101,7 @@ public class MainMenuController : MonoBehaviour
         if (canUpdate && result)
         {
             canUpdate = false;
-            menuIndexer.CurrentIndex += 1;
+            menuIndexer.CurrentIndex -= 1;
             StartCoroutine(MenuCooldown());
         }
     }
@@ -91,7 +111,7 @@ public class MainMenuController : MonoBehaviour
         if (canUpdate && result)
         {
             canUpdate = false;
-            menuIndexer.CurrentIndex -= 1;
+            menuIndexer.CurrentIndex += 1;
             StartCoroutine(MenuCooldown());
         }
     }
