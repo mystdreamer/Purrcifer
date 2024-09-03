@@ -26,8 +26,7 @@ public class UI_GameOverController : MonoBehaviour
 
     public void OnEnable()
     {
-        
-        RegisterInputs();
+
     }
 
     private void RegisterInputs()
@@ -89,7 +88,10 @@ public class UI_GameOverController : MonoBehaviour
 
     public void EnableGameOverScreen()
     {
+        opActive = false;
         gameOverRoot.SetActive(true);
+        PlayerInputSys.Instance.ClearDelegates();
+        PlayerInputSys.Instance.SetMenu();
         RegisterInputs();
     }
 

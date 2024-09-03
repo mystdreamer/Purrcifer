@@ -119,7 +119,7 @@ public class PlayerInputSys : MonoBehaviour
         }
     }
 
-    private void SetMenu()
+    public void SetMenu()
     {
         ///Setup key list. 
         keycodeData = new List<Player_InputKey>()
@@ -142,7 +142,7 @@ public class PlayerInputSys : MonoBehaviour
         Setup();
     }
 
-    private void SetGameplay()
+    public void SetGameplay()
     {
         ///Setup key list. 
         keycodeData = new List<Player_InputKey>()
@@ -202,7 +202,7 @@ public class PlayerInputSys : MonoBehaviour
         ClearDelegates();
     }
 
-    private void ClearDelegates()
+    public void ClearDelegates()
     {
         foreach (PlayerInput input in inputs)
         {
