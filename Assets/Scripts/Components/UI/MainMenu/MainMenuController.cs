@@ -9,7 +9,7 @@ public interface IMenu
 }
 
 [System.Serializable]
-public class MenuIndexer
+public struct MenuIndexer
 {
     [SerializeField] private int _currentIndex;
     [SerializeField] private int _minIndex;
@@ -42,8 +42,8 @@ public class MenuIndexer
     private void UpdateIndex()
     {
         if (_currentIndex < _minIndex)
-            _currentIndex = _maxIndex;
-        if (_currentIndex > _maxIndex)
+            _currentIndex = _maxIndex - 1;
+        if (_currentIndex > _maxIndex - 1)
             _currentIndex = _minIndex;
 
         for (int i = 0; i < _textElements.Length; i++)
