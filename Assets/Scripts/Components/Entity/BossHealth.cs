@@ -44,12 +44,6 @@ public class BossHealth : MonoBehaviour, IEntityInterface
         }
     }
 
-    float IEntityInterface.Health
-    {
-        get => this.current;
-        set => this.current = value;
-    }
-
     /// <summary>
     /// Returns the maximum cap for the players health. 
     /// </summary>
@@ -89,5 +83,10 @@ public class BossHealth : MonoBehaviour, IEntityInterface
     public static BossHealth GetTestDefault()
     {
         return new BossHealth(0, 5, 5);
+    }
+
+    public void ApplyDamage(float value)
+    {
+        Health -= value;
     }
 }

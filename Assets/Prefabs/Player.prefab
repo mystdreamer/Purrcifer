@@ -196,3 +196,5 @@ MonoBehaviour:
     down: {fileID: 8993293385750091446, guid: bb75eded321baa84084175916beff25e, type: 3}
     left: {fileID: 3480806994489911200, guid: fd3d5d836b3230d44a8c1e71a23d6edb, type: 3}
     right: {fileID: 5957003687661767377, guid: 7f78e9674ce746f4aa2831d2b457bd8f, type: 3}
+    destructionTime: 0.4
+    cooldownTime: 0.2

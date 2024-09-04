@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IEntityInterface
 {
-    float Health { get; set; }
+    void ApplyDamage(float value);
 }
 
 public class EntityHealth : MonoBehaviour, IEntityInterface
@@ -45,7 +45,10 @@ public class EntityHealth : MonoBehaviour, IEntityInterface
         set
         {
             current = value; 
-            current = Mathf.Clamp(current, min, max);
+            if(current < min) 
+                current = min;
+            if(current > max)
+                current = max;
         }
     }
 
@@ -65,11 +68,6 @@ public class EntityHealth : MonoBehaviour, IEntityInterface
     {
         get => min;
         set => min = value;
-    }
-
-    float IEntityInterface.Health { 
-        get => this.current; 
-        set => this.current = value; 
     }
 
     /// <summary>
@@ -95,4 +93,9 @@ public class EntityHealth : MonoBehaviour, IEntityInterface
         return new EntityHealth(0, 5, 5);
     }
 
+    public void ApplyDamage(float value)
+    {
+        Debug.Log("Applying damage.");
+;        Health -= value; 
+    }
 }
