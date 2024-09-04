@@ -2,7 +2,7 @@
 /// <summary>
 /// Enums representing the given actions a player can take. 
 /// </summary>
-public enum PlayerActionIdentifier
+public enum PInputIdentifier
 {
     M_LEFT = 0, 
     M_RIGHT = 1, 

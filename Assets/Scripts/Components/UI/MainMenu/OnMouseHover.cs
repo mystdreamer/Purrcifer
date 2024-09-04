@@ -3,11 +3,20 @@ using UnityEngine.EventSystems;
 
 public class OnMouseHover : MonoBehaviour, IPointerEnterHandler
 {
-    public MainMenuController mainMenuController;
-    public int index; 
+    public MainMenuController menuIndexer;
+    public UI_GameOverController gameOverIndexer;
+    public int index;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mainMenuController.menuIndexer.CurrentIndex = index;
+        if ((IMenu)menuIndexer != null)
+        {
+            ((IMenu)menuIndexer).SetIndex(index);
+        }
+
+        if ((IMenu)gameOverIndexer != null)
+        {
+            ((IMenu)gameOverIndexer).SetIndex(index);
+        }
     }
 }

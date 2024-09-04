@@ -1,16 +1,22 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public interface IMenu
+{
+    void SetIndex(int i);
+}
 
 [System.Serializable]
-public struct MenuIndexer
+public class MenuIndexer
 {
     [SerializeField] private int _currentIndex;
     [SerializeField] private int _minIndex;
     [SerializeField] private int _maxIndex;
     private TextMeshProUGUI[] _textElements;
     Color _inactiveColor;
-    Color _activeColor; 
+    Color _activeColor;
 
     public MenuIndexer(int currentIndex, int minIndex, int maxIndex, TextMeshProUGUI[] textElements, Color inactiveColor, Color activeColor)
     {
@@ -46,34 +52,74 @@ public struct MenuIndexer
     }
 }
 
-/// <summary>
-/// Controller required for menu functioning. 
-/// </summary>
-public class MainMenuController : MonoBehaviour
+public abstract class MenuBase : MonoBehaviour, IMenu
 {
-    public PlayerInputSys inputSysRef;
     public MenuIndexer menuIndexer;
-    bool canUpdate = true;
-    bool opActive = false;
     public TextMeshProUGUI[] textElements;
     public Color inactiveColor;
     public Color activeColor;
+    [SerializeField] bool canUpdate = true;
+    [SerializeField] bool opActive = false;
 
     private void Start()
     {
-        menuIndexer = new MenuIndexer(0, 0, 4, textElements, inactiveColor, activeColor);
+        menuIndexer = new MenuIndexer(0, 0, textElements.Length, textElements, inactiveColor, activeColor);
         RegisterInputs();
+        OnEnableOwner();
+    }
+
+    private void OnEnable()
+    {
+        menuIndexer = new MenuIndexer(0, 0, textElements.Length, textElements, inactiveColor, activeColor);
+        RegisterInputs();
+        OnEnableOwner();
     }
 
     private void RegisterInputs()
     {
-        inputSysRef = PlayerInputSys.Instance; 
-        inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_LEFT_STICK).DoAction += ResolveVector;
-        inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_DPAD).DoAction += ResolveVector;
-        inputSysRef.GetKey(PlayerActionIdentifier.M_UP).DoAction += UpKey;
-        inputSysRef.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += DownKey;
-        inputSysRef.GetKey(PlayerActionIdentifier.ACTION_DOWN).DoAction += Accept;
-        inputSysRef.GetButton(PlayerActionIdentifier.ACTION_DOWN).DoAction += Accept;
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction += ResolveVector;
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_DPAD).DoAction += ResolveVector;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction += UpKey;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction += DownKey;
+        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction += Accept;
+    }
+
+    private void DeregisterInputs()
+    {
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction -= ResolveVector;
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_DPAD).DoAction -= ResolveVector;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction -= UpKey;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction -= DownKey;
+        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= Accept;
+        PlayerInputSys.Instance.ClearDelegates(); 
+        StopAllCoroutines();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(DefaultInputs.KEY_MENU_A))
+            Accept(true); 
+    }
+
+    private void OnDisable()
+    {
+        OnDisableOwner();
+        DeregisterInputs();
+    }
+
+    private void OnDestroy()
+    {
+        OnDisableOwner();
+        DeregisterInputs();
+    }
+
+    private void OnUnloaded(Scene current, LoadSceneMode mode)
+    {
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction -= ResolveVector;
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_DPAD).DoAction -= ResolveVector;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction -= UpKey;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction -= DownKey;
+        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= Accept;
     }
 
     private void ResolveVector(Vector3 result)
@@ -109,29 +155,55 @@ public class MainMenuController : MonoBehaviour
     {
         if (result && !opActive)
         {
+            opActive = true;
             switch (menuIndexer.CurrentIndex)
             {
                 case 0:
-                    NewGame();
+                    OptionA();
                     break;
                 case 1:
-                    LoadGame();
+                    OptionB();
                     break;
                 case 2:
-                    OpenSettings();
+                    OptionC();
                     break;
                 case 3:
-                    OpenCredits();
+                    OptionD();
                     break;
                 case 4:
-                    ExitApplication();
+                    OptionE();
                     break;
             }
 
-            opActive = true;
         }
     }
 
+    internal virtual void OptionA() { }
+    internal virtual void OptionB() { }
+    internal virtual void OptionC() { }
+    internal virtual void OptionD() { }
+    internal virtual void OptionE() { }
+
+    internal virtual void OnEnableOwner() { }
+    internal virtual void OnDisableOwner() { }
+
+    private IEnumerator MenuCooldown()
+    {
+        yield return new WaitForSeconds(0.25f);
+        canUpdate = true;
+    }
+
+    public void SetIndex(int i)
+    {
+        menuIndexer.CurrentIndex = i;
+    }
+}
+
+/// <summary>
+/// Controller required for menu functioning. 
+/// </summary>
+public class MainMenuController : MenuBase
+{
     /// <summary>
     /// Function used for loading a new game. 
     /// </summary>
@@ -176,10 +248,14 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    private IEnumerator MenuCooldown()
-    {
-        yield return new WaitForSeconds(0.25f);
-        canUpdate = true;
-    }
+    internal override void OptionA() => NewGame();
+
+    internal override void OptionB() => LoadGame();
+
+    internal override void OptionC() => OpenSettings();
+
+    internal override void OptionD() => OpenCredits();
+
+    internal override void OptionE() => ExitApplication();
 }
 

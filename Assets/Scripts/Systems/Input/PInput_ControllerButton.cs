@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Purrcifer.Inputs.Container
 {
-    /// <summary>
-    /// Class handling data for player inputs. 
-    /// </summary>
     [System.Serializable]
-    public class Player_InputKey : PlayerInput
+    public class PInput_ControllerButton : PlayerInput
     {
         /// <summary>
         /// Delegate used by this action. 
@@ -21,22 +17,22 @@ namespace Purrcifer.Inputs.Container
         public event MovementAction DoAction;
 
         /// <summary>
-        /// The key assigned to the action. 
+        /// The controller button assigned to the action. 
         /// </summary>
-        public KeyCode key;
+        public KeyCode Button;
 
-        public Player_InputKey(KeyCode key, PlayerActionIdentifier identifier, string name)
+        public PInput_ControllerButton(KeyCode button, PInputIdentifier identifier, string name)
         {
-            this.actionName = name;
+            this.Button = button;
             this.type = identifier;
-            this.key = key;
+            this.actionName = name;
         }
 
         public override void Command()
         {
-            if (Input.GetKey(key))
+            if (Input.GetKey(Button))
                 DoAction?.Invoke(true);
-            if (Input.GetKeyUp(key))
+            if (Input.GetKeyUp(Button))
                 DoAction?.Invoke(false);
         }
 

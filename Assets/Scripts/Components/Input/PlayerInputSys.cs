@@ -15,9 +15,9 @@ public class PlayerInputSys : MonoBehaviour
     /// <summary>
     /// The current keycode data assigned in the editor. 
     /// </summary>
-    public List<Player_InputKey> keycodeData;
-    public List<PlayerInput_ControllerButton> buttonData;
-    public List<PlayerInput_ControllerAxis> axisData;
+    public List<PInput_Key> keycodeData;
+    public List<PInput_ControllerButton> buttonData;
+    public List<PInput_ControllerAxis> axisData;
     public PlayerInput[] inputs;
 
     /// <summary>
@@ -51,7 +51,7 @@ public class PlayerInputSys : MonoBehaviour
         }
         #endregion
 
-        SetMenu();
+        SetInputs();
     }
 
     private void OnEnable()
@@ -77,7 +77,7 @@ public class PlayerInputSys : MonoBehaviour
         UpdateInput();
     }
 
-    public Player_InputKey GetKey(PlayerActionIdentifier type)
+    public PInput_Key GetKey(PInputIdentifier type)
     {
         for (int i = 0; i < keycodeData.Count; i++)
         {
@@ -87,7 +87,7 @@ public class PlayerInputSys : MonoBehaviour
         return null;
     }
 
-    public PlayerInput_ControllerButton GetButton(PlayerActionIdentifier type)
+    public PInput_ControllerButton GetButton(PInputIdentifier type)
     {
         for (int i = 0; i < buttonData.Count; i++)
         {
@@ -97,7 +97,7 @@ public class PlayerInputSys : MonoBehaviour
         return null;
     }
 
-    public PlayerInput_ControllerAxis GetAxis(PlayerActionIdentifier type)
+    public PInput_ControllerAxis GetAxis(PInputIdentifier type)
     {
         for (int i = 0; i < axisData.Count; i++)
         {
@@ -119,56 +119,33 @@ public class PlayerInputSys : MonoBehaviour
         }
     }
 
-    public void SetMenu()
+    private void SetInputs()
     {
         ///Setup key list. 
-        keycodeData = new List<Player_InputKey>()
+        keycodeData = new List<PInput_Key>()
         {
-            new Player_InputKey(KeyCode.W, PlayerActionIdentifier.M_UP, "Move Up"),
-            new Player_InputKey(KeyCode.S, PlayerActionIdentifier.M_DOWN, "Move Down"),
-            new Player_InputKey(KeyCode.Space, PlayerActionIdentifier.ACTION_DOWN, "Action Submit")
+            new (DefaultInputs.KEY_M_UP, PInputIdentifier.M_UP, "MOVE_UP"),
+            new (DefaultInputs.KEY_M_DOWN, PInputIdentifier.M_DOWN, "MOVE_DOWN"),
+            new (DefaultInputs.KEY_M_LEFT, PInputIdentifier.M_LEFT, "MOVE_LEFT"),
+            new (DefaultInputs.KEY_M_RIGHT, PInputIdentifier.M_RIGHT, "MOVE_RIGHT"),
+            new (DefaultInputs.KEY_A_UP, PInputIdentifier.ACTION_UP, "ACTION_UP"),
+            new (DefaultInputs.KEY_A_LEFT, PInputIdentifier.ACTION_LEFT, "ACTION_LEFT"),
+            new (DefaultInputs.KEY_A_DOWN, PInputIdentifier.ACTION_DOWN, "ACTION_DOWN"),
+            new (DefaultInputs.KEY_A_RIGHT, PInputIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
         };
 
-        buttonData = new List<PlayerInput_ControllerButton>() {
-            new PlayerInput_ControllerButton(KeyCode.Joystick1Button0, PlayerActionIdentifier.ACTION_DOWN, "Action Submit")
+        buttonData = new List<PInput_ControllerButton>() {
+            new (DefaultInputs.CTLR_Y, PInputIdentifier.ACTION_UP, "ACTION_UP"),
+            new (DefaultInputs.CTLR_X, PInputIdentifier.ACTION_LEFT, "ACTION_LEFT"),
+            new (DefaultInputs.CTLR_A, PInputIdentifier.ACTION_DOWN, "ACTION_DOWN"),
+            new (DefaultInputs.CTLR_B, PInputIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
         };
 
-        axisData = new List<PlayerInput_ControllerAxis>()
+        axisData = new List<PInput_ControllerAxis>()
         {
-            new PlayerInput_ControllerAxis(PlayerActionIdentifier.AXIS_LEFT_STICK, "AXIS_LEFT_STICK"),
-            new PlayerInput_ControllerAxis(PlayerActionIdentifier.AXIS_DPAD, "AXIS_DPAD"),
-        };
-
-        Setup();
-    }
-
-    public void SetGameplay()
-    {
-        ///Setup key list. 
-        keycodeData = new List<Player_InputKey>()
-        {
-            new Player_InputKey(KeyCode.W, PlayerActionIdentifier.M_UP, "MOVE_UP"),
-            new Player_InputKey(KeyCode.S, PlayerActionIdentifier.M_DOWN, "MOVE_DOWN"),
-            new Player_InputKey(KeyCode.A, PlayerActionIdentifier.M_LEFT, "MOVE_LEFT"),
-            new Player_InputKey(KeyCode.D, PlayerActionIdentifier.M_RIGHT, "MOVE_RIGHT"),
-            new Player_InputKey(KeyCode.UpArrow, PlayerActionIdentifier.ACTION_UP, "ACTION_UP"),
-            new Player_InputKey(KeyCode.LeftArrow, PlayerActionIdentifier.ACTION_LEFT, "ACTION_LEFT"),
-            new Player_InputKey(KeyCode.DownArrow, PlayerActionIdentifier.ACTION_DOWN, "ACTION_DOWN"),
-            new Player_InputKey(KeyCode.RightArrow, PlayerActionIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
-        };
-
-        buttonData = new List<PlayerInput_ControllerButton>() {
-            new PlayerInput_ControllerButton(KeyCode.Joystick1Button3, PlayerActionIdentifier.ACTION_UP, "ACTION_UP"),
-            new PlayerInput_ControllerButton(KeyCode.Joystick1Button2, PlayerActionIdentifier.ACTION_LEFT, "ACTION_LEFT"),
-            new PlayerInput_ControllerButton(KeyCode.Joystick1Button1, PlayerActionIdentifier.ACTION_DOWN, "ACTION_DOWN"),
-            new PlayerInput_ControllerButton(KeyCode.Joystick1Button0, PlayerActionIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
-        };
-
-        axisData = new List<PlayerInput_ControllerAxis>()
-        {
-            new PlayerInput_ControllerAxis(PlayerActionIdentifier.AXIS_LEFT_STICK, "AXIS_LEFT_STICK"),
-            new PlayerInput_ControllerAxis(PlayerActionIdentifier.AXIS_RIGHT_STICK, "AXIS_RIGHT_STICK"),
-            new PlayerInput_ControllerAxis(PlayerActionIdentifier.AXIS_DPAD, "AXIS_DPAD"),
+            new (DefaultInputs.AXIS_M_LEFT, "AXIS_LEFT_STICK"),
+            new (DefaultInputs.AXIS_A_RIGHT, "AXIS_RIGHT_STICK"),
+            new (DefaultInputs.AXIS_DPAD, "AXIS_DPAD"),
         };
         Setup();
     }
@@ -186,15 +163,7 @@ public class PlayerInputSys : MonoBehaviour
 
     private void OnUnloaded(Scene current, LoadSceneMode mode)
     {
-        if (current.buildIndex == (int)LevelLoading.LevelID.SPLASH ||
-            current.buildIndex == (int)LevelLoading.LevelID.MAIN)
-        {
-            SetMenu();
-        }
-        else
-        {
-            SetGameplay(); 
-        }
+        ClearDelegates();
     }
 
     private void OnUnloaded(Scene current)

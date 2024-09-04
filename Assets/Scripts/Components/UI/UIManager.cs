@@ -55,8 +55,7 @@ public class UIManager : MonoBehaviour
     public void ResetUIState()
     {
         _bossHealthBar.Deactivate();
-        _gameOverController.DeactivateGameOverScreen();
-
+        _gameOverController.enabled = false;
     }
 
     #region Gameplay Updating.
@@ -84,10 +83,7 @@ public class UIManager : MonoBehaviour
         Instance._bossHealthBar.SetUp(bossHealth);
     }
 
-    public static void EnableGameOverScreen()
-    {
-        Instance._gameOverController.EnableGameOverScreen();
-    }
+    public static void EnableGameOverScreen() => Instance._gameOverController.enabled = true;
     #endregion
 
     #region UI Transition Fade Functions. 

@@ -5,124 +5,49 @@ using UnityEngine;
 using static UnityEngine.PlayerLoop.PreUpdate;
 using UnityEngine.InputSystem;
 
-public class UI_GameOverController : MonoBehaviour
+public class UI_GameOverController : MenuBase
 {
-    public MenuIndexer menuIndexer;
-
     public GameObject gameOverRoot;
     public UI_ImageFader imageFader;
     public UI_TextFader textFader;
-    public TextMeshProUGUI[] textElements;
-    public Color inactiveColor;
-    public Color activeColor;
-    bool canUpdate = true;
-    bool opActive = false;
 
-    public void Start()
+    internal override void OnEnableOwner()
     {
-        menuIndexer = new MenuIndexer(0, 0, 1, textElements, inactiveColor, activeColor);
-        gameOverRoot.SetActive(false);
-    }
-
-    public void OnEnable()
-    {
-
-    }
-
-    private void RegisterInputs()
-    {
-        PlayerInputSys inputSysRef = PlayerInputSys.Instance;
-        inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_LEFT_STICK).DoAction += ResolveVector;
-        inputSysRef.GetAxis(PlayerActionIdentifier.AXIS_DPAD).DoAction += ResolveVector;
-        inputSysRef.GetKey(PlayerActionIdentifier.M_UP).DoAction += UpKey;
-        inputSysRef.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += DownKey;
-        inputSysRef.GetKey(PlayerActionIdentifier.ACTION_DOWN).DoAction += Accept;
-        inputSysRef.GetButton(PlayerActionIdentifier.ACTION_DOWN).DoAction += Accept;
-    }
-
-    private void ResolveVector(Vector3 result)
-    {
-        if (result.z < 0)
-            DownKey(true);
-
-        if (result.z > 0)
-            UpKey(true);
-    }
-
-    private void UpKey(bool result)
-    {
-        if (canUpdate && result)
-        {
-            canUpdate = false;
-            menuIndexer.CurrentIndex -= 1;
-            StartCoroutine(MenuCooldown());
-        }
-    }
-
-    private void DownKey(bool result)
-    {
-        if (canUpdate && result)
-        {
-            canUpdate = false;
-            menuIndexer.CurrentIndex += 1;
-            StartCoroutine(MenuCooldown());
-        }
-    }
-
-    private void Accept(bool result)
-    {
-        if (result && !opActive)
-        {
-            switch (menuIndexer.CurrentIndex)
-            {
-                case 0:
-                    NewGame();
-                    break;
-                case 1:
-                    LoadMenu();
-                    break;
-            }
-            opActive = true;
-        }
-    }
-
-    public void EnableGameOverScreen()
-    {
-        opActive = false;
         gameOverRoot.SetActive(true);
-        PlayerInputSys.Instance.ClearDelegates();
-        PlayerInputSys.Instance.SetMenu();
-        RegisterInputs();
+        base.OnEnableOwner();
     }
 
-    public void DeactivateGameOverScreen()
+    internal override void OnDisableOwner()
     {
         gameOverRoot.SetActive(false);
+        base.OnDisableOwner();
     }
 
+    #region Menu Actions. 
     /// <summary>
     /// Function used for loading a new game. 
     /// </summary>
-    public void NewGame()
+    private void NewGame()
     {
         Debug.Log("New Game Called");
         DataCarrier.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
+        this.enabled = false;
     }
 
     /// <summary>
     /// Function used for loading a new game. 
     /// </summary>
-    public void LoadMenu()
+    private void LoadMenu()
     {
         Debug.Log("Load Menu Called");
         DataCarrier.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.MAIN, true);
+        this.enabled = false;
     }
 
-    private IEnumerator MenuCooldown()
-    {
-        yield return new WaitForSeconds(0.25f);
-        canUpdate = true;
-    }
+    internal override void OptionA() => NewGame();
+
+    internal override void OptionB() => LoadMenu();
+    #endregion
 }

@@ -11,9 +11,9 @@
         /// <summary>
         /// The action type assigned. 
         /// </summary>
-        public PlayerActionIdentifier type;
+        public PInputIdentifier type;
 
-        public bool IsInput(PlayerActionIdentifier actionIdentifier)
+        public bool IsInput(PInputIdentifier actionIdentifier)
         {
             return (int)type == (int)actionIdentifier;
         }

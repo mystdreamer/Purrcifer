@@ -3,7 +3,7 @@
 namespace Purrcifer.Inputs.Container
 {
     [System.Serializable]
-    public class PlayerInput_ControllerAxis : PlayerInput
+    public class PInput_ControllerAxis : PlayerInput
     {
         public const string LEFT_STICK_H = "Horizontal";
         public const string LEFT_STICK_V = "Vertical";
@@ -24,7 +24,7 @@ namespace Purrcifer.Inputs.Container
         /// </summary>
         public event MovementAction DoAction;
 
-        public PlayerInput_ControllerAxis(PlayerActionIdentifier identifier, string name)
+        public PInput_ControllerAxis(PInputIdentifier identifier, string name)
         {
             this.type = identifier;
             this.actionName = name;
@@ -35,19 +35,19 @@ namespace Purrcifer.Inputs.Container
             axisValueX = 0;
             axisValueZ = 0;
 
-            if (type == PlayerActionIdentifier.AXIS_LEFT_STICK)
+            if (type == PInputIdentifier.AXIS_LEFT_STICK)
             {
                 axisValueX = Input.GetAxis(LEFT_STICK_H);
                 axisValueZ = Input.GetAxis(LEFT_STICK_V);
             }
 
-            if (type == PlayerActionIdentifier.AXIS_RIGHT_STICK)
+            if (type == PInputIdentifier.AXIS_RIGHT_STICK)
             {
                 axisValueX = Input.GetAxis(RIGHT_STICK_H);
                 axisValueZ = -1 * Input.GetAxis(RIGHT_STICK_V);
             }
 
-            if (type == PlayerActionIdentifier.AXIS_DPAD)
+            if (type == PInputIdentifier.AXIS_DPAD)
             {
                 axisValueX = Input.GetAxis("DPAD_H");
                 axisValueZ = Input.GetAxis("DPAD_V");

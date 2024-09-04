@@ -48,11 +48,11 @@ public class MovementSys : MonoBehaviour
     /// </summary>
     private void RegisterCommands()
     {
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_LEFT).DoAction += MoveRight;
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_RIGHT).DoAction += MoveLeft;
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_UP).DoAction += MoveDown;
-        PlayerInputSys.Instance.GetKey(PlayerActionIdentifier.M_DOWN).DoAction += MoveUp;
-        PlayerInputSys.Instance.GetAxis(PlayerActionIdentifier.AXIS_LEFT_STICK).DoAction += MoveAxis;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_LEFT).DoAction += MoveRight;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_RIGHT).DoAction += MoveLeft;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction += MoveDown;
+        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction += MoveUp;
+        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction += MoveAxis;
     }
 
     /// <summary>
