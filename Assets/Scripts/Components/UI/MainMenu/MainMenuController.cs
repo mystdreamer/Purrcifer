@@ -3,11 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public interface IMenu
-{
-    void SetIndex(int i);
-}
-
 [System.Serializable]
 public struct MenuIndexer
 {
@@ -52,7 +47,7 @@ public struct MenuIndexer
     }
 }
 
-public abstract class MenuBase : MonoBehaviour, IMenu
+public abstract class MenuBase : MonoBehaviour
 {
     public MenuIndexer menuIndexer;
     public TextMeshProUGUI[] textElements;
@@ -60,9 +55,14 @@ public abstract class MenuBase : MonoBehaviour, IMenu
     public Color activeColor;
     [SerializeField] bool canUpdate = true;
     [SerializeField] bool opActive = false;
+    public int SetIndex
+    {
+        set => menuIndexer.CurrentIndex = value;
+    }
 
     private void Start()
     {
+        SceneManager.activeSceneChanged += ChangedActiveScene;
         menuIndexer = new MenuIndexer(0, 0, textElements.Length, textElements, inactiveColor, activeColor);
         RegisterInputs();
         OnEnableOwner();
@@ -92,7 +92,6 @@ public abstract class MenuBase : MonoBehaviour, IMenu
         PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction -= DownKey;
         PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= Accept;
         PlayerInputSys.Instance.ClearDelegates(); 
-        StopAllCoroutines();
     }
 
     private void Update()
@@ -101,17 +100,19 @@ public abstract class MenuBase : MonoBehaviour, IMenu
             Accept(true); 
     }
 
-    private void OnDisable()
+    private void ResetState()
     {
         OnDisableOwner();
         DeregisterInputs();
+        canUpdate = true;
+        opActive = false;
     }
 
-    private void OnDestroy()
-    {
-        OnDisableOwner();
-        DeregisterInputs();
-    }
+    private void OnDisable() => ResetState();
+
+    private void OnDestroy() => ResetState();
+
+    private void ChangedActiveScene(Scene current, Scene next)=> ResetState();
 
     private void OnUnloaded(Scene current, LoadSceneMode mode)
     {
@@ -122,6 +123,13 @@ public abstract class MenuBase : MonoBehaviour, IMenu
         PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= Accept;
     }
 
+    private IEnumerator MenuCooldown()
+    {
+        yield return new WaitForSeconds(0.25f);
+        canUpdate = true;
+    }
+
+    #region Input. 
     private void ResolveVector(Vector3 result)
     {
         if (result.z < 0)
@@ -177,26 +185,17 @@ public abstract class MenuBase : MonoBehaviour, IMenu
 
         }
     }
+    #endregion
 
+    #region Virtual Functions. 
     internal virtual void OptionA() { }
     internal virtual void OptionB() { }
     internal virtual void OptionC() { }
     internal virtual void OptionD() { }
     internal virtual void OptionE() { }
-
     internal virtual void OnEnableOwner() { }
     internal virtual void OnDisableOwner() { }
-
-    private IEnumerator MenuCooldown()
-    {
-        yield return new WaitForSeconds(0.25f);
-        canUpdate = true;
-    }
-
-    public void SetIndex(int i)
-    {
-        menuIndexer.CurrentIndex = i;
-    }
+    #endregion
 }
 
 /// <summary>
