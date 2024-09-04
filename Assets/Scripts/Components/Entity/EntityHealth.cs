@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public class EntityHealth : MonoBehaviour
+public interface IEntityInterface
+{
+    float Health { get; set; }
+}
+
+public class EntityHealth : MonoBehaviour, IEntityInterface
 {
     /// <summary>
     /// The minimum range of the pool.
@@ -61,6 +66,10 @@ public class EntityHealth : MonoBehaviour
         get => min;
         set => min = value;
     }
+    float IEntityInterface.Health { 
+        get => this.current; 
+        set => this.current = value; 
+    }
 
     /// <summary>
     /// CTOR. 
@@ -84,4 +93,5 @@ public class EntityHealth : MonoBehaviour
     {
         return new EntityHealth(0, 5, 5);
     }
+
 }
