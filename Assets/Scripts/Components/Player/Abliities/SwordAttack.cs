@@ -1,8 +1,6 @@
-using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public enum ItemType
 {
@@ -10,90 +8,68 @@ public enum ItemType
     SWORD = 1,
 }
 
+[System.Serializable]
+public struct Weapon_4DirectionalPrefabs
+{
+    public GameObject up;
+    public GameObject down;
+    public GameObject left;
+    public GameObject right;
+    public float destructionTime;
+}
+
 public class SwordAttack : MonoBehaviour
 {
-    private const int RADIUS = 180;
+    private const int RADIUS = 15;
     private const float LENGTH = 2;
+    private const int NUMBER = 2;
     private const float OFFSET = 0.55F;
     private ItemType _type = ItemType.SWORD;
-    [SerializeField] private GameObject _swordPrefab;
-    public int detectionPoints = 10;
     public Vector3 Direction = Vector3.zero;
     public Vector2[] directions;
 
+    public Weapon_4DirectionalPrefabs prefabs;
+
+    public ItemType Type => _type;
+
     public void Start()
     {
-        RegisterDelegates();
+
     }
 
-    #region Delegate Registration. 
-    private void RegisterDelegates()
+    public void Update()
     {
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_UP).DoAction += UpInput;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_DOWN).DoAction += DownInput;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_RIGHT).DoAction += RightInput;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_LEFT).DoAction += LeftInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_UP).DoAction += UpInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction += DownInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_RIGHT).DoAction += RightInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_LEFT).DoAction += LeftInput;
+        if (Input.GetKey(DefaultInputs.CTLR_Y) | Input.GetKey(DefaultInputs.KEY_A_UP))
+            Attack(prefabs.up, Vector3.up);
+
+        if (Input.GetKey(DefaultInputs.CTLR_A) | Input.GetKey(DefaultInputs.KEY_A_DOWN))
+            Attack(prefabs.down, Vector3.down);
+
+        if (Input.GetKey(DefaultInputs.CTLR_X) | Input.GetKey(DefaultInputs.KEY_A_LEFT))
+            Attack(prefabs.left, Vector3.left);
+
+        if (Input.GetKey(DefaultInputs.CTLR_B) | Input.GetKey(DefaultInputs.KEY_A_RIGHT))
+            Attack(prefabs.right, Vector3.right);
     }
 
-    private void DeRegisterDelegates()
-    {
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_UP).DoAction -= UpInput;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_DOWN).DoAction -= DownInput;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_RIGHT).DoAction -= RightInput;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.ACTION_LEFT).DoAction -= LeftInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_UP).DoAction -= UpInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= DownInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_RIGHT).DoAction -= RightInput;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_LEFT).DoAction -= LeftInput;
-    }
-    #endregion
-
-    #region Input Functions. 
-    private void ResolveVector(Vector3 input) => GetDirections(input);
-
-    private void UpInput(bool result)
-    {
-        if (result)
-            GetDirections(Vector3.up);
-    }
-
-    private void DownInput(bool result)
-    {
-        if (result)
-            GetDirections(Vector3.down);
-    }
-
-    private void LeftInput(bool result)
-    {
-        if (result)
-            GetDirections(Vector3.left);
-    }
-
-    private void RightInput(bool result)
-    {
-        if (result) Attack(Vector3.right);
-    }
-    #endregion
-
-    public void Attack(Vector3 vector)
+    public void Attack(GameObject prefab, Vector3 vector)
     {
         if (vector == Vector3.zero) return;
+
+        GameObject inst = GameObject.Instantiate(prefab);
+        inst.transform.position = transform.position;
+
+        StartCoroutine(WeaponDisposer(inst, prefabs.destructionTime));
 
         Vector3[] directions = GetDirections(vector);
         Ray ray; 
         RaycastHit[] hits;
         IEntityInterface iEntity;
-        float castingLength = (LENGTH - OFFSET);
 
         //Get hits for each vector direction. 
         for (int i = 0; i < directions.Length; i++)
         {
-            ray = new Ray(transform.position + (directions[i].normalized * OFFSET), directions[i].normalized * castingLength);
-            hits = Physics.RaycastAll(vector, directions[i]);
+            hits = CastAndCheck(directions[i], OFFSET, LENGTH - OFFSET);
             
             //Check if hits are damageable interfaces. 
             for (int j = 0; j < hits.Length; j++)
@@ -109,21 +85,33 @@ public class SwordAttack : MonoBehaviour
         }
     }
 
+    private IEnumerator WeaponDisposer(GameObject prefab, float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(prefab);
+    }
+
     private Vector3[] GetDirections(Vector3 direction)
     {
         Vector3 initalRay = Quaternion.Euler(0, -(RADIUS / 2), 0) * direction;
         Quaternion rotQuat;
         List<Vector3> _directions = new List<Vector3>();
-        float step = RADIUS / detectionPoints;
+        float step = RADIUS / NUMBER;
 
         _directions.Add(initalRay);
 
-        for (int i = 0; i <= detectionPoints; i++)
+        for (int i = 0; i <= NUMBER; i++)
         {
             rotQuat = Quaternion.Euler(0, step * i, 0);
             _directions.Add(rotQuat * initalRay);
         }
         return _directions.ToArray();
+    }
+
+    private RaycastHit[] CastAndCheck(Vector3 direction, float offset, float allowedDistance)
+    {
+        Ray ray = new Ray(transform.position + (direction.normalized * offset), direction.normalized);
+        return Physics.RaycastAll(transform.position, direction, allowedDistance);
     }
 
     public void OnDrawGizmos()

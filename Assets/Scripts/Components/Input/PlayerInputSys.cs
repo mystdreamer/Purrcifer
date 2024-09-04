@@ -66,11 +66,6 @@ public class PlayerInputSys : MonoBehaviour
         SceneManager.sceneLoaded -= OnUnloaded;
     }
 
-    private void OnDestroy()
-    {
-        instance = null;
-    }
-
     void Update()
     {
         //Update input here. 
@@ -170,6 +165,12 @@ public class PlayerInputSys : MonoBehaviour
     {
         ClearDelegates();
     }
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
 
     public void ClearDelegates()
     {

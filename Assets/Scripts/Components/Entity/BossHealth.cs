@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BossHealth : MonoBehaviour
+public class BossHealth : MonoBehaviour, IEntityInterface
 {
     /// <summary>
     /// The minimum range of the pool.
@@ -42,6 +42,12 @@ public class BossHealth : MonoBehaviour
             current = value;
             current = Mathf.Clamp(current, min, max);
         }
+    }
+
+    float IEntityInterface.Health
+    {
+        get => this.current;
+        set => this.current = value;
     }
 
     /// <summary>

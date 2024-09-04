@@ -66,6 +66,7 @@ public class EntityHealth : MonoBehaviour, IEntityInterface
         get => min;
         set => min = value;
     }
+
     float IEntityInterface.Health { 
         get => this.current; 
         set => this.current = value; 
