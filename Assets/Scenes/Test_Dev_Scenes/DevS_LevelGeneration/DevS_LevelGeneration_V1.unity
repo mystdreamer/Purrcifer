@@ -220,7 +220,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1325118341669938961, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
       propertyPath: orthographic size
-      value: 5.3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2479190243357444653, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
       propertyPath: m_LocalPosition.x
@@ -442,6 +442,14 @@ PrefabInstance:
     - target: {fileID: 6122098870743518637, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: m_Name
       value: FloorGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
+      propertyPath: floorData.roomWidth
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
+      propertyPath: floorData.roomHeight
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMax
