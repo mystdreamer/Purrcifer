@@ -55,6 +55,7 @@ public abstract class MenuBase : MonoBehaviour
     public Color activeColor;
     [SerializeField] bool canUpdate = true;
     [SerializeField] bool opActive = false;
+
     public int SetIndex
     {
         set => menuIndexer.CurrentIndex = value;

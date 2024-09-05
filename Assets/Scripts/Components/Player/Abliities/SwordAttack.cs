@@ -67,7 +67,6 @@ public class SwordAttack : MonoBehaviour
 
         Vector3[] directions = GetDirections(vector);
         RaycastHit[] hits;
-        IEntityInterface iEntity;
 
         //Get hits for each vector direction. 
         for (int i = 0; i < directions.Length; i++)
@@ -78,7 +77,7 @@ public class SwordAttack : MonoBehaviour
             for (int j = 0; j < hits.Length; j++)
             {
                 Debug.Log("Hit GO: " +  hits[j].transform.gameObject);
-                hits[j].collider.gameObject.GetComponent<EntityHealth>()?.ApplyDamage(1);
+                hits[j].collider.gameObject.GetComponent<IEntityInterface>()?.ApplyDamage(1);
             }
         }
     }

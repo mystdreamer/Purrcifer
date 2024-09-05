@@ -13,6 +13,7 @@ public class SplashHandler : MonoBehaviour
     void Start()
     {
         Screen.SetResolution(1920, 1080, false);
+        Application.targetFrameRate = 60;
         Debug.developerConsoleEnabled = true;
 
         //Cache loader reference for completion checking.
