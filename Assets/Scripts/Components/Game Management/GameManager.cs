@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             _instance.floorMap = value;
             FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
             Debug.Log("Map built.");
-            _instance.GenerationComplete(); 
+            _instance.GenerationComplete();
         }
     }
 
@@ -109,6 +109,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            // Toggle fullscreen mode
+            Screen.fullScreen = !Screen.fullScreen;
+        }
     }
 
     public void PlayerDeath()
