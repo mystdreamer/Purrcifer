@@ -18,8 +18,8 @@ public class RoomController : MonoBehaviour
     [System.Serializable]
     public struct RoomDetector
     {
-        const float WIDTH = 17.5F;
-        const float HEIGHT = 9.5F;
+        const float WIDTH = 35f;
+        const float HEIGHT = 19f;
 
         public Transform roomTransform;
         public Vector3 Center => roomTransform.position;

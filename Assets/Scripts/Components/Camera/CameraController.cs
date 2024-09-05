@@ -24,19 +24,19 @@ namespace CameraHelpers
         public float width;
         public float height;
 
-        public readonly float MinX => -width / 2;
-        public readonly float MaxX => width / 2;
-        public readonly float MinZ => -height / 2;
-        public readonly float MaxZ => height / 2;
+        public readonly float MinX => -width;
+        public readonly float MaxX => width;
+        public readonly float MinZ => -height;
+        public readonly float MaxZ => height;
 
         public void DrawBounds(Vector3 position)
         {
             //Draw frame. 
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireCube(position, new Vector3(width, 0, height));
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(position, new Vector3(width * 2, -10, height * 2));
 
             //Draw the edge points.
-            Gizmos.color = new Color(1, 0, 0, 0.5F);
+            Gizmos.color = new Color(1, 0, 0, 1f);
             Gizmos.DrawSphere(position + new Vector3(MinX, 0, 0), 0.5f);
             Gizmos.DrawSphere(position + new Vector3(MaxX, 0, 0), 0.5f);
             Gizmos.DrawSphere(position + new Vector3(0, 0, MinZ), 0.5f);
@@ -170,12 +170,13 @@ public class CameraController : MonoBehaviour
     /// <param name="stepVector"> The translation to apply. </param>
     private IEnumerator StepCamera(Vector3 initial, Vector3 stepVector)
     {
-        int frameBuffer = 12;
-        //Cache variable for time and step. 
+        float transitionDuration = 1.0f;  // Time in seconds for the transition.
         float currentTime = 0;
-        Vector3 currentStep = Vector3.zero;
 
-        //Set the camera to stepping. 
+        // Double the step vector
+        Vector3 targetPosition = initial + (stepVector * 2);
+
+        // Set the camera to stepping.
         isStepping = true;
 
         Vector3 roomward = handler.target.position - transform.position;
@@ -185,24 +186,24 @@ public class CameraController : MonoBehaviour
         handler.target.GetComponent<MovementSys>().UpdatePause = true;
         handler.target.position = handler.target.position + (roomward * jumpDistance);
 
-        //While not reached, increment the time, update the step and apply. 
-        while (currentStep != initial + stepVector)
+        // While currentTime is less than the duration, keep updating the position.
+        while (currentTime < transitionDuration)
         {
-            frameBuffer--;
-            if (frameBuffer <= 0)
-            {
-                handler.target.GetComponent<MovementSys>().UpdatePause = false;
-            }
-
             currentTime += Time.deltaTime;
-            currentStep = Vector3.Lerp(initial, initial + stepVector, currentTime);
+            float t = Mathf.Clamp01(currentTime / transitionDuration);  // Ensure t doesn't go beyond 1.
+            Vector3 currentStep = Vector3.Lerp(initial, targetPosition, t);
             Position = currentStep;
             yield return new WaitForEndOfFrame();
         }
 
-        //Return control to the camera. 
+        // Snap to the exact target position at the end of the movement.
+        Position = targetPosition;
+
+        // Release control after stepping.
+        handler.target.GetComponent<MovementSys>().UpdatePause = false;
         isStepping = false;
     }
+
 
     public void OnDrawGizmos()
     {
