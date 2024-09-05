@@ -1,10 +1,5 @@
 using UnityEngine;
 
-public interface IEntityInterface
-{
-    void ApplyDamage(float value);
-}
-
 public class EntityHealth : MonoBehaviour, IEntityInterface
 {
     /// <summary>
