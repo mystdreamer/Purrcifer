@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 /// <summary>
 /// Enum representation of the rooms state. 
@@ -47,6 +49,49 @@ public class RoomController : MonoBehaviour
     private GameObject playerReference;
     public RoomDetector roomDetector;
     public RoomObject[] roomObjects;
+
+    private NavMeshSurface navMeshSurface;
+
+    private void Awake()
+    {
+        // Get or add NavMeshSurface component
+        navMeshSurface = GetComponent<NavMeshSurface>();
+        if (navMeshSurface == null)
+        {
+            navMeshSurface = gameObject.AddComponent<NavMeshSurface>();
+        }
+
+        // Configure NavMeshSurface
+        navMeshSurface.collectObjects = CollectObjects.Children;
+        navMeshSurface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+
+        // Bake NavMesh for this room
+        BakeNavMesh();
+    }
+
+    private void BakeNavMesh()
+    {
+        // Check if NavMeshSurface is available
+        if (navMeshSurface != null)
+        {
+            try
+            {
+                // Attempt to build/bake the NavMesh
+                navMeshSurface.BuildNavMesh();
+                Debug.Log("NavMesh successfully baked for room: " + gameObject.name);
+            }
+            catch (System.Exception ex)
+            {
+                // Catch any exceptions and log the error
+                Debug.LogError("NavMesh baking failed for room: " + gameObject.name + ". Exception: " + ex.Message);
+            }
+        }
+        else
+        {
+            // Log an error if NavMeshSurface is missing
+            Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
+        }
+    }
 
     private GameObject Player
     {
