@@ -12,6 +12,4 @@ public class FloorData
     public int initialX, initialY;
     public Range rangeProbX;
     public float spawnOver;
-    public float roomWidth;
-    public float roomHeight;
 }

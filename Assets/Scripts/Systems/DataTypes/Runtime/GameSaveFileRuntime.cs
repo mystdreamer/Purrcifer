@@ -1,5 +1,6 @@
 ﻿using Purrcifer.Data.Xml;
-using Purrcifer.Data.Player.Defaults;
+using Purrcifer.Data.Defaults;
+using System.Collections.Generic;
 
 namespace Purrcifer.Data.Player
 {
@@ -9,6 +10,7 @@ namespace Purrcifer.Data.Player
         public PlayerDataRuntime playerData;
         public SettingsDataRuntime settingData;
         public GameStateDataRuntime gameState;
+        public GameEventsRuntime gameEvents;
 
         private GameSaveFileRuntime() { }
 
@@ -17,6 +19,7 @@ namespace Purrcifer.Data.Player
             playerData = new PlayerDataRuntime(dataFile.playerData);
             settingData = new SettingsDataRuntime(dataFile.settingData);
             gameState = new GameStateDataRuntime(dataFile.gameStateData);
+            gameEvents = new GameEventsRuntime(dataFile.eventData);
         }
 
         public GameSaveFileRuntime Copy()
@@ -25,7 +28,8 @@ namespace Purrcifer.Data.Player
             {
                 playerData = playerData.Copy(),
                 settingData = settingData.Copy(),
-                gameState = gameState.Copy()
+                gameState = gameState.Copy(),
+                gameEvents = gameEvents.Copy()
             };
         }
 
@@ -35,7 +39,8 @@ namespace Purrcifer.Data.Player
             {
                 playerData = PlayerDataRuntime.GetDefault(),
                 settingData = SettingsDataRuntime.GetDefault(),
-                gameState = GameStateDataRuntime.GetDefault()
+                gameState = GameStateDataRuntime.GetDefault(),
+                gameEvents = GameEventsRuntime.GetDefault()
             };
         }
 
@@ -45,7 +50,8 @@ namespace Purrcifer.Data.Player
             {
                 playerData = (PlayerDataXML)data.playerData,
                 settingData = (SettingDataXML)data.settingData,
-                gameStateData = (GameStateDataXML)data.gameState
+                gameStateData = (GameStateDataXML)data.gameState,
+                eventData = (GameEventDataXML)data.gameEvents
             };
         }
     }
@@ -206,6 +212,55 @@ namespace Purrcifer.Data.Player
                 bgmVolume = dataFile.bgmVolume
             };
             return xml;
+        }
+    }
+
+    public class GameEventsRuntime
+    {
+        public EventData[] events;
+
+        private GameEventsRuntime()
+        {
+        }
+
+        public GameEventsRuntime(GameEventDataXML data)
+        {
+
+            List<EventData> _events = new List<EventData>();
+
+            for (int i = 0; i < data.events.Length; i++)
+                _events.Add((EventData)data.events[i]);
+
+            events = _events.ToArray();
+        }
+
+        public static GameEventsRuntime GetDefault()
+        {
+            GameEventsRuntime runtime = new GameEventsRuntime();
+            runtime.events = DefaultEventData.GetDefaultData();
+            return runtime;
+        }
+
+        internal GameEventsRuntime Copy()
+        {
+            return new GameEventsRuntime() { events = this.events };
+        }
+
+        public static explicit operator GameEventsRuntime(GameEventDataXML data)
+        {
+            return new GameEventsRuntime(data);
+        }
+
+        public static explicit operator GameEventDataXML(GameEventsRuntime data)
+        {
+            GameEventXML[] _arr = new GameEventXML[data.events.Length];
+
+            for (int i = 0; (i < data.events.Length); i++)
+            {
+                _arr[i] = (GameEventXML)data.events[i];
+            }
+
+            return new GameEventDataXML() { events = _arr };
         }
     }
 }

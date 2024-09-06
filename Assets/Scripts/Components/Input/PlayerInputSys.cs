@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Purrcifer.Data.Defaults;
 using Purrcifer.Inputs.Container;
 using System;
 using System.Collections.Generic;
@@ -170,7 +171,6 @@ public class PlayerInputSys : MonoBehaviour
     {
         instance = null;
     }
-
 
     public void ClearDelegates()
     {

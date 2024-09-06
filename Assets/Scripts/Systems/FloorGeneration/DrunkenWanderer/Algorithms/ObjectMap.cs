@@ -1,5 +1,5 @@
-using JetBrains.Annotations;
 using UnityEngine;
+using Purrcifer.Data.Defaults;
 
 /// <summary>
 /// Enums representing a door opening operation. 
@@ -60,8 +60,8 @@ public class ObjectMap
     public ObjectMap(FloorData data, FloorPlan plan)
     {
         initialPosition = new Vector3(data.initialX, data.initialY);
-        roomSizeWidth = data.roomWidth;
-        roomSizeHeight = data.roomHeight;
+        roomSizeWidth = RoomDataDefaults.ROOM_WIDTH;
+        roomSizeHeight = RoomDataDefaults.ROOM_HEIGHT;
         objectMap = new GameObject[plan.plan.GetLength(0), plan.plan.GetLength(1)];
     }
 

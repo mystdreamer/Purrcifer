@@ -1,7 +1,6 @@
 using Purrcifer.Data.Player;
 using UnityEngine;
 using Purrcifer.Data.Xml;
-using System.Threading;
 
 public class DataCarrier : MonoBehaviour
 {

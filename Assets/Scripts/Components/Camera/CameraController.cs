@@ -29,6 +29,15 @@ namespace CameraHelpers
         public readonly float MinZ => -height / 2;
         public readonly float MaxZ => height / 2;
 
+        public static CameraBounds GetCameraBounds()
+        {
+            return new CameraBounds()
+            {
+                width = Purrcifer.Data.Defaults.RoomDataDefaults.ROOM_WIDTH,
+                height = Purrcifer.Data.Defaults.RoomDataDefaults.ROOM_HEIGHT
+            };
+        }
+
         public void DrawBounds(Vector3 position)
         {
             //Draw frame. 
@@ -106,6 +115,11 @@ public class CameraController : MonoBehaviour
     }
 
     public float jumpDistance;
+
+    private void Awake()
+    {
+        bounds = CameraBounds.GetCameraBounds(); 
+    }
 
     public void Update()
     {

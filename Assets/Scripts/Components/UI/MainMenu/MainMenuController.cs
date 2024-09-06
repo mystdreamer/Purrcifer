@@ -1,3 +1,4 @@
+using Purrcifer.Data.Defaults;
 using System.Collections;
 using TMPro;
 using UnityEngine;
