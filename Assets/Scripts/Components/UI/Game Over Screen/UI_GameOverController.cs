@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using static UnityEngine.PlayerLoop.PreUpdate;
 using UnityEngine.InputSystem;
+using Purrcifer.LevelLoading;
 
 public class UI_GameOverController : MenuBase
 {
@@ -31,7 +32,7 @@ public class UI_GameOverController : MenuBase
     {
         Debug.Log("New Game Called");
         DataCarrier.Instance.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
+        UIManager.Instance.StartLevelTransitionFade(LevelID.LEVEL_1, false);
         this.enabled = false;
     }
 
@@ -42,7 +43,7 @@ public class UI_GameOverController : MenuBase
     {
         Debug.Log("Load Menu Called");
         DataCarrier.Instance.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.MAIN, true);
+        UIManager.Instance.StartLevelTransitionFade(LevelID.MAIN, true);
         this.enabled = false;
     }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<GameEventDataSerializationWrapper xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <events>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Player_SuckedWeen</name>
+      <id>1001</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Player_HasSword</name>
+      <id>1002</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Player_HasTimer</name>
+      <id>1003</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Player_DefeatedBossA</name>
+      <id>2002</id>
+      <state>false</state>
+    </GameEventData>
+  </events>
+</GameEventDataSerializationWrapper>

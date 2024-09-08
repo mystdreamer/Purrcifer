@@ -1,7 +1,7 @@
 using CameraHelpers;
+using Purrcifer.Data.Defaults;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace CameraHelpers
 {
@@ -21,19 +21,19 @@ namespace CameraHelpers
     [System.Serializable]
     public struct CameraBounds
     {
-        public float width;
-        public float height;
+        public readonly int Width => DefaultRoomData.DEFAULT_WIDTH;
+        public readonly int Height => DefaultRoomData.DEFAULT_HEIGHT;
 
-        public readonly float MinX => -width / 2;
-        public readonly float MaxX => width / 2;
-        public readonly float MinZ => -height / 2;
-        public readonly float MaxZ => height / 2;
+        public readonly float MinX => -Width / 2;
+        public readonly float MaxX => Width / 2;
+        public readonly float MinZ => -Height / 2;
+        public readonly float MaxZ => Height / 2;
 
         public void DrawBounds(Vector3 position)
         {
             //Draw frame. 
             Gizmos.color = Color.white;
-            Gizmos.DrawWireCube(position, new Vector3(width, 0, height));
+            Gizmos.DrawWireCube(position, new Vector3(Width, 0, Height));
 
             //Draw the edge points.
             Gizmos.color = new Color(1, 0, 0, 0.5F);
@@ -142,9 +142,9 @@ public class CameraController : MonoBehaviour
 
                 //Determine direction on which the player has breached AABB.
                 if (Mathf.Sign(_differenceVec.x) * _distance < bounds.MaxX) //Breached left, move camera left. 
-                    StartCoroutine(StepCamera(transform.position, new Vector3(-bounds.width, 0, 0)));
+                    StartCoroutine(StepCamera(transform.position, new Vector3(-bounds.Width, 0, 0)));
                 else if (Mathf.Sign(_differenceVec.x) * _distance > bounds.MaxX) //Breached right, move camera right. 
-                    StartCoroutine(StepCamera(transform.position, new Vector3(bounds.width, 0, 0)));
+                    StartCoroutine(StepCamera(transform.position, new Vector3(bounds.Width, 0, 0)));
             }
 
             if (!handler.InsideZAxis(transform.position, bounds))
@@ -156,9 +156,9 @@ public class CameraController : MonoBehaviour
 
                 //Determine direction on which the player has breached AABB.
                 if (Mathf.Sign(_differenceVec.z) * _distance < bounds.MaxZ) //Breached up, move camera up. 
-                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, -bounds.height)));
+                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, -bounds.Height)));
                 if (Mathf.Sign(_differenceVec.z) * _distance > bounds.MaxZ) //Breached down, move camera down.
-                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, bounds.height)));
+                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, bounds.Height)));
             }
         }
     }

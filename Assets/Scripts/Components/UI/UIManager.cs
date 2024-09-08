@@ -1,4 +1,5 @@
-﻿using Purrcifer.UI;
+﻿using Purrcifer.LevelLoading;
+using Purrcifer.UI;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -88,7 +89,7 @@ public class UIManager : MonoBehaviour
 
     #region UI Transition Fade Functions. 
 
-    public void StartLevelTransitionFade(LevelLoading.LevelID levelToLoad, bool fadeOnLoad)
+    public void StartLevelTransitionFade(LevelID levelToLoad, bool fadeOnLoad)
     {
         StartLevelTransitionFade((int)levelToLoad, fadeOnLoad);
     }

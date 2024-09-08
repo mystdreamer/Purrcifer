@@ -1,5 +1,5 @@
-﻿using Purrcifer.Data.Xml;
-using Purrcifer.Data.Player.Defaults;
+﻿using Purrcifer.Data.Defaults;
+using Purrcifer.Data.Xml;
 
 namespace Purrcifer.Data.Player
 {

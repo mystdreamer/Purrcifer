@@ -1,3 +1,4 @@
+using Purrcifer.Data.Defaults;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -210,7 +211,7 @@ public class MainMenuController : MenuBase
     public void NewGame()
     {
         DataCarrier.Instance.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
+        UIManager.Instance.StartLevelTransitionFade(Purrcifer.LevelLoading.LevelID.LEVEL_1, false);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace LevelLoading
+﻿namespace Purrcifer.LevelLoading
 {
     /// <summary>
     /// The level IDs included in the project. 

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 
-namespace LevelLoading
+namespace Purrcifer.LevelLoading
 {
 
     /// <summary>

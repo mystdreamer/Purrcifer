@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+using Purrcifer.Data.Defaults;
 using UnityEngine;
 
 /// <summary>
@@ -60,8 +60,8 @@ public class ObjectMap
     public ObjectMap(FloorData data, FloorPlan plan)
     {
         initialPosition = new Vector3(data.initialX, data.initialY);
-        roomSizeWidth = data.roomWidth;
-        roomSizeHeight = data.roomHeight;
+        roomSizeWidth = DefaultRoomData.DEFAULT_WIDTH;
+        roomSizeHeight = DefaultRoomData.DEFAULT_WIDTH;
         objectMap = new GameObject[plan.plan.GetLength(0), plan.plan.GetLength(1)];
     }
 
