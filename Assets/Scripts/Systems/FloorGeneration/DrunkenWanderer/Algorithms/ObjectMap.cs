@@ -61,7 +61,7 @@ public class ObjectMap
     {
         initialPosition = new Vector3(data.initialX, data.initialY);
         roomSizeWidth = DefaultRoomData.DEFAULT_WIDTH;
-        roomSizeHeight = DefaultRoomData.DEFAULT_WIDTH;
+        roomSizeHeight = DefaultRoomData.DEFAULT_HEIGHT;
         objectMap = new GameObject[plan.plan.GetLength(0), plan.plan.GetLength(1)];
     }
 

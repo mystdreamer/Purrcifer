@@ -185,7 +185,7 @@ public class RoomController : MonoBehaviour
 
     private void EnableInterfaces()
     {
-        Debug.Log("Activating objects.");
+        //Debug.Log("Activating objects.");
         //Room should be activated. 
         SetRoomContentsEnableState(true);
         roomState = RoomState.ACTIVE;
@@ -193,7 +193,7 @@ public class RoomController : MonoBehaviour
 
     private void DisableInterfaces()
     {
-        Debug.Log("Deactivating objects.");
+        //Debug.Log("Deactivating objects.");
         //Room should be deactivated. 
         SetRoomContentsEnableState(false);
         roomState = RoomState.COMPLETED;
