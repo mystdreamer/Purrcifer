@@ -43,8 +43,8 @@ namespace Purrcifer.Data.Defaults
 
     public class DefaultRoomData
     {
-        public const int DEFAULT_WIDTH = 18;
-        public const int DEFAULT_HEIGHT = 10;
+        public const int DEFAULT_WIDTH = 36;
+        public const int DEFAULT_HEIGHT = 20;
     }
     #endregion
 

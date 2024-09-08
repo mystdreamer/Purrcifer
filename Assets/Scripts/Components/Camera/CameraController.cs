@@ -19,21 +19,35 @@ namespace CameraHelpers
     /// Generates a custom, lightweight bounds representation for AABB checks. 
     /// </summary>
     [System.Serializable]
-    public struct CameraBounds
+    public class CameraBounds
     {
-        public readonly int Width => DefaultRoomData.DEFAULT_WIDTH;
-        public readonly int Height => DefaultRoomData.DEFAULT_HEIGHT;
+        private Vector3 transX;
+        private Vector3 transY;
 
-        public readonly float MinX => -Width;
-        public readonly float MaxX => Width;
-        public readonly float MinZ => -Height;
-        public readonly float MaxZ => Height;
+        public int width;
+        public int height;
+
+        public float MinX => -width / 2;
+        public float MaxX => width / 2;
+        public float MinZ => -height / 2;
+        public float MaxZ => height / 2;
+
+        public Vector3 TranslationX => transX;
+        public Vector3 TranslationZ => transY;
+
+        public CameraBounds()
+        {
+            width = DefaultRoomData.DEFAULT_WIDTH;
+            height = DefaultRoomData.DEFAULT_HEIGHT;
+            transX = new Vector3(width / 2, 0, 0);
+            transY = new Vector3(0, 0, height / 2);
+        }
 
         public void DrawBounds(Vector3 position)
         {
             //Draw frame. 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(position, new Vector3(Width * 2, -10, Height * 2));
+            Gizmos.DrawWireCube(position, new Vector3(width, -10, height));
 
             //Draw the edge points.
             Gizmos.color = new Color(1, 0, 0, 1f);
@@ -107,6 +121,17 @@ public class CameraController : MonoBehaviour
 
     public float jumpDistance;
 
+    private Vector3 DifferenceVecX => 
+        (handler.XDecomposed - new Vector3(transform.position.x, 0, 0)).normalized;
+
+    private Vector3 DifferenceVecZ =>
+    (handler.XDecomposed - new Vector3(0, 0, transform.position.z)).normalized;
+
+    private void Start()
+    {
+        bounds = new CameraBounds(); 
+    }
+
     public void Update()
     {
         switch (currentBehaviour)
@@ -136,29 +161,29 @@ public class CameraController : MonoBehaviour
             if (!handler.InsideXAxis(transform.position, bounds))
             {
                 //Get the direction vector. 
-                _differenceVec = handler.XDecomposed - new Vector3(transform.position.x, 0, 0);
+                _differenceVec = DifferenceVecX;
                 _distance = Vector3.Distance(new Vector3(transform.position.x, 0, 0), handler.XDecomposed);
-                _differenceVec.Normalize();
+                float sign = Mathf.Sign(_differenceVec.x);
 
                 //Determine direction on which the player has breached AABB.
-                if (Mathf.Sign(_differenceVec.x) * _distance < bounds.MaxX) //Breached left, move camera left. 
-                    StartCoroutine(StepCamera(transform.position, new Vector3(-bounds.Width, 0, 0)));
-                else if (Mathf.Sign(_differenceVec.x) * _distance > bounds.MaxX) //Breached right, move camera right. 
-                    StartCoroutine(StepCamera(transform.position, new Vector3(bounds.Width, 0, 0)));
+                if (sign * _distance < bounds.MinX) //Breached left, move camera left. 
+                    StartCoroutine(StepCamera(transform.position, -bounds.TranslationX));
+                if (sign * _distance > bounds.MaxX) //Breached right, move camera right. 
+                    StartCoroutine(StepCamera(transform.position, bounds.TranslationX));
             }
 
             if (!handler.InsideZAxis(transform.position, bounds))
             {
                 //Get the direction vector. 
-                _differenceVec = handler.ZDecomposed - new Vector3(0, 0, transform.position.z);
+                _differenceVec = DifferenceVecZ;
                 _distance = Vector3.Distance(new Vector3(0, 0, transform.position.z), handler.ZDecomposed);
-                _differenceVec.Normalize();
+                float sign = Mathf.Sign(_differenceVec.z);
 
                 //Determine direction on which the player has breached AABB.
-                if (Mathf.Sign(_differenceVec.z) * _distance < bounds.MaxZ) //Breached up, move camera up. 
-                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, -bounds.Height)));
-                if (Mathf.Sign(_differenceVec.z) * _distance > bounds.MaxZ) //Breached down, move camera down.
-                    StartCoroutine(StepCamera(transform.position, new Vector3(0, 0, bounds.Height)));
+                if (sign * _distance < bounds.MinZ) //Breached up, move camera up. 
+                    StartCoroutine(StepCamera(transform.position, -bounds.TranslationZ));
+                if (sign * _distance > bounds.MaxZ) //Breached down, move camera down.
+                    StartCoroutine(StepCamera(transform.position, bounds.TranslationZ));
             }
         }
     }
@@ -203,7 +228,6 @@ public class CameraController : MonoBehaviour
         handler.target.GetComponent<MovementSys>().UpdatePause = false;
         isStepping = false;
     }
-
 
     public void OnDrawGizmos()
     {
