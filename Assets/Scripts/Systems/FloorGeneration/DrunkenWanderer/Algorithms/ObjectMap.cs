@@ -130,11 +130,11 @@ public class ObjectMap
         DoorSetup(_roomCTRLR, x, y - 1, WallDirection.UP, WallDirection.DOWN);
         DoorSetup(_roomCTRLR, x, y + 1, WallDirection.DOWN, WallDirection.UP);
 
-        void DoorSetup(RoomWallController ctrllr, int x, int y, WallDirection aOp, WallDirection bOp)
+        void DoorSetup(RoomWallController controller, int x, int y, WallDirection aOp, WallDirection bOp)
         {
             if (this[x, y] != null)
             {
-                ctrllr.SetDoorState(aOp);
+                controller.SetDoorState(aOp);
                 this[x, y].GetComponent<RoomWallController>().SetDoorState(bOp);
             }
         }

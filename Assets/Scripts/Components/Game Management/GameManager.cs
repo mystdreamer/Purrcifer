@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private ObjectMap objectMap;
 
+    [SerializeField] private PurrciferEventManager eventManager;
+
     /// <summary>
     /// The current object map.
     /// </summary>
@@ -103,6 +105,7 @@ public class GameManager : MonoBehaviour
         if (DataCarrier.Instance == null)
         {
             DataCarrier.Generate();
+            eventManager = new PurrciferEventManager(DataCarrier.RuntimeData.gameEvents.events);
         }
 #endif
     }
@@ -116,16 +119,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerDeath()
-    {
-        playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
-        UIManager.EnableGameOverScreen();
-    }
+    #region Map Generation. 
 
     public void GenerationComplete()
     {
         StartCoroutine(FadeWait());
     }
+
+    #endregion
 
     private IEnumerator FadeWait()
     {
@@ -141,6 +142,7 @@ public class GameManager : MonoBehaviour
         yield return true;
     }
 
+    #region Camera. 
     /// <summary>
     /// Set the current camera's position. 
     /// </summary>
@@ -148,6 +150,14 @@ public class GameManager : MonoBehaviour
     public void SetCamera(Vector3 position)
     {
         Camera.main.GetComponent<CameraController>().Position = position;
+    }
+    #endregion
+
+    #region Player. 
+    public void PlayerDeath()
+    {
+        playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
+        UIManager.EnableGameOverScreen();
     }
 
     /// <summary>
@@ -163,4 +173,6 @@ public class GameManager : MonoBehaviour
         playerState = playerCurrent.GetComponent<PlayerState>();
         playerState.SetPlayerData();
     }
+
+    #endregion
 }

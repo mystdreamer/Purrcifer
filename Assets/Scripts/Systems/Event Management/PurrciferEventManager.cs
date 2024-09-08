@@ -3,35 +3,36 @@ using Purrcifer.Data.Xml;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
-public struct EventData
+[System.Serializable]
+public struct PurrciferEventData
 {
     public string name;
     public int ID;
     public bool state;
 
-    public EventData(string name, int id, bool value = false)
+    public PurrciferEventData(string name, int id, bool value = false)
     {
         this.name = name;
         this.ID = id;
         this.state = value;
     }
 
-    public static explicit operator GameEventXML(EventData data)
+    public static explicit operator GameEventXML(PurrciferEventData data)
     {
         return new GameEventXML() { name = data.name, id = data.ID, state = data.state };
     }
 
-    public static explicit operator EventData(GameEventXML data)
+    public static explicit operator PurrciferEventData(GameEventXML data)
     {
-        return new EventData(data.name, data.id, data.state);
+        return new PurrciferEventData(data.name, data.id, data.state);
     }
 }
 
-public class EventManager
+public class PurrciferEventManager
 {
-    public EventData[] events;
+    public PurrciferEventData[] events;
 
-    private EventManager(EventData[] eventData)
+    public PurrciferEventManager(PurrciferEventData[] eventData)
     {
         this.events = eventData;
     }

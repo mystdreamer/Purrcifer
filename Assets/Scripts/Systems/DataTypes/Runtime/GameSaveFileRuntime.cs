@@ -215,9 +215,10 @@ namespace Purrcifer.Data.Player
         }
     }
 
+    [System.Serializable]
     public class GameEventsRuntime
     {
-        public EventData[] events;
+        public PurrciferEventData[] events;
 
         private GameEventsRuntime()
         {
@@ -226,10 +227,10 @@ namespace Purrcifer.Data.Player
         public GameEventsRuntime(GameEventDataXML data)
         {
 
-            List<EventData> _events = new List<EventData>();
+            List<PurrciferEventData> _events = new List<PurrciferEventData>();
 
             for (int i = 0; i < data.events.Length; i++)
-                _events.Add((EventData)data.events[i]);
+                _events.Add((PurrciferEventData)data.events[i]);
 
             events = _events.ToArray();
         }

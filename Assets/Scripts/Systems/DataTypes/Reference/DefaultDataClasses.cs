@@ -70,10 +70,10 @@ namespace Purrcifer.Data.Defaults
     #region Event Data. 
     public class DefaultEventData
     {
-        public static EventData[] GetDefaultData()
+        public static PurrciferEventData[] GetDefaultData()
         {
-            return new List<EventData>(){
-            new EventData("Test_Event_A", 1001, false)
+            return new List<PurrciferEventData>(){
+            new PurrciferEventData("Test_Event_A", 1001, false)
             }.ToArray();
         }
     }
