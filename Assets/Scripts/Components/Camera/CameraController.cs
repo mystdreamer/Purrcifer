@@ -24,16 +24,16 @@ namespace CameraHelpers
         public readonly int Width => DefaultRoomData.DEFAULT_WIDTH;
         public readonly int Height => DefaultRoomData.DEFAULT_HEIGHT;
 
-        public readonly float MinX => -width;
-        public readonly float MaxX => width;
-        public readonly float MinZ => -height;
-        public readonly float MaxZ => height;
+        public readonly float MinX => -Width;
+        public readonly float MaxX => Width;
+        public readonly float MinZ => -Height;
+        public readonly float MaxZ => Height;
 
         public void DrawBounds(Vector3 position)
         {
             //Draw frame. 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(position, new Vector3(width * 2, -10, height * 2));
+            Gizmos.DrawWireCube(position, new Vector3(Width * 2, -10, Height * 2));
 
             //Draw the edge points.
             Gizmos.color = new Color(1, 0, 0, 1f);
