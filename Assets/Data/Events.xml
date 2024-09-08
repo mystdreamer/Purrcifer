@@ -41,5 +41,21 @@
       <id>1005</id>
       <state>false</state>
     </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>F</name>
+      <id>1006</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>H</name>
+      <id>1008</id>
+      <state>false</state>
+    </GameEventData>
   </events>
 </GameEventDataSerializationWrapper>

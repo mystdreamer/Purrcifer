@@ -6,6 +6,7 @@ using UnityEditor.UIElements;
 using Purrcifer.Data.Xml;
 using System.IO;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace GameEditor.GameEvent
 {
@@ -54,7 +55,7 @@ namespace GameEditor.GameEvent
     {
         [SerializeField] private int m_selectedIndex = -1;
         [SerializeField] private bool isValidated = false;
-        [SerializeField] private List<GameEventData> eventData = new List<GameEventData>();
+        [SerializeField] private List<GameEventData> eventData;
         private VisualElement m_ItemSplitView;
         private VisualElement m_leftPane;
         private VisualElement m_rightPane;
@@ -74,6 +75,21 @@ namespace GameEditor.GameEvent
 
         public void CreateGUI()
         {
+            if (eventData == null)
+            {
+                if(GameEditorSerialization.CheckFileExists(GameEditorSerialization.DataPath, GameEditorSerialization.fileName))
+                {
+                    GameEventDataSerializationWrapper wrapper =
+                        GameEditorSerialization.Deserialize<GameEventDataSerializationWrapper>(GameEditorSerialization.FullPath);
+
+                    eventData = wrapper.events.ToList();
+                }
+                else
+                {
+                    eventData = new List<GameEventData>();
+                }
+            }
+
             if (rootVisualElement != null)
             {
                 rootVisualElement.Clear();
@@ -280,6 +296,24 @@ namespace GameEditor.GameEvent
         #endregion
     }
 
+    public static class GameEventHelper
+    {
+        public static List<GameEventData> DefaultEvents()
+        {
+            if (GameEditorSerialization.CheckFileExists(GameEditorSerialization.DataPath, GameEditorSerialization.fileName))
+            {
+                GameEventDataSerializationWrapper wrapper =
+                    GameEditorSerialization.Deserialize<GameEventDataSerializationWrapper>(GameEditorSerialization.FullPath);
+
+                return wrapper.events.ToList();
+            }
+            else
+            {
+                throw new System.Exception("Could not find defaults events, are you sure they exist?");
+            }
+        }
+    }
+
     /// <summary>
     /// XML serializer for generic types. 
     /// </summary>
@@ -346,6 +380,21 @@ namespace GameEditor.GameEvent
             {
                 Directory.CreateDirectory(path);
             }
+        }
+
+        public static bool CheckFileExists(string path, string filename)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (File.Exists(path + filename))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
