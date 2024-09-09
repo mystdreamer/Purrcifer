@@ -61,8 +61,5 @@ public class BossHealth : MonoBehaviour, IEntityInterface
         set => min = value;
     }
 
-    public void ApplyDamage(float value)
-    {
-        Health -= value;
-    }
+    public void ApplyDamage(float value) => Health -= value;
 }
