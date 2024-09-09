@@ -89,6 +89,9 @@ public class ObjectMap
             case (int)MapIntMarkers.TREASURE:
                 BuildRoom(MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false), x, y);
                 break;
+            case (int)MapIntMarkers.HIDDEN_ROOM:
+                BuildRoom(MasterTree.Instance.HiddenRoomTree.GetRandomPrefab(false), x, y);
+                break;
             default:
                 break;
         }

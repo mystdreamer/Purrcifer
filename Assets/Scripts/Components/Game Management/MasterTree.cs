@@ -27,6 +27,11 @@ public class MasterTree : MonoBehaviour
     private ItemBBST _bossRoomTree;
 
     /// <summary>
+    /// The boss room prefab tree. 
+    /// </summary>
+    private ItemBBST _hiddenRoomTree;
+
+    /// <summary>
     /// The boss prefab tree. 
     /// </summary>
     private ItemBBST _bossPrefabTree; 
@@ -67,6 +72,11 @@ public class MasterTree : MonoBehaviour
     [SerializeField] private ItemTreeSO bossRoomTree;
 
     /// <summary>
+    /// Scriptable object instance used to generate the boss room tree. 
+    /// </summary>
+    [SerializeField] private ItemTreeSO hiddenRoomTree;
+
+    /// <summary>
     /// Scriptable object instance used to generate the boss prefab tree. 
     /// </summary>
     [SerializeField] private ItemTreeSO bossPrefabTree;
@@ -90,6 +100,11 @@ public class MasterTree : MonoBehaviour
     /// Returns the current boss room tree. 
     /// </summary>
     public ItemBBST BossRoomTree => _bossRoomTree;
+
+    /// <summary>
+    /// Returns the current boss room tree. 
+    /// </summary>
+    public ItemBBST HiddenRoomTree => _hiddenRoomTree;
 
     /// <summary>
     /// Returns the current boss prefab tree. 
@@ -123,6 +138,7 @@ public class MasterTree : MonoBehaviour
         _bossRoomTree = new ItemBBST(bossRoomTree);
         _bossPrefabTree = new ItemBBST(bossPrefabTree);
         _treasureRoomTree = new ItemBBST(treasureRoomTree);
+        _hiddenRoomTree = new ItemBBST(hiddenRoomTree);
         _itemTree = new MultiTree(itemPrefabTree);
     }
 }
