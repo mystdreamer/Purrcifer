@@ -51,7 +51,7 @@ namespace CameraHelpers
         public bool InsideXAxis => InsideAxis(target.Position.x, camera.Position.x, MinX, MaxX);
         public bool InsideZAxis => InsideAxis(target.Position.z, camera.Position.z, MinZ, MaxZ);
 
-        public Vector3 DifferenceVecX => (camera.XDecomposed - target.XDecomposed).normalized;
+        public Vector3 DifferenceVecX => (target.XDecomposed - camera.XDecomposed).normalized;
         public Vector3 DifferenceVecZ => (target.ZDecomposed - camera.ZDecomposed).normalized;
         public float TargetDistanceX => Vector3.Distance(camera.XDecomposed, target.XDecomposed);
         public float TargetDistanceZ => Vector3.Distance(camera.ZDecomposed, target.ZDecomposed);
@@ -135,34 +135,32 @@ public class CameraController : MonoBehaviour
             stephandler = new CameraStepHandler(transform, GameManager.Instance.playerCurrent.transform);
 
 
+        float sign;
+        float _distance;
+        Vector3 _differenceVec;
         if (stephandler != null && !isStepping)
         {
             if (!stephandler.InsideXAxis)
             {
                 //Get the direction vector. 
-                Vector3 _differenceVec = stephandler.target.XDecomposed - stephandler.camera.XDecomposed;
-                float _distance = Vector3.Distance(stephandler.camera.XDecomposed, stephandler.target.XDecomposed);
-                _differenceVec.Normalize();
+                _differenceVec = stephandler.DifferenceVecX;
+                _distance = stephandler.TargetDistanceX;
+                sign = Mathf.Sign(_differenceVec.x);
 
                 //Determine direction on which the player has breached AABB.
-                if (Mathf.Sign(_differenceVec.x) * _distance < stephandler.MinX) //Breached left, move camera left. 
-                    StartCoroutine(StepCamera(transform.position, -stephandler.TranslationX));
-                else if (Mathf.Sign(_differenceVec.x) * _distance > stephandler.MaxX) //Breached right, move camera right. 
-                    StartCoroutine(StepCamera(transform.position, stephandler.TranslationX));
+                if (sign * _distance < stephandler.MinX || sign * _distance > stephandler.MaxX) //Breached left, move camera left. 
+                    StartCoroutine(StepCamera(transform.position, sign * stephandler.TranslationX));
             }
 
             if (!stephandler.InsideZAxis)
             {
                 //Get the direction vector. 
-                Vector3 _differenceVec = stephandler.target.ZDecomposed - stephandler.camera.ZDecomposed;
-                float _distance = Vector3.Distance(stephandler.camera.ZDecomposed, stephandler.target.ZDecomposed);
-                _differenceVec.Normalize();
-
+                _differenceVec = stephandler.DifferenceVecZ;
+                _distance = stephandler.TargetDistanceZ;
+                sign = Mathf.Sign(_differenceVec.z);
                 //Determine direction on which the player has breached AABB.
-                if (Mathf.Sign(_differenceVec.z) * _distance < stephandler.MinZ) //Breached up, move camera up. 
-                    StartCoroutine(StepCamera(transform.position, -stephandler.TranslationZ));
-                if (Mathf.Sign(_differenceVec.z) * _distance > stephandler.MaxZ) //Breached down, move camera down.
-                    StartCoroutine(StepCamera(transform.position, stephandler.TranslationZ));
+                if (sign * _distance < stephandler.MinZ || sign * _distance > stephandler.MaxZ) //Breached up, move camera up. 
+                    StartCoroutine(StepCamera(transform.position, sign * stephandler.TranslationZ));
             }
         }
     }
