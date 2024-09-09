@@ -573,10 +573,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Master_Pool
       objectReference: {fileID: 0}
-    - target: {fileID: 2011522137620352047, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5732372292561987326, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1

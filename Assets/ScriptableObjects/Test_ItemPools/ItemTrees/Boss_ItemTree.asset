@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9acb10a6d2950654d9767eff110676b9, type: 3}
-  m_Name: BossRoom_ItemPoolSO
+  m_Name: Boss_ItemTree
   m_EditorClassIdentifier: 
   probabilityRange:
     min: 0
     max: 0
   itemData:
-  - itemName: BossRoom_A_Idle
+  - itemName: Boss_A
     key: 0
     probabilityWeight: 10
-    objectPrefab: {fileID: 6963329836463195833, guid: 6947e655447bf3d41a66564bc3d63660, type: 3}
-  - itemName: BossRoom_B
+    objectPrefab: {fileID: 7440614746140912748, guid: 0f13d492eab0ccd47ae7ccd9732a60c1, type: 3}
+  - itemName: Boss_B
     key: 1
     probabilityWeight: 10
-    objectPrefab: {fileID: 6963329836463195833, guid: 6947e655447bf3d41a66564bc3d63660, type: 3}
+    objectPrefab: {fileID: 7440614746140912748, guid: 0f13d492eab0ccd47ae7ccd9732a60c1, type: 3}

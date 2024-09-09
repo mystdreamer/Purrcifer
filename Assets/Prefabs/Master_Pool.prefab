@@ -104,4 +104,5 @@ MonoBehaviour:
   treasureRoomTree: {fileID: 11400000, guid: ced11ba0927dffd4fbdf41956fff174c, type: 2}
   itemPrefabTree: {fileID: 11400000, guid: 8292b4540745cf642826a641d7f22e81, type: 2}
   bossRoomTree: {fileID: 11400000, guid: 9a371f679caa9554bb834331ad2e5b0a, type: 2}
+  hiddenRoomTree: {fileID: 11400000, guid: b2b7899dfd30b3e4f955e3d0044faf46, type: 2}
   bossPrefabTree: {fileID: 11400000, guid: acb286cd2e36df6459a01594260a84c7, type: 2}
