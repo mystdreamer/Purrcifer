@@ -206,7 +206,7 @@ public class RoomController : MonoBehaviour
         for (int i = 0; i < roomObjects.Length; i++)
         {
             //Debug.Log("Room State Object Check: " + roomObjects[i].GetName() + " - " + roomObjects[i].Complete);
-            if (!roomObjects[i].Complete)
+            if (!roomObjects[i].ObjectComplete)
                 return false;
         }
 
@@ -218,9 +218,9 @@ public class RoomController : MonoBehaviour
         for (int i = 0; i < roomObjects.Length; i++)
         {
             if (state == true)
-                roomObjects[i].AwakenRoom();
+                ((IRoomObject)roomObjects[i]).AwakenObject();
             else if (state == false)
-                roomObjects[i].SleepRoom();
+                ((IRoomObject)roomObjects[i]).SleepObject();
         }
     }
 

@@ -22,9 +22,9 @@ public class DamageArea : RoomObjectBase
         UpdateSize();
     }
 
-    public override void OnAwakeObject() { }
+    internal override void OnAwakeObject() { }
 
-    public override void OnSleepObject() { }
+    internal override void OnSleepObject() { }
 
     internal override void SetWorldState(WorldStateEnum state) { }
 
@@ -49,7 +49,7 @@ public class DamageArea : RoomObjectBase
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player" && Interactable && !ticking)
+        if (collision.gameObject.tag == "Player" && ObjectActive && !ticking)
         {
             ticking = true;
             GameManager.Instance.playerState.AddDamage = 1;

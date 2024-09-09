@@ -7,18 +7,18 @@ using UnityEngine;
 /// </summary>
 public class RoomButton : RoomObjectBase
 {
-    public override void OnAwakeObject() { }
+    internal override void OnAwakeObject() { }
 
-    public override void OnSleepObject() { }
+    internal override void OnSleepObject() { }
 
     internal override void SetWorldState(WorldStateEnum state) { }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player" && Interactable)
+        if (collision.gameObject.tag == "Player" && ObjectActive)
         {
             Debug.Log("Item was interactable and collided with.");
-            Complete = true;
+            ObjectComplete = true;
         }
     }
 }

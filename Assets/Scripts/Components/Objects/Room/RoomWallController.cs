@@ -43,13 +43,13 @@ public class RoomWallController : RoomObjectBase
         right.WallType = WallState.WALL;
     }
 
-    public override void OnAwakeObject()
+    internal override void OnAwakeObject()
     {
         LockRoom(true);
-        base.Complete = true;
+        base.ObjectComplete = true;
     }
 
-    public override void OnSleepObject()
+    internal override void OnSleepObject()
     {
         LockRoom(false);
     }
