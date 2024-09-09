@@ -2,6 +2,7 @@ using UnityEngine;
 using FloorGeneration;
 using System.Collections;
 using Unity.VisualScripting;
+using Purrcifer.FloorGeneration;
 
 public class GameManager : MonoBehaviour
 {
@@ -59,7 +60,9 @@ public class GameManager : MonoBehaviour
         set
         {
             _instance.floorData = value;
-            FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
+            //FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
+            FloorGenerationHandler handler = Instance.gameObject.AddComponent<FloorGenerationHandler>();
+            handler.GenerateBaseMap(value);
         }
     }
 
