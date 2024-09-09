@@ -1,8 +1,14 @@
 ﻿
+using Purrcifer.Data.Defaults;
+
 /// <summary>
 /// Interface for passing entity damage. 
 /// </summary>
 public interface IEntityInterface
 {
-    void ApplyDamage(float value);
+    float Health { get; set; }
+
+    bool IsAlive { get; }
+
+    void ApplyWorldState(WorldStateEnum state);
 }

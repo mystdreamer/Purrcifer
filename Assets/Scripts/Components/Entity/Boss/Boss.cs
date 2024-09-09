@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+using Purrcifer.Data.Defaults;
+using UnityEngine;
 
-public class BossHealth : MonoBehaviour, IEntityInterface
+[System.Serializable]
+public class BHealth
 {
     /// <summary>
     /// The minimum range of the pool.
@@ -40,6 +42,10 @@ public class BossHealth : MonoBehaviour, IEntityInterface
         set
         {
             current = value;
+            if (current < min)
+                current = min;
+            if (current > max)
+                current = max;
         }
     }
 
@@ -61,5 +67,34 @@ public class BossHealth : MonoBehaviour, IEntityInterface
         set => min = value;
     }
 
-    public void ApplyDamage(float value) => Health -= value;
+    /// <summary>
+    /// CTOR. 
+    /// </summary>
+    /// <param name="min"> The minimum health value of the player. </param>
+    /// <param name="max"> The maximum health value of the player. </param>
+    /// <param name="current"> The current health of the player. </param>
+    public BHealth(int min, int max, int current)
+    {
+        this.min = min;
+        this.max = max;
+        this.current = current;
+    }
+}
+
+public abstract class Boss : MonoBehaviour, IEntityInterface
+{
+    [SerializeField] private BHealth health;
+
+    public BHealth BHealth => health;
+
+    float IEntityInterface.Health {
+        get => health.Health;
+        set => health.Health = value;
+    }
+
+    bool IEntityInterface.IsAlive => health.Alive;
+
+    void IEntityInterface.ApplyWorldState(WorldStateEnum state) => ApplyWorldState(state);
+
+    internal abstract void ApplyWorldState(WorldStateEnum state);
 }

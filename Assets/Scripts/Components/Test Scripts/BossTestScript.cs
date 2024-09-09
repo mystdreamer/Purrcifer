@@ -1,7 +1,12 @@
+using Purrcifer.Data.Defaults;
 using UnityEngine;
 
-public class BossTestScript : BossHealth
+public class BossTestScript : Boss
 {
+    internal override void ApplyWorldState(WorldStateEnum state)
+    {
+
+    }
 
     void Start()
     {
@@ -11,6 +16,6 @@ public class BossTestScript : BossHealth
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.I))
-            base.Health -= 10;
+            ((IEntityInterface)this).Health -= 10;
     }
 }

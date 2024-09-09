@@ -1,6 +1,9 @@
+using Purrcifer.Data.Defaults;
+using UnityEditor.Compilation;
 using UnityEngine;
 
-public class EntityHealth : MonoBehaviour, IEntityInterface
+[System.Serializable]
+public class EHealth
 {
     /// <summary>
     /// The minimum range of the pool.
@@ -39,10 +42,10 @@ public class EntityHealth : MonoBehaviour, IEntityInterface
 
         set
         {
-            current = value; 
-            if(current < min) 
+            current = value;
+            if (current < min)
                 current = min;
-            if(current > max)
+            if (current > max)
                 current = max;
         }
     }
@@ -71,26 +74,35 @@ public class EntityHealth : MonoBehaviour, IEntityInterface
     /// <param name="min"> The minimum health value of the player. </param>
     /// <param name="max"> The maximum health value of the player. </param>
     /// <param name="current"> The current health of the player. </param>
-    public EntityHealth(int min, int max, int current)
+    public EHealth(int min, int max, int current)
     {
         this.min = min;
         this.max = max;
         this.current = current;
     }
+}
 
-    /// <summary>
-    /// Returns a default construction of the PlayerHealthRange, used for testing. 
-    /// TODO: Remove or wrap in an in editor preprocessor, as should not be relied upon. 
-    /// </summary>
-    /// <returns> An instance of the PlayerHealthRange. </returns>
-    public static EntityHealth GetTestDefault()
-    {
-        return new EntityHealth(0, 5, 5);
+[System.Serializable]
+public class EDamage
+{
+    public int normalDamage;
+    public int witchingDamage;
+    public int hellDamage;
+}
+
+public abstract class Entity : MonoBehaviour, IEntityInterface
+{
+    [SerializeField] private EHealth health;
+    [SerializeField] private EDamage damage;
+    
+    float IEntityInterface.Health {
+        get => health.Health;
+        set => health.Health = value;
     }
 
-    public void ApplyDamage(float value)
-    {
-        Debug.Log("Applying damage.");
-;        Health -= value; 
-    }
+    bool IEntityInterface.IsAlive => health.Alive;
+
+    void IEntityInterface.ApplyWorldState(WorldStateEnum state) => ApplyWorldState(state);
+
+    internal abstract void ApplyWorldState(WorldStateEnum state);
 }
