@@ -30,5 +30,9 @@ MonoBehaviour:
     objectPrefab: {fileID: 2774372058675508026, guid: 814024c27399fde4fb9254c322b62af6, type: 3}
   - itemName: NormalRoomB_Heart/Damage Tester
     key: 3
-    probabilityWeight: 20
+    probabilityWeight: 10
     objectPrefab: {fileID: 7528946263645432192, guid: b2ea577df53156441853fde4c7b349c3, type: 3}
+  - itemName: NormalRoomB_Heart/Damage Tester
+    key: 4
+    probabilityWeight: 30
+    objectPrefab: {fileID: 7528946263645432192, guid: e1abd181a231a314e9d25e368d64cdd0, type: 3}

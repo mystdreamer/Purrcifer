@@ -6,8 +6,8 @@ using UnityEngine;
 public struct ObjectTickDamage
 {
     public int normalDamage;
-    public int witchingDamage; 
-    public int hellDamage; 
+    public int witchingDamage;
+    public int hellDamage;
 }
 
 public class DamageArea : RoomObjectBase
@@ -16,13 +16,22 @@ public class DamageArea : RoomObjectBase
     public AreaBounds area;
     public bool ticking = false;
     public float cooldownPeriod = 1f;
+    public Vector3 lastSize;
+
+    public Transform roomParent;
+
+    private Vector3 GetVector => new Vector3(area.width / 36, 1, area.height / 20);
 
     public void Start()
     {
         UpdateSize();
     }
 
-    internal override void OnAwakeObject() { }
+    internal override void OnAwakeObject()
+    {
+
+        ObjectComplete = true;
+    }
 
     internal override void OnSleepObject() { }
 
@@ -37,20 +46,37 @@ public class DamageArea : RoomObjectBase
     {
         if (area.transform == null)
             return;
-
+        UpdateSize();
         area.OnDraw();
     }
 
     private void UpdateSize()
     {
-        gameObject.transform.position = area.transform.position;
-        gameObject.transform.localScale = new Vector3(area.width, 0, area.height);
+        if (lastSize != GetVector)
+        {
+            lastSize = GetVector;
+            gameObject.transform.position = area.transform.position;
+            gameObject.transform.localScale = GetVector;
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player" && ObjectActive && !ticking)
+        if (other.gameObject.tag == "Player")
+            OnCollisionResolve();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+            OnCollisionResolve();        
+    }
+
+    private void OnCollisionResolve()
+    {
+        if (ticking == false && ObjectUpdatable)
         {
+            Debug.Log("Colllision Occured: Damage Area -> Player");
             ticking = true;
             GameManager.Instance.playerState.AddDamage = 1;
             StartCoroutine(CooldownTimer());

@@ -13,9 +13,22 @@ public interface IRoomObject
 /// </summary>
 public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
 {
-    [SerializeField] private bool _objectActive = false;
-    [SerializeField] private bool _objectCompleted = false;
+    /// <summary>
+    /// Does the room require RoomManager activation.
+    /// </summary>
+    [Header("Tick this if the object is activation dependant. ")]
+    public bool roomActivatable;
 
+    /// <summary>
+    /// Is the object currently active.
+    /// </summary>
+    private bool _objectActive = false;
+
+    /// <summary>
+    /// Has this object completed.
+    /// </summary>
+    private bool _objectCompleted = false;
+    
     /// <summary>
     /// Represents whether the object has completed or not. 
     /// </summary>
@@ -29,6 +42,8 @@ public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
     /// Returns whether the room object is interactable. 
     /// </summary>
     public bool ObjectActive { get => _objectActive; }
+
+    internal bool ObjectUpdatable => (_objectActive | (!roomActivatable));
 
     /// <summary>
     /// Returns the name of the object. 
