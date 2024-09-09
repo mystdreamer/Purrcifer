@@ -41,6 +41,18 @@ namespace Purrcifer.Data.Defaults
         public const float WORLD_HELL_HOUR_TIME = 10.0F;
     }
 
+    /// <summary>
+    /// Default data for the camera.
+    /// </summary>
+    public class DefaultCameraData
+    {
+        public const float STEP_TRANSITION_TIME = 0.80F;
+        public const float PLAYER_STEP_DISTANCE = 1.3F; 
+    }
+
+    /// <summary>
+    /// Default data for rooms.
+    /// </summary>
     public class DefaultRoomData
     {
         public const int DEFAULT_WIDTH = 36;

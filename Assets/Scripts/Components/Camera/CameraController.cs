@@ -17,6 +17,7 @@ namespace CameraHelpers
         TRANSVERSE
     }
 
+    #region Camera Step Controller. 
     public class CameraStepHandler
     {
         public struct TargetVector
@@ -36,48 +37,84 @@ namespace CameraHelpers
                 target = transform;
             }
         }
+        
+        /// <summary>
+        /// Target vector representing the camera. 
+        /// </summary>
+        private TargetVector _camera;
 
-        private const float STEP_TRANSITION_TIME = 0.80F;
-        private int _width;
-        private int _height;
-        public TargetVector target;
-        public TargetVector camera;
-        public bool isStepping;
+        /// <summary>
+        /// Target vector representing the target transform. 
+        /// </summary>
+        private TargetVector _target;
+
+        /// <summary>
+        /// the standard width of a room. 
+        /// </summary>
+        private readonly int _roomWidth;
+
+        /// <summary>
+        /// the standard height of a room. 
+        /// </summary>
+        private readonly int _roomHeight;
+        
+        /// <summary>
+        /// Is the camera currently stepping. 
+        /// </summary>
+        private bool _isStepping;
+
+        /// <summary>
+        /// The time between transitions.
+        /// </summary>
+        private readonly float _transitionTime;
+
+        /// <summary>
+        /// The distance the player should step during transitions.
+        /// </summary>
+        private readonly float _playerStepDistance;
+
+        /// <summary>
+        /// Returns whether the camera is currently stepping. 
+        /// </summary>
+        public bool IsStepping => _isStepping;
+
         #region Vector Properties.
         public float MinX => -DefaultRoomData.DEFAULT_WIDTH / 2;
         public float MaxX => DefaultRoomData.DEFAULT_WIDTH / 2;
         public float MinZ => -DefaultRoomData.DEFAULT_HEIGHT / 2;
         public float MaxZ => DefaultRoomData.DEFAULT_HEIGHT / 2;
-        public Vector3 TranslationX => new Vector3(_width, 0, 0);
-        public Vector3 TranslationZ => new Vector3(0, 0, _height);
+        public Vector3 TranslationX => new Vector3(_roomWidth, 0, 0);
+        public Vector3 TranslationZ => new Vector3(0, 0, _roomHeight);
 
-        public bool InsideXAxis => InsideAxis(target.Position.x, camera.Position.x, MinX, MaxX);
-        public bool InsideZAxis => InsideAxis(target.Position.z, camera.Position.z, MinZ, MaxZ);
+        public bool InsideXAxis => InsideAxis(_target.Position.x, _camera.Position.x, MinX, MaxX);
+        public bool InsideZAxis => InsideAxis(_target.Position.z, _camera.Position.z, MinZ, MaxZ);
 
         public Vector3 Direction
         {
             get
             {
-                Vector3 temp = (target.Position - camera.Position);
+                Vector3 temp = (_target.Position - _camera.Position);
                 temp.y = 0;
                 return temp.normalized;
             }
         }
-        public Vector3 DirectionX => (target.XDecomposed - camera.XDecomposed).normalized;
-        public Vector3 DirectionZ => (target.ZDecomposed - camera.ZDecomposed).normalized;
-        public float TargetDistanceX => Vector3.Distance(camera.XDecomposed, target.XDecomposed);
-        public float TargetDistanceZ => Vector3.Distance(camera.ZDecomposed, target.ZDecomposed);
+        public Vector3 DirectionX => (_target.XDecomposed - _camera.XDecomposed).normalized;
+        public Vector3 DirectionZ => (_target.ZDecomposed - _camera.ZDecomposed).normalized;
+        public float TargetDistanceX => Vector3.Distance(_camera.XDecomposed, _target.XDecomposed);
+        public float TargetDistanceZ => Vector3.Distance(_camera.ZDecomposed, _target.ZDecomposed);
         #endregion
 
         public CameraStepHandler(Transform camera, Transform target)
         {
-            this.target = new TargetVector(target);
-            this.camera = new TargetVector(camera);
-            _width = DefaultRoomData.DEFAULT_WIDTH;
-            _height = DefaultRoomData.DEFAULT_HEIGHT;
+            this._target = new TargetVector(target);
+            this._camera = new TargetVector(camera);
+            _roomWidth = DefaultRoomData.DEFAULT_WIDTH;
+            _roomHeight = DefaultRoomData.DEFAULT_HEIGHT;
+            _playerStepDistance = DefaultCameraData.PLAYER_STEP_DISTANCE;
+            _transitionTime = DefaultCameraData.STEP_TRANSITION_TIME;
         }
 
-        public bool InsideAxis(float target, float pos, float min, float max)
+        private bool InsideAxis(float target, float pos, float min, float max)
         {
             return target > pos + min && target < pos + max;
         }
@@ -119,35 +156,35 @@ namespace CameraHelpers
         /// </summary>
         /// <param name="initial"> The initial position. </param>
         /// <param name="stepVector"> The translation to apply. </param>
-        public IEnumerator StepCamera(Vector3 stepVector, float jumpDistance)
+        public IEnumerator StepCamera(Vector3 stepVector)
         {
             float currentTime = 0;
 
-            Vector3 initialPosition = camera.Position;
+            Vector3 initialPosition = _camera.Position;
             Vector3 targetPosition = initialPosition + (stepVector);
 
             // Set the camera to stepping.
-            isStepping = true;
+            _isStepping = true;
 
             Vector3 directionVec = Direction;
             GameManager.MovementPaused = true;
-            target.Position += (directionVec * jumpDistance);
+            _target.Position += (directionVec * _playerStepDistance);
 
             // While currentTime is less than the duration, keep updating the position.
-            while (currentTime < STEP_TRANSITION_TIME)
+            while (currentTime < _transitionTime)
             {
                 currentTime += Time.deltaTime;
-                float t = Mathf.Clamp01(currentTime / STEP_TRANSITION_TIME);  // Ensure t doesn't go beyond 1.
-                camera.Position = Vector3.Lerp(initialPosition, targetPosition, t);
+                float t = Mathf.Clamp01(currentTime / _transitionTime);  // Ensure t doesn't go beyond 1.
+                _camera.Position = Vector3.Lerp(initialPosition, targetPosition, t);
                 yield return new WaitForEndOfFrame();
             }
 
             // Snap to the exact target position at the end of the movement.
-            camera.Position = targetPosition;
+            _camera.Position = targetPosition;
 
             // Release control after stepping.
             GameManager.MovementPaused = false;
-            isStepping = false;
+            _isStepping = false;
         }
 
         #region Gizmos. 
@@ -155,7 +192,7 @@ namespace CameraHelpers
         {
             //Draw frame. 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(position, new Vector3(_width, -10, _height));
+            Gizmos.DrawWireCube(position, new Vector3(_roomWidth, -10, _roomHeight));
 
             //Draw the edge points.
             Gizmos.color = new Color(1, 0, 0, 1f);
@@ -166,11 +203,11 @@ namespace CameraHelpers
         }
         #endregion
     }
+    #endregion
 }
 
 public class CameraController : MonoBehaviour
 {
-    private const float STEP_TRANSITION_TIME = 0.80F;
     public CameraStepHandler stepHandler;
 
     /// <summary>
@@ -178,24 +215,16 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public CameraBehaviour currentBehaviour = CameraBehaviour.TARGET_STEP;
 
-    /// <summary>
-    /// Is the camera currently stepping. 
-    /// </summary>
-    public bool isStepping = false;
-
     public Vector3 Position
     {
         set => transform.position = value;
     }
-
-    public float jumpDistance;
 
     public void Update()
     {
         switch (currentBehaviour)
         {
             case CameraBehaviour.TARGET_STEP:
-                if (!isStepping)
                     Update_CameraStep();
                 break;
             case CameraBehaviour.LOCK:
@@ -215,11 +244,11 @@ public class CameraController : MonoBehaviour
         if (GameManager.Instance.playerCurrent != null && stepHandler == null)
             stepHandler = new CameraStepHandler(transform, GameManager.Instance.playerCurrent.transform);
 
-        if (stepHandler != null && !stepHandler.isStepping)
+        if (stepHandler != null && !stepHandler.IsStepping)
         {
             Vector3 stepVector = stepHandler.GetStep();
             if (stepVector != Vector3.zero) //Breached left, move camera left.
-                StartCoroutine(stepHandler.StepCamera(stepVector, jumpDistance));
+                StartCoroutine(stepHandler.StepCamera(stepVector));
         }
     }
 
