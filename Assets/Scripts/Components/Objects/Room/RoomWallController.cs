@@ -12,7 +12,7 @@ public enum WallState
 /// <summary>
 /// Component class handling the state of doors at runtime. 
 /// </summary>
-public class RoomWallController : RoomObject
+public class RoomWallController : RoomObjectBase
 {
     /// <summary>
     /// The door heading upward. 
@@ -43,22 +43,22 @@ public class RoomWallController : RoomObject
         right.WallType = WallState.WALL;
     }
 
-    private void Update()
+    public override void OnAwakeObject()
     {
-
-    }
-
-    public override void AwakenRoom()
-    {
-        base.AwakenRoom();
         LockRoom(true);
         base.Complete = true;
     }
 
-    public override void SleepRoom()
+    public override void OnSleepObject()
     {
-        base.SleepRoom();
         LockRoom(false);
+    }
+
+    internal override void SetWorldState(WorldStateEnum state) { }
+
+    private void Update()
+    {
+
     }
 
     /// <summary>
@@ -94,17 +94,5 @@ public class RoomWallController : RoomObject
         down.SetDoorLockState = state;
         right.SetDoorLockState = state;
         left.SetDoorLockState = state;
-    }
-
-    internal override void Event_Collision(GameObject collision)
-    {
-    }
-
-    internal override void Event_Triggered(GameObject collision)
-    {
-    }
-
-    internal override void SetWorldState(WorldStateEnum state)
-    {
     }
 }

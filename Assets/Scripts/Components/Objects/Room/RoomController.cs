@@ -48,7 +48,7 @@ public class RoomController : MonoBehaviour
     public RoomState roomState;
     private GameObject playerReference;
     public RoomDetector roomDetector;
-    public RoomObject[] roomObjects;
+    public RoomObjectBase[] roomObjects;
 
     private NavMeshSurface navMeshSurface;
 
@@ -69,6 +69,7 @@ public class RoomController : MonoBehaviour
         BakeNavMesh();
     }
 
+    #region Bake Navagation Meshes. 
     private void BakeNavMesh()
     {
         // Check if NavMeshSurface is available
@@ -92,6 +93,7 @@ public class RoomController : MonoBehaviour
             Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
         }
     }
+    #endregion
 
     private GameObject Player
     {
