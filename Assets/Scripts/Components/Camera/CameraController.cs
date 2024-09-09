@@ -51,8 +51,16 @@ namespace CameraHelpers
         public bool InsideXAxis => InsideAxis(target.Position.x, camera.Position.x, MinX, MaxX);
         public bool InsideZAxis => InsideAxis(target.Position.z, camera.Position.z, MinZ, MaxZ);
 
-        public Vector3 DifferenceVecX => (target.XDecomposed - camera.XDecomposed).normalized;
-        public Vector3 DifferenceVecZ => (target.ZDecomposed - camera.ZDecomposed).normalized;
+        public Vector3 Direction { 
+            get
+            {
+                Vector3 temp = (target.Position - camera.Position);
+                temp.y = 0;
+                return temp.normalized;
+            }
+        } 
+        public Vector3 DirectionX => (target.XDecomposed - camera.XDecomposed).normalized;
+        public Vector3 DirectionZ => (target.ZDecomposed - camera.ZDecomposed).normalized;
         public float TargetDistanceX => Vector3.Distance(camera.XDecomposed, target.XDecomposed);
         public float TargetDistanceZ => Vector3.Distance(camera.ZDecomposed, target.ZDecomposed);
 
@@ -89,6 +97,7 @@ namespace CameraHelpers
 
 public class CameraController : MonoBehaviour
 {
+    private const float STEP_TRANSITION_TIME = 0.80F;
     public CameraStepHandler stephandler;
     public Transform target;
 
@@ -143,7 +152,7 @@ public class CameraController : MonoBehaviour
             if (!stephandler.InsideXAxis)
             {
                 //Get the direction vector. 
-                _differenceVec = stephandler.DifferenceVecX;
+                _differenceVec = stephandler.DirectionX;
                 _distance = stephandler.TargetDistanceX;
                 sign = Mathf.Sign(_differenceVec.x);
 
@@ -155,7 +164,7 @@ public class CameraController : MonoBehaviour
             if (!stephandler.InsideZAxis)
             {
                 //Get the direction vector. 
-                _differenceVec = stephandler.DifferenceVecZ;
+                _differenceVec = stephandler.DirectionZ;
                 _distance = stephandler.TargetDistanceZ;
                 sign = Mathf.Sign(_differenceVec.z);
                 //Determine direction on which the player has breached AABB.
@@ -172,7 +181,6 @@ public class CameraController : MonoBehaviour
     /// <param name="stepVector"> The translation to apply. </param>
     private IEnumerator StepCamera(Vector3 initial, Vector3 stepVector)
     {
-        float transitionDuration = 0.80F;  // Time in seconds for the transition.
         float currentTime = 0;
 
         Vector3 targetPosition = initial + (stepVector);
@@ -180,20 +188,16 @@ public class CameraController : MonoBehaviour
         // Set the camera to stepping.
         isStepping = true;
 
-        Vector3 roomward = stephandler.target.Position - transform.position;
-        roomward.y = 0;
-        roomward.Normalize();
-
-        GameManager.Instance.playerPrefab.GetComponent<MovementSys>().UpdatePause = true;
-        stephandler.target.Position = stephandler.target.Position + (roomward * jumpDistance);
+        Vector3 directionVec = stephandler.Direction;
+        GameManager.MovementPaused = true;
+        stephandler.target.Position += (directionVec * jumpDistance);
 
         // While currentTime is less than the duration, keep updating the position.
-        while (currentTime < transitionDuration)
+        while (currentTime < STEP_TRANSITION_TIME)
         {
             currentTime += Time.deltaTime;
-            float t = Mathf.Clamp01(currentTime / transitionDuration);  // Ensure t doesn't go beyond 1.
-            Vector3 currentStep = Vector3.Lerp(initial, targetPosition, t);
-            Position = currentStep;
+            float t = Mathf.Clamp01(currentTime / STEP_TRANSITION_TIME);  // Ensure t doesn't go beyond 1.
+            Position = Vector3.Lerp(initial, targetPosition, t);
             yield return new WaitForEndOfFrame();
         }
 
@@ -201,7 +205,7 @@ public class CameraController : MonoBehaviour
         Position = targetPosition;
 
         // Release control after stepping.
-        GameManager.Instance.playerPrefab.GetComponent<MovementSys>().UpdatePause = false;
+        GameManager.MovementPaused = false;
         isStepping = false;
     }
 

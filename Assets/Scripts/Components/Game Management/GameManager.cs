@@ -78,10 +78,12 @@ public class GameManager : MonoBehaviour
 
     public static ObjectMap ObjectMap
     {
-        set
-        {
-            _instance.objectMap = value;
-        }
+        set => _instance.objectMap = value;
+    }
+
+    public static bool MovementPaused
+    {
+        set => Instance.playerPrefab.GetComponent<MovementSys>().UpdatePause = value;
     }
 
     void Awake()
