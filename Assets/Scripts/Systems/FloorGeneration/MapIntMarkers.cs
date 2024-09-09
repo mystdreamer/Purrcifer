@@ -7,5 +7,6 @@ public enum MapIntMarkers
     ROOM = 1,
     START = 2,
     BOSS = 3,
-    TREASURE = 4
+    TREASURE = 4, 
+    HIDDEN_ROOM = 5
 }

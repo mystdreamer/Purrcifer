@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Class containing rules for building maps. 
@@ -72,5 +74,25 @@ public static class DecoratorRules
         }
         success = false;
 
+    }
+
+    /// <summary>
+    /// Sets the marker for the treasure room. 
+    /// </summary>
+    /// <param name="plan"> The floor plan to mark. </param>
+    /// <param name="success"> Returns true if the operation was successful</param>
+    public static void HiddenRoomDecorator(ref FloorPlan plan, out bool success)
+    {
+        List<Vector2Int> rooms = plan.GetTypeMark(0);
+        List<Vector2Int> roomsWithAdj = plan.SortByAdjacency(rooms, 3);
+
+        if (roomsWithAdj.Count > 0)
+        {
+            plan[roomsWithAdj[0]] = (int)MapIntMarkers.HIDDEN_ROOM;
+            success = true;
+            return;
+        }
+
+        success = false;
     }
 }

@@ -1,6 +1,31 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public static class HelperFloorPlan
+{
+    /// <summary>
+    /// Get a list of positions associated with the given mark. 
+    /// </summary>
+    /// <param name="mark"> The mark type to retrieve, </param>
+    /// <returns> List of Vector2Int positions with the provided mark. </returns>
+    public static List<Vector2Int> GetTypeMark(FloorPlan plan, int mark)
+    {
+        List<Vector2Int> matched = new List<Vector2Int>();
+
+        for (int i = 0; i < plan.plan.GetLength(0); i++)
+        {
+            for (int j = 0; j < plan.plan.GetLength(1); j++)
+            {
+                if (plan[i, j] == mark)
+                {
+                    matched.Add(new Vector2Int(i, j));
+                }
+            }
+        }
+        return matched;
+    }
+}
+
 /// <summary>
 /// Class responsible for handling int maps. 
 /// </summary>
@@ -41,6 +66,8 @@ public class FloorPlan
     /// Provides the height of the map. 
     /// </summary>
     public int Height => plan.GetLength(1);
+
+    public List<Vector2Int> GetNormalRooms => HelperFloorPlan.GetTypeMark(this, (int)MapIntMarkers.ROOM);
 
     /// <summary>
     /// Returns an array containing all the endpoints in the level. 
@@ -213,7 +240,7 @@ public class FloorPlan
             }
             outP += "\n";
         }
-        //Debug.Log(outP);
+        Debug.Log(outP);
     }
 
     /// <summary>

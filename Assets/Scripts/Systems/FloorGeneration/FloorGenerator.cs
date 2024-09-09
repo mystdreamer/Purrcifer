@@ -47,8 +47,11 @@ namespace FloorGeneration
             DecoratorRules.TreasureDecorator(ref wanderer.plan, out bool treasureSet);
             wanderer.plan.Print();
             yield return new WaitForFixedUpdate();
+            DecoratorRules.HiddenRoomDecorator(ref wanderer.plan, out bool hiddenRoomSet);
+            wanderer.plan.Print();
+            yield return new WaitForFixedUpdate();
 
-            if (!bossSet | !startSet | !treasureSet)
+            if (!bossSet | !startSet | !treasureSet | !hiddenRoomSet)
             {
                 UnityEngine.Debug.Log(">>GameManager: Rebuilding map");
                 GenerateRandomMap(data);
