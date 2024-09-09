@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class BossTestScript : MonoBehaviour
+public class BossTestScript : BossHealth
 {
-    public BossHealth testBossHealth;
 
     void Start()
     {
-        UIManager.SetBossHealth(testBossHealth);
+        UIManager.SetBossHealth(this);
     }
 
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyUp(KeyCode.I))
+            base.Health -= 10;
     }
 }

@@ -128,7 +128,6 @@ GameObject:
   m_Component:
   - component: {fileID: 51077796}
   - component: {fileID: 51077795}
-  - component: {fileID: 51077794}
   m_Layer: 0
   m_Name: TEMP_BOSS
   m_TagString: Untagged
@@ -136,21 +135,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &51077794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 51077793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd950327af743024a8aa3e68b0a1ebbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  min: 0
-  max: 1000
-  current: 1000
 --- !u!114 &51077795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ffa37aaca49e6d49a4a3b763a675d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testBossHealth: {fileID: 51077794}
+  min: 0
+  max: 100000
+  current: 100000
 --- !u!4 &51077796
 Transform:
   m_ObjectHideFlags: 0
