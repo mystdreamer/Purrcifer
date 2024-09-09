@@ -1,6 +1,7 @@
 using UnityEngine;
 using FloorGeneration;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -83,7 +84,10 @@ public class GameManager : MonoBehaviour
 
     public static bool MovementPaused
     {
-        set => Instance.playerPrefab.GetComponent<MovementSys>().UpdatePause = value;
+        set {
+            if (Instance.playerCurrent != null)
+                Instance.playerCurrent.GetComponent<MovementSys>().UpdatePause = value;
+        }  
     }
 
     void Awake()
@@ -120,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDeath()
     {
-        playerCurrent.GetComponent<MovementSys>().UpdatePause = true;
+        MovementPaused = true;
         UIManager.EnableGameOverScreen();
     }
 
@@ -139,7 +143,7 @@ public class GameManager : MonoBehaviour
         }
 
         _worldClock.TimerActive = true;
-        playerCurrent.GetComponent<MovementSys>().UpdatePause = false;
+        MovementPaused = false;
         yield return true;
     }
 
@@ -160,8 +164,7 @@ public class GameManager : MonoBehaviour
     {
         playerCurrent = GameObject.Instantiate(playerPrefab);
         playerCurrent.transform.position = position;
-        MovementSys mSys = playerCurrent.GetComponent<MovementSys>();
-        mSys.UpdatePause = true;
+        MovementPaused = true;
         playerState = playerCurrent.GetComponent<PlayerState>();
         playerState.SetPlayerData();
     }

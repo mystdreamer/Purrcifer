@@ -3,6 +3,7 @@ using Purrcifer.Data.Defaults;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CameraHelpers
 {
@@ -36,11 +37,13 @@ namespace CameraHelpers
             }
         }
 
+        private const float STEP_TRANSITION_TIME = 0.80F;
         private int _width;
         private int _height;
         public TargetVector target;
         public TargetVector camera;
-
+        public bool isStepping;
+        #region Vector Properties.
         public float MinX => -DefaultRoomData.DEFAULT_WIDTH / 2;
         public float MaxX => DefaultRoomData.DEFAULT_WIDTH / 2;
         public float MinZ => -DefaultRoomData.DEFAULT_HEIGHT / 2;
@@ -51,18 +54,20 @@ namespace CameraHelpers
         public bool InsideXAxis => InsideAxis(target.Position.x, camera.Position.x, MinX, MaxX);
         public bool InsideZAxis => InsideAxis(target.Position.z, camera.Position.z, MinZ, MaxZ);
 
-        public Vector3 Direction { 
+        public Vector3 Direction
+        {
             get
             {
                 Vector3 temp = (target.Position - camera.Position);
                 temp.y = 0;
                 return temp.normalized;
             }
-        } 
+        }
         public Vector3 DirectionX => (target.XDecomposed - camera.XDecomposed).normalized;
         public Vector3 DirectionZ => (target.ZDecomposed - camera.ZDecomposed).normalized;
         public float TargetDistanceX => Vector3.Distance(camera.XDecomposed, target.XDecomposed);
         public float TargetDistanceZ => Vector3.Distance(camera.ZDecomposed, target.ZDecomposed);
+        #endregion
 
         public CameraStepHandler(Transform camera, Transform target)
         {
@@ -75,6 +80,74 @@ namespace CameraHelpers
         public bool InsideAxis(float target, float pos, float min, float max)
         {
             return target > pos + min && target < pos + max;
+        }
+
+        public Vector3 GetStep()
+        {
+            float sign;
+            float _distance;
+            Vector3 _differenceVec;
+
+            if (!InsideXAxis)
+            {
+                //Get the direction vector. 
+                _differenceVec = DirectionX;
+                _distance = TargetDistanceX;
+                sign = Mathf.Sign(_differenceVec.x);
+
+                //Determine direction on which the player has breached AABB.
+                if (sign * _distance < MinX || sign * _distance > MaxX) //Breached left, move camera left. 
+                    return sign * TranslationX;
+            }
+
+            if (!InsideZAxis)
+            {
+                //Get the direction vector. 
+                _differenceVec = DirectionZ;
+                _distance = TargetDistanceZ;
+                sign = Mathf.Sign(_differenceVec.z);
+                //Determine direction on which the player has breached AABB.
+                if (sign * _distance < MinZ || sign * _distance > MaxZ) //Breached up, move camera up. 
+                    return sign * TranslationZ;
+            }
+
+            return Vector3.zero;
+        }
+
+        /// <summary>
+        /// Coroutine handling lerping between the two given points over time. 
+        /// </summary>
+        /// <param name="initial"> The initial position. </param>
+        /// <param name="stepVector"> The translation to apply. </param>
+        public IEnumerator StepCamera(Vector3 stepVector, float jumpDistance)
+        {
+            float currentTime = 0;
+
+            Vector3 initialPosition = camera.Position;
+            Vector3 targetPosition = initialPosition + (stepVector);
+
+            // Set the camera to stepping.
+            isStepping = true;
+
+            Vector3 directionVec = Direction;
+            GameManager.MovementPaused = true;
+            target.Position += (directionVec * jumpDistance);
+
+            // While currentTime is less than the duration, keep updating the position.
+            while (currentTime < STEP_TRANSITION_TIME)
+            {
+                currentTime += Time.deltaTime;
+                float t = Mathf.Clamp01(currentTime / STEP_TRANSITION_TIME);  // Ensure t doesn't go beyond 1.
+                camera.Position = Vector3.Lerp(initialPosition, targetPosition, t);
+                yield return new WaitForEndOfFrame();
+            }
+
+            // Snap to the exact target position at the end of the movement.
+            camera.Position = targetPosition;
+
+            // Release control after stepping.
+            GameManager.MovementPaused = false;
+            isStepping = false;
         }
 
         #region Gizmos. 
@@ -98,8 +171,7 @@ namespace CameraHelpers
 public class CameraController : MonoBehaviour
 {
     private const float STEP_TRANSITION_TIME = 0.80F;
-    public CameraStepHandler stephandler;
-    public Transform target;
+    public CameraStepHandler stepHandler;
 
     /// <summary>
     /// The current behavioural state used by the camera. 
@@ -124,7 +196,7 @@ public class CameraController : MonoBehaviour
         {
             case CameraBehaviour.TARGET_STEP:
                 if (!isStepping)
-                    CameraStepper();
+                    Update_CameraStep();
                 break;
             case CameraBehaviour.LOCK:
                 break;
@@ -136,82 +208,24 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// Calculates the direction to step, if a step is required. 
     /// </summary>
-    private void CameraStepper()
+    private void Update_CameraStep()
     {
         //Cache player if not cached. 
 
-        if (GameManager.Instance.playerCurrent != null && stephandler == null)
-            stephandler = new CameraStepHandler(transform, GameManager.Instance.playerCurrent.transform);
+        if (GameManager.Instance.playerCurrent != null && stepHandler == null)
+            stepHandler = new CameraStepHandler(transform, GameManager.Instance.playerCurrent.transform);
 
-
-        float sign;
-        float _distance;
-        Vector3 _differenceVec;
-        if (stephandler != null && !isStepping)
+        if (stepHandler != null && !stepHandler.isStepping)
         {
-            if (!stephandler.InsideXAxis)
-            {
-                //Get the direction vector. 
-                _differenceVec = stephandler.DirectionX;
-                _distance = stephandler.TargetDistanceX;
-                sign = Mathf.Sign(_differenceVec.x);
-
-                //Determine direction on which the player has breached AABB.
-                if (sign * _distance < stephandler.MinX || sign * _distance > stephandler.MaxX) //Breached left, move camera left. 
-                    StartCoroutine(StepCamera(transform.position, sign * stephandler.TranslationX));
-            }
-
-            if (!stephandler.InsideZAxis)
-            {
-                //Get the direction vector. 
-                _differenceVec = stephandler.DirectionZ;
-                _distance = stephandler.TargetDistanceZ;
-                sign = Mathf.Sign(_differenceVec.z);
-                //Determine direction on which the player has breached AABB.
-                if (sign * _distance < stephandler.MinZ || sign * _distance > stephandler.MaxZ) //Breached up, move camera up. 
-                    StartCoroutine(StepCamera(transform.position, sign * stephandler.TranslationZ));
-            }
+            Vector3 stepVector = stepHandler.GetStep();
+            if (stepVector != Vector3.zero) //Breached left, move camera left.
+                StartCoroutine(stepHandler.StepCamera(stepVector, jumpDistance));
         }
-    }
-
-    /// <summary>
-    /// Coroutine handling lerping between the two given points over time. 
-    /// </summary>
-    /// <param name="initial"> The initial position. </param>
-    /// <param name="stepVector"> The translation to apply. </param>
-    private IEnumerator StepCamera(Vector3 initial, Vector3 stepVector)
-    {
-        float currentTime = 0;
-
-        Vector3 targetPosition = initial + (stepVector);
-
-        // Set the camera to stepping.
-        isStepping = true;
-
-        Vector3 directionVec = stephandler.Direction;
-        GameManager.MovementPaused = true;
-        stephandler.target.Position += (directionVec * jumpDistance);
-
-        // While currentTime is less than the duration, keep updating the position.
-        while (currentTime < STEP_TRANSITION_TIME)
-        {
-            currentTime += Time.deltaTime;
-            float t = Mathf.Clamp01(currentTime / STEP_TRANSITION_TIME);  // Ensure t doesn't go beyond 1.
-            Position = Vector3.Lerp(initial, targetPosition, t);
-            yield return new WaitForEndOfFrame();
-        }
-
-        // Snap to the exact target position at the end of the movement.
-        Position = targetPosition;
-
-        // Release control after stepping.
-        GameManager.MovementPaused = false;
-        isStepping = false;
     }
 
     public void OnDrawGizmos()
     {
-        if (stephandler != null)
-            stephandler.DrawBounds(transform.position);
+        if (stepHandler != null)
+            stepHandler.DrawBounds(transform.position);
     }
 }
