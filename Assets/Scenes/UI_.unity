@@ -151,8 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9887145b4d094944c9f2d9163e3978bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuIndexer: {fileID: 0}
-  gameOverIndexer: {fileID: 6843048691720852244}
+  menu: {fileID: 0}
   index: 1
 --- !u!114 &565410485
 MonoBehaviour:
@@ -166,8 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9887145b4d094944c9f2d9163e3978bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuIndexer: {fileID: 0}
-  gameOverIndexer: {fileID: 6843048691720852244}
+  menu: {fileID: 0}
   index: 0
 --- !u!1 &627914594
 GameObject:

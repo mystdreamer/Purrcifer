@@ -104,7 +104,7 @@ public class PlayerState : MonoBehaviour
     {
         if (_health == null)
             return;
-        UIManager.Instance.PlayerHealthBar.UpdateHealthbar(_health.current);
+        UIManager.Instance.PlayerHealthBar.UpdateHealthBar(_health.current, _health.max);
 
         if (!Alive && !deathNotified)
         {
