@@ -14,6 +14,21 @@ public class UI_BossHealthBar : MonoBehaviour
     public float currentValue;
     public bool flickerActive = false;
 
+    /// <summary>
+    /// Set the boss to the UI_BossHealthBar. 
+    /// </summary>
+    public Boss SetCurrentBoss
+    {
+        set
+        {
+            //Setup scaling.
+            healthData = value.BHealth;
+            lastValue = healthData.MaxCap;
+            image.transform.localScale = Vector3.one;
+            panel.SetActive(true);
+        }
+    }
+
     public void Start()
     {
         panel.SetActive(false);
@@ -26,7 +41,11 @@ public class UI_BossHealthBar : MonoBehaviour
 
         lastValue = currentValue;
         currentValue = healthData.Health;
+        CalculateDamageFlash();
+    }
 
+    private void CalculateDamageFlash()
+    {
         if (currentValue < lastValue && !flickerActive)
         {
             float scaleValue = math.remap(0, healthData.MaxCap, 0, 1, currentValue);
@@ -35,15 +54,6 @@ public class UI_BossHealthBar : MonoBehaviour
             image.transform.localScale = new Vector3(scaleValue, 1);
             StartCoroutine(FlickerBar());
         }
-    }
-
-    public void SetUp(Boss boss)
-    {
-        //Setup scaling.
-        healthData = boss.BHealth;
-        lastValue = healthData.MaxCap;
-        image.transform.localScale = Vector3.one;
-        panel.SetActive(true);
     }
 
     private IEnumerator FlickerBar()
