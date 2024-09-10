@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using Purrcifer.Data.Defaults;
 
+/// <summary>
+/// Base class used for defining zone objects. 
+/// </summary>
 public abstract class ZoneObject : RoomObjectBase
 {
     [SerializeField] private bool insideArea = false;
