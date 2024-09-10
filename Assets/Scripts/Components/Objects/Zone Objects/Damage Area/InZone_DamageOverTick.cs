@@ -37,7 +37,7 @@ public class InZone_DamageOverTick : InZone
         if (eventTicker.TickComplete)
         {
             //If so apply damage to the player. 
-            GameManager.Instance.playerState.AddDamage = 1;
+            GameManager.Instance.PlayerState.AddDamage = 1;
             eventTicker.TickComplete = false; 
         }
     }

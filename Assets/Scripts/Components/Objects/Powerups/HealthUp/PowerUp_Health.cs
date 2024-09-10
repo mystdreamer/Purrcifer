@@ -4,7 +4,7 @@ public class PowerUp_Health : PowerUp_Item
 
     internal override void ApplyPowerup()
     {
-        GameManager.Instance.playerState.HealthMaxCap += HEALTH_INCREASE_VALUE;
-        GameManager.Instance.playerState.AddHealth = HEALTH_INCREASE_VALUE;
+        GameManager.Instance.PlayerState.HealthMaxCap += HEALTH_INCREASE_VALUE;
+        GameManager.Instance.PlayerState.AddHealth = HEALTH_INCREASE_VALUE;
     }
 }

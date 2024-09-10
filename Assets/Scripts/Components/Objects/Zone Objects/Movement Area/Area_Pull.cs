@@ -4,7 +4,7 @@ using UnityEngine;
 public class Area_Pull : InZone
 {
     public float force;
-    public MovementSys playerMovement;
+    public PlayerMovementSys playerMovement;
 
     internal override void Update()
     {
@@ -17,7 +17,7 @@ public class Area_Pull : InZone
 
         ///If player reference doesn't exist, cache it. 
         if (playerMovement == null)
-            playerMovement = GameManager.Instance.playerCurrent.GetComponent<MovementSys>();
+            playerMovement = GameManager.Instance.PlayerMovementSys;
 
         //Apply forces to the object. 
         if (playerMovement != null)

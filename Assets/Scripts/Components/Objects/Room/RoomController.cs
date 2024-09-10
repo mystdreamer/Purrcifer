@@ -101,7 +101,7 @@ public class RoomController : MonoBehaviour
         {
             if (playerReference == null)
             {
-                playerReference = GameManager.Instance.playerCurrent;
+                playerReference = GameManager.Instance.Player;
             }
 
             return playerReference;
@@ -115,7 +115,7 @@ public class RoomController : MonoBehaviour
             //If the reference isn't set update it. 
             if (playerReference == null)
             {
-                playerReference = GameManager.Instance.playerCurrent;
+                playerReference = GameManager.Instance.Player;
             }
             return playerReference.transform.position;
         }

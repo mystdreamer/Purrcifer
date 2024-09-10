@@ -241,8 +241,8 @@ public class CameraController : MonoBehaviour
     {
         //Cache player if not cached. 
 
-        if (GameManager.Instance.playerCurrent != null && stepHandler == null)
-            stepHandler = new CameraStepHandler(transform, GameManager.Instance.playerCurrent.transform);
+        if (GameManager.Instance.PlayerExists && stepHandler == null)
+            stepHandler = new CameraStepHandler(transform, GameManager.Instance.PlayerTransform);
 
         if (stepHandler != null && !stepHandler.IsStepping)
         {

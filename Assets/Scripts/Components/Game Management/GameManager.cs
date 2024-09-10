@@ -35,12 +35,14 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// The current player instance. 
     /// </summary>
-    public GameObject playerCurrent;
+    private GameObject _playerCurrent;
 
     /// <summary>
     /// The current state of the player. 
     /// </summary>
-    public PlayerState playerState;
+    [SerializeField] private PlayerState _playerState;
+
+    [SerializeField] private PlayerMovementSys _movementSys;
 
     /// <summary>
     /// Returns the current instance of the GameManager. 
@@ -51,6 +53,16 @@ public class GameManager : MonoBehaviour
     /// Returns the current world clock instance. 
     /// </summary>
     public static WorldClock WorldClock => _instance._worldClock;
+
+    public PlayerState PlayerState => _playerState;
+    
+    public PlayerMovementSys PlayerMovementSys => _movementSys; 
+
+    public Transform PlayerTransform => _playerCurrent.transform;
+
+    public GameObject Player => _playerCurrent;
+
+    public bool PlayerExists => (_playerCurrent != null);
 
     /// <summary>
     /// Generate a random map based on provided FloorData. 
@@ -88,8 +100,8 @@ public class GameManager : MonoBehaviour
     public static bool MovementPaused
     {
         set {
-            if (Instance.playerCurrent != null)
-                Instance.playerCurrent.GetComponent<MovementSys>().UpdatePause = value;
+            if (Instance._playerCurrent != null)
+                Instance._playerCurrent.GetComponent<PlayerMovementSys>().UpdatePause = value;
         }  
     }
 
@@ -165,10 +177,11 @@ public class GameManager : MonoBehaviour
     /// <param name="position"> The position to spawn the player at. </param>
     public void SpawnPlayerInstance(Vector3 position)
     {
-        playerCurrent = GameObject.Instantiate(playerPrefab);
-        playerCurrent.transform.position = position;
+        _playerCurrent = GameObject.Instantiate(playerPrefab);
+        _playerCurrent.transform.position = position;
         MovementPaused = true;
-        playerState = playerCurrent.GetComponent<PlayerState>();
-        playerState.SetPlayerData();
+        _movementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
+        _playerState = _playerCurrent.GetComponent<PlayerState>();
+        _playerState.SetPlayerData();
     }
 }

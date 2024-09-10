@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Movement behaviour controlling the main player character. 
 /// </summary>
-public class MovementSys : MonoBehaviour
+public class PlayerMovementSys : MonoBehaviour
 {
     //Cache for the last input direction. 
     static Vector3 _lastInput = Vector2.zero;
