@@ -11,7 +11,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private static GameManager _instance;
 
-    [SerializeField] private ObjectPoolManager objectManager;
+    /// <summary>
+    /// Cached reference to the ObjectPoolManager.
+    /// </summary>
+    [SerializeField] private ObjectPoolManager _objectPoolManager;
 
     #region Floor/Level data. 
     /// <summary>
@@ -73,14 +76,17 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// The current player instance. 
     /// </summary>
-    private GameObject _playerCurrent;
+    [SerializeField] private GameObject _playerCurrent;
 
     /// <summary>
     /// The current state of the player. 
     /// </summary>
     [SerializeField] private PlayerState _playerState;
 
-    [SerializeField] private PlayerMovementSys _movementSys;
+    /// <summary>
+    /// Cached reference to the player movement system. 
+    /// </summary>
+    [SerializeField] private PlayerMovementSys _playerMovementSys;
 
     /// <summary>
     /// Returns the current instance of the GameManager. 
@@ -92,16 +98,34 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static WorldClock WorldClock => _instance._worldClock;
 
+    /// <summary>
+    /// Returns the current PlayerState instance. 
+    /// </summary>
     public PlayerState PlayerState => _playerState;
     
-    public PlayerMovementSys PlayerMovementSys => _movementSys; 
+    /// <summary>
+    /// Returns the current player movement system. 
+    /// </summary>
+    public PlayerMovementSys PlayerMovementSys => _playerMovementSys; 
 
+    /// <summary>
+    /// Returns the current player transform. 
+    /// </summary>
     public Transform PlayerTransform => _playerCurrent.transform;
 
+    /// <summary>
+    /// Returns the current player instance. 
+    /// </summary>
     public GameObject Player => _playerCurrent;
 
+    /// <summary>
+    /// Returns true if the player currently exists. 
+    /// </summary>
     public bool PlayerExists => (_playerCurrent != null);
 
+    /// <summary>
+    /// Set the player movement to active/inactive. 
+    /// </summary>
     public static bool MovementPaused
     {
         set {
@@ -134,7 +158,7 @@ public class GameManager : MonoBehaviour
 #endif
 
         //Generate ObjectPoolManager. 
-        objectManager = new ObjectPoolManager(); 
+        _objectPoolManager = new ObjectPoolManager(); 
     }
 
     void Update()
@@ -147,11 +171,22 @@ public class GameManager : MonoBehaviour
     }
 
     #region Object Pooling
-    public GameObject GetFromPool(GameObject prefab) => objectManager.GetGameObjectType(prefab);
+    /// <summary>
+    /// Returns an object from the object pool based on the type provided. 
+    /// </summary>
+    /// <param name="prefab"> The GameObject type to get. </param>
+    public GameObject GetFromPool(GameObject prefab) => _objectPoolManager.GetGameObjectType(prefab);
 
-    public void ClearPools() => objectManager.ClearPools();
+    /// <summary>
+    /// Clear all current ObjectPools. 
+    /// </summary>
+    public void ClearPools() => _objectPoolManager.ClearPools();
 
-    public void ClearPoolByType(GameObject prefab) => objectManager.ClearPoolByType(prefab);
+    /// <summary>
+    /// Clear a certain ObjectPool based on the provided object type. 
+    /// </summary>
+    /// <param name="prefab"> The prefab to remove. </param>
+    public void ClearPoolByType(GameObject prefab) => _objectPoolManager.ClearPoolByType(prefab);
     #endregion
 
     public void GenerationComplete()
@@ -201,7 +236,7 @@ public class GameManager : MonoBehaviour
         _playerCurrent = GameObject.Instantiate(playerPrefab);
         _playerCurrent.transform.position = position;
         MovementPaused = true;
-        _movementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
+        _playerMovementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
         _playerState = _playerCurrent.GetComponent<PlayerState>();
         _playerState.SetPlayerData();
     }
