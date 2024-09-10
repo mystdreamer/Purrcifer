@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private static GameManager _instance;
 
+    [SerializeField] private ObjectPoolManager objectManager;
+
+    #region Floor/Level data. 
     /// <summary>
     /// The current world clock instance. 
     /// </summary>
@@ -27,6 +30,41 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public ObjectMap map;
 
+    /// <summary>
+    /// Generate a random map based on provided FloorData. 
+    /// </summary>
+    public static FloorData FloorData
+    {
+        set
+        {
+            _instance.floorData = value;
+            //FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
+            FloorGenerationHandler handler = Instance.gameObject.AddComponent<FloorGenerationHandler>();
+            handler.GenerateBaseMap(value);
+        }
+    }
+
+    /// <summary>
+    /// Generate a random map based on provided FloorData. 
+    /// </summary>
+    public static FloorPlan FloorPlan
+    {
+        set
+        {
+            _instance.floorMap = value;
+            FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
+            Debug.Log("Map built.");
+            _instance.GenerationComplete();
+        }
+    }
+
+    public static ObjectMap ObjectMap
+    {
+        set => _instance.objectMap = value;
+    }
+    #endregion
+
+    #region Player Management.
     /// <summary>
     /// The player prefab used for instancing. . 
     /// </summary>
@@ -64,39 +102,6 @@ public class GameManager : MonoBehaviour
 
     public bool PlayerExists => (_playerCurrent != null);
 
-    /// <summary>
-    /// Generate a random map based on provided FloorData. 
-    /// </summary>
-    public static FloorData FloorData
-    {
-        set
-        {
-            _instance.floorData = value;
-            //FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
-            FloorGenerationHandler handler = Instance.gameObject.AddComponent<FloorGenerationHandler>();
-            handler.GenerateBaseMap(value);
-        }
-    }
-
-    /// <summary>
-    /// Generate a random map based on provided FloorData. 
-    /// </summary>
-    public static FloorPlan FloorPlan
-    {
-        set
-        {
-            _instance.floorMap = value;
-            FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
-            Debug.Log("Map built.");
-            _instance.GenerationComplete();
-        }
-    }
-
-    public static ObjectMap ObjectMap
-    {
-        set => _instance.objectMap = value;
-    }
-
     public static bool MovementPaused
     {
         set {
@@ -104,6 +109,7 @@ public class GameManager : MonoBehaviour
                 Instance._playerCurrent.GetComponent<PlayerMovementSys>().UpdatePause = value;
         }  
     }
+    #endregion
 
     void Awake()
     {
@@ -126,6 +132,9 @@ public class GameManager : MonoBehaviour
             DataCarrier.Generate();
         }
 #endif
+
+        //Generate ObjectPoolManager. 
+        objectManager = new ObjectPoolManager(); 
     }
 
     void Update()
@@ -137,11 +146,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerDeath()
-    {
-        MovementPaused = true;
-        UIManager.EnableGameOverScreen();
-    }
+    #region Object Pooling
+    public GameObject GetFromPool(GameObject prefab) => objectManager.GetGameObjectType(prefab);
+
+    public void ClearPools() => objectManager.ClearPools();
+
+    public void ClearPoolByType(GameObject prefab) => objectManager.ClearPoolByType(prefab);
+    #endregion
 
     public void GenerationComplete()
     {
@@ -171,6 +182,16 @@ public class GameManager : MonoBehaviour
         Camera.main.GetComponent<CameraController>().Position = position;
     }
 
+    #region Player Management.
+    /// <summary>
+    /// Notify the GameManager of the players death. 
+    /// </summary>
+    public void PlayerDeath()
+    {
+        MovementPaused = true;
+        UIManager.EnableGameOverScreen();
+    }
+
     /// <summary>
     /// Spawn a player instance at the specified location. 
     /// </summary>
@@ -184,4 +205,5 @@ public class GameManager : MonoBehaviour
         _playerState = _playerCurrent.GetComponent<PlayerState>();
         _playerState.SetPlayerData();
     }
+    #endregion
 }

@@ -58,7 +58,8 @@ public class ObjectPool
     }
 }
 
-public class ObjectPoolManager : MonoBehaviour
+[System.Serializable]
+public class ObjectPoolManager
 {
     public List<ObjectPool> objectPools = new List<ObjectPool>();
 
@@ -108,6 +109,12 @@ public class ObjectPoolManager : MonoBehaviour
         ObjectPool p = new ObjectPool(prefab);
         objectPools.Add(p);
         return p;
+    }
+
+    public void ClearPoolByType(GameObject prefab)
+    {
+        ObjectPool pool = LocatePool(prefab);
+        pool.EmptyPool();
     }
 
     public void ClearPools()
