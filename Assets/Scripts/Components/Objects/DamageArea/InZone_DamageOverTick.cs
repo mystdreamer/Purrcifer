@@ -1,8 +1,10 @@
 ﻿using Purrcifer.Data.Defaults;
+using UnityEngine;
 
 /// <summary>
 /// Example area class which will tick damage over a period of time. 
 /// </summary>
+[RequireComponent(typeof(ObjectEventTicker))]
 public class InZone_DamageOverTick : InZone
 {
     /// <summary>

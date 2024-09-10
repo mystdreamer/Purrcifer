@@ -21,6 +21,9 @@ public class UI_BossHealthBar : MonoBehaviour
 
     public void Update()
     {
+        if (healthData == null)
+            return; 
+
         lastValue = currentValue;
         currentValue = healthData.Health;
 
