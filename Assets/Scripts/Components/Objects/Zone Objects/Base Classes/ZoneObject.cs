@@ -14,7 +14,10 @@ public abstract class ZoneObject : RoomObjectBase
     internal bool InZone => insideArea;
 
     internal Vector3 GetVector =>
-        new Vector3(area.width / DefaultRoomData.DEFAULT_WIDTH, 1, area.height / DefaultRoomData.DEFAULT_WIDTH);
+        new Vector3(
+            area.width / DefaultRoomData.DEFAULT_WIDTH, 
+            1, 
+            area.height / DefaultRoomData.DEFAULT_WIDTH);
 
     internal virtual void Start()
     {

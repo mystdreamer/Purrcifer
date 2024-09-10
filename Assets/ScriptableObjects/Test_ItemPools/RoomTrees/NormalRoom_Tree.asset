@@ -32,7 +32,11 @@ MonoBehaviour:
     key: 3
     probabilityWeight: 10
     objectPrefab: {fileID: 7528946263645432192, guid: b2ea577df53156441853fde4c7b349c3, type: 3}
-  - itemName: NormalRoomB_Heart/Damage Tester
+  - itemName: NormalRoomB_Heart/Area Damage Tester
     key: 4
-    probabilityWeight: 30
+    probabilityWeight: 10
     objectPrefab: {fileID: 7528946263645432192, guid: e1abd181a231a314e9d25e368d64cdd0, type: 3}
+  - itemName: Norm_AreaPushTester
+    key: 5
+    probabilityWeight: 20
+    objectPrefab: {fileID: 749221820945843146, guid: 38a0fa586f7edc5469b46545167ff16a, type: 3}
