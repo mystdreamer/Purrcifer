@@ -18,12 +18,9 @@ public class Area_PushWaveConstantDirection : InZone
     {
         base.Update();
 
-        Debug.Log("ForcePush: Entered update.");
-
-        //Apply forces to the object. 
-
         if (IsActive && objectEventTicker.TickComplete)
         {
+            //Apply forces to the object. 
             objectEventTicker.TickComplete = false;
             direction.ApplyEffect();
         }

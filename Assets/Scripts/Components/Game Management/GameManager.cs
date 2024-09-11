@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private FloorPlan floorMap;
 
-    [SerializeField] private ObjectMap objectMap;
+    [SerializeField] private ObjectMap _objectMap;
 
     /// <summary>
     /// The current object map.
@@ -61,9 +61,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static ObjectMap ObjectMap
+    public static ObjectMap CurrentObjectMap
     {
-        set => _instance.objectMap = value;
+        set => _instance._objectMap = value;
     }
     #endregion
 
@@ -216,6 +216,44 @@ public class GameManager : MonoBehaviour
     {
         Camera.main.GetComponent<CameraController>().Position = position;
     }
+
+    #region Teleporting Rooms. 
+    public void Teleport(GameObject teleportObject, MapIntMarkers marker)
+    {
+
+        GameObject matchedObj = GameManager.Instance.GetRoomByType(marker);
+        if (matchedObj != null)
+        {
+            //If the provided room to teleport to is null, don't teleport. 
+            teleportObject.transform.position = matchedObj.transform.position;
+        }
+    }
+    #endregion
+
+    #region Room Addressing. 
+    private GameObject GetRoomByType(MapIntMarkers marker)
+    {
+        if (marker == MapIntMarkers.NONE)
+        {
+            Debug.Log("Call made to a room type that identifies an empty room. \n Thus teleport was not executed.");
+
+            throw new System.Exception();
+        }
+
+        int mapMarkerConversion = (int)marker;
+
+        //Retrieve the positions of matching rooms. 
+        Vector2Int[] matched = floorMap.GetTypeMark(mapMarkerConversion).ToArray();
+
+        //Retrieve the room object.
+        GameObject room = _objectMap[matched[0]];
+
+        Debug.Log("GameManager: Get Room By Type >> \n Room Address: [" + matched[0].x + ", " + 
+            matched[0].y + "]\n" + "Room Name [" + room.name + "]");
+
+        return room; 
+    }
+    #endregion
 
     #region Player Management.
     /// <summary>

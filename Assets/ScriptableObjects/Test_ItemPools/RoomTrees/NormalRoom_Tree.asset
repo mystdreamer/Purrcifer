@@ -46,5 +46,9 @@ MonoBehaviour:
     objectPrefab: {fileID: 1475916343829403696, guid: 1eb88ecaf91445244a997c53dc450801, type: 3}
   - itemName: Norm_AreaPushWaveCD
     key: 7
-    probabilityWeight: 40
+    probabilityWeight: 10
     objectPrefab: {fileID: 749221820945843146, guid: 41b0c9c80ddac0b418faaeae05ecf95b, type: 3}
+  - itemName: Norm_AreaPushWaveCD
+    key: 8
+    probabilityWeight: 40
+    objectPrefab: {fileID: 8031202937322810426, guid: 7d8f071419d5df440a9eb75a88729ee1, type: 3}

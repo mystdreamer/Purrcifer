@@ -34,7 +34,7 @@ namespace FloorGeneration
                 }
             }
 
-            GameManager.ObjectMap = objMap; 
+            GameManager.CurrentObjectMap = objMap; 
             Destroy(this.gameObject);
         }
 
