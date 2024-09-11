@@ -19,8 +19,4 @@ MonoBehaviour:
   - itemName: TreasureRoom_A
     key: 0
     probabilityWeight: 10
-    objectPrefab: {fileID: 4056657841414575939, guid: e135630bfba3b9341b6274729578f08e, type: 3}
-  - itemName: TreasureRoom_B
-    key: 1
-    probabilityWeight: 10
-    objectPrefab: {fileID: 4056657841414575939, guid: e135630bfba3b9341b6274729578f08e, type: 3}
+    objectPrefab: {fileID: 4056657841414575939, guid: 077e6ee3ebc57ef4eb18197787e9d80f, type: 3}

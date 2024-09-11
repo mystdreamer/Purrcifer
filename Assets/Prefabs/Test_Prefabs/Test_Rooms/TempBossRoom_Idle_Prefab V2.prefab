@@ -140,8 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad277b994a3a9964ba2ae808d70fa9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 0
-  completed: 0
+  roomActivatable: 0
   up: {fileID: 7604644223419052019}
   down: {fileID: 4122748269479256164}
   left: {fileID: 3903246991181683793}

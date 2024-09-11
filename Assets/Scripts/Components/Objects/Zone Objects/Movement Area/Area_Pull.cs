@@ -10,8 +10,6 @@ public class Area_Pull : InZone
     {
         base.Update();
 
-        Debug.Log("ForcePush: Entered update.");
-
         if (!InZone)
             return;
 
@@ -24,8 +22,6 @@ public class Area_Pull : InZone
         {
             //Generate the vector between the two points. 
             Vector3 vectorBetween = transform.position - playerMovement.gameObject.transform.position; 
-
-            Debug.Log("ForcePush: Applying direction.");
             playerMovement.body.AddForce(vectorBetween.normalized * force, ForceMode.Impulse);
         }
     }

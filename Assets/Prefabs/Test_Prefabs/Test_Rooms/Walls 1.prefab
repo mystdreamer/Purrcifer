@@ -610,6 +610,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallState: 1
   wall: {fileID: 1819493757551821626}
+  wallSet:
+    _Wall: {fileID: 1819493757551821626}
   doorSet:
     _door: {fileID: 1796115288657083119}
     _wall: {fileID: 872595378181564785}
@@ -940,7 +942,7 @@ Transform:
   m_GameObject: {fileID: 4005798834458833186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.66, y: 0, z: 0}
+  m_LocalPosition: {x: 0.7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -963,6 +965,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallState: 1
   wall: {fileID: 3875707988050890961}
+  wallSet:
+    _Wall: {fileID: 3875707988050890961}
   doorSet:
     _door: {fileID: 7159144498440050097}
     _wall: {fileID: 4650254147850249962}
@@ -2116,6 +2120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallState: 0
   wall: {fileID: 1889940949680422471}
+  wallSet:
+    _Wall: {fileID: 1889940949680422471}
   doorSet:
     _door: {fileID: 1377327554149177313}
     _wall: {fileID: 5560891820013280327}
@@ -2145,7 +2151,7 @@ Transform:
   m_GameObject: {fileID: 6920317790506967760}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.47055566, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.055555567, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2472,6 +2478,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallState: 0
   wall: {fileID: 329949611942973613}
+  wallSet:
+    _Wall: {fileID: 329949611942973613}
   doorSet:
     _door: {fileID: 2993221403855991854}
     _wall: {fileID: 5295990197195429325}

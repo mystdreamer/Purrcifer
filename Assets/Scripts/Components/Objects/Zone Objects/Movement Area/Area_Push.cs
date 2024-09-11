@@ -11,8 +11,6 @@ public class Area_Push : InZone
     {
         base.Update();
 
-        Debug.Log("ForcePush: Entered update.");
-
         if (!InZone)
             return; 
 

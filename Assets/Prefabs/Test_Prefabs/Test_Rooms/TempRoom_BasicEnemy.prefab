@@ -140,8 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad277b994a3a9964ba2ae808d70fa9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 0
-  completed: 0
+  roomActivatable: 0
   up: {fileID: 7244040415310333852}
   down: {fileID: 3762738199794927627}
   left: {fileID: 4263221872193451070}
@@ -193,10 +192,6 @@ PrefabInstance:
     - target: {fileID: 1054560143220183625, guid: 304de407f75b38f41b267d17088ba930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6354485423499701401, guid: 304de407f75b38f41b267d17088ba930, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.66
       objectReference: {fileID: 0}
     - target: {fileID: 6920317790506967760, guid: 304de407f75b38f41b267d17088ba930, type: 3}
       propertyPath: m_Name

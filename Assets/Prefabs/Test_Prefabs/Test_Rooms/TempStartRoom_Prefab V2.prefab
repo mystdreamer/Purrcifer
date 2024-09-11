@@ -217,8 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad277b994a3a9964ba2ae808d70fa9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 0
-  completed: 0
+  roomActivatable: 0
   up: {fileID: 6797819598090508115}
   down: {fileID: 1074490024749897924}
   left: {fileID: 140936759549551857}
@@ -274,10 +273,6 @@ PrefabInstance:
     - target: {fileID: 6920317790506967760, guid: 304de407f75b38f41b267d17088ba930, type: 3}
       propertyPath: m_Name
       value: Walls 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6920317790506967760, guid: 304de407f75b38f41b267d17088ba930, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

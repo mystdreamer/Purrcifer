@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Purrcifer.Data.Defaults;
 using UnityEngine;
 
@@ -10,6 +11,36 @@ public enum WallDirection
     RIGHT,
     UP,
     DOWN
+}
+
+public static class ObjectGenHelper
+{
+    /// <summary>
+    /// Generates an object within the map. 
+    /// </summary>
+    /// <param name="marker"> The marker type representing the object. </param>
+    /// <param name="x"> The x coordinate of the object. </param>
+    /// <param name="y"> The y coordinate of the object. </param>
+    public static GameObject GetObjectRef(MapIntMarkers marker)
+    {
+        switch (marker)
+        {
+            case MapIntMarkers.NONE:
+                return null;
+            case MapIntMarkers.BOSS:
+                return MasterTree.Instance.BossRoomTree.GetRandomPrefab(false);
+            case MapIntMarkers.START:
+                return MasterTree.Instance.StartRoomTree.GetRandomPrefab(false);
+            case MapIntMarkers.ROOM:
+                return MasterTree.Instance.NormalRoomTree.GetRandomPrefab(false);
+            case MapIntMarkers.TREASURE:
+                return MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false);
+            case MapIntMarkers.HIDDEN_ROOM:
+                return MasterTree.Instance.HiddenRoomTree.GetRandomPrefab(false);
+            default:
+                return null;
+        }
+    }
 }
 
 /// <summary>
@@ -73,28 +104,9 @@ public class ObjectMap
     /// <param name="y"> The y coordinate of the object. </param>
     public void GenerateObject(int marker, int x, int y)
     {
-        switch (marker)
-        {
-            case (int)MapIntMarkers.NONE:
-                break;
-            case (int)MapIntMarkers.BOSS:
-                BuildRoom(MasterTree.Instance.BossRoomTree.GetRandomPrefab(false), x, y);
-                break;
-            case (int)MapIntMarkers.START:
-                BuildRoom(MasterTree.Instance.StartRoomTree.GetRandomPrefab(false), x, y);
-                break;
-            case (int)MapIntMarkers.ROOM:
-                BuildRoom(MasterTree.Instance.NormalRoomTree.GetRandomPrefab(false), x, y);
-                break;
-            case (int)MapIntMarkers.TREASURE:
-                BuildRoom(MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false), x, y);
-                break;
-            case (int)MapIntMarkers.HIDDEN_ROOM:
-                BuildRoom(MasterTree.Instance.HiddenRoomTree.GetRandomPrefab(false), x, y);
-                break;
-            default:
-                break;
-        }
+        GameObject prefab = ObjectGenHelper.GetObjectRef((MapIntMarkers)marker);
+        if (prefab != null)
+            BuildRoom(prefab, x, y);
     }
 
     /// <summary>
@@ -105,10 +117,11 @@ public class ObjectMap
     /// <param name="y"> The y coordinate of the object. </param>
     private void BuildRoom(GameObject prefab, int x, int y)
     {
-        this[x, y] = GameObject.Instantiate(prefab);
-        this[x, y].name = this[x, y].name + "[" + x + ", " + y + "]";
+        GameObject temp = GameObject.Instantiate(prefab);
+        temp.name = temp.name + "[" + x + ", " + y + "]";
         //Set the position of the object in world space. 
-        this[x, y].transform.position = new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
+        temp.transform.position = new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
+        this[x, y] = temp;
     }
 
     /// <summary>

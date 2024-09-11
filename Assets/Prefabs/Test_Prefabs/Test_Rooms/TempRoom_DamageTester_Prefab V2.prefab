@@ -55,7 +55,6 @@ GameObject:
   - component: {fileID: 4598358517415817287}
   - component: {fileID: 985667878678043316}
   - component: {fileID: 2720705154370767387}
-  - component: {fileID: 3119737582090452138}
   m_Layer: 0
   m_Name: Damage_Cube (2)
   m_TagString: Untagged
@@ -164,21 +163,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111e59b22f25ac24898db63c2e8a3802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3119737582090452138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2336152047152272861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8d39ffafc439cd4eaf2bb8d382c652d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  min: 0
-  max: 2
-  current: 2
 --- !u!1 &6655047915862420273
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +176,6 @@ GameObject:
   - component: {fileID: 8624645242161763351}
   - component: {fileID: 2546035421148667774}
   - component: {fileID: 3407395745835899314}
-  - component: {fileID: 133080132659278893}
   m_Layer: 0
   m_Name: Damage_Cube
   m_TagString: Untagged
@@ -301,21 +284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111e59b22f25ac24898db63c2e8a3802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &133080132659278893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6655047915862420273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8d39ffafc439cd4eaf2bb8d382c652d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  min: 0
-  max: 2
-  current: 2
 --- !u!1 &7528946263645432192
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,8 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a13a9bf510572f409f90d669265ac2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 0
-  completed: 0
+  roomActivatable: 0
 --- !u!114 &8939911205444363247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,8 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad277b994a3a9964ba2ae808d70fa9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactable: 0
-  completed: 0
+  roomActivatable: 0
   up: {fileID: 8760552478295634796}
   down: {fileID: 2966836432474094843}
   left: {fileID: 2752189498138542286}
@@ -491,7 +457,6 @@ GameObject:
   - component: {fileID: 6908548717212625560}
   - component: {fileID: 5969151248119887553}
   - component: {fileID: 8484614939352393936}
-  - component: {fileID: 1970357730754987454}
   m_Layer: 0
   m_Name: Damage_Cube (1)
   m_TagString: Untagged
@@ -600,21 +565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111e59b22f25ac24898db63c2e8a3802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1970357730754987454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8571929743055160946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8d39ffafc439cd4eaf2bb8d382c652d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  min: 0
-  max: 2
-  current: 2
 --- !u!1001 &636110759735492442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -852,10 +802,6 @@ PrefabInstance:
     - target: {fileID: 1054560143220183625, guid: 304de407f75b38f41b267d17088ba930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6354485423499701401, guid: 304de407f75b38f41b267d17088ba930, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 6920317790506967760, guid: 304de407f75b38f41b267d17088ba930, type: 3}
       propertyPath: m_Name
