@@ -50,10 +50,10 @@ public class RoomWallController : RoomObjectBase
         set
         {
             RoomMarkerType = value; 
-            //right.WallType = value;
-            //left.WallType = value;
-            //up.WallType = value;
-            //down.WallType = value;
+            right.WallType = value;
+            left.WallType = value;
+            up.WallType = value;
+            down.WallType = value;
         }
     }
 
