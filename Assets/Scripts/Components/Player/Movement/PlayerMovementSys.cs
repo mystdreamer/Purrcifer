@@ -12,7 +12,7 @@ public class PlayerMovementSys : MonoBehaviour
     Vector3 _input = Vector2.zero;
 
     //Reference to the rigidbody. 
-    public Rigidbody body;
+    [SerializeField] private Rigidbody _body;
 
     [SerializeField] private bool canUpdate = false;
 
@@ -22,6 +22,13 @@ public class PlayerMovementSys : MonoBehaviour
     public float speed = 100;
 
     public static Vector3 LastInput => _lastInput;
+
+    public Vector3 ApplyForce
+    {
+        set => _body.AddForce(value, ForceMode.Force);
+    }
+
+    public Rigidbody RigidBody => _body;
 
     public bool UpdatePause
     {
@@ -111,7 +118,7 @@ public class PlayerMovementSys : MonoBehaviour
         if (UpdatePause)
         {
             _input = _lastInput = Vector3.zero;
-            body.linearVelocity = Vector3.zero;
+            _body.linearVelocity = Vector3.zero;
             return;
         }
     }
@@ -125,7 +132,7 @@ public class PlayerMovementSys : MonoBehaviour
         _input.Normalize();
 
         //Apply the given movement to the players rigidbody multiplied by the players speed. 
-        body.linearVelocity = _input * speed;
+        _body.linearVelocity = _input * speed;
 
         //Cache the last input (possible to be used for attacks).
         //TODO: Remove later if unused. 

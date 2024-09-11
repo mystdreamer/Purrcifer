@@ -8,16 +8,19 @@ public interface IRoomObject
     void SetObjectState(WorldStateEnum state);
 }
 
+public enum ObjectActivationType
+{
+    ON_ROOM_ACTIVATION, 
+    ON_OBJECT_START
+}
+
 /// <summary>
 /// Class used to inherit needed behaviours for room object updating. 
 /// </summary>
 public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
 {
-    /// <summary>
-    /// Does the room require RoomManager activation.
-    /// </summary>
-    [Header("Tick this if the object is activation dependant. ")]
-    public bool roomActivatable;
+    [Header("What activation method the object follows.")]
+    public ObjectActivationType activationType;
 
     /// <summary>
     /// Is the object currently active.
@@ -41,9 +44,9 @@ public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
     /// <summary>
     /// Returns whether the room object is interactable. 
     /// </summary>
-    public bool ObjectActive { get => _objectActive; }
-
-    internal bool ObjectUpdatable => (_objectActive | (!roomActivatable));
+    public bool ObjectActive => 
+        (activationType == ObjectActivationType.ON_ROOM_ACTIVATION && _objectActive) | 
+        (activationType != ObjectActivationType.ON_ROOM_ACTIVATION);
 
     /// <summary>
     /// Returns the name of the object. 

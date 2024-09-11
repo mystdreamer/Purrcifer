@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Purrcifer.Data.Defaults;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Base class used for defining zone objects. 
@@ -7,27 +8,20 @@ using Purrcifer.Data.Defaults;
 public abstract class ZoneObject : RoomObjectBase
 {
     [SerializeField] private bool insideArea = false;
-    public AreaBounds area;
-    public Vector3 lastSize;
-    public Transform roomParent;
+    internal bool detectionInverted = false;
 
-    internal bool InZone => insideArea;
+    internal bool InZone => (detectionInverted) ? !insideArea : insideArea;
 
-    internal Vector3 GetVector =>
-        new Vector3(
-            area.width / DefaultRoomData.DEFAULT_WIDTH, 
-            1, 
-            area.height / DefaultRoomData.DEFAULT_WIDTH);
+    public bool IsActive => (ObjectActive && InZone);
+
+    //internal Vector3 GetVector =>
+    //    new Vector3(
+    //        area.width / DefaultRoomData.DEFAULT_WIDTH, 
+    //        1, 
+    //        area.height / DefaultRoomData.DEFAULT_WIDTH);
 
     internal virtual void Start()
     {
-    }
-
-    public void OnDrawGizmos()
-    {
-        if (area.transform == null)
-            return;
-        area.OnDraw();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,12 +32,6 @@ public abstract class ZoneObject : RoomObjectBase
             OnEnterZone();
         }
     }
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //        OnEnterZone();
-    //}
 
     private void OnTriggerExit(Collider other)
     {
