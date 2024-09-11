@@ -34,7 +34,6 @@ namespace Purrcifer.Object.PhysicsManipulators
         {
             if (MovementSys != null)
             {
-                Debug.Log("Applying: Push Direction.");
                 MovementSys.RigidBody.AddForce(direction.normalized * force);
             }
         }
