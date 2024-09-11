@@ -5,7 +5,7 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>Player_SuckedWeen</name>
+      <name>E_FIRST_RUN_FAILED</name>
       <id>1001</id>
       <state>false</state>
     </GameEventData>
@@ -13,7 +13,7 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>Player_HasSword</name>
+      <name>E_FIRST_RUN_COMPLETE</name>
       <id>1002</id>
       <state>false</state>
     </GameEventData>
@@ -21,16 +21,24 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>Player_HasTimer</name>
-      <id>1003</id>
+      <name>E_SWORD_UNLOCKED</name>
+      <id>2001</id>
       <state>false</state>
     </GameEventData>
     <GameEventData>
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>Player_DefeatedBossA</name>
-      <id>2002</id>
+      <name>E_STOPWATCH_UNLOCKED</name>
+      <id>3001</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>E_FIRST_BOSS_KO</name>
+      <id>4001</id>
       <state>false</state>
     </GameEventData>
   </events>

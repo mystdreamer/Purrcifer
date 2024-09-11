@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using Purrcifer.FloorGeneration;
 using Purrcifer.Data.Defaults;
+using Purrcifer.Window.Management;
 
 public class GameManager : MonoBehaviour
 {
@@ -164,11 +165,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            // Toggle fullscreen mode
-            Screen.fullScreen = !Screen.fullScreen;
-        }
+        if (Input.GetKeyDown(KeyCode.F)) 
+            GameWindowManagement.ManageWindowFullscreen();
+
     }
 
     #region Object Pooling
