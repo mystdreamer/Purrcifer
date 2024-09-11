@@ -1,20 +1,16 @@
 using Purrcifer.Data.Defaults;
+using Room.WallController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum WallType : int
-{
-    WALL = 0,
-    DOOR = 1,
-    HIDDEN_ROOM = 2
-}
 
 /// <summary>
 /// Component class handling the state of doors at runtime. 
 /// </summary>
 public class RoomWallController : RoomObjectBase
 {
+    public WallType RoomMarkerType;
+
     /// <summary>
     /// The door heading upward. 
     /// </summary>
@@ -35,65 +31,65 @@ public class RoomWallController : RoomObjectBase
     /// </summary>
     public RoomWallData right;
 
-    private void Start()
+    /// <summary>
+    /// Lock/Unlock the room. 
+    /// </summary>
+    public bool SetLockState
     {
-        //Set the initial states for each wall. 
-        up.WallType = WallType.WALL;
-        down.WallType = WallType.WALL;
-        left.WallType = WallType.WALL;
-        right.WallType = WallType.WALL;
+        set
+        {
+            up.SetDoorLockState = value;
+            down.SetDoorLockState = value;
+            right.SetDoorLockState = value;
+            left.SetDoorLockState = value;
+        }
+    }
+
+    public WallType SetBaseWallType
+    {
+        set
+        {
+            RoomMarkerType = value; 
+            //right.WallType = value;
+            //left.WallType = value;
+            //up.WallType = value;
+            //down.WallType = value;
+        }
     }
 
     internal override void OnAwakeObject()
     {
-        LockRoom(true);
+        SetLockState = true;
         base.ObjectComplete = true;
     }
 
     internal override void OnSleepObject()
     {
-        LockRoom(false);
+        SetLockState = false;
     }
 
     internal override void SetWorldState(WorldStateEnum state) { }
-
-    private void Update()
-    {
-
-    }
 
     /// <summary>
     /// Set the given side to be a door. 
     /// </summary>
     /// <param name="direction"> The side to set. </param>
-    public void SetDoorState(WallDirection direction)
+    public void SetRoomState(WallDirection direction, WallType type)
     {
         switch (direction)
         {
             case WallDirection.LEFT:
-                left.WallType = WallType.DOOR;
+                left.WallType = type;
                 break;
             case WallDirection.RIGHT:
-                right.WallType = WallType.DOOR;
+                right.WallType = type;
                 break;
             case WallDirection.UP:
-                up.WallType = WallType.DOOR;
+                up.WallType = type;
                 break;
             case WallDirection.DOWN:
-                down.WallType = WallType.DOOR;
+                down.WallType = type;
                 break;
         }
-    }
-
-    /// <summary>
-    /// Locks/Unlocks a given room. 
-    /// </summary>
-    /// <param name="state"> The flag indicating whether to lock or unlock (true = lock). </param>
-    public void LockRoom(bool state)
-    {
-        up.SetDoorLockState = state;
-        down.SetDoorLockState = state;
-        right.SetDoorLockState = state;
-        left.SetDoorLockState = state;
     }
 }

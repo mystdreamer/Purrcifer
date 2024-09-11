@@ -1,5 +1,7 @@
 using JetBrains.Annotations;
 using Purrcifer.Data.Defaults;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +17,19 @@ public enum WallDirection
 
 public static class ObjectGenHelper
 {
+    public static class RoomMappingConversions
+    {
+        public static Dictionary<MapIntMarkers, WallType> map =
+            new Dictionary<MapIntMarkers, WallType>() {
+            { MapIntMarkers.NONE, WallType.NONE },
+            { MapIntMarkers.ROOM, WallType.WALL },
+            { MapIntMarkers.START, WallType.WALL },
+            { MapIntMarkers.BOSS, WallType.WALL },
+            { MapIntMarkers.TREASURE, WallType.WALL },
+            { MapIntMarkers.HIDDEN_ROOM, WallType.HIDDEN_ROOM },
+            };
+    }
+
     /// <summary>
     /// Generates an object within the map. 
     /// </summary>
@@ -104,9 +119,7 @@ public class ObjectMap
     /// <param name="y"> The y coordinate of the object. </param>
     public void GenerateObject(int marker, int x, int y)
     {
-        GameObject prefab = ObjectGenHelper.GetObjectRef((MapIntMarkers)marker);
-        if (prefab != null)
-            BuildRoom(prefab, x, y);
+        BuildRoom(x, y, marker);
     }
 
     /// <summary>
@@ -115,13 +128,21 @@ public class ObjectMap
     /// <param name="prefab"> The prefab to create. </param>
     /// <param name="x"> The x coordinate of the object. </param>
     /// <param name="y"> The y coordinate of the object. </param>
-    private void BuildRoom(GameObject prefab, int x, int y)
+    private void BuildRoom(int x, int y, int marker)
     {
-        GameObject temp = GameObject.Instantiate(prefab);
-        temp.name = temp.name + "[" + x + ", " + y + "]";
+        GameObject prefab = ObjectGenHelper.GetObjectRef((MapIntMarkers)marker);
+        
+        if (prefab == null)
+            return;
+        
+        this[x, y] = GameObject.Instantiate(prefab);
+
+        WallType wallType = ObjectGenHelper.RoomMappingConversions.map[(MapIntMarkers)marker];
+        this[x, y].gameObject.GetComponent<RoomWallController>().SetBaseWallType = wallType;
+        this[x, y].name = this[x, y].name + "[" + x + ", " + y + "]";
         //Set the position of the object in world space. 
-        temp.transform.position = new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
-        this[x, y] = temp;
+        this[x, y].transform.position = 
+            new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
     }
 
     /// <summary>
@@ -136,6 +157,7 @@ public class ObjectMap
 
         if (_room == null)
             return;
+
         RoomWallController _roomCTRLR = _room.GetComponent<RoomWallController>();
 
         if (_roomCTRLR == null)
@@ -148,11 +170,28 @@ public class ObjectMap
 
         void DoorSetup(RoomWallController ctrllr, int x, int y, WallDirection aOp, WallDirection bOp)
         {
-            if (this[x, y] != null)
+            if (this[x, y] == null)
+                return;
+
+            //Check if are normal mappings. 
+            //Else cover other mappings.
+            // ->> Check for hidden room, if is hidden room, pass to the member that isn't a hidden room. 
+
+            RoomWallController bController = this[x, y].GetComponent<RoomWallController>();
+            WallType markerA = ctrllr.RoomMarkerType;
+            WallType markerB = bController.RoomMarkerType;
+
+            if((int)markerA == 3 | (int)markerB == 3)
             {
-                ctrllr.SetDoorState(aOp);
-                this[x, y].GetComponent<RoomWallController>().SetDoorState(bOp);
+                markerA = markerB = (WallType)3;
             }
+            else
+            {
+                markerA = markerB = WallType.DOOR;
+            }
+
+            ctrllr.SetRoomState(aOp, markerA);
+            bController.SetRoomState(bOp, markerB);
         }
     }
 
