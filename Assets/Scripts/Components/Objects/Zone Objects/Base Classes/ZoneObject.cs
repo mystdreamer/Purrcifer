@@ -21,28 +21,14 @@ public abstract class ZoneObject : RoomObjectBase
 
     internal virtual void Start()
     {
-        UpdateSize();
     }
 
     public void OnDrawGizmos()
     {
         if (area.transform == null)
             return;
-        UpdateSize();
         area.OnDraw();
     }
-
-    #region Size Updating. 
-    internal void UpdateSize()
-    {
-        if (lastSize != GetVector)
-        {
-            lastSize = GetVector;
-            gameObject.transform.position = area.transform.position;
-            gameObject.transform.localScale = GetVector;
-        }
-    }
-    #endregion
 
     private void OnTriggerEnter(Collider other)
     {
@@ -70,7 +56,6 @@ public abstract class ZoneObject : RoomObjectBase
 
     internal virtual void Update()
     {
-        UpdateSize();
     }
 
     internal override void OnAwakeObject() => ObjectComplete = true;
