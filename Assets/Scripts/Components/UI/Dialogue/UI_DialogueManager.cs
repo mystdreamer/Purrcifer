@@ -21,7 +21,7 @@ namespace Purrcifer.UI
             sentences = new Queue<string>();
         }
 
-        public void StartDialogue(Dialogue dialogue)
+        public void StartDialogue(ItemDialogue dialogue)
         {
             if (!inUse)
             {
@@ -38,7 +38,7 @@ namespace Purrcifer.UI
             }
         }
 
-        private IEnumerator DisplayFlavourText(Dialogue dialogue)
+        private IEnumerator DisplayFlavourText(ItemDialogue dialogue)
         {
             string currentSentence;
 

@@ -126,4 +126,15 @@ public class PlayerState : MonoBehaviour
 
         invincible = false;
     }
+
+    public void ApplyPowerup(PowerupValue value)
+    {
+        _health.max += value.healthCap; 
+        if(value.refillHealth)
+            _health.current = _health.max;
+        _damage.BaseDamage += value.damageBase; 
+        _damage.DamageMultiplier += value.damageMultiplier;
+        _damage.CriticalHitChance += value.damageCritcalHit;
+        _damage.CriticalHitChance += value.damageCritcalChance; 
+    }
 }

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Player Management.
+    #region Player Management Properties.
     /// <summary>
     /// The player prefab used for instancing. . 
     /// </summary>
@@ -188,6 +188,14 @@ public class GameManager : MonoBehaviour
     /// <param name="prefab"> The prefab to remove. </param>
     public void ClearPoolByType(GameObject prefab) => _objectPoolManager.ClearPoolByType(prefab);
     #endregion
+
+    public void SetEvent(string eventName, int eventID)
+    {
+        Debug.Log("Item collected: Applying event data.");
+
+    }
+
+    public void ApplyPowerup(PowerupValue value) => PlayerState.ApplyPowerup(value);
 
     public void GenerationComplete()
     {

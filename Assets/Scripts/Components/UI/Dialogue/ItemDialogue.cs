@@ -4,7 +4,7 @@
 /// Class for serializing item display text. 
 /// </summary>
 [System.Serializable]
-public class Dialogue
+public class ItemDialogue
 {
     /// <summary>
     /// The name of the item. 

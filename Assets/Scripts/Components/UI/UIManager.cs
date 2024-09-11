@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
     }
 
     #region UI Management.
-    public static void SetDialogue(Dialogue dialogueData)
+    public static void SetDialogue(ItemDialogue dialogueData)
     {
         _instance._dialogueManager.StartDialogue(dialogueData);
     }

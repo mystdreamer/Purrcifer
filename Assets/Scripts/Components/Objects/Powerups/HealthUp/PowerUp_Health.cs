@@ -1,10 +1,9 @@
-public class PowerUp_Health : PowerUp_Item
+public class PowerUp_Health : Powerup
 {
-    public const int HEALTH_INCREASE_VALUE = 1;
+    public string eventName;
+    public int eventID; 
 
-    internal override void ApplyPowerup()
-    {
-        GameManager.Instance.PlayerState.HealthMaxCap += HEALTH_INCREASE_VALUE;
-        GameManager.Instance.PlayerState.AddHealth = HEALTH_INCREASE_VALUE;
-    }
+    public override string EventName => eventName;
+
+    public override int EventID => eventID;
 }
