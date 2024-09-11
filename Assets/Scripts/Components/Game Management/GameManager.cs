@@ -3,6 +3,7 @@ using FloorGeneration;
 using System.Collections;
 using Unity.VisualScripting;
 using Purrcifer.FloorGeneration;
+using Purrcifer.Data.Defaults;
 
 public class GameManager : MonoBehaviour
 {
@@ -218,20 +219,33 @@ public class GameManager : MonoBehaviour
     }
 
     #region Teleporting Rooms. 
+
+    /// <summary>
+    /// Function teleports the passed object to a room of the given type. 
+    /// </summary>
+    /// <param name="teleportObject"> The object to teleport. </param>
+    /// <param name="marker"> The room type to teleport to. </param>
     public void Teleport(GameObject teleportObject, MapIntMarkers marker)
     {
 
-        GameObject matchedObj = GameManager.Instance.GetRoomByType(marker);
+        GameObject matchedObj = GameManager.Instance.GetRoomByType(marker, out Vector2Int coordinates);
         if (matchedObj != null)
         {
             //If the provided room to teleport to is null, don't teleport. 
             teleportObject.transform.position = matchedObj.transform.position;
+            SetCamera(new Vector3(coordinates.x * DefaultRoomData.DEFAULT_WIDTH, coordinates.y * DefaultRoomData.DEFAULT_HEIGHT));
         }
     }
     #endregion
 
     #region Room Addressing. 
-    private GameObject GetRoomByType(MapIntMarkers marker)
+    /// <summary>
+    /// Gets a map room of the given type as a gameobject. 
+    /// </summary>
+    /// <param name="marker"> The marker to locate. </param>
+    /// <returns> Gameobject that is the room or null if not located. </returns>
+    /// <exception cref="System.Exception"> Throws an exception if the passed in type is NONE, as this room should not be teleported to. </exception>
+    private GameObject GetRoomByType(MapIntMarkers marker, out Vector2Int mapCoords)
     {
         if (marker == MapIntMarkers.NONE)
         {
@@ -250,6 +264,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("GameManager: Get Room By Type >> \n Room Address: [" + matched[0].x + ", " + 
             matched[0].y + "]\n" + "Room Name [" + room.name + "]");
+        mapCoords = matched[0];
 
         return room; 
     }
