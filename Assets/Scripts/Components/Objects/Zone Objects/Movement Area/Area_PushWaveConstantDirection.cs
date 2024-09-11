@@ -6,7 +6,7 @@ using UnityEngine;
 public class Area_PushWaveConstantDirection : InZone
 {
     public ObjectEventTicker objectEventTicker;
-    public PhysFXPushDirection direction;
+    public ObjectPhysFXPushDirection direction;
 
     internal override void Start()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Area_PullTowardsPoint : InZone
 {
-    public PhysFxPullTowardsPoint pullTowards;
+    public ObjectPhysFxPullTowardsPoint pullTowards;
 
     internal override void Update()
     {

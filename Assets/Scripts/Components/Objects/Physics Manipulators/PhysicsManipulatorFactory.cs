@@ -1,6 +1,66 @@
-﻿using Purrcifer.Data.Defaults;
 using Purrcifer.Object.PhysicsManipulators;
 using UnityEngine;
+
+/// <summary>
+/// Used to specify a type of physics manipulator. 
+/// </summary>
+public enum PhysicsManipulatorType
+{
+    /// <summary>
+    /// Generate a Physics manipulator that uses a set direction to push the player. 
+    /// </summary>
+    PUSH_CD,
+    /// <summary>
+    /// Generate a Physics manipulator that uses a set direction in waves to push the player. 
+    /// </summary>
+    PUSH_CD_WAVE,
+    /// <summary>
+    /// Generate a Physics manipulator that uses a point to push the player. 
+    /// </summary>
+    PUSH_FROM_POINT,
+    /// <summary>
+    /// Generate a Physics manipulator that uses a point to pull the player. 
+    /// </summary>
+    PULL_TO_POINT,
+    /// <summary>
+    /// Generate a Physics manipulator that uses a point to push the player in waves. 
+    /// </summary>
+    PUSH_TO_POINT_WAVE,
+    /// <summary>
+    /// Generate a Physics manipulator that uses a point to pull the player in waves. 
+    /// </summary>
+    PULL_TO_POINT_WAVE
+}
+
+/// <summary>
+/// Static class used to generate physics manipulators. 
+/// </summary>
+public static class PhysicsManipulatorObj
+{
+    /// <summary>
+    /// Generates and returns an ObjectPhysicsManipulator
+    /// </summary>
+    /// <param name="type"> The type to generate. </param>
+    public static GameObject GetManipulator(PhysicsManipulatorType type)
+    {
+        switch (type)
+        {
+            case PhysicsManipulatorType.PUSH_CD:
+                return PhysicsManipulator_PushCD.BuildObject();
+            case PhysicsManipulatorType.PUSH_CD_WAVE:
+                return PhysicsManipulator_PushCDWave.BuildObject();
+            case PhysicsManipulatorType.PUSH_FROM_POINT:
+                return PhysicsManipulator_PushFromPoint.BuildObject();
+            case PhysicsManipulatorType.PULL_TO_POINT:
+                return PhysicsManipulator_PullTowardsPoint.BuildObject();
+            case PhysicsManipulatorType.PUSH_TO_POINT_WAVE:
+                return PhysicsManipulator_PushTowardsPointWave.BuildObject();
+            case PhysicsManipulatorType.PULL_TO_POINT_WAVE:
+                return PhysicsManipulator_PullTowardsPointWave.BuildObject();
+        }
+        return null;
+    }
+}
 
 #region Abstract Base Classes. 
 public abstract class PhysicsManipulator : MonoBehaviour
@@ -17,7 +77,7 @@ public abstract class PhysicsManipulator : MonoBehaviour
 public abstract class PhysicsManipulatorCD : PhysicsManipulator
 {
 
-    public abstract PhysicsFX Effect { get; }
+    public abstract ObjectPhysicsFX Effect { get; }
 
     public abstract Vector3 Direction { get; set; }
 
@@ -34,7 +94,7 @@ public abstract class PhysicsManipulatorCD : PhysicsManipulator
 public abstract class PhysicsManipulatorPoint : PhysicsManipulator
 {
 
-    public abstract PhysicsFX Effect { get; }
+    public abstract ObjectPhysicsFX Effect { get; }
 
     public abstract float Force { get; set; }
 
@@ -70,9 +130,10 @@ public abstract class PhysicsManipulatorPointWave : PhysicsManipulatorPoint
 {
     public ObjectEventTicker eventTicker;
 
-    public float TickRate { 
-        get => eventTicker._tickRate; 
-        set => eventTicker._tickRate = value; 
+    public float TickRate
+    {
+        get => eventTicker._tickRate;
+        set => eventTicker._tickRate = value;
     }
 
     private void Update()
@@ -86,9 +147,10 @@ public abstract class PhysicsManipulatorPointWave : PhysicsManipulatorPoint
 }
 #endregion
 
+#region Manipulators. 
 public class PhysicsManipulator_PushCD : PhysicsManipulatorCD
 {
-    public PhysFXPushDirection pushDirection;
+    public ObjectPhysFXPushDirection pushDirection;
 
     public override Vector3 Direction
     {
@@ -108,7 +170,7 @@ public class PhysicsManipulator_PushCD : PhysicsManipulatorCD
         set => gameObject.transform.position = value;
     }
 
-    public override PhysicsFX Effect => (PhysicsFX)pushDirection;
+    public override ObjectPhysicsFX Effect => (ObjectPhysicsFX)pushDirection;
 
     public static GameObject BuildObject()
     {
@@ -120,9 +182,9 @@ public class PhysicsManipulator_PushCD : PhysicsManipulatorCD
 
 public class PhysicsManipulator_PushCDWave : PhysicsManipulatorCDWave
 {
-    public PhysFXPushDirection pushDirection;
+    public ObjectPhysFXPushDirection pushDirection;
 
-    public override PhysicsFX Effect => throw new System.NotImplementedException();
+    public override ObjectPhysicsFX Effect => throw new System.NotImplementedException();
 
     public override Vector3 Direction
     {
@@ -159,9 +221,9 @@ public class PhysicsManipulator_PushCDWave : PhysicsManipulatorCDWave
 
 public class PhysicsManipulator_PushFromPoint : PhysicsManipulatorPoint
 {
-    public PhysFXPushFromPoint pushDirection;
+    public ObjectPhysFXPushFromPoint pushDirection;
 
-    public override PhysicsFX Effect => pushDirection;
+    public override ObjectPhysicsFX Effect => pushDirection;
 
     public override float Force
     {
@@ -190,9 +252,9 @@ public class PhysicsManipulator_PushFromPoint : PhysicsManipulatorPoint
 
 public class PhysicsManipulator_PullTowardsPoint : PhysicsManipulatorPoint
 {
-    public PhysFxPullTowardsPoint pullTowards;
+    public ObjectPhysFxPullTowardsPoint pullTowards;
 
-    public override PhysicsFX Effect => pullTowards;
+    public override ObjectPhysicsFX Effect => pullTowards;
 
     public override float Force
     {
@@ -222,9 +284,9 @@ public class PhysicsManipulator_PullTowardsPoint : PhysicsManipulatorPoint
 
 public class PhysicsManipulator_PushTowardsPointWave : PhysicsManipulatorPointWave
 {
-    public PhysFXPushFromPoint _pushPoint;
+    public ObjectPhysFXPushFromPoint _pushPoint;
 
-    public override PhysicsFX Effect => _pushPoint;
+    public override ObjectPhysicsFX Effect => _pushPoint;
 
     public override float Force
     {
@@ -252,16 +314,18 @@ public class PhysicsManipulator_PushTowardsPointWave : PhysicsManipulatorPointWa
 
 public class PhysicsManipulator_PullTowardsPointWave : PhysicsManipulatorPointWave
 {
-    public PhysFxPullTowardsPoint pullTowards;
+    public ObjectPhysFxPullTowardsPoint pullTowards;
 
-    public override PhysicsFX Effect => pullTowards;
+    public override ObjectPhysicsFX Effect => pullTowards;
 
-    public override float Force { 
-        get => pullTowards.force; 
-        set => pullTowards.force = value; 
+    public override float Force
+    {
+        get => pullTowards.force;
+        set => pullTowards.force = value;
     }
 
-    public override Transform Center {
+    public override Transform Center
+    {
         get => pullTowards.center;
         set
         {
@@ -277,3 +341,4 @@ public class PhysicsManipulator_PullTowardsPointWave : PhysicsManipulatorPointWa
         return temp;
     }
 }
+#endregion

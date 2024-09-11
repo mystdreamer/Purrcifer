@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AreaPushConstantDirection : InZone
 {
-    public PhysFXPushDirection direction;
+    public ObjectPhysFXPushDirection direction;
 
     internal override void Update()
     {

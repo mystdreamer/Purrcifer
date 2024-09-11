@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Purrcifer.Object.PhysicsManipulators
 {
-    public abstract class PhysicsFX : IRoomObjectEffect
+    public abstract class ObjectPhysicsFX : IRoomObjectEffect
     {
         private PlayerMovementSys _movementSys;
 
@@ -25,7 +25,7 @@ namespace Purrcifer.Object.PhysicsManipulators
     }
 
     [System.Serializable]
-    public class PhysFXPushDirection : PhysicsFX
+    public class ObjectPhysFXPushDirection : ObjectPhysicsFX
     {
         public Vector3 direction;
         public float force;
@@ -34,13 +34,13 @@ namespace Purrcifer.Object.PhysicsManipulators
         {
             if (MovementSys != null)
             {
-                MovementSys.RigidBody.AddForce(direction.normalized * force);
+                MovementSys.ApplyForce = (direction.normalized * force);
             }
         }
     }
 
     [System.Serializable]
-    public class PhysFXPushFromPoint : PhysicsFX
+    public class ObjectPhysFXPushFromPoint : ObjectPhysicsFX
     {
         public Transform center;
         public float force;
@@ -68,7 +68,7 @@ namespace Purrcifer.Object.PhysicsManipulators
     }
 
     [System.Serializable]
-    public class PhysFxPullTowardsPoint : PhysicsFX
+    public class ObjectPhysFxPullTowardsPoint : ObjectPhysicsFX
     {
         public Transform center;
         public float force;
