@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WallState
+public enum WallType : int
 {
-    WALL,
-    DOOR
+    WALL = 0,
+    DOOR = 1,
+    HIDDEN_ROOM = 2
 }
 
 /// <summary>
@@ -37,10 +38,10 @@ public class RoomWallController : RoomObjectBase
     private void Start()
     {
         //Set the initial states for each wall. 
-        up.WallType = WallState.WALL;
-        down.WallType = WallState.WALL;
-        left.WallType = WallState.WALL;
-        right.WallType = WallState.WALL;
+        up.WallType = WallType.WALL;
+        down.WallType = WallType.WALL;
+        left.WallType = WallType.WALL;
+        right.WallType = WallType.WALL;
     }
 
     internal override void OnAwakeObject()
@@ -70,16 +71,16 @@ public class RoomWallController : RoomObjectBase
         switch (direction)
         {
             case WallDirection.LEFT:
-                left.WallType = WallState.DOOR;
+                left.WallType = WallType.DOOR;
                 break;
             case WallDirection.RIGHT:
-                right.WallType = WallState.DOOR;
+                right.WallType = WallType.DOOR;
                 break;
             case WallDirection.UP:
-                up.WallType = WallState.DOOR;
+                up.WallType = WallType.DOOR;
                 break;
             case WallDirection.DOWN:
-                down.WallType = WallState.DOOR;
+                down.WallType = WallType.DOOR;
                 break;
         }
     }

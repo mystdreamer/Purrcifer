@@ -81,7 +81,7 @@ public struct HiddenRoomSet
 /// </summary>
 public class RoomWallData : MonoBehaviour
 {
-    [SerializeField] private WallState wallState = WallState.DOOR;
+    [SerializeField] private WallType wallState = WallType.DOOR;
 
     /// <summary>
     /// The wall object. 
@@ -91,16 +91,17 @@ public class RoomWallData : MonoBehaviour
     /// The set of door objects
     /// </summary>
     public DoorSet doorSet;
+    public HiddenRoomSet hiddenRoomSet; 
 
     /// <summary>
     /// Returns whether room set as a door. 
     /// </summary>
-    public bool IsDoor => wallState == WallState.DOOR;
+    public bool IsDoor => wallState == WallType.DOOR;
 
     /// <summary>
     /// The type of wall this is assigned to be. 
     /// </summary>
-    public WallState WallType
+    public WallType WallType
     {
         get => wallState;
         set
@@ -114,8 +115,10 @@ public class RoomWallData : MonoBehaviour
     {
         set
         {
-            if(IsDoor)
+            if(wallState == WallType.DOOR)
                 doorSet.SetLockState(value);
+            if(wallState == WallType.HIDDEN_ROOM)
+                hiddenRoomSet.SetLockState(value);
         }
     }
 
@@ -132,13 +135,20 @@ public class RoomWallData : MonoBehaviour
     {
         switch (wallState)
         {
-            case WallState.WALL:
+            case WallType.WALL:
                 wallSet.Enable();
                 doorSet.Disable();
+                hiddenRoomSet.Disable();
                 break;
-            case WallState.DOOR:
+            case WallType.DOOR:
                 wallSet.Disable();
                 doorSet.Enable();
+                hiddenRoomSet.Disable();
+                break;
+            case WallType.HIDDEN_ROOM:
+                wallSet.Disable();
+                doorSet.Disable();
+                hiddenRoomSet.Enable();
                 break;
         }
     }
