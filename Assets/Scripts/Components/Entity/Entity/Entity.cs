@@ -1,5 +1,8 @@
+using NUnit.Framework;
 using Purrcifer.Data.Defaults;
-using UnityEditor.Compilation;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,44 +12,49 @@ public class EHealth
     /// The minimum range of the pool.
     /// </summary>
     [Header("The minimum health.")]
-    [SerializeField] private float min;
+    [SerializeField] private float _min;
 
     /// <summary>
     /// The maximum range of the pool.
     /// </summary>
     [Header("The maximum health.")]
-    [SerializeField] private float max;
+    [SerializeField] private float _max;
 
     /// <summary>
     /// The maximum range of the pool.
     /// </summary>
     [Header("The current health.")]
-    [SerializeField] private float current;
+    [SerializeField] private float _current;
+    [SerializeField] private float _invincibilityLength = 0.5F;
+    [SerializeField] private bool _invincible;
+
+    public List<HealOverTime> hots = new List<HealOverTime>();
+    public List<DamageOverTime> dots = new List<DamageOverTime>();
 
     /// <summary>
     /// Returns the total value of the players health. 
     /// </summary>
-    public float Length => max - min;
+    public float Length => _max - _min;
 
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => current > min;
+    public bool Alive => _current > _min;
 
     /// <summary>
     /// Returns the players current health. 
     /// </summary>
     public float Health
     {
-        get => current;
+        get => _current;
 
         set
         {
-            current = value;
-            if (current < min)
-                current = min;
-            if (current > max)
-                current = max;
+            _current = value;
+            if (_current < _min)
+                _current = _min;
+            if (_current > _max)
+                _current = _max;
         }
     }
 
@@ -55,8 +63,8 @@ public class EHealth
     /// </summary>
     public float MaxCap
     {
-        get => max;
-        set => max = value;
+        get => _max;
+        set => _max = value;
     }
 
     /// <summary>
@@ -64,8 +72,20 @@ public class EHealth
     /// </summary>
     public float MinCap
     {
-        get => min;
-        set => min = value;
+        get => _min;
+        set => _min = value;
+    }
+
+    public bool Invincible
+    {
+        get => _invincible;
+        set => _invincible = value;
+    }
+
+    public float InvincibilityLength
+    {
+        get => _invincibilityLength;
+        set => _invincibilityLength = value;
     }
 
     /// <summary>
@@ -76,33 +96,234 @@ public class EHealth
     /// <param name="current"> The current health of the player. </param>
     public EHealth(int min, int max, int current)
     {
-        this.min = min;
-        this.max = max;
-        this.current = current;
+        this._min = min;
+        this._max = max;
+        this._current = current;
     }
 }
 
 [System.Serializable]
-public class EDamage
+public struct WorldStateContainer
 {
-    public int normalDamage;
-    public int witchingDamage;
-    public int hellDamage;
+    [SerializeField] private WorldStateEnum lastState;
+    [SerializeField] private WorldStateEnum currentState;
+
+    public WorldStateEnum LastState
+    {
+        get => lastState;
+    }
+
+    public WorldStateEnum SetState
+    {
+        get => currentState;
+        set
+        {
+            lastState = currentState;
+            currentState = value;
+        }
+    }
+}
+
+public struct HealOverTime
+{
+    public float timeToBuff;
+    public float tickEveryX;
+    public float healPerTick;
+    private float currentTime;
+    private float passedTime;
+    public bool Completed => (currentTime <= 0);
+
+    public HealOverTime(float timeToBuff, float tickEveryX, float healPerTick)
+    {
+        this.timeToBuff = timeToBuff;
+        this.tickEveryX = tickEveryX;
+        this.healPerTick = healPerTick;
+        currentTime = timeToBuff;
+        passedTime = 0;
+    }
+
+    public bool Update(float dt, out bool complete)
+    {
+        currentTime -= dt;
+        passedTime += dt;
+
+        complete = (currentTime <= 0);
+        bool hasTicked = (passedTime >= tickEveryX);
+        if (hasTicked) passedTime = 0;
+        return hasTicked;
+    }
+}
+
+public struct DamageOverTime
+{
+    public float timeToBuff;
+    public float tickEveryX;
+    public float damagePerTick;
+    private float currentTime;
+    private float passedTime;
+    public bool Completed => (currentTime <= 0);
+
+    public DamageOverTime(float timeToBuff, float tickEveryX, float damagePerTick)
+    {
+        this.timeToBuff = timeToBuff;
+        this.tickEveryX = tickEveryX;
+        this.damagePerTick = damagePerTick;
+        currentTime = timeToBuff;
+        passedTime = 0;
+    }
+
+    public bool Update(float dt, out bool complete)
+    {
+        currentTime -= dt;
+        passedTime += dt;
+
+        complete = (currentTime <= 0);
+        bool hasTicked = (passedTime >= tickEveryX);
+        if (hasTicked) passedTime = 0;
+        return hasTicked;
+    }
 }
 
 public abstract class Entity : MonoBehaviour, IEntityInterface
 {
-    [SerializeField] private EHealth health;
-    [SerializeField] private EDamage damage;
-    
-    float IEntityInterface.Health {
-        get => health.Health;
-        set => health.Health = value;
+    [SerializeField] private EHealth _health;
+    public WorldStateContainer container;
+
+    float IEntityInterface.Health
+    {
+        get => _health.Health;
+        set
+        {
+            if (_health.Invincible || !_health.Alive)
+                return;
+
+            float lastValue = _health.Health;
+            _health.Health = value;
+
+            HealthChangedEvent(lastValue, _health.Health);
+
+            if (!_health.Alive)
+            {
+                OnDeathEvent();
+                return;
+            }
+
+            //Start Iframes.
+            if (_health.Health < lastValue && !_health.Invincible)
+            {
+                InvincibilityActivated();
+                StartCoroutine(InvincibilityTimer());
+            }
+        }
     }
 
-    bool IEntityInterface.IsAlive => health.Alive;
+    bool IEntityInterface.IsAlive => _health.Alive;
 
-    void IEntityInterface.ApplyWorldState(WorldStateEnum state) => ApplyWorldState(state);
+    public EHealth EntityHealth => _health;
 
+    public float CurrentHealth
+    {
+        get => EntityHealth.Health;
+        set => EntityHealth.Health = value;
+    }
+
+    public float HealthCap
+    {
+        get => EntityHealth.MaxCap;
+        set => EntityHealth.MaxCap = value;
+    }
+
+    void IEntityInterface.ApplyWorldState(WorldStateEnum state)
+    {
+        container.SetState = state;
+        ApplyWorldState(state);
+    }
+
+    private IEnumerator InvincibilityTimer()
+    {
+        _health.Invincible = true;
+        yield return new WaitForSeconds(_health.InvincibilityLength);
+        _health.Invincible = false;
+    }
+
+    internal void FillHealth()
+    {
+        CurrentHealth = HealthCap;
+    }
+
+    #region H.O.T and D.O.T functions. 
+
+    public void UpdateDotsAndHots()
+    {
+        bool removeHots = false;
+        bool removeDots = false;
+
+        for (int i = 0; i < _health.hots.Count; i++)
+        {
+            bool ticked = _health.hots[i].Update(Time.deltaTime, out bool complete);
+            if (complete && !removeHots)
+                removeHots = true;
+
+            if (ticked)
+                _health.Health += _health.hots[i].healPerTick;
+        }
+
+        for (int i = 0; i < _health.dots.Count; i++)
+        {
+            bool ticked = _health.dots[i].Update(Time.deltaTime, out bool complete);
+            if (complete && !removeHots)
+                removeDots = true;
+
+            if (ticked)
+                _health.Health -= _health.hots[i].healPerTick;
+        }
+
+        if (removeHots)
+        {
+            List<HealOverTime> currentHots = new List<HealOverTime>();
+
+            for (int i = 0; i < _health.hots.Count; i++)
+            {
+                if (!_health.hots[i].Completed)
+                    currentHots.Add(_health.hots[i]);
+            }
+
+            _health.hots = currentHots;
+        }
+
+        if (removeDots)
+        {
+            List<DamageOverTime> currentDots = new List<DamageOverTime>();
+
+            for (int i = 0; i < _health.dots.Count; i++)
+            {
+                if (!_health.dots[i].Completed)
+                    currentDots.Add(_health.dots[i]);
+            }
+
+            _health.dots = currentDots;
+        }
+    }
+
+    public void SetHealOverTime(float time, float healPerTick, float tickEveryX)
+    {
+        _health.hots.Add(new HealOverTime(time, tickEveryX, healPerTick));
+    }
+
+    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
+    {
+        _health.dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
+    }
+
+    #endregion
+
+    #region Event Calls.
     internal abstract void ApplyWorldState(WorldStateEnum state);
+
+    internal abstract void HealthChangedEvent(float lastValue, float currentValue);
+
+    internal abstract void OnDeathEvent();
+
+    internal abstract void InvincibilityActivated();
+    #endregion
 }
