@@ -9,6 +9,4 @@ public interface IEntityInterface
     float Health { get; set; }
 
     bool IsAlive { get; }
-
-    void ApplyWorldState(WorldStateEnum state);
 }

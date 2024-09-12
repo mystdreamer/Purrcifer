@@ -35,7 +35,7 @@ public class OutsideZone_DamageTick : OutsideZone
         eventTicker.Enable = true;
     }
 
-    internal override void SetWorldState(WorldStateEnum state)
+    internal override void SetWorldState(WorldState state)
     {
         //Do world state setting stuff here. 
     }

@@ -21,7 +21,7 @@ public class Area_PullTowardsPoint : InZone
 
     internal override void OnExitZone() { }
 
-    internal override void SetWorldState(WorldStateEnum state)
+    internal override void SetWorldState(WorldState state)
     {
         //Apply world state changes. 
     }

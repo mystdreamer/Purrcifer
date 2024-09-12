@@ -8,7 +8,7 @@ namespace Purrcifer.Data.Defaults
     /// Enum states for the world. 
     /// </summary>
     [System.Serializable]
-    public enum WorldStateEnum : int
+    public enum WorldState : int
     {
         WORLD_START = 0,
         WORLD_WITCHING = 1,
@@ -23,7 +23,7 @@ namespace Purrcifer.Data.Defaults
         /// <summary>
         /// The scale of time per minute. 
         /// </summary>
-        public const float WORLD_TIMESCALE_MINUTE = 60;
+        public const float WORLD_TIMESCALE_MINUTE = 10;
 
         /// <summary>
         /// When world time actually starts. 

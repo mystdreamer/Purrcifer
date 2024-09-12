@@ -108,15 +108,15 @@ public class EntityHealth
 [System.Serializable]
 public struct WorldStateContainer
 {
-    [SerializeField] private WorldStateEnum lastState;
-    [SerializeField] private WorldStateEnum currentState;
+    [SerializeField] private WorldState lastState;
+    [SerializeField] private WorldState currentState;
 
-    public WorldStateEnum LastState
+    public WorldState LastState
     {
         get => lastState;
     }
 
-    public WorldStateEnum SetState
+    public WorldState SetState
     {
         get => currentState;
         set
@@ -127,7 +127,7 @@ public struct WorldStateContainer
     }
 }
 
-public abstract class Entity : MonoBehaviour, IEntityInterface
+public abstract class Entity : WorldObject, IEntityInterface
 {
     [SerializeField] private EntityHealth _health;
     public WorldStateContainer container;
@@ -178,7 +178,7 @@ public abstract class Entity : MonoBehaviour, IEntityInterface
     }
     #endregion
 
-    void IEntityInterface.ApplyWorldState(WorldStateEnum state)
+    public override void WorldUpdateReceiver(WorldState state)
     {
         container.SetState = state;
         ApplyWorldState(state);
@@ -257,7 +257,7 @@ public abstract class Entity : MonoBehaviour, IEntityInterface
     #endregion
 
     #region Event Calls.
-    internal abstract void ApplyWorldState(WorldStateEnum state);
+    internal abstract void ApplyWorldState(WorldState state);
 
     internal abstract void HealthChangedEvent(float lastValue, float currentValue);
 

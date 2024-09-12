@@ -28,7 +28,7 @@ public abstract class Powerup : MonoBehaviour
             UIManager.SetDialogue(itemDialogue);
             GameManager.Instance.ApplyPowerup(powerupValue);
             if (eventAttached)
-                GameManager.Instance.SetEvent(EventName, EventID);
+                GameManager.Instance.SetPlayerDataEvent(EventName, EventID);
             gameObject.SetActive(false);
         }
     }

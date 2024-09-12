@@ -25,7 +25,7 @@ public class BossHealth : EntityHealth
     }
 }
 
-public abstract class Boss : MonoBehaviour, IEntityInterface
+public abstract class Boss : WorldObject, IEntityInterface
 {
     [SerializeField] private BossHealth _health;
     public WorldStateContainer container;
@@ -91,7 +91,7 @@ public abstract class Boss : MonoBehaviour, IEntityInterface
 
     #endregion
 
-    void IEntityInterface.ApplyWorldState(WorldStateEnum state)
+    public override void WorldUpdateReceiver(WorldState state)
     {
         container.SetState = state;
         ApplyWorldState(state);
@@ -170,7 +170,7 @@ public abstract class Boss : MonoBehaviour, IEntityInterface
     #endregion
 
     #region Event Calls.
-    internal abstract void ApplyWorldState(WorldStateEnum state);
+    internal abstract void ApplyWorldState(WorldState state);
 
     internal abstract void HealthChangedEvent(float lastValue, float currentValue);
 

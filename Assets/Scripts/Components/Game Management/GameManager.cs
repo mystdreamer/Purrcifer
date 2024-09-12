@@ -6,7 +6,7 @@ using Purrcifer.FloorGeneration;
 using Purrcifer.Data.Defaults;
 using Purrcifer.Window.Management;
 
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
     /// <summary>
     /// The private singleton reference. 
@@ -17,125 +17,6 @@ public class GameManager : MonoBehaviour
     /// Cached reference to the ObjectPoolManager.
     /// </summary>
     [SerializeField] private ObjectPoolManager _objectPoolManager;
-
-    #region Floor/Level data. 
-    /// <summary>
-    /// The current world clock instance. 
-    /// </summary>
-    [SerializeField] private WorldClock _worldClock;
-
-    [SerializeField] private FloorData floorData;
-
-    [SerializeField] private FloorPlan floorMap;
-
-    [SerializeField] private ObjectMap _objectMap;
-
-    /// <summary>
-    /// The current object map.
-    /// </summary>
-    public ObjectMap map;
-
-    /// <summary>
-    /// Generate a random map based on provided FloorData. 
-    /// </summary>
-    public static FloorData FloorData
-    {
-        set
-        {
-            _instance.floorData = value;
-            //FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
-            FloorGenerationHandler handler = Instance.gameObject.AddComponent<FloorGenerationHandler>();
-            handler.GenerateBaseMap(value);
-        }
-    }
-
-    /// <summary>
-    /// Generate a random map based on provided FloorData. 
-    /// </summary>
-    public static FloorPlan FloorPlan
-    {
-        set
-        {
-            _instance.floorMap = value;
-            FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
-            Debug.Log("Map built.");
-            _instance.GenerationComplete();
-        }
-    }
-
-    public static ObjectMap CurrentObjectMap
-    {
-        set => _instance._objectMap = value;
-    }
-    #endregion
-
-    #region Player Management Properties.
-    /// <summary>
-    /// The player prefab used for instancing. . 
-    /// </summary>
-    public GameObject playerPrefab;
-
-    /// <summary>
-    /// The current player instance. 
-    /// </summary>
-    [SerializeField] private GameObject _playerCurrent;
-
-    /// <summary>
-    /// The current state of the player. 
-    /// </summary>
-    [SerializeField] private PlayerState _playerState;
-
-    /// <summary>
-    /// Cached reference to the player movement system. 
-    /// </summary>
-    [SerializeField] private PlayerMovementSys _playerMovementSys;
-
-    /// <summary>
-    /// Returns the current instance of the GameManager. 
-    /// </summary>
-    public static GameManager Instance => _instance;
-
-    /// <summary>
-    /// Returns the current world clock instance. 
-    /// </summary>
-    public static WorldClock WorldClock => _instance._worldClock;
-
-    /// <summary>
-    /// Returns the current PlayerState instance. 
-    /// </summary>
-    public PlayerState PlayerState => _playerState;
-    
-    /// <summary>
-    /// Returns the current player movement system. 
-    /// </summary>
-    public PlayerMovementSys PlayerMovementSys => _playerMovementSys; 
-
-    /// <summary>
-    /// Returns the current player transform. 
-    /// </summary>
-    public Transform PlayerTransform => _playerCurrent.transform;
-
-    /// <summary>
-    /// Returns the current player instance. 
-    /// </summary>
-    public GameObject Player => _playerCurrent;
-
-    /// <summary>
-    /// Returns true if the player currently exists. 
-    /// </summary>
-    public bool PlayerExists => (_playerCurrent != null);
-
-    /// <summary>
-    /// Set the player movement to active/inactive. 
-    /// </summary>
-    public static bool MovementPaused
-    {
-        set {
-            if (Instance._playerCurrent != null)
-                Instance._playerCurrent.GetComponent<PlayerMovementSys>().UpdatePause = value;
-        }  
-    }
-    #endregion
 
     void Awake()
     {
@@ -188,33 +69,6 @@ public class GameManager : MonoBehaviour
     /// <param name="prefab"> The prefab to remove. </param>
     public void ClearPoolByType(GameObject prefab) => _objectPoolManager.ClearPoolByType(prefab);
     #endregion
-
-    public void SetEvent(string eventName, int eventID)
-    {
-        Debug.Log("Item collected: Applying event data.");
-
-    }
-
-    public void ApplyPowerup(PowerupValue value) => PlayerState.ApplyPowerup(value);
-
-    public void GenerationComplete()
-    {
-        StartCoroutine(FadeWait());
-    }
-
-    private IEnumerator FadeWait()
-    {
-        yield return new WaitForSeconds(0.5f);
-        UIManager.Instance.FadeLevelTransitionOut();
-        while (!UIManager.Instance.TransitionInactive)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        _worldClock.TimerActive = true;
-        MovementPaused = false;
-        yield return true;
-    }
 
     /// <summary>
     /// Set the current camera's position. 
@@ -301,4 +155,165 @@ public class GameManager : MonoBehaviour
         _playerState.SetPlayerData();
     }
     #endregion
+}
+
+#region Player Management.
+public partial class GameManager : MonoBehaviour
+{
+    #region Player Management Properties.
+    /// <summary>
+    /// The player prefab used for instancing. . 
+    /// </summary>
+    public GameObject playerPrefab;
+
+    /// <summary>
+    /// The current player instance. 
+    /// </summary>
+    [SerializeField] private GameObject _playerCurrent;
+
+    /// <summary>
+    /// The current state of the player. 
+    /// </summary>
+    [SerializeField] private PlayerState _playerState;
+
+    /// <summary>
+    /// Cached reference to the player movement system. 
+    /// </summary>
+    [SerializeField] private PlayerMovementSys _playerMovementSys;
+
+    /// <summary>
+    /// Returns the current instance of the GameManager. 
+    /// </summary>
+    public static GameManager Instance => _instance;
+
+    /// <summary>
+    /// Returns the current world clock instance. 
+    /// </summary>
+    public static WorldClock WorldClock => _instance._worldClock;
+
+    /// <summary>
+    /// Returns the current PlayerState instance. 
+    /// </summary>
+    public PlayerState PlayerState => _playerState;
+
+    /// <summary>
+    /// Returns the current player movement system. 
+    /// </summary>
+    public PlayerMovementSys PlayerMovementSys => _playerMovementSys;
+
+    /// <summary>
+    /// Returns the current player transform. 
+    /// </summary>
+    public Transform PlayerTransform => _playerCurrent.transform;
+
+    /// <summary>
+    /// Returns the current player instance. 
+    /// </summary>
+    public GameObject Player => _playerCurrent;
+
+    /// <summary>
+    /// Returns true if the player currently exists. 
+    /// </summary>
+    public bool PlayerExists => (_playerCurrent != null);
+
+    /// <summary>
+    /// Set the player movement to active/inactive. 
+    /// </summary>
+    public static bool MovementPaused
+    {
+        set
+        {
+            if (Instance._playerCurrent != null)
+                Instance._playerCurrent.GetComponent<PlayerMovementSys>().UpdatePause = value;
+        }
+    }
+    #endregion
+
+    public void ApplyPowerup(PowerupValue value) => PlayerState.ApplyPowerup(value);
+
+    public void SetPlayerDataEvent(string eventName, int eventID)
+    {
+        Debug.Log("Item collected: Applying event data.");
+
+    }
+}
+#endregion
+
+public partial class GameManager : MonoBehaviour
+{
+    #region Floor/Level data. 
+    /// <summary>
+    /// The current world clock instance. 
+    /// </summary>
+    [SerializeField] private WorldClock _worldClock;
+
+    [SerializeField] private FloorData floorData;
+
+    [SerializeField] private FloorPlan floorMap;
+
+    [SerializeField] private ObjectMap _objectMap;
+
+    /// <summary>
+    /// The current object map.
+    /// </summary>
+    public ObjectMap map;
+
+    /// <summary>
+    /// Generate a random map based on provided FloorData. 
+    /// </summary>
+    public static FloorData FloorData
+    {
+        set
+        {
+            _instance.floorData = value;
+            //FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
+            FloorGenerationHandler handler = Instance.gameObject.AddComponent<FloorGenerationHandler>();
+            handler.GenerateBaseMap(value);
+        }
+    }
+
+    /// <summary>
+    /// Generate a random map based on provided FloorData. 
+    /// </summary>
+    public static FloorPlan FloorPlan
+    {
+        set
+        {
+            _instance.floorMap = value;
+            FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
+            Debug.Log("Map built.");
+            _instance.GenerationComplete();
+        }
+    }
+
+    public static ObjectMap CurrentObjectMap
+    {
+        set => _instance._objectMap = value;
+    }
+    #endregion
+
+    #region Delegates.
+    public delegate void WorldUpdateEvent(WorldState state);
+    public WorldUpdateEvent WorldStateChange;
+
+    #endregion
+
+    public void GenerationComplete()
+    {
+        StartCoroutine(LevelFadeWait());
+    }
+
+    private IEnumerator LevelFadeWait()
+    {
+        yield return new WaitForSeconds(0.5f);
+        UIManager.Instance.FadeLevelTransitionOut();
+        while (!UIManager.Instance.TransitionInactive)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        _worldClock.TimerActive = true;
+        MovementPaused = false;
+        yield return true;
+    }
 }

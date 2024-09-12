@@ -43,12 +43,12 @@ public class WorldClock : MonoBehaviour
     /// <summary>
     /// The current state of the world. 
     /// </summary>
-    [SerializeField] private WorldStateEnum currentState = WorldStateEnum.WORLD_START;
+    [SerializeField] private WorldState currentState = WorldState.WORLD_START;
     
     /// <summary>
     /// The last state of the world. 
     /// </summary>
-    [SerializeField] private WorldStateEnum lastState = WorldStateEnum.WORLD_START;
+    [SerializeField] private WorldState lastState = WorldState.WORLD_START;
     
     /// <summary>
     /// Whether play time is reversed. 
@@ -60,12 +60,12 @@ public class WorldClock : MonoBehaviour
     /// <summary>
     /// Returns the current state of the world.
     /// </summary>
-    public WorldStateEnum CurrentState => currentState;
+    public WorldState CurrentState => currentState;
 
     /// <summary>
     /// Returns the last state of the world. 
     /// </summary>
-    public WorldStateEnum LastState => lastState;
+    public WorldState LastState => lastState;
 
     /// <summary>
     /// The current value used as the base for a minute. 
@@ -136,6 +136,20 @@ public class WorldClock : MonoBehaviour
 
     #endregion
 
+    private void Start()
+    {
+        timescaleMinute = WorldTimings.WORLD_TIMESCALE_MINUTE;
+        witchingThreshold = WorldTimings.WORLD_WITCHING_HOUR_TIME;
+        hellThreshold = WorldTimings.WORLD_HELL_HOUR_TIME;
+        timePlay = WorldTimings.WORLD_START_TIME;
+        timeReal = WorldTimings.WORLD_START_TIME;
+        totalMinutes = 0;
+        currentMinutes = 0;
+        currentState = WorldState.WORLD_START;
+        lastState = WorldState.WORLD_START;
+        timeReversed = false;
+    }
+
     void Update()
     {
         if (!TimerActive)
@@ -147,6 +161,12 @@ public class WorldClock : MonoBehaviour
         timePlay = (!timeReversed) ? timePlay + Time.deltaTime : timePlay - Time.deltaTime;
         timePlay = Mathf.Clamp(timePlay, 0, 900);
         RecalculateTime();
+
+        if(currentState != lastState)
+        {
+            GameManager.Instance.WorldStateChange?.Invoke(currentState);
+            lastState = currentState;
+        }
     }
 
     /// <summary>
@@ -157,7 +177,7 @@ public class WorldClock : MonoBehaviour
         //If a minute has occurred, the increase minutes and adjust world state. 
         if (timePlay > timescaleMinute)
         {
-            totalMinutes++;
+            currentMinutes++;
             timePlay -= timescaleMinute;
             UpdateState();
         }
@@ -178,13 +198,13 @@ public class WorldClock : MonoBehaviour
         lastState = currentState;
 
         if (currentMinutes < witchingThreshold)
-            currentState = WorldStateEnum.WORLD_START;
+            currentState = WorldState.WORLD_START;
 
         if (currentMinutes >= witchingThreshold)
-            currentState = WorldStateEnum.WORLD_WITCHING;
+            currentState = WorldState.WORLD_WITCHING;
 
         if (currentMinutes >= hellThreshold)
-            currentState = WorldStateEnum.WORLD_HELL;
+            currentState = WorldState.WORLD_HELL;
     }
 
     /// <summary>
@@ -193,6 +213,6 @@ public class WorldClock : MonoBehaviour
     public void ResetPlayTime()
     {
         timePlay = 0;
-        lastState = currentState = WorldStateEnum.WORLD_START;
+        lastState = currentState = WorldState.WORLD_START;
     }
 }

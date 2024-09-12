@@ -36,7 +36,7 @@ public class Area_PushWaveConstantDirection : InZone
         objectEventTicker.Enable = false;
     }
 
-    internal override void SetWorldState(WorldStateEnum state)
+    internal override void SetWorldState(WorldState state)
     {
         //Apply world state changes. 
     }

@@ -68,7 +68,7 @@ public class RoomWallController : RoomObjectBase
         SetLockState = false;
     }
 
-    internal override void SetWorldState(WorldStateEnum state) { }
+    internal override void SetWorldState(WorldState state) { }
 
     /// <summary>
     /// Set the given side to be a door. 

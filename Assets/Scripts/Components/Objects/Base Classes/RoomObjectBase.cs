@@ -5,7 +5,6 @@ public interface IRoomObject
 {
     void AwakenObject();
     void SleepObject();
-    void SetObjectState(WorldStateEnum state);
 }
 
 public enum ObjectActivationType
@@ -17,7 +16,7 @@ public enum ObjectActivationType
 /// <summary>
 /// Class used to inherit needed behaviours for room object updating. 
 /// </summary>
-public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
+public abstract class RoomObjectBase : WorldObject, IRoomObject
 {
     [Header("What activation method the object follows.")]
     public ObjectActivationType activationType;
@@ -73,12 +72,6 @@ public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
     }
 
     /// <summary>
-    /// Sets the world state to the object. 
-    /// </summary>
-    /// <param name="state"> The state to set to the object. </param>
-    void IRoomObject.SetObjectState(WorldStateEnum state) => SetWorldState(state);
-
-    /// <summary>
     /// Implement object awakening logic here. 
     /// </summary>
     internal abstract void OnAwakeObject();
@@ -92,5 +85,14 @@ public abstract class RoomObjectBase : MonoBehaviour, IRoomObject
     /// Sets the world state to the object. 
     /// </summary>
     /// <param name="state"> The state to set to the object. </param>
-    internal abstract void SetWorldState(WorldStateEnum state);
+    public override void WorldUpdateReceiver(WorldState state)
+    {
+        SetWorldState(state);
+    }
+
+    /// <summary>
+    /// Sets the world state to the object. 
+    /// </summary>
+    /// <param name="state"> The state to set to the object. </param>
+    internal abstract void SetWorldState(WorldState state);
 }

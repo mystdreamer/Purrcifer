@@ -42,7 +42,7 @@ public class InZone_DamageOverTick : InZone
         }
     }
 
-    internal override void SetWorldState(WorldStateEnum state) { 
+    internal override void SetWorldState(WorldState state) { 
         ///Here is where worlds state changes would be implemented. 
     }
 

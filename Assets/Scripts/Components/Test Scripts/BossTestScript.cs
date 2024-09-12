@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class BossTestScript : Boss
 {
-    internal override void ApplyWorldState(WorldStateEnum state)
+    internal override void ApplyWorldState(WorldState state)
     {
-
+        Debug.Log(state.ToString());
     }
 
     internal override void HealthChangedEvent(float lastValue, float currentValue)
