@@ -1,100 +1,159 @@
 using Purrcifer.Data.Defaults;
+using Purrcifer.Entity.HotsDots;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BHealth
+public class BossHealth : EntityHealth
 {
-    /// <summary>
-    /// The minimum range of the pool.
-    /// </summary>
-    [Header("The minimum health.")]
-    [SerializeField] private float min;
-
-    /// <summary>
-    /// The maximum range of the pool.
-    /// </summary>
-    [Header("The maximum health.")]
-    [SerializeField] private float max;
-
-    /// <summary>
-    /// The maximum range of the pool.
-    /// </summary>
-    [Header("The current health.")]
-    [SerializeField] private float current;
-
-    /// <summary>
-    /// Returns the total value of the players health. 
-    /// </summary>
-    public float Length => max - min;
-
-    /// <summary>
-    /// Returns true if the player is alive. 
-    /// </summary>
-    public bool Alive => current > min;
-
-    /// <summary>
-    /// Returns the players current health. 
-    /// </summary>
-    public float Health
-    {
-        get => current;
-
-        set
-        {
-            current = value;
-            if (current < min)
-                current = min;
-            if (current > max)
-                current = max;
-        }
-    }
-
-    /// <summary>
-    /// Returns the maximum cap for the players health. 
-    /// </summary>
-    public float MaxCap
-    {
-        get => max;
-        set => max = value;
-    }
-
-    /// <summary>
-    /// Returns the minimum cap for the players health. 
-    /// </summary>
-    public float MinCap
-    {
-        get => min;
-        set => min = value;
-    }
-
     /// <summary>
     /// CTOR. 
     /// </summary>
     /// <param name="min"> The minimum health value of the player. </param>
     /// <param name="max"> The maximum health value of the player. </param>
     /// <param name="current"> The current health of the player. </param>
-    public BHealth(int min, int max, int current)
+    public BossHealth(int min, int max, int current) : base(min, max, current)
     {
-        this.min = min;
-        this.max = max;
-        this.current = current;
+
     }
 }
 
 public abstract class Boss : MonoBehaviour, IEntityInterface
 {
-    [SerializeField] private BHealth health;
+    [SerializeField] private BossHealth _health;
+    public WorldStateContainer container;
+    #region Properties. 
+    float IEntityInterface.Health
+    {
+        get => _health.Health;
+        set
+        {
+            if (_health.Invincible || !_health.Alive)
+                return;
 
-    public BHealth BHealth => health;
+            float lastValue = _health.Health;
+            _health.Health = value;
 
-    float IEntityInterface.Health {
-        get => health.Health;
-        set => health.Health = value;
+            HealthChangedEvent(lastValue, _health.Health);
+
+            if (!_health.Alive)
+            {
+                OnDeathEvent();
+                return;
+            }
+
+            //Start Iframes.
+            if (_health.Health < lastValue && !_health.Invincible)
+            {
+                InvincibilityActivated();
+                StartCoroutine(InvincibilityTimer());
+            }
+        }
     }
 
-    bool IEntityInterface.IsAlive => health.Alive;
+    bool IEntityInterface.IsAlive => _health.Alive;
 
-    void IEntityInterface.ApplyWorldState(WorldStateEnum state) => ApplyWorldState(state);
+    public BossHealth BHealth => _health;
 
+    public float CurrentHealth
+    {
+        get => BHealth.Health;
+        set => BHealth.Health = value;
+    }
+
+    public float HealthCap
+    {
+        get => BHealth.MaxCap;
+        set => BHealth.MaxCap = value;
+    }
+    #endregion
+
+    void IEntityInterface.ApplyWorldState(WorldStateEnum state)
+    {
+        container.SetState = state;
+        ApplyWorldState(state);
+    }
+
+    private IEnumerator InvincibilityTimer()
+    {
+        _health.Invincible = true;
+        yield return new WaitForSeconds(_health.InvincibilityLength);
+        _health.Invincible = false;
+    }
+
+    internal void FillHealth()
+    {
+        CurrentHealth = HealthCap;
+    }
+
+    #region H.O.T and D.O.T functions. 
+
+    public void UpdateDotsAndHots()
+    {
+        bool removeHots = false;
+        bool removeDots = false;
+
+        for (int i = 0; i < _health.hots.Count; i++)
+        {
+            bool ticked = _health.hots[i].Update(Time.deltaTime, ref _health, out bool complete);
+            if (complete && !removeHots)
+                removeHots = true;
+        }
+
+        for (int i = 0; i < _health.dots.Count; i++)
+        {
+            bool ticked = _health.dots[i].Update(Time.deltaTime, ref _health, out bool complete);
+            if (complete && !removeHots)
+                removeDots = true;
+        }
+
+        if (removeHots)
+        {
+            List<HealOverTime> currentHots = new List<HealOverTime>();
+
+            for (int i = 0; i < _health.hots.Count; i++)
+            {
+                if (!_health.hots[i].Completed)
+                    currentHots.Add(_health.hots[i]);
+            }
+
+            _health.hots = currentHots;
+        }
+
+        if (removeDots)
+        {
+            List<DamageOverTime> currentDots = new List<DamageOverTime>();
+
+            for (int i = 0; i < _health.dots.Count; i++)
+            {
+                if (!_health.dots[i].Completed)
+                    currentDots.Add(_health.dots[i]);
+            }
+
+            _health.dots = currentDots;
+        }
+    }
+
+    public void SetHealOverTime(float time, float healPerTick, float tickEveryX)
+    {
+        _health.hots.Add(new HealOverTime(time, tickEveryX, healPerTick));
+    }
+
+    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
+    {
+        _health.dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
+    }
+
+    #endregion
+
+    #region Event Calls.
     internal abstract void ApplyWorldState(WorldStateEnum state);
+
+    internal abstract void HealthChangedEvent(float lastValue, float currentValue);
+
+    internal abstract void OnDeathEvent();
+
+    internal abstract void InvincibilityActivated();
+    #endregion
 }

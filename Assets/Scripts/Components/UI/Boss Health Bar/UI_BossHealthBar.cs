@@ -7,7 +7,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class UI_BossHealthBar : MonoBehaviour
 {
-    public BHealth healthData;
+    public BossHealth healthData;
     public GameObject panel;
     public Image image;
     public float lastValue;

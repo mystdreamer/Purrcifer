@@ -8,6 +8,21 @@ public class BossTestScript : Boss
 
     }
 
+    internal override void HealthChangedEvent(float lastValue, float currentValue)
+    {
+
+    }
+
+    internal override void InvincibilityActivated()
+    {
+
+    }
+
+    internal override void OnDeathEvent()
+    {
+
+    }
+
     void Start()
     {
         UIManager.SetBossHealth(this);

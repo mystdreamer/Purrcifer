@@ -1,12 +1,11 @@
-using NUnit.Framework;
 using Purrcifer.Data.Defaults;
-using System;
+using Purrcifer.Entity.HotsDots;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class EHealth
+public class EntityHealth
 {
     /// <summary>
     /// The minimum range of the pool.
@@ -94,7 +93,7 @@ public class EHealth
     /// <param name="min"> The minimum health value of the player. </param>
     /// <param name="max"> The maximum health value of the player. </param>
     /// <param name="current"> The current health of the player. </param>
-    public EHealth(int min, int max, int current)
+    public EntityHealth(int min, int max, int current)
     {
         this._min = min;
         this._max = max;
@@ -124,71 +123,12 @@ public struct WorldStateContainer
     }
 }
 
-public struct HealOverTime
-{
-    public float timeToBuff;
-    public float tickEveryX;
-    public float healPerTick;
-    private float currentTime;
-    private float passedTime;
-    public bool Completed => (currentTime <= 0);
-
-    public HealOverTime(float timeToBuff, float tickEveryX, float healPerTick)
-    {
-        this.timeToBuff = timeToBuff;
-        this.tickEveryX = tickEveryX;
-        this.healPerTick = healPerTick;
-        currentTime = timeToBuff;
-        passedTime = 0;
-    }
-
-    public bool Update(float dt, out bool complete)
-    {
-        currentTime -= dt;
-        passedTime += dt;
-
-        complete = (currentTime <= 0);
-        bool hasTicked = (passedTime >= tickEveryX);
-        if (hasTicked) passedTime = 0;
-        return hasTicked;
-    }
-}
-
-public struct DamageOverTime
-{
-    public float timeToBuff;
-    public float tickEveryX;
-    public float damagePerTick;
-    private float currentTime;
-    private float passedTime;
-    public bool Completed => (currentTime <= 0);
-
-    public DamageOverTime(float timeToBuff, float tickEveryX, float damagePerTick)
-    {
-        this.timeToBuff = timeToBuff;
-        this.tickEveryX = tickEveryX;
-        this.damagePerTick = damagePerTick;
-        currentTime = timeToBuff;
-        passedTime = 0;
-    }
-
-    public bool Update(float dt, out bool complete)
-    {
-        currentTime -= dt;
-        passedTime += dt;
-
-        complete = (currentTime <= 0);
-        bool hasTicked = (passedTime >= tickEveryX);
-        if (hasTicked) passedTime = 0;
-        return hasTicked;
-    }
-}
-
 public abstract class Entity : MonoBehaviour, IEntityInterface
 {
-    [SerializeField] private EHealth _health;
+    [SerializeField] private EntityHealth _health;
     public WorldStateContainer container;
 
+    #region Properties. 
     float IEntityInterface.Health
     {
         get => _health.Health;
@@ -219,19 +159,20 @@ public abstract class Entity : MonoBehaviour, IEntityInterface
 
     bool IEntityInterface.IsAlive => _health.Alive;
 
-    public EHealth EntityHealth => _health;
+    public EntityHealth EntityHealthInstance => _health;
 
     public float CurrentHealth
     {
-        get => EntityHealth.Health;
-        set => EntityHealth.Health = value;
+        get => EntityHealthInstance.Health;
+        set => EntityHealthInstance.Health = value;
     }
 
     public float HealthCap
     {
-        get => EntityHealth.MaxCap;
-        set => EntityHealth.MaxCap = value;
+        get => EntityHealthInstance.MaxCap;
+        set => EntityHealthInstance.MaxCap = value;
     }
+    #endregion
 
     void IEntityInterface.ApplyWorldState(WorldStateEnum state)
     {
@@ -260,22 +201,16 @@ public abstract class Entity : MonoBehaviour, IEntityInterface
 
         for (int i = 0; i < _health.hots.Count; i++)
         {
-            bool ticked = _health.hots[i].Update(Time.deltaTime, out bool complete);
+            bool ticked = _health.hots[i].Update(Time.deltaTime, ref _health, out bool complete);
             if (complete && !removeHots)
                 removeHots = true;
-
-            if (ticked)
-                _health.Health += _health.hots[i].healPerTick;
         }
 
         for (int i = 0; i < _health.dots.Count; i++)
         {
-            bool ticked = _health.dots[i].Update(Time.deltaTime, out bool complete);
+            bool ticked = _health.dots[i].Update(Time.deltaTime, ref _health, out bool complete);
             if (complete && !removeHots)
                 removeDots = true;
-
-            if (ticked)
-                _health.Health -= _health.hots[i].healPerTick;
         }
 
         if (removeHots)
