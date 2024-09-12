@@ -26,6 +26,7 @@ public class EntityHealth
     [SerializeField] private float _current;
     [SerializeField] private float _invincibilityLength = 0.5F;
     [SerializeField] private bool _invincible;
+    [SerializeField] internal bool _bossDamageLock = true;
 
     public List<HealOverTime> hots = new List<HealOverTime>();
     public List<DamageOverTime> dots = new List<DamageOverTime>();
@@ -49,6 +50,9 @@ public class EntityHealth
 
         set
         {
+            if (!_bossDamageLock)
+                return;
+
             _current = value;
             if (_current < _min)
                 _current = _min;

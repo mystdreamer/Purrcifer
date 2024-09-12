@@ -13,6 +13,16 @@ public class BossTestScript : Boss
 
     }
 
+    internal override void IncomingDamageDisabled()
+    {
+
+    }
+
+    internal override void IncomingDamageEnabled()
+    {
+
+    }
+
     internal override void InvincibilityActivated()
     {
 

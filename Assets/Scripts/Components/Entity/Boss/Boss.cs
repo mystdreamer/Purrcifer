@@ -7,6 +7,12 @@ using UnityEngine;
 [System.Serializable]
 public class BossHealth : EntityHealth
 {
+    public bool PreventDamage
+    {
+        get => _bossDamageLock;
+        set => _bossDamageLock = value;
+    }
+
     /// <summary>
     /// CTOR. 
     /// </summary>
@@ -67,6 +73,22 @@ public abstract class Boss : MonoBehaviour, IEntityInterface
         get => BHealth.MaxCap;
         set => BHealth.MaxCap = value;
     }
+
+    public bool LockHealth
+    {
+        get => BHealth._bossDamageLock;
+        set
+        {
+            if (value)
+                IncomingDamageDisabled();
+            else
+                IncomingDamageEnabled();
+
+            BHealth._bossDamageLock = value;
+            
+        }
+    }
+
     #endregion
 
     void IEntityInterface.ApplyWorldState(WorldStateEnum state)
@@ -155,5 +177,8 @@ public abstract class Boss : MonoBehaviour, IEntityInterface
     internal abstract void OnDeathEvent();
 
     internal abstract void InvincibilityActivated();
+
+    internal abstract void IncomingDamageDisabled();
+    internal abstract void IncomingDamageEnabled();
     #endregion
 }
