@@ -7,10 +7,29 @@ using UnityEngine;
 [System.Serializable]
 public class BossHealth : EntityHealth
 {
-    public bool PreventDamage
+    public bool DamageLock
     {
-        get => _bossDamageLock;
-        set => _bossDamageLock = value;
+        get;
+        set;
+    } = false;
+
+    public bool HealLock
+    {
+        get; set;
+    } = false;
+
+    public new float Health
+    {
+        get => base.Health;
+
+        set
+        {
+            //Check if the applied value is less than the current and return if locked. 
+            if (DamageLock && HealLock && value < base.Health)
+                return;
+
+            base.Health = value;
+        }
     }
 
     /// <summary>
@@ -89,6 +108,16 @@ public abstract class Boss : WorldObject, IEntityInterface
         }
     }
 
+    public HealOverTime SetHOT
+    {
+        set => _health.SetHealOverTime(value);
+    }
+
+    public DamageOverTime SetDOT
+    {
+        set => _health.SetDamageOverTime(value);
+    }
+
     #endregion
 
     public override void WorldUpdateReceiver(WorldState state)
@@ -109,65 +138,7 @@ public abstract class Boss : WorldObject, IEntityInterface
         CurrentHealth = HealthCap;
     }
 
-    #region H.O.T and D.O.T functions. 
-
-    public void UpdateDotsAndHots()
-    {
-        bool removeHots = false;
-        bool removeDots = false;
-
-        for (int i = 0; i < _health.hots.Count; i++)
-        {
-            bool ticked = _health.hots[i].Update(Time.deltaTime, ref _health, out bool complete);
-            if (complete && !removeHots)
-                removeHots = true;
-        }
-
-        for (int i = 0; i < _health.dots.Count; i++)
-        {
-            bool ticked = _health.dots[i].Update(Time.deltaTime, ref _health, out bool complete);
-            if (complete && !removeHots)
-                removeDots = true;
-        }
-
-        if (removeHots)
-        {
-            List<HealOverTime> currentHots = new List<HealOverTime>();
-
-            for (int i = 0; i < _health.hots.Count; i++)
-            {
-                if (!_health.hots[i].Completed)
-                    currentHots.Add(_health.hots[i]);
-            }
-
-            _health.hots = currentHots;
-        }
-
-        if (removeDots)
-        {
-            List<DamageOverTime> currentDots = new List<DamageOverTime>();
-
-            for (int i = 0; i < _health.dots.Count; i++)
-            {
-                if (!_health.dots[i].Completed)
-                    currentDots.Add(_health.dots[i]);
-            }
-
-            _health.dots = currentDots;
-        }
-    }
-
-    public void SetHealOverTime(float time, float healPerTick, float tickEveryX)
-    {
-        _health.hots.Add(new HealOverTime(time, tickEveryX, healPerTick));
-    }
-
-    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
-    {
-        _health.dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
-    }
-
-    #endregion
+    internal void UpdateDots() => EntityHealth.ApplyBuffs(ref _health);
 
     #region Event Calls.
     internal abstract void ApplyWorldState(WorldState state);

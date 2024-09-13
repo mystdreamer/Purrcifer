@@ -114,8 +114,15 @@ public class WorldClock : MonoBehaviour
 {
     #region Fields. 
 
-    public TimeData realTime = new TimeData(0, 0, 0, 0);
-    public PlayTimeData playTime = new PlayTimeData(0, 0, 0, 0);
+    /// <summary>
+    /// The current real time of the game. 
+    /// </summary>
+    [SerializeField] private TimeData realTime = new TimeData(0, 0, 0, 0);
+    
+    /// <summary>
+    /// The current play time of the game.
+    /// </summary>
+    [SerializeField] private PlayTimeData playTime = new PlayTimeData(0, 0, 0, 0);
     
     /// <summary>
     /// The threshold for ticking over into witching hour. 
@@ -136,13 +143,12 @@ public class WorldClock : MonoBehaviour
     /// The last state of the world. 
     /// </summary>
     [SerializeField] private WorldState _lastState = WorldState.WORLD_START;
-    
-    float reverseSection = 0;
-    bool removingTime = false;
-    bool removalValueChanged = false;
-    float additionSection = 0;
-    bool addingTime = false;
-    bool additionValueChanged = false;
+    float _reverseSection = 0;
+    bool _removingTime = false;
+    bool _removalValueChanged = false;
+    float _additionSection = 0;
+    bool _addingTime = false;
+    bool _additionValueChanged = false;
     #endregion
 
     #region Properties. 
@@ -220,8 +226,8 @@ public class WorldClock : MonoBehaviour
         set;
     } = false;
 
-    public bool RemoveOpActive => removingTime;
-    public bool AdditionOpActive => addingTime;
+    public bool RemoveOpActive => _removingTime;
+    public bool AdditionOpActive => _addingTime;
 
     #endregion
 
@@ -284,31 +290,31 @@ public class WorldClock : MonoBehaviour
     {
         float valueAbs = MathF.Abs(value);
 
-        if (!removingTime)
+        if (!_removingTime)
         {
-            removingTime = true;
-            reverseSection = valueAbs;
+            _removingTime = true;
+            _reverseSection = valueAbs;
             StartCoroutine(ReduceTime());
         }
         else
         {
-            reverseSection += valueAbs;
-            removalValueChanged = true;
+            _reverseSection += valueAbs;
+            _removalValueChanged = true;
         }
     }
 
     private IEnumerator ReduceTime()
     {
         float initialValue = PlayTime;
-        float endValue = initialValue - reverseSection;
+        float endValue = initialValue - _reverseSection;
 
         while (!(PlayTime <= endValue))
         {
             //Need to recalculate. 
-            if (removalValueChanged)
+            if (_removalValueChanged)
             {
                 //Calculate the amount changed prior.
-                endValue = initialValue - reverseSection;
+                endValue = initialValue - _reverseSection;
             }
             //Reduce the current playtime and wait.
             PlayTime -= 0.1F;
@@ -318,38 +324,38 @@ public class WorldClock : MonoBehaviour
 
         if (PlayTime <= 0)
             PlayTime = 0;
-        removingTime = false;
+        _removingTime = false;
     }
 
     public void AddValue(float value)
     {
         float valueAbs = MathF.Abs(value);
 
-        if (!addingTime)
+        if (!_addingTime)
         {
-            addingTime = true;
-            additionSection = valueAbs;
+            _addingTime = true;
+            _additionSection = valueAbs;
             StartCoroutine(AddTime());
         }
         else
         {
-            reverseSection += valueAbs;
-            additionValueChanged = true;
+            _reverseSection += valueAbs;
+            _additionValueChanged = true;
         }
     }
 
-    private IEnumerator AddTime()
+    public IEnumerator AddTime()
     {
         float initialValue = PlayTime;
-        float endValue = initialValue + additionSection;
+        float endValue = initialValue + _additionSection;
 
         while (PlayTime > endValue)
         {
             //Need to recalculate. 
-            if (additionValueChanged)
+            if (_additionValueChanged)
             {
                 //Calculate the amount changed prior.
-                endValue = initialValue + additionSection;
+                endValue = initialValue + _additionSection;
             }
             //Reduce the current playtime and wait.
             PlayTime += 0.1F;
@@ -358,7 +364,7 @@ public class WorldClock : MonoBehaviour
         }
 
         UpdateWorldState();
-        addingTime = false;
+        _addingTime = false;
     }
 
     #endregion

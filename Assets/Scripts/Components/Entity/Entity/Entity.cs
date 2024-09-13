@@ -7,40 +7,34 @@ using UnityEngine;
 [System.Serializable]
 public class EntityHealth
 {
-    [SerializeField] private Range healthRange; 
+    [SerializeField] private Range _healthRange; 
+    [SerializeField] private List<HealOverTime> _hots = new List<HealOverTime>();
+    [SerializeField] private List<DamageOverTime> _dots = new List<DamageOverTime>();
+    [SerializeField] private bool _invincible; 
     [SerializeField] private float _invincibilityLength = 0.5F;
-    [SerializeField] private bool _invincible;
-    [SerializeField] internal bool _bossDamageLock = true;
-
-    public List<HealOverTime> hots = new List<HealOverTime>();
-    public List<DamageOverTime> dots = new List<DamageOverTime>();
 
     /// <summary>
     /// Returns the total value of the players health. 
     /// </summary>
-    public float Length => healthRange.Length;
+    public float Length => _healthRange.Length;
 
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => Health > healthRange.min;
+    public bool Alive => Health > _healthRange.min;
 
     /// <summary>
     /// Returns the players current health. 
     /// </summary>
     public float Health
     {
-        get => healthRange.current;
+        get => _healthRange.current;
 
         set
         {
-            //Check if the applied value is less than the current and return if locked. 
-            if (!_bossDamageLock && value < healthRange.current)
-                return;
-
             //Set the value. 
-            healthRange.current = value;
-            healthRange.Validate();
+            _healthRange.current = value;
+            _healthRange.Validate();
         }
     }
 
@@ -49,8 +43,8 @@ public class EntityHealth
     /// </summary>
     public float MaxCap
     {
-        get => healthRange.max;
-        set => healthRange.max = value;
+        get => _healthRange.max;
+        set => _healthRange.max = value;
     }
 
     /// <summary>
@@ -58,8 +52,8 @@ public class EntityHealth
     /// </summary>
     public float MinCap
     {
-        get => healthRange.min;
-        set => healthRange.min = value;
+        get => _healthRange.min;
+        set => _healthRange.min = value;
     }
 
     /// <summary>
@@ -80,6 +74,72 @@ public class EntityHealth
         set => _invincibilityLength = value;
     }
 
+    public List<HealOverTime> Hots => _hots;
+
+    public List<DamageOverTime> Dots => _dots;
+
+    public void SetHealOverTime(HealOverTime hot) => _hots.Add(hot);
+
+    public void SetDamageOverTime(DamageOverTime dot) => _dots.Add(dot);
+
+    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
+    {
+        _dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
+    }
+
+    public void SetHealOverTime(float time, float healPerTick, float tickEveryX)
+    {
+        _hots.Add(new HealOverTime(time, tickEveryX, healPerTick));
+    }
+
+    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
+    {
+        _dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
+    }
+
+    public static void ApplyBuffs(ref EntityHealth health)
+    {
+        bool cleanHots = false;
+        bool cleanDots = false;
+
+        for (int i = 0; i < health._hots.Count; i++)
+        {
+            bool ticked = health._hots[i].Update(Time.deltaTime, ref health, out bool complete);
+            if (complete && !cleanHots)
+                cleanHots = true;
+        }
+
+        for (int i = 0; i < health._dots.Count; i++)
+        {
+            bool ticked = health._dots[i].Update(Time.deltaTime, ref health, out bool complete);
+            if (complete && !cleanHots)
+                cleanDots = true;
+        }
+
+        if(cleanHots) health.CleanHots();
+        if(cleanDots) health.CleanDots();
+    }
+
+    private void CleanHots()
+    {
+        List<HealOverTime> currentHots = new List<HealOverTime>();
+
+        for (int i = 0; i < _hots.Count; i++)
+            if (!_hots[i].Completed) currentHots.Add(_hots[i]);
+
+        _hots = currentHots;
+    }
+
+    private void CleanDots()
+    {
+        List<DamageOverTime> currentDots = new List<DamageOverTime>();
+
+        for (int i = 0; i < _dots.Count; i++)
+            if (!_dots[i].Completed) currentDots.Add(_dots[i]);
+
+        _dots = currentDots;
+    }
+
     /// <summary>
     /// CTOR. 
     /// </summary>
@@ -88,7 +148,7 @@ public class EntityHealth
     /// <param name="current"> The current health of the player. </param>
     public EntityHealth(int min, int max, int current)
     {
-        this.healthRange = new Range(current, min, max);
+        this._healthRange = new Range(current, min, max);
     }
 }
 
@@ -141,6 +201,15 @@ public abstract class Entity : WorldObject, IEntityInterface
         get => EntityHealthInstance.MaxCap;
         set => EntityHealthInstance.MaxCap = value;
     }
+
+    public HealOverTime SetHOT { 
+        set => _health.SetHealOverTime(value); 
+    }
+
+    public DamageOverTime SetDOT
+    {
+        set => _health.SetDamageOverTime(value);
+    }
     #endregion
 
     public override void WorldUpdateReceiver(WorldState state)
@@ -161,65 +230,7 @@ public abstract class Entity : WorldObject, IEntityInterface
         CurrentHealth = HealthCap;
     }
 
-    #region H.O.T and D.O.T functions. 
-
-    public void UpdateDotsAndHots()
-    {
-        bool removeHots = false;
-        bool removeDots = false;
-
-        for (int i = 0; i < _health.hots.Count; i++)
-        {
-            bool ticked = _health.hots[i].Update(Time.deltaTime, ref _health, out bool complete);
-            if (complete && !removeHots)
-                removeHots = true;
-        }
-
-        for (int i = 0; i < _health.dots.Count; i++)
-        {
-            bool ticked = _health.dots[i].Update(Time.deltaTime, ref _health, out bool complete);
-            if (complete && !removeHots)
-                removeDots = true;
-        }
-
-        if (removeHots)
-        {
-            List<HealOverTime> currentHots = new List<HealOverTime>();
-
-            for (int i = 0; i < _health.hots.Count; i++)
-            {
-                if (!_health.hots[i].Completed)
-                    currentHots.Add(_health.hots[i]);
-            }
-
-            _health.hots = currentHots;
-        }
-
-        if (removeDots)
-        {
-            List<DamageOverTime> currentDots = new List<DamageOverTime>();
-
-            for (int i = 0; i < _health.dots.Count; i++)
-            {
-                if (!_health.dots[i].Completed)
-                    currentDots.Add(_health.dots[i]);
-            }
-
-            _health.dots = currentDots;
-        }
-    }
-
-    public void SetHealOverTime(float time, float healPerTick, float tickEveryX)
-    {
-        _health.hots.Add(new HealOverTime(time, tickEveryX, healPerTick));
-    }
-
-    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
-    {
-        _health.dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
-    }
-
-    #endregion
+    internal void UpdateDots() => EntityHealth.ApplyBuffs(ref _health);
 
     #region Event Calls.
     internal abstract void ApplyWorldState(WorldState state);
