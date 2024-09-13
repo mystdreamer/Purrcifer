@@ -1,7 +1,7 @@
 using Purrcifer.Data.Player;
 using UnityEngine;
 using Purrcifer.Data.Xml;
-using System.Threading;
+using Purrcifer.PlayerData;
 
 public class DataCarrier : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class DataCarrier : MonoBehaviour
     /// <summary>
     /// Returns the currently saved level from save data. 
     /// </summary>
-    public static int SavedLevel => Instance._runtime.gameState.currentLevel;
+    public static int SavedLevel => Instance._runtime.currentGameLevel;
 
     private void Start()
     {
@@ -59,12 +59,12 @@ public class DataCarrier : MonoBehaviour
         //If the file doesn't exist create one, else load data. 
         if (!fileExists)
         {
-            _runtime = GameSaveFileRuntime.GetDefault();
+            _runtime = GameSaveFileRuntime.Default();
         }
         else
         {
             GameSaveFileXML xml = XML_Serialization.Deserialize<GameSaveFileXML>(path);
-            _runtime = new GameSaveFileRuntime(xml);
+            _runtime = (GameSaveFileRuntime)xml;
         }
     }
 
@@ -95,18 +95,8 @@ public class DataCarrier : MonoBehaviour
     /// <param name="damageData"> The damage data to set. </param>
     public void GetPlayerState(ref PlayerHealthRange healthRange, ref PlayerDamageData damageData)
     {
-        healthRange = new PlayerHealthRange(
-            _runtime.playerData.min,
-            _runtime.playerData.max,
-            _runtime.playerData.current
-            );
-
-        damageData = new PlayerDamageData(
-            _runtime.playerData.baseDamage, 
-            _runtime.playerData.damageMultiplier,
-            _runtime.playerData.criticalHitDamage,
-            _runtime.playerData.criticalHitChance
-            );
+        healthRange = (PlayerHealthRange)_runtime;
+        damageData = (PlayerDamageData)_runtime;
     }
 
     /// <summary>
@@ -115,14 +105,8 @@ public class DataCarrier : MonoBehaviour
     /// <param name="state"> The state to set. </param>
     public void UpdatePlayerState(PlayerState state)
     {
-        _runtime.playerData.min = state.HealthMinCap;
-        _runtime.playerData.max = state.HealthMaxCap;
-        _runtime.playerData.current = state.Health;
-
-        _runtime.playerData.baseDamage = state.Damage.BaseDamage;
-        _runtime.playerData.damageMultiplier = state.Damage.DamageMultiplier;
-        _runtime.playerData.criticalHitDamage = state.Damage.CriticalHitDamage;
-        _runtime.playerData.criticalHitChance = state.Damage.CriticalHitChance;
+        _runtime.SetPlayerHealthData(state);
+        _runtime.SetPlayerDamageData(state);
         SaveData();
     }
 
@@ -131,15 +115,23 @@ public class DataCarrier : MonoBehaviour
     /// </summary>
     public void ResetPlayerData()
     {
-        _runtime.playerData = PlayerDataRuntime.GetDefault();
-        _runtime.gameState = GameStateDataRuntime.GetDefault();
+        _runtime = _runtime.GetDefaultPlayerData();
     }
 
-    /// <summary>
-    /// Used to reset game settings data. 
-    /// </summary>
-    public void ResetSettingsData()
+    public void SetPlayerStats(PlayerStartingStatsSO startingStats)
     {
-        _runtime.settingData = SettingsDataRuntime.GetDefault();
+        _runtime.characterName = startingStats.characterName;
+        _runtime.characterID = startingStats.characterID;
+        _runtime.minHealth = startingStats.minHealth;
+        _runtime.maxHealth = startingStats.maxHealth;
+        _runtime.currentHealth = startingStats.currentHealth;
+
+        _runtime.baseDamage = startingStats.baseDamage;
+        _runtime.damageMultiplier = startingStats.damageMultiplier;
+        _runtime.criticalHitDamage = startingStats.criticalHitDamage;
+        _runtime.criticalHitChance = startingStats.criticalHitChance;
+
+        _runtime.movementSpeed = startingStats.movementSpeed;
+        _runtime.utilityCharges = startingStats.utilityCharges;
     }
 }

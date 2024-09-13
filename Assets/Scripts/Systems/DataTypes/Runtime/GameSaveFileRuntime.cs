@@ -1,183 +1,111 @@
 ﻿using Purrcifer.Data.Defaults;
 using Purrcifer.Data.Xml;
+using Purrcifer.PlayerData;
+using System.Collections.Generic;
 
 namespace Purrcifer.Data.Player
 {
     [System.Serializable]
     public class GameSaveFileRuntime
     {
-        public PlayerDataRuntime playerData;
-        public SettingsDataRuntime settingData;
-        public GameStateDataRuntime gameState;
+        public string characterName;
+        public int characterID;
+        public int minHealth;
+        public int maxHealth;
+        public int currentHealth;
+        public float baseDamage;
+        public float damageMultiplier;
+        public float criticalHitDamage;
+        public float criticalHitChance;
+        public float movementSpeed;
+        public int utilityCharges;
+        public int currentGameLevel;
+        public float masterVolume;
+        public float sfxVolume;
+        public float uiVolume;
+        public float bgmVolume;
+        public List<int> collectedWeaponIdentifiers; 
+        public List<int> collectedUtilityIdentifiers; 
 
         private GameSaveFileRuntime() { }
-
-        public GameSaveFileRuntime(GameSaveFileXML dataFile)
-        {
-            playerData = new PlayerDataRuntime(dataFile.playerData);
-            settingData = new SettingsDataRuntime(dataFile.settingData);
-            gameState = new GameStateDataRuntime(dataFile.gameStateData);
-        }
 
         public GameSaveFileRuntime Copy()
         {
             return new GameSaveFileRuntime()
             {
-                playerData = playerData.Copy(),
-                settingData = settingData.Copy(),
-                gameState = gameState.Copy()
+                characterName = characterName,
+                characterID = characterID,
+                minHealth = minHealth,
+                maxHealth = maxHealth,
+                currentHealth = currentHealth,
+                baseDamage = baseDamage,
+                damageMultiplier = damageMultiplier,
+                criticalHitDamage = criticalHitDamage,
+                criticalHitChance = criticalHitChance,
+                movementSpeed = movementSpeed,
+                utilityCharges = utilityCharges,
+                currentGameLevel = currentGameLevel,
+                masterVolume = masterVolume,
+                sfxVolume = sfxVolume,
+                uiVolume = uiVolume,
+                bgmVolume = bgmVolume,
             };
         }
 
-        public static GameSaveFileRuntime GetDefault()
+        public void SetPlayerHealthData(PlayerState data)
+        {
+            minHealth = data.HealthMinCap;
+            maxHealth = data.HealthMaxCap;
+            currentHealth = data.Health;
+        }
+
+        public void SetPlayerDamageData(PlayerState data)
+        {
+            baseDamage = data.Damage.BaseDamage;
+            damageMultiplier = data.Damage.DamageMultiplier;
+            criticalHitDamage = data.Damage.CriticalHitDamage;
+            criticalHitChance = data.Damage.CriticalHitChance;
+        }
+
+        public GameSaveFileRuntime GetDefaultPlayerData()
         {
             return new GameSaveFileRuntime()
             {
-                playerData = PlayerDataRuntime.GetDefault(),
-                settingData = SettingsDataRuntime.GetDefault(),
-                gameState = GameStateDataRuntime.GetDefault()
+                characterName = "",
+                characterID = -1,
+                minHealth = 0,
+                maxHealth = 0,
+                currentHealth = 0,
+                baseDamage = 0,
+                damageMultiplier = 0,
+                criticalHitDamage = 0,
+                criticalHitChance = 0,
+                movementSpeed = 0,
+                utilityCharges = 0,
+                currentGameLevel = DefaultGameStateData.CURRENT_LEVEL,
+                masterVolume = this.masterVolume, 
+                sfxVolume = this.sfxVolume, 
+                uiVolume = this.uiVolume, 
+                bgmVolume = this.bgmVolume
             };
         }
 
-        public static explicit operator GameSaveFileXML(GameSaveFileRuntime data)
+        public static GameSaveFileRuntime Default()
         {
-            return new GameSaveFileXML()
+            return new GameSaveFileRuntime()
             {
-                playerData = (PlayerDataXML)data.playerData,
-                settingData = (SettingDataXML)data.settingData,
-                gameStateData = (GameStateDataXML)data.gameState
-            };
-        }
-    }
-
-    [System.Serializable]
-    public class PlayerDataRuntime
-    {
-        public int min;
-        public int max;
-        public int current;
-        public float baseDamage;
-        public float damageMultiplier;
-        public float criticalHitDamage;
-        public float criticalHitChance;
-
-        private PlayerDataRuntime() { }
-
-        public static PlayerDataRuntime GetDefault()
-        {
-            return new PlayerDataRuntime()
-            {
-                min = PlayerDefaultData.MIN_HEALTH,
-                max = PlayerDefaultData.MAX_HEALTH,
-                current = PlayerDefaultData.CURRENT_HEALTH,
-                baseDamage = PlayerDefaultData.BASE_DAMAGE,
-                damageMultiplier = PlayerDefaultData.BASE_MULTIPLIER,
-                criticalHitDamage = PlayerDefaultData.CRITICAL_HIT_DAMAGE,
-                criticalHitChance = PlayerDefaultData.CRITICAL_HIT_CHANCE,
-            };
-        }
-
-        public PlayerDataRuntime(PlayerDataXML dataFile)
-        {
-            min = dataFile.min;
-            max = dataFile.max;
-            current = dataFile.current;
-            baseDamage = dataFile.baseDamage;
-            damageMultiplier = dataFile.damageMultiplier;
-            criticalHitDamage = dataFile.criticalHitChance;
-            criticalHitChance = dataFile.criticalHitChance;
-        }
-
-        public PlayerDataRuntime Copy()
-        {
-            return new PlayerDataRuntime()
-            {
-                min = this.min,
-                max = this.max,
-                current = this.current,
-                baseDamage = this.baseDamage,
-                damageMultiplier = this.damageMultiplier,
-                criticalHitDamage = this.criticalHitChance,
-                criticalHitChance = this.criticalHitChance,
-            };
-        }
-
-        public static explicit operator PlayerDataXML(PlayerDataRuntime dataFile)
-        {
-            PlayerDataXML xml = new PlayerDataXML()
-            {
-                min = dataFile.min,
-                max = dataFile.max,
-                current = dataFile.current,
-                baseDamage = dataFile.baseDamage,
-                damageMultiplier = dataFile.damageMultiplier,
-                criticalHitDamage = dataFile.criticalHitChance,
-                criticalHitChance = dataFile.criticalHitChance
-            };
-            return xml;
-        }
-    }
-
-    [System.Serializable]
-    public class GameStateDataRuntime
-    {
-        public int currentLevel;
-
-        private GameStateDataRuntime() { }
-
-        public GameStateDataRuntime(GameStateDataXML dataFile)
-        {
-            currentLevel = dataFile.currentLevel;
-        }
-
-        public static GameStateDataRuntime GetDefault()
-        {
-            return new GameStateDataRuntime()
-            {
-                currentLevel = DefaultGameStateData.CURRENT_LEVEL
-            };
-        }
-
-        public GameStateDataRuntime Copy()
-        {
-            return new GameStateDataRuntime()
-            {
-                currentLevel = this.currentLevel
-            };
-        }
-
-        public static explicit operator GameStateDataXML(GameStateDataRuntime dataFile)
-        {
-            GameStateDataXML xml = new GameStateDataXML()
-            {
-                currentLevel = dataFile.currentLevel
-            };
-            return xml;
-        }
-    }
-
-    [System.Serializable]
-    public class SettingsDataRuntime
-    {
-        public float masterVolume;
-        public float sfxVolume;
-        public float uiVolume;
-        public float bgmVolume;
-
-        private SettingsDataRuntime() { }
-
-        public SettingsDataRuntime(SettingDataXML dataFile)
-        {
-            masterVolume = dataFile.masterVolume;
-            sfxVolume = dataFile.sfxVolume;
-            uiVolume = dataFile.uiVolume;
-            bgmVolume = dataFile.bgmVolume;
-        }
-
-        public static SettingsDataRuntime GetDefault()
-        {
-            return new SettingsDataRuntime()
-            {
+                characterName = "",
+                characterID = -1,
+                minHealth = 0,
+                maxHealth = 0,
+                currentHealth = 0,
+                baseDamage = 0,
+                damageMultiplier = 0,
+                criticalHitDamage = 0,
+                criticalHitChance = 0,
+                movementSpeed = 0,
+                utilityCharges = 0,
+                currentGameLevel = DefaultGameStateData.CURRENT_LEVEL,
                 masterVolume = DefaultSettingsData.MASTER_VOLUME,
                 sfxVolume = DefaultSettingsData.SFX_VOLUME,
                 uiVolume = DefaultSettingsData.UI_VOLUME,
@@ -185,27 +113,64 @@ namespace Purrcifer.Data.Player
             };
         }
 
-        public SettingsDataRuntime Copy()
+        public static explicit operator GameSaveFileXML(GameSaveFileRuntime data)
         {
-            return new SettingsDataRuntime()
+            return new GameSaveFileXML()
             {
-                masterVolume = this.masterVolume,
-                sfxVolume = this.sfxVolume,
-                uiVolume = this.uiVolume,
-                bgmVolume = this.bgmVolume
+                characterName = data.characterName,
+                characterID = data.characterID,
+                minHealth = data.minHealth,
+                maxHealth = data.maxHealth,
+                currentHealth = data.currentHealth,
+                baseDamage = data.baseDamage,
+                damageMultiplier = data.damageMultiplier,
+                criticalHitDamage = data.criticalHitDamage,
+                criticalHitChance = data.criticalHitChance,
+                movementSpeed = data.movementSpeed,
+                utilityCharges = data.utilityCharges,
+                currentGameLevel = data.currentGameLevel,
+                masterVolume = data.masterVolume,
+                sfxVolume = data.sfxVolume,
+                uiVolume = data.uiVolume,
+                bgmVolume = data.bgmVolume,
             };
         }
 
-        public static explicit operator SettingDataXML(SettingsDataRuntime dataFile)
+        public static explicit operator GameSaveFileRuntime(GameSaveFileXML data)
         {
-            SettingDataXML xml = new SettingDataXML()
+            return new GameSaveFileRuntime()
             {
-                masterVolume = dataFile.masterVolume,
-                sfxVolume = dataFile.sfxVolume,
-                uiVolume = dataFile.uiVolume,
-                bgmVolume = dataFile.bgmVolume
+                characterName = data.characterName,
+                characterID = data.characterID,
+                minHealth = data.minHealth,
+                maxHealth = data.maxHealth,
+                currentHealth = data.currentHealth,
+                baseDamage = data.baseDamage,
+                damageMultiplier = data.damageMultiplier,
+                criticalHitDamage = data.criticalHitDamage,
+                criticalHitChance = data.criticalHitChance,
+                movementSpeed = data.movementSpeed,
+                utilityCharges = data.utilityCharges,
+                currentGameLevel = data.currentGameLevel,
+                masterVolume = data.masterVolume,
+                sfxVolume = data.sfxVolume,
+                uiVolume = data.uiVolume,
+                bgmVolume = data.bgmVolume,
             };
-            return xml;
+        }
+
+        public static explicit operator PlayerDamageData(GameSaveFileRuntime data)
+        {
+            return new PlayerDamageData(
+                data.baseDamage,
+                data.damageMultiplier,
+                data.criticalHitDamage,
+                data.criticalHitChance);
+        }
+
+        public static explicit operator PlayerHealthRange(GameSaveFileRuntime data)
+        {
+            return new PlayerHealthRange(data.minHealth, data.maxHealth, data.currentHealth);
         }
     }
 }
