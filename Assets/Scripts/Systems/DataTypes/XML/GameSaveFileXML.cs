@@ -31,6 +31,10 @@ namespace Purrcifer.Data.Xml
         public int utilityCharges;
         [XmlElement("_current_game_level")]
         public int currentGameLevel;
+        [XmlArray("_utility_Identifiers")]
+        public int[] weaponIDs;
+        [XmlArray("_weapon_Identifiers")]
+        public int[] utilityIDs;
         [XmlElement("_master_volume")]
         public float masterVolume;
         [XmlElement("_sfx_volume")]

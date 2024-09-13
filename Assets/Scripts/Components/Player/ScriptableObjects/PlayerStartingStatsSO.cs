@@ -14,4 +14,6 @@ public class PlayerStartingStatsSO : ScriptableObject
     public float criticalHitChance;
     public float movementSpeed;
     public int utilityCharges;
+    public int[] weaponIDs;
+    public int[] iutilityIDs;
 }

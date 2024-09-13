@@ -2,6 +2,7 @@
 using Purrcifer.Data.Xml;
 using Purrcifer.PlayerData;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Purrcifer.Data.Player
 {
@@ -20,12 +21,12 @@ namespace Purrcifer.Data.Player
         public float movementSpeed;
         public int utilityCharges;
         public int currentGameLevel;
+        public List<int> utilityIds; 
+        public List<int> weaponIds; 
         public float masterVolume;
         public float sfxVolume;
         public float uiVolume;
         public float bgmVolume;
-        public List<int> collectedWeaponIdentifiers; 
-        public List<int> collectedUtilityIdentifiers; 
 
         private GameSaveFileRuntime() { }
 
@@ -45,6 +46,8 @@ namespace Purrcifer.Data.Player
                 movementSpeed = movementSpeed,
                 utilityCharges = utilityCharges,
                 currentGameLevel = currentGameLevel,
+                utilityIds = utilityIds,
+                weaponIds = weaponIds,
                 masterVolume = masterVolume,
                 sfxVolume = sfxVolume,
                 uiVolume = uiVolume,
@@ -83,6 +86,8 @@ namespace Purrcifer.Data.Player
                 movementSpeed = 0,
                 utilityCharges = 0,
                 currentGameLevel = DefaultGameStateData.CURRENT_LEVEL,
+                utilityIds = new List<int>(),
+                weaponIds = new List<int>(),
                 masterVolume = this.masterVolume, 
                 sfxVolume = this.sfxVolume, 
                 uiVolume = this.uiVolume, 
@@ -106,11 +111,13 @@ namespace Purrcifer.Data.Player
                 movementSpeed = 0,
                 utilityCharges = 0,
                 currentGameLevel = DefaultGameStateData.CURRENT_LEVEL,
+                utilityIds = new List<int>(),
+                weaponIds = new List<int>(),
                 masterVolume = DefaultSettingsData.MASTER_VOLUME,
                 sfxVolume = DefaultSettingsData.SFX_VOLUME,
                 uiVolume = DefaultSettingsData.UI_VOLUME,
-                bgmVolume = DefaultSettingsData.BGM_VOLUME
-            };
+                bgmVolume = DefaultSettingsData.BGM_VOLUME,
+            }; 
         }
 
         public static explicit operator GameSaveFileXML(GameSaveFileRuntime data)
@@ -129,6 +136,8 @@ namespace Purrcifer.Data.Player
                 movementSpeed = data.movementSpeed,
                 utilityCharges = data.utilityCharges,
                 currentGameLevel = data.currentGameLevel,
+                utilityIDs = data.utilityIds.ToArray(),
+                weaponIDs = data.weaponIds.ToArray(),
                 masterVolume = data.masterVolume,
                 sfxVolume = data.sfxVolume,
                 uiVolume = data.uiVolume,
@@ -152,6 +161,8 @@ namespace Purrcifer.Data.Player
                 movementSpeed = data.movementSpeed,
                 utilityCharges = data.utilityCharges,
                 currentGameLevel = data.currentGameLevel,
+                utilityIds = data.utilityIDs.ToList(),
+                weaponIds = data.weaponIDs.ToList(),
                 masterVolume = data.masterVolume,
                 sfxVolume = data.sfxVolume,
                 uiVolume = data.uiVolume,
