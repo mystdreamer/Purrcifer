@@ -5,10 +5,11 @@ public struct PowerupValue
 {
     public float damageBase;
     public float damageMultiplier;
-    public float damageCritcalHit;
-    public float damageCritcalChance;
+    public float damageCriticalHit;
+    public float damageCriticalChance;
     public int healthCap;
     public bool refillHealth;
+    public float playerSpeed; 
 }
 
 [System.Serializable]

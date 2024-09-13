@@ -4,20 +4,40 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Data struct for handling game time. 
+/// </summary>
 [System.Serializable]
-public struct TimeData
+public class TimeData
 {
     /// <summary>
     /// The scale of time per minute. 
     /// </summary>
     private float timescaleMinute;
-    private float timeScaleHour;
-    public float seconds;
-    public int minutes;
-    public int hours;
-    public bool timeReversed;
-    public bool timeFastForward;
 
+    /// <summary>
+    /// The scale of time per hour. 
+    /// </summary>
+    private float timeScaleHour;
+
+    /// <summary>
+    /// The current number of seconds. 
+    /// </summary>
+    public float seconds;
+
+    /// <summary>
+    /// The current number of minutes. 
+    /// </summary>
+    public int minutes;
+
+    /// <summary>
+    /// The current number of hours. 
+    /// </summary>
+    public int hours;
+
+    /// <summary>
+    /// Get/Set the current time of data class. 
+    /// </summary>
     public float Time
     {
         get => seconds;
@@ -36,25 +56,12 @@ public struct TimeData
         this.minutes = minutes;
         this.seconds = seconds;
         this.hours = hours;
-        timeReversed = false;
-        timeFastForward = false;
+
     }
 
-    public void UpdateTime(float dt)
+    public virtual void UpdateTime(float dt)
     {
         seconds += dt;
-        RecalculateTime();
-    }
-
-    public void UpdatePlayTime(float dt)
-    {
-        if (timeReversed)
-            seconds -= dt;
-        else if (timeFastForward)
-            seconds += (dt * 2); //Probably a better, more stable way to handle. 
-        else
-            seconds += dt;
-
         RecalculateTime();
     }
 
@@ -72,12 +79,43 @@ public struct TimeData
     }
 }
 
+public class PlayTimeData : TimeData
+{
+    /// <summary>
+    /// Denotes that the flow of play time is reversed. 
+    /// </summary>
+    public bool timeReversed;
+
+    /// <summary>
+    /// Denotes that the flow of time is currently fast forwarded. 
+    /// </summary>
+    public bool timeFastForward;
+
+    public PlayTimeData(float time, int seconds, int minutes, int hours) : base(time, seconds, minutes, hours)
+    {
+        timeReversed = false;
+        timeFastForward = false;
+    }
+
+    public override void UpdateTime(float dt)
+    {
+        if (timeReversed)
+            seconds -= dt;
+        else if (timeFastForward)
+            seconds += (dt * 2); //Probably a better, more stable way to handle. 
+        else
+            seconds += dt;
+
+        RecalculateTime();
+    }
+}
+
 public class WorldClock : MonoBehaviour
 {
     #region Fields. 
 
     public TimeData realTime = new TimeData(0, 0, 0, 0);
-    public TimeData playTime = new TimeData(0, 0, 0, 0);
+    public PlayTimeData playTime = new PlayTimeData(0, 0, 0, 0);
     
     /// <summary>
     /// The threshold for ticking over into witching hour. 
@@ -203,12 +241,15 @@ public class WorldClock : MonoBehaviour
         //Update real time. 
         realTime.UpdateTime(Time.deltaTime);
         //Update play time. 
-        playTime.UpdatePlayTime(Time.deltaTime);
+        playTime.UpdateTime(Time.deltaTime);
 
         //Update the current world state. 
         UpdateWorldState();
     }
 
+    /// <summary>
+    /// Update the current world state. 
+    /// </summary>
     private void UpdateWorldState()
     {
         _lastState = _currentState;

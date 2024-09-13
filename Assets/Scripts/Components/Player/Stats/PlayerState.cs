@@ -134,7 +134,7 @@ public class PlayerState : MonoBehaviour
             _health.current = _health.max;
         _damage.BaseDamage += value.damageBase; 
         _damage.DamageMultiplier += value.damageMultiplier;
-        _damage.CriticalHitChance += value.damageCritcalHit;
-        _damage.CriticalHitChance += value.damageCritcalChance; 
+        _damage.CriticalHitChance += value.damageCriticalHit;
+        _damage.CriticalHitChance += value.damageCriticalChance; 
     }
 }

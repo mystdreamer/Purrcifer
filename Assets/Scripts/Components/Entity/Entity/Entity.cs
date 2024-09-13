@@ -7,23 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class EntityHealth
 {
-    /// <summary>
-    /// The minimum range of the pool.
-    /// </summary>
-    [Header("The minimum health.")]
-    [SerializeField] private float _min;
-
-    /// <summary>
-    /// The maximum range of the pool.
-    /// </summary>
-    [Header("The maximum health.")]
-    [SerializeField] private float _max;
-
-    /// <summary>
-    /// The maximum range of the pool.
-    /// </summary>
-    [Header("The current health.")]
-    [SerializeField] private float _current;
+    [SerializeField] private Range healthRange; 
     [SerializeField] private float _invincibilityLength = 0.5F;
     [SerializeField] private bool _invincible;
     [SerializeField] internal bool _bossDamageLock = true;
@@ -34,30 +18,29 @@ public class EntityHealth
     /// <summary>
     /// Returns the total value of the players health. 
     /// </summary>
-    public float Length => _max - _min;
+    public float Length => healthRange.Length;
 
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => _current > _min;
+    public bool Alive => Health > healthRange.min;
 
     /// <summary>
     /// Returns the players current health. 
     /// </summary>
     public float Health
     {
-        get => _current;
+        get => healthRange.current;
 
         set
         {
-            if (!_bossDamageLock)
+            //Check if the applied value is less than the current and return if locked. 
+            if (!_bossDamageLock && value < healthRange.current)
                 return;
 
-            _current = value;
-            if (_current < _min)
-                _current = _min;
-            if (_current > _max)
-                _current = _max;
+            //Set the value. 
+            healthRange.current = value;
+            healthRange.Validate();
         }
     }
 
@@ -66,8 +49,8 @@ public class EntityHealth
     /// </summary>
     public float MaxCap
     {
-        get => _max;
-        set => _max = value;
+        get => healthRange.max;
+        set => healthRange.max = value;
     }
 
     /// <summary>
@@ -75,16 +58,22 @@ public class EntityHealth
     /// </summary>
     public float MinCap
     {
-        get => _min;
-        set => _min = value;
+        get => healthRange.min;
+        set => healthRange.min = value;
     }
 
+    /// <summary>
+    /// Returns true if the entity is invincible. 
+    /// </summary>
     public bool Invincible
     {
         get => _invincible;
         set => _invincible = value;
     }
 
+    /// <summary>
+    /// Returns the remaining invincibility time of the entitity.
+    /// </summary>
     public float InvincibilityLength
     {
         get => _invincibilityLength;
@@ -99,31 +88,7 @@ public class EntityHealth
     /// <param name="current"> The current health of the player. </param>
     public EntityHealth(int min, int max, int current)
     {
-        this._min = min;
-        this._max = max;
-        this._current = current;
-    }
-}
-
-[System.Serializable]
-public struct WorldStateContainer
-{
-    [SerializeField] private WorldState lastState;
-    [SerializeField] private WorldState currentState;
-
-    public WorldState LastState
-    {
-        get => lastState;
-    }
-
-    public WorldState SetState
-    {
-        get => currentState;
-        set
-        {
-            lastState = currentState;
-            currentState = value;
-        }
+        this.healthRange = new Range(current, min, max);
     }
 }
 
@@ -180,7 +145,7 @@ public abstract class Entity : WorldObject, IEntityInterface
 
     public override void WorldUpdateReceiver(WorldState state)
     {
-        container.SetState = state;
+        container.CurrentState = state;
         ApplyWorldState(state);
     }
 

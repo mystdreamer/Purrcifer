@@ -93,7 +93,7 @@ public abstract class Boss : WorldObject, IEntityInterface
 
     public override void WorldUpdateReceiver(WorldState state)
     {
-        container.SetState = state;
+        container.CurrentState = state;
         ApplyWorldState(state);
     }
 
