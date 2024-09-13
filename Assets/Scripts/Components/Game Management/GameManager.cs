@@ -5,13 +5,16 @@ using Unity.VisualScripting;
 using Purrcifer.FloorGeneration;
 using Purrcifer.Data.Defaults;
 using Purrcifer.Window.Management;
+using static UnityEngine.Rendering.DebugUI;
 
 public partial class GameManager : MonoBehaviour
 {
+    #region Singleton. 
     /// <summary>
     /// The private singleton reference. 
     /// </summary>
     private static GameManager _instance;
+    #endregion
 
     /// <summary>
     /// Cached reference to the ObjectPoolManager.
@@ -41,12 +44,12 @@ public partial class GameManager : MonoBehaviour
 #endif
 
         //Generate ObjectPoolManager. 
-        _objectPoolManager = new ObjectPoolManager(); 
+        _objectPoolManager = new ObjectPoolManager();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) 
+        if (Input.GetKeyDown(KeyCode.F))
             GameWindowManagement.ManageWindowFullscreen();
 
     }
@@ -123,11 +126,11 @@ public partial class GameManager : MonoBehaviour
         //Retrieve the room object.
         GameObject room = _objectMap[matched[0]];
 
-        Debug.Log("GameManager: Get Room By Type >> \n Room Address: [" + matched[0].x + ", " + 
+        Debug.Log("GameManager: Get Room By Type >> \n Room Address: [" + matched[0].x + ", " +
             matched[0].y + "]\n" + "Room Name [" + room.name + "]");
         mapCoords = matched[0];
 
-        return room; 
+        return room;
     }
     #endregion
 
@@ -239,6 +242,7 @@ public partial class GameManager : MonoBehaviour
 }
 #endregion
 
+#region World state management. 
 public partial class GameManager : MonoBehaviour
 {
     #region Floor/Level data. 
@@ -247,10 +251,19 @@ public partial class GameManager : MonoBehaviour
     /// </summary>
     [SerializeField] private WorldClock _worldClock;
 
+    /// <summary>
+    /// The current floor data. 
+    /// </summary>
     [SerializeField] private FloorData floorData;
 
+    /// <summary>
+    /// The current generated floor plan.  
+    /// </summary>
     [SerializeField] private FloorPlan floorMap;
 
+    /// <summary>
+    /// The current object map. 
+    /// </summary>
     [SerializeField] private ObjectMap _objectMap;
 
     /// <summary>
@@ -275,14 +288,12 @@ public partial class GameManager : MonoBehaviour
     /// <summary>
     /// Generate a random map based on provided FloorData. 
     /// </summary>
-    public static FloorPlan FloorPlan
+    public FloorPlan FloorPlan
     {
         set
         {
             _instance.floorMap = value;
             FloorMapConvertor.GenerateFloorMapConvertor(_instance.floorData, _instance.floorMap);
-            Debug.Log("Map built.");
-            _instance.GenerationComplete();
         }
     }
 
@@ -294,35 +305,63 @@ public partial class GameManager : MonoBehaviour
         get => Instance._worldClock.PlayTime;
         set => Instance._worldClock.PlayTime = value;
     }
-
-    public static ObjectMap CurrentObjectMap
-    {
-        set => _instance._objectMap = value;
-    }
     #endregion
 
     #region Delegates.
+
+    //-------------------------------------------
+    // These delegates are used for pushing changes in world state to all entities, 
+    // Room Objects and bosses.
+    // These and any objects that require Realtime updating should subscribe to this rather than doing per frame calls.
+    //-------------------------------------------
+
+    /// <summary>
+    /// Delegate for world state changes. 
+    /// </summary>
+    /// <param name="state"> The state to apply. </param>
     public delegate void WorldUpdateEvent(WorldState state);
+
+    /// <summary>
+    /// Event for notifying that world state changes have occurred. 
+    /// Subscribe to event for world state notifications. 
+    /// </summary>
     public WorldUpdateEvent WorldStateChange;
 
     #endregion
 
-    public void GenerationComplete()
+    /// <summary>
+    /// Set the object map to the GameManager.
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetObjectMap(ObjectMap value)
     {
-        StartCoroutine(LevelFadeWait());
+        _objectMap = value;
+        StartCoroutine(RemoveLoadingScreen());
+        Debug.Log("Map built.");
     }
 
-    private IEnumerator LevelFadeWait()
+    /// <summary>
+    /// IEnumerator used to handle the transition out of the loading screen. 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RemoveLoadingScreen()
     {
-        yield return new WaitForSeconds(0.5f);
+        //Call transition out. 
         UIManager.Instance.FadeLevelTransitionOut();
+        yield return new WaitForSeconds(0.5f);
+
+        //Wait for UI transition to be complete. 
         while (!UIManager.Instance.TransitionInactive)
         {
             yield return new WaitForSeconds(0.5f);
         }
 
+        //Enable the world clock. 
         _worldClock.TimerActive = true;
+
+        //Enable player movement. 
         MovementPaused = false;
         yield return true;
     }
 }
+#endregion

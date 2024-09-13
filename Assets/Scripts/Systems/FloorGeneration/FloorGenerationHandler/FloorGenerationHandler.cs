@@ -375,7 +375,7 @@ namespace Purrcifer.FloorGeneration
             if (successCount == decorators.Count)
             {
                 decorationGenerated = true;
-                GameManager.FloorPlan = _plan;
+                GameManager.Instance.FloorPlan = _plan;
             }
             else
             {
