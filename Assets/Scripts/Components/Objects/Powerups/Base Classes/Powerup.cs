@@ -20,6 +20,7 @@ public struct PlayerEventData
     public bool hasEvent;
 }
 
+
 public abstract class Powerup : MonoBehaviour
 {
     public PowerupValue powerupValue;
