@@ -167,7 +167,7 @@ namespace CameraHelpers
             _isStepping = true;
 
             Vector3 directionVec = Direction;
-            GameManager.MovementPaused = true;
+            GameManager.PlayerMovementPaused = true;
             _target.Position += (directionVec * _playerStepDistance);
 
             // While currentTime is less than the duration, keep updating the position.
@@ -183,7 +183,7 @@ namespace CameraHelpers
             _camera.Position = targetPosition;
 
             // Release control after stepping.
-            GameManager.MovementPaused = false;
+            GameManager.PlayerMovementPaused = false;
             _isStepping = false;
         }
 

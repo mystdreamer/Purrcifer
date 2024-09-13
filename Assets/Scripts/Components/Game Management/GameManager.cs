@@ -1,11 +1,11 @@
+#define TOP_LEVEL_DEBUG
+#undef TOP_LEVEL_DEBUG
+
 using UnityEngine;
 using FloorGeneration;
 using System.Collections;
-using Unity.VisualScripting;
 using Purrcifer.FloorGeneration;
 using Purrcifer.Data.Defaults;
-using Purrcifer.Window.Management;
-using static UnityEngine.Rendering.DebugUI;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -14,12 +14,12 @@ public partial class GameManager : MonoBehaviour
     /// The private singleton reference. 
     /// </summary>
     private static GameManager _instance;
-    #endregion
 
     /// <summary>
-    /// Cached reference to the ObjectPoolManager.
+    /// Returns the current instance of the GameManager. 
     /// </summary>
-    [SerializeField] private ObjectPoolManager _objectPoolManager;
+    public static GameManager Instance => _instance;
+    #endregion
 
     void Awake()
     {
@@ -47,12 +47,72 @@ public partial class GameManager : MonoBehaviour
         _objectPoolManager = new ObjectPoolManager();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-            GameWindowManagement.ManageWindowFullscreen();
+    #region Teleporting Rooms. 
 
+    /// <summary>
+    /// Function teleports the passed object to a room of the given type. 
+    /// </summary>
+    /// <param name="teleportObject"> The object to teleport. </param>
+    /// <param name="marker"> The room type to teleport to. </param>
+    public void Teleport(GameObject teleportObject, MapIntMarkers marker)
+    {
+        //Get the room object. 
+        GameObject matchedObj = GameManager.Instance.GetRoomByType(marker, out Vector2Int coordinates);
+
+        //If the provided room to teleport to is null, don't teleport. 
+        if (matchedObj != null)
+        {
+            //Else update the objects position and set the cameras new position in the world. 
+            teleportObject.transform.position = matchedObj.transform.position;
+            SetCamera(new Vector3(coordinates.x * DefaultRoomData.DEFAULT_WIDTH, coordinates.y * DefaultRoomData.DEFAULT_HEIGHT));
+        }
     }
+    #endregion
+
+    #region Room Addressing. 
+    /// <summary>
+    /// Gets a map room of the given type as a GameObject. 
+    /// </summary>
+    /// <param name="marker"> The marker to locate. </param>
+    /// <returns> GameObject that is the room or null if not located. </returns>
+    /// <exception cref="System.Exception"> Throws an exception if the passed in type is NONE, as this room should not be teleported to. </exception>
+    private GameObject GetRoomByType(MapIntMarkers marker, out Vector2Int mapCoords)
+    {
+        //If the marker provided is NONE then throw a system errorm because that should not occur. 
+        if (marker == MapIntMarkers.NONE)
+        {
+#if TOP_LEVEL_DEBUG
+            Debug.Log("Call made to a room type that identifies an empty room. \n Thus teleport was not executed.");
+#endif
+            throw new System.Exception();
+        }
+
+        int mapMarkerConversion = (int)marker;
+
+        //Retrieve the positions of matching rooms. 
+        Vector2Int[] matched = floorMap.GetTypeMark(mapMarkerConversion).ToArray();
+
+        //Retrieve the room object.
+        GameObject room = _objectMap[matched[0]];
+
+#if TOP_LEVEL_DEBUG
+        Debug.Log("GameManager: Get Room By Type >> \n Room Address: [" + matched[0].x + ", " +
+            matched[0].y + "]\n" + "Room Name [" + room.name + "]");
+#endif
+        mapCoords = matched[0];
+
+        return room;
+    }
+    #endregion
+}
+
+#region Object Pooling. 
+public partial class GameManager : MonoBehaviour
+{
+    /// <summary>
+    /// Cached reference to the ObjectPoolManager.
+    /// </summary>
+    [SerializeField] private ObjectPoolManager _objectPoolManager;
 
     #region Object Pooling
     /// <summary>
@@ -72,100 +132,15 @@ public partial class GameManager : MonoBehaviour
     /// <param name="prefab"> The prefab to remove. </param>
     public void ClearPoolByType(GameObject prefab) => _objectPoolManager.ClearPoolByType(prefab);
     #endregion
-
-    /// <summary>
-    /// Set the current camera's position. 
-    /// </summary>
-    /// <param name="position"> The position to set. </param>
-    public void SetCamera(Vector3 position)
-    {
-        Camera.main.GetComponent<CameraController>().Position = position;
-    }
-
-    #region Teleporting Rooms. 
-
-    /// <summary>
-    /// Function teleports the passed object to a room of the given type. 
-    /// </summary>
-    /// <param name="teleportObject"> The object to teleport. </param>
-    /// <param name="marker"> The room type to teleport to. </param>
-    public void Teleport(GameObject teleportObject, MapIntMarkers marker)
-    {
-
-        GameObject matchedObj = GameManager.Instance.GetRoomByType(marker, out Vector2Int coordinates);
-        if (matchedObj != null)
-        {
-            //If the provided room to teleport to is null, don't teleport. 
-            teleportObject.transform.position = matchedObj.transform.position;
-            SetCamera(new Vector3(coordinates.x * DefaultRoomData.DEFAULT_WIDTH, coordinates.y * DefaultRoomData.DEFAULT_HEIGHT));
-        }
-    }
-    #endregion
-
-    #region Room Addressing. 
-    /// <summary>
-    /// Gets a map room of the given type as a gameobject. 
-    /// </summary>
-    /// <param name="marker"> The marker to locate. </param>
-    /// <returns> Gameobject that is the room or null if not located. </returns>
-    /// <exception cref="System.Exception"> Throws an exception if the passed in type is NONE, as this room should not be teleported to. </exception>
-    private GameObject GetRoomByType(MapIntMarkers marker, out Vector2Int mapCoords)
-    {
-        if (marker == MapIntMarkers.NONE)
-        {
-            Debug.Log("Call made to a room type that identifies an empty room. \n Thus teleport was not executed.");
-
-            throw new System.Exception();
-        }
-
-        int mapMarkerConversion = (int)marker;
-
-        //Retrieve the positions of matching rooms. 
-        Vector2Int[] matched = floorMap.GetTypeMark(mapMarkerConversion).ToArray();
-
-        //Retrieve the room object.
-        GameObject room = _objectMap[matched[0]];
-
-        Debug.Log("GameManager: Get Room By Type >> \n Room Address: [" + matched[0].x + ", " +
-            matched[0].y + "]\n" + "Room Name [" + room.name + "]");
-        mapCoords = matched[0];
-
-        return room;
-    }
-    #endregion
-
-    #region Player Management.
-    /// <summary>
-    /// Notify the GameManager of the players death. 
-    /// </summary>
-    public void PlayerDeath()
-    {
-        MovementPaused = true;
-        UIManager.EnableGameOverScreen();
-    }
-
-    /// <summary>
-    /// Spawn a player instance at the specified location. 
-    /// </summary>
-    /// <param name="position"> The position to spawn the player at. </param>
-    public void SpawnPlayerInstance(Vector3 position)
-    {
-        _playerCurrent = GameObject.Instantiate(playerPrefab);
-        _playerCurrent.transform.position = position;
-        MovementPaused = true;
-        _playerMovementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
-        _playerState = _playerCurrent.GetComponent<PlayerState>();
-        _playerState.SetPlayerData();
-    }
-    #endregion
 }
+#endregion
 
 #region Player Management.
 public partial class GameManager : MonoBehaviour
 {
     #region Player Management Properties.
     /// <summary>
-    /// The player prefab used for instancing. . 
+    /// The player prefab used for instancing. 
     /// </summary>
     public GameObject playerPrefab;
 
@@ -183,16 +158,6 @@ public partial class GameManager : MonoBehaviour
     /// Cached reference to the player movement system. 
     /// </summary>
     [SerializeField] private PlayerMovementSys _playerMovementSys;
-
-    /// <summary>
-    /// Returns the current instance of the GameManager. 
-    /// </summary>
-    public static GameManager Instance => _instance;
-
-    /// <summary>
-    /// Returns the current world clock instance. 
-    /// </summary>
-    public static WorldClock WorldClock => _instance._worldClock;
 
     /// <summary>
     /// Returns the current PlayerState instance. 
@@ -222,7 +187,7 @@ public partial class GameManager : MonoBehaviour
     /// <summary>
     /// Set the player movement to active/inactive. 
     /// </summary>
-    public static bool MovementPaused
+    public static bool PlayerMovementPaused
     {
         set
         {
@@ -232,12 +197,55 @@ public partial class GameManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// Function for applying stat changes to the player. 
+    /// </summary>
+    /// <param name="value"> The stat changes to apply. </param>
     public void ApplyPowerup(PowerupValue value) => PlayerState.ApplyPowerup(value);
 
+    /// <summary>
+    /// Function used to apply event change data to the players current event data. 
+    /// </summary>
+    /// <param name="eventName"> The event name associated with the event. </param>
+    /// <param name="eventID"> The event id associated with the event. </param>
     public void SetPlayerDataEvent(string eventName, int eventID)
     {
         Debug.Log("Item collected: Applying event data.");
+        //TODO: Implement this. 
+    }
 
+    /// <summary>
+    /// Set the current camera's position. 
+    /// </summary>
+    /// <param name="position"> The position to set. </param>
+    public void SetCamera(Vector3 position)
+    {
+        Camera.main.GetComponent<CameraController>().Position = position;
+    }
+
+    /// <summary>
+    /// Notify the GameManager of the players death. 
+    /// </summary>
+    public void PlayerDeath()
+    {
+        PlayerMovementPaused = true;
+        UIManager.EnableGameOverScreen();
+    }
+
+    /// <summary>
+    /// Spawn a player instance at the specified location. 
+    /// </summary>
+    /// <param name="position"> The position to spawn the player at. </param>
+    public void SpawnPlayerInstance(Vector3 position)
+    {
+        _playerCurrent = GameObject.Instantiate(playerPrefab);
+        _playerCurrent.transform.position = position;
+
+        //Set this to prevent movement prior to map completion and data being set. 
+        PlayerMovementPaused = true;
+        _playerMovementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
+        _playerState = _playerCurrent.GetComponent<PlayerState>();
+        _playerState.SetPlayerData();
     }
 }
 #endregion
@@ -245,6 +253,11 @@ public partial class GameManager : MonoBehaviour
 #region World state management. 
 public partial class GameManager : MonoBehaviour
 {
+    /// <summary>
+    /// Returns the current world clock instance. 
+    /// </summary>
+    public static WorldClock WorldClock => _instance._worldClock;
+
     #region Floor/Level data. 
     /// <summary>
     /// The current world clock instance. 
@@ -279,7 +292,6 @@ public partial class GameManager : MonoBehaviour
         set
         {
             _instance.floorData = value;
-            //FloorGeneration.FloorGenerator.GenerateFloorMapHandler(value);
             FloorGenerationHandler handler = Instance.gameObject.AddComponent<FloorGenerationHandler>();
             handler.GenerateBaseMap(value);
         }
@@ -337,7 +349,10 @@ public partial class GameManager : MonoBehaviour
     {
         _objectMap = value;
         StartCoroutine(RemoveLoadingScreen());
+
+#if TOP_LEVEL_DEBUG
         Debug.Log("Map built.");
+#endif
     }
 
     /// <summary>
@@ -360,7 +375,7 @@ public partial class GameManager : MonoBehaviour
         _worldClock.TimerActive = true;
 
         //Enable player movement. 
-        MovementPaused = false;
+        PlayerMovementPaused = false;
         yield return true;
     }
 }
