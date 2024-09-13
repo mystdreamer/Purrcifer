@@ -5,16 +5,22 @@ using UnityEngine;
 public class Range
 {
     /// <summary>
-    /// The minimum range of the pool.
+    /// The minimum range.
     /// </summary>
-    [Header("The minimum range of the pool")]
+    [Header("The minimum range.")]
     public float min;
 
     /// <summary>
-    /// The maximum range of the pool.
+    /// The maximum range.
     /// </summary>
-    [Header("The maximum range of the pool")]
+    [Header("The maximum range.")]
     public float max;
+
+    /// <summary>
+    /// The maximum range.
+    /// </summary>
+    [Header("The current value.")]
+    public float current;
 
     /// <summary>
     /// Returns the length between the max and minimum. 

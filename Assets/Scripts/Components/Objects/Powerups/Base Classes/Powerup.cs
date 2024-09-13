@@ -11,14 +11,19 @@ public struct PowerupValue
     public bool refillHealth;
 }
 
+[System.Serializable]
+public struct PlayerEventData
+{
+    public string name;
+    public int id;
+    public bool hasEvent;
+}
+
 public abstract class Powerup : MonoBehaviour
 {
     public PowerupValue powerupValue;
     public ItemDialogue itemDialogue;
-    public bool eventAttached = false;
-
-    public abstract string EventName { get; }
-    public abstract int EventID { get; }
+    public PlayerEventData eventData;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,9 +32,11 @@ public abstract class Powerup : MonoBehaviour
             //Then update the players data. 
             UIManager.SetDialogue(itemDialogue);
             GameManager.Instance.ApplyPowerup(powerupValue);
-            if (eventAttached)
-                GameManager.Instance.SetPlayerDataEvent(EventName, EventID);
-            gameObject.SetActive(false);
+            if (eventData.hasEvent)
+                GameManager.Instance.SetPlayerDataEvent(eventData.name, eventData.id);
+            OnApplication();
         }
     }
+
+    public abstract void OnApplication();
 }

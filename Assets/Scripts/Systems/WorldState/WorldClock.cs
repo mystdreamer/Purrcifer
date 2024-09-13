@@ -1,88 +1,130 @@
+using JetBrains.Annotations;
 using Purrcifer.Data.Defaults;
 using System;
+using System.Collections;
 using UnityEngine;
+
+[System.Serializable]
+public struct TimeData
+{
+    /// <summary>
+    /// The scale of time per minute. 
+    /// </summary>
+    private float timescaleMinute;
+    private float timeScaleHour;
+    public float seconds;
+    public int minutes;
+    public int hours;
+    public bool timeReversed;
+    public bool timeFastForward;
+
+    public float Time
+    {
+        get => seconds;
+        set
+        {
+            seconds = value;
+            RecalculateTime();
+        }
+    }
+
+    public TimeData(float time, int seconds, int minutes, int hours)
+    {
+        timescaleMinute = WorldTimings.WORLD_TIMESCALE_MINUTE;
+        timeScaleHour = WorldTimings.WORLD_WITCHING_HOUR_TIME;
+        this.seconds = time;
+        this.minutes = minutes;
+        this.seconds = seconds;
+        this.hours = hours;
+        timeReversed = false;
+        timeFastForward = false;
+    }
+
+    public void UpdateTime(float dt)
+    {
+        seconds += dt;
+        RecalculateTime();
+    }
+
+    public void UpdatePlayTime(float dt)
+    {
+        if (timeReversed)
+            seconds -= dt;
+        else if (timeFastForward)
+            seconds += (dt * 2); //Probably a better, more stable way to handle. 
+        else
+            seconds += dt;
+
+        RecalculateTime();
+    }
+
+    public void RecalculateTime()
+    {
+        //If a minute has occurred, the increase minutes and adjust world state. 
+        if (seconds > timescaleMinute)
+        {
+            minutes++;
+            seconds -= timescaleMinute;
+
+            if (minutes > timeScaleHour)
+                hours++;
+        }
+    }
+}
 
 public class WorldClock : MonoBehaviour
 {
     #region Fields. 
-    /// <summary>
-    /// The scale of time per minute. 
-    /// </summary>
-    [SerializeField] private float timescaleMinute = WorldTimings.WORLD_TIMESCALE_MINUTE;
 
+    public TimeData realTime = new TimeData(0, 0, 0, 0);
+    public TimeData playTime = new TimeData(0, 0, 0, 0);
+    
     /// <summary>
     /// The threshold for ticking over into witching hour. 
     /// </summary>
-    [SerializeField] private float witchingThreshold = WorldTimings.WORLD_WITCHING_HOUR_TIME;
+    [SerializeField] private float _witchingThreshold = WorldTimings.WORLD_WITCHING_HOUR_TIME;
 
     /// <summary>
     /// The threshold for ticking over into hell hour. 
     /// </summary>
-    [SerializeField] private float hellThreshold = WorldTimings.WORLD_HELL_HOUR_TIME;
+    [SerializeField] private float _hellThreshold = WorldTimings.WORLD_HELL_HOUR_TIME;
 
-    /// <summary>
-    /// The timing interval used for playing. 
-    /// </summary>
-    [SerializeField] private float timePlay = WorldTimings.WORLD_START_TIME;
-
-    /// <summary>
-    /// The timing interval used for real time calculations. 
-    /// </summary>
-    [SerializeField] private float timeReal = WorldTimings.WORLD_START_TIME;
-
-    /// <summary>
-    /// The total number of minutes passed. 
-    /// </summary>
-    [SerializeField] private float totalMinutes = 0;
-    
-    /// <summary>
-    /// The total number of minutes passed in the modifiable game time. 
-    /// </summary>
-    [SerializeField] private float currentMinutes = 0;
-    
     /// <summary>
     /// The current state of the world. 
     /// </summary>
-    [SerializeField] private WorldState currentState = WorldState.WORLD_START;
-    
+    [SerializeField] private WorldState _currentState = WorldState.WORLD_START;
+
     /// <summary>
     /// The last state of the world. 
     /// </summary>
-    [SerializeField] private WorldState lastState = WorldState.WORLD_START;
+    [SerializeField] private WorldState _lastState = WorldState.WORLD_START;
     
-    /// <summary>
-    /// Whether play time is reversed. 
-    /// </summary>
-    [SerializeField] private bool timeReversed = false;
+    float reverseSection = 0;
+    bool removingTime = false;
+    bool removalValueChanged = false;
+    float additionSection = 0;
+    bool addingTime = false;
+    bool additionValueChanged = false;
     #endregion
 
     #region Properties. 
     /// <summary>
     /// Returns the current state of the world.
     /// </summary>
-    public WorldState CurrentState => currentState;
+    public WorldState CurrentState => _currentState;
 
     /// <summary>
     /// Returns the last state of the world. 
     /// </summary>
-    public WorldState LastState => lastState;
-
-    /// <summary>
-    /// The current value used as the base for a minute. 
-    /// </summary>
-    public float MinuteLength
-    {
-        get => timescaleMinute;
-        set => timescaleMinute = value;
-    }
+    public WorldState LastState => _lastState;
 
     /// <summary>
     /// The current value set as the witching time threshold. 
     /// </summary>
     public float WitchingThreshold
     {
-        get => witchingThreshold;
-        set => witchingThreshold = value;
+        get => _witchingThreshold;
+        set => _witchingThreshold = value;
     }
 
     /// <summary>
@@ -90,8 +132,8 @@ public class WorldClock : MonoBehaviour
     /// </summary>
     public float HellThreshold
     {
-        get => witchingThreshold;
-        set => witchingThreshold = value;
+        get => _witchingThreshold;
+        set => _witchingThreshold = value;
     }
 
     /// <summary>
@@ -99,8 +141,14 @@ public class WorldClock : MonoBehaviour
     /// </summary>
     public bool ReversePlayTime
     {
-        get => timeReversed;
-        set => timeReversed = value;
+        get => playTime.timeReversed;
+        set => playTime.timeReversed = value;
+    }
+
+    public bool FFWDPlayTime
+    {
+        get => playTime.timeFastForward;
+        set => playTime.timeFastForward = value;
     }
 
     /// <summary>
@@ -108,12 +156,12 @@ public class WorldClock : MonoBehaviour
     /// </summary>
     public float PlayTime
     {
-        get => timePlay; 
-        
+        get => playTime.seconds;
+
         set
         {
-            timePlay = value;
-            RecalculateTime();
+            playTime.seconds = value;
+            UpdateWorldState();
         }
     }
 
@@ -122,7 +170,7 @@ public class WorldClock : MonoBehaviour
     /// </summary>
     public float RealTime
     {
-        get => timeReal;
+        get => realTime.seconds;
     }
 
     /// <summary>
@@ -134,77 +182,51 @@ public class WorldClock : MonoBehaviour
         set;
     } = false;
 
+    public bool RemoveOpActive => removingTime;
+    public bool AdditionOpActive => addingTime;
+
     #endregion
 
     private void Start()
     {
-        timescaleMinute = WorldTimings.WORLD_TIMESCALE_MINUTE;
-        witchingThreshold = WorldTimings.WORLD_WITCHING_HOUR_TIME;
-        hellThreshold = WorldTimings.WORLD_HELL_HOUR_TIME;
-        timePlay = WorldTimings.WORLD_START_TIME;
-        timeReal = WorldTimings.WORLD_START_TIME;
-        totalMinutes = 0;
-        currentMinutes = 0;
-        currentState = WorldState.WORLD_START;
-        lastState = WorldState.WORLD_START;
-        timeReversed = false;
+        _witchingThreshold = WorldTimings.WORLD_WITCHING_HOUR_TIME;
+        _hellThreshold = WorldTimings.WORLD_HELL_HOUR_TIME;
+        _currentState = WorldState.WORLD_START;
+        _lastState = WorldState.WORLD_START;
     }
 
     void Update()
     {
         if (!TimerActive)
-            return; 
+            return;
 
-        //Update real time for tracking. 
-        timeReal += Time.deltaTime;
-        //Generate the play orientated time. 
-        timePlay = (!timeReversed) ? timePlay + Time.deltaTime : timePlay - Time.deltaTime;
-        timePlay = Mathf.Clamp(timePlay, 0, 900);
-        RecalculateTime();
+        //Update real time. 
+        realTime.UpdateTime(Time.deltaTime);
+        //Update play time. 
+        playTime.UpdatePlayTime(Time.deltaTime);
 
-        if(currentState != lastState)
-        {
-            GameManager.Instance.WorldStateChange?.Invoke(currentState);
-            lastState = currentState;
-        }
+        //Update the current world state. 
+        UpdateWorldState();
     }
 
-    /// <summary>
-    /// Used to recalculate time post a tick event. 
-    /// </summary>
-    private void RecalculateTime()
+    private void UpdateWorldState()
     {
-        //If a minute has occurred, the increase minutes and adjust world state. 
-        if (timePlay > timescaleMinute)
+        _lastState = _currentState;
+
+        if (playTime.minutes < _witchingThreshold)
+            _currentState = WorldState.WORLD_START;
+
+        if (playTime.minutes >= _witchingThreshold)
+            _currentState = WorldState.WORLD_WITCHING;
+
+        if (playTime.minutes >= _hellThreshold)
+            _currentState = WorldState.WORLD_HELL;
+
+        if (_currentState != _lastState)
         {
-            currentMinutes++;
-            timePlay -= timescaleMinute;
-            UpdateState();
+            GameManager.Instance.WorldStateChange?.Invoke(_currentState);
+            _lastState = _currentState;
         }
-
-        if (timeReal > timescaleMinute)
-        {
-            totalMinutes++;
-            timeReal -= timescaleMinute;
-        }
-
-    }
-
-    /// <summary>
-    /// Updates the state of the world based on the current play time. 
-    /// </summary>
-    private void UpdateState()
-    {
-        lastState = currentState;
-
-        if (currentMinutes < witchingThreshold)
-            currentState = WorldState.WORLD_START;
-
-        if (currentMinutes >= witchingThreshold)
-            currentState = WorldState.WORLD_WITCHING;
-
-        if (currentMinutes >= hellThreshold)
-            currentState = WorldState.WORLD_HELL;
     }
 
     /// <summary>
@@ -212,7 +234,91 @@ public class WorldClock : MonoBehaviour
     /// </summary>
     public void ResetPlayTime()
     {
-        timePlay = 0;
-        lastState = currentState = WorldState.WORLD_START;
+        playTime.Time = 0;
+        _lastState = _currentState = WorldState.WORLD_START;
     }
+
+    #region Play time modifiers. 
+    public void RemoveValue(float value)
+    {
+        float valueAbs = MathF.Abs(value);
+
+        if (!removingTime)
+        {
+            removingTime = true;
+            reverseSection = valueAbs;
+            StartCoroutine(ReduceTime());
+        }
+        else
+        {
+            reverseSection += valueAbs;
+            removalValueChanged = true;
+        }
+    }
+
+    private IEnumerator ReduceTime()
+    {
+        float initialValue = PlayTime;
+        float endValue = initialValue - reverseSection;
+
+        while (!(PlayTime <= endValue))
+        {
+            //Need to recalculate. 
+            if (removalValueChanged)
+            {
+                //Calculate the amount changed prior.
+                endValue = initialValue - reverseSection;
+            }
+            //Reduce the current playtime and wait.
+            PlayTime -= 0.1F;
+            UpdateWorldState();
+            yield return new WaitForSeconds(0.002F);
+        }
+
+        if (PlayTime <= 0)
+            PlayTime = 0;
+        removingTime = false;
+    }
+
+    public void AddValue(float value)
+    {
+        float valueAbs = MathF.Abs(value);
+
+        if (!addingTime)
+        {
+            addingTime = true;
+            additionSection = valueAbs;
+            StartCoroutine(AddTime());
+        }
+        else
+        {
+            reverseSection += valueAbs;
+            additionValueChanged = true;
+        }
+    }
+
+    private IEnumerator AddTime()
+    {
+        float initialValue = PlayTime;
+        float endValue = initialValue + additionSection;
+
+        while (PlayTime > endValue)
+        {
+            //Need to recalculate. 
+            if (additionValueChanged)
+            {
+                //Calculate the amount changed prior.
+                endValue = initialValue + additionSection;
+            }
+            //Reduce the current playtime and wait.
+            PlayTime += 0.1F;
+            UpdateWorldState();
+            yield return new WaitForEndOfFrame();
+        }
+
+        UpdateWorldState();
+        addingTime = false;
+    }
+
+    #endregion
 }
