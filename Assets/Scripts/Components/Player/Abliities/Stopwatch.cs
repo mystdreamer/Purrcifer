@@ -14,7 +14,7 @@ public class Stopwatch : MonoBehaviour
     /// <summary>
     /// The range class that is used to define the limits of usage for the timer. 
     /// </summary>
-    public Range charge = new Range() { min = 0, max = 5, current = 5 };
+    public Range charge = new Range(5, 0, 5);
 
     /// <summary>
     /// The value at which the stopwatch changes time on press. 

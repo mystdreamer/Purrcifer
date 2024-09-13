@@ -82,21 +82,6 @@ public class EntityHealth
 
     public void SetDamageOverTime(DamageOverTime dot) => _dots.Add(dot);
 
-    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
-    {
-        _dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
-    }
-
-    public void SetHealOverTime(float time, float healPerTick, float tickEveryX)
-    {
-        _hots.Add(new HealOverTime(time, tickEveryX, healPerTick));
-    }
-
-    public void SetDamageOverTime(float time, float damagePerTick, float tickEveryX)
-    {
-        _dots.Add(new DamageOverTime(time, tickEveryX, damagePerTick));
-    }
-
     public static void ApplyBuffs(ref EntityHealth health)
     {
         bool cleanHots = false;
@@ -118,6 +103,29 @@ public class EntityHealth
 
         if(cleanHots) health.CleanHots();
         if(cleanDots) health.CleanDots();
+    }
+
+    public static void ApplyBuffs(ref BossHealth health)
+    {
+        bool cleanHots = false;
+        bool cleanDots = false;
+
+        for (int i = 0; i < health._hots.Count; i++)
+        {
+            bool ticked = health._hots[i].Update(Time.deltaTime, ref health, out bool complete);
+            if (complete && !cleanHots)
+                cleanHots = true;
+        }
+
+        for (int i = 0; i < health._dots.Count; i++)
+        {
+            bool ticked = health._dots[i].Update(Time.deltaTime, ref health, out bool complete);
+            if (complete && !cleanHots)
+                cleanDots = true;
+        }
+
+        if (cleanHots) health.CleanHots();
+        if (cleanDots) health.CleanDots();
     }
 
     private void CleanHots()

@@ -93,9 +93,9 @@ public abstract class Boss : WorldObject, IEntityInterface
         set => BHealth.MaxCap = value;
     }
 
-    public bool LockHealth
+    public bool LockDamage
     {
-        get => BHealth._bossDamageLock;
+        get => BHealth.DamageLock;
         set
         {
             if (value)
@@ -103,8 +103,21 @@ public abstract class Boss : WorldObject, IEntityInterface
             else
                 IncomingDamageEnabled();
 
-            BHealth._bossDamageLock = value;
-            
+            BHealth.DamageLock = value;
+        }
+    }
+
+    public bool LockHealth
+    {
+        get => BHealth.HealLock;
+        set
+        {
+            if (value)
+                IncomingDamageDisabled();
+            else
+                IncomingDamageEnabled();
+
+            BHealth.HealLock = value;
         }
     }
 
