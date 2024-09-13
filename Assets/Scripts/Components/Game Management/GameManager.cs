@@ -286,6 +286,15 @@ public partial class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Accessor for the games current world time. 
+    /// </summary>
+    public static float WorldTime
+    {
+        get => Instance._worldClock.PlayTime;
+        set => Instance._worldClock.PlayTime = value;
+    }
+
     public static ObjectMap CurrentObjectMap
     {
         set => _instance._objectMap = value;

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -6251202584187075783}
   - component: {fileID: 201464169746819814}
   - component: {fileID: 5545469451611894756}
+  - component: {fileID: 6903156727511804708}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -198,3 +199,21 @@ MonoBehaviour:
     right: {fileID: 5957003687661767377, guid: 7f78e9674ce746f4aa2831d2b457bd8f, type: 3}
     destructionTime: 0.4
     cooldownTime: 0.2
+--- !u!114 &6903156727511804708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831002017157304993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d398836b35a8204d903d11bfd7f370f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stopwatchValues:
+    min: 0
+    max: 5
+  currentCharge: 5
+  rateOfChange: 1
+  _delayRate: 0.2
