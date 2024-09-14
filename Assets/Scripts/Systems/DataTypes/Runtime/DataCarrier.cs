@@ -93,9 +93,9 @@ public class DataCarrier : MonoBehaviour
     /// </summary>
     /// <param name="healthRange"> The health range to set. </param>
     /// <param name="damageData"> The damage data to set. </param>
-    public void GetPlayerState(ref PlayerHealthRange healthRange, ref PlayerDamageData damageData)
+    public void GetPlayerState(ref PlayerHealthData healthRange, ref PlayerDamageData damageData)
     {
-        healthRange = (PlayerHealthRange)_runtime;
+        healthRange = (PlayerHealthData)_runtime;
         damageData = (PlayerDamageData)_runtime;
     }
 

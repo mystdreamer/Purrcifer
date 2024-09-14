@@ -1,11 +1,13 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemDataSO", menuName = "Purrcifer/Collectable SO/ItemDataSO")]
-public class UtilityItemDataSO : ScriptableObject
+public class UtilityDataSO : ScriptableObject
 {
     [Header("Item Identifiers")]
     public string itemName = "New util item name here";
     public string itemID = RandomIdGenerator.GetBase62(5);
+    public PlayerEventData eventData;
+    public ItemDialogue itemDialogue;
 
     [Header("Item Prefabs.")]
     public GameObject powerupPrefab;
@@ -22,5 +24,4 @@ public class UtilityItemDataSO : ScriptableObject
 
     [Header("Modifiable powerup utility data.")]
     public bool refillHealth;
-
 }

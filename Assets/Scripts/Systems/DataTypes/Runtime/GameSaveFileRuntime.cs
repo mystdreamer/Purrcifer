@@ -179,9 +179,9 @@ namespace Purrcifer.Data.Player
                 data.criticalHitChance);
         }
 
-        public static explicit operator PlayerHealthRange(GameSaveFileRuntime data)
+        public static explicit operator PlayerHealthData(GameSaveFileRuntime data)
         {
-            return new PlayerHealthRange(data.minHealth, data.maxHealth, data.currentHealth);
+            return new PlayerHealthData(data.minHealth, data.maxHealth, data.currentHealth);
         }
     }
 }

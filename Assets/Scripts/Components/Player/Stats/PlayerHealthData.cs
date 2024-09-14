@@ -6,7 +6,7 @@ namespace Purrcifer.PlayerData
     /// Serializable data class containing health data. 
     /// </summary>
     [System.Serializable]
-    public class PlayerHealthRange
+    public class PlayerHealthData
     {
         /// <summary>
         /// The minimum range of the pool.
@@ -32,7 +32,7 @@ namespace Purrcifer.PlayerData
         /// <param name="min"> The minimum health value of the player. </param>
         /// <param name="max"> The maximum health value of the player. </param>
         /// <param name="current"> The current health of the player. </param>
-        public PlayerHealthRange(int min, int max, int current)
+        public PlayerHealthData(int min, int max, int current)
         {
             this.min = min;
             this.max = max;

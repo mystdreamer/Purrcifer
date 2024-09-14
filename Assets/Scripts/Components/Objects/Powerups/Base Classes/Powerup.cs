@@ -1,44 +1,108 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct PowerupValue
-{
-    public float damageBase;
-    public float damageMultiplier;
-    public float damageCriticalHit;
-    public float damageCriticalChance;
-    public int healthCap;
-    public bool refillHealth;
-    public float playerSpeed; 
-}
-
-[System.Serializable]
-public struct PlayerEventData
+public class PlayerEventData
 {
     public string name;
     public int id;
     public bool hasEvent;
 }
 
-
 public abstract class Powerup : MonoBehaviour
 {
-    public PowerupValue powerupValue;
-    public ItemDialogue itemDialogue;
-    public PlayerEventData eventData;
+
+    public abstract bool HasEvent { get; }
+
+    public abstract bool HasDialogue { get; }
+
+    public abstract ItemDialogue ItemDialogue
+    {
+        get;
+    }
+
+    public abstract PlayerEventData EventData { get; }
+
+    public abstract WeaponDataSO WeaponData { get; }
+
+    public abstract UtilityDataSO UtilityData { get; }
+
+    public abstract ConsumableDataSO ConsumableData { get; }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            //Then update the players data. 
-            UIManager.SetDialogue(itemDialogue);
-            GameManager.Instance.ApplyPowerup(powerupValue);
-            if (eventData.hasEvent)
-                GameManager.Instance.SetPlayerDataEvent(eventData.name, eventData.id);
-            OnApplication();
+            //Display the items dialogue. 
+            if(HasDialogue) UIManager.SetDialogue(ItemDialogue);
+            //If there is an event assigned to this behaviour fire the event change. 
+            if (EventData.hasEvent) GameManager.Instance.SetPlayerDataEvent(EventData);
+            //Apply the effect of the item. 
+            GameManager.Instance.ApplyPowerup(this);
+            //Cleanup object. 
+            this.gameObject.SetActive(false);
         }
     }
 
-    public abstract void OnApplication();
+    /// <summary>
+    /// Override to implement powerup logic. 
+    /// </summary>
+    /// <param name="player"> The player object. </param>
+    public abstract void ApplyToPlayer(GameObject player);
+}
+
+public abstract class PowerupConsumable : Powerup
+{
+    public ConsumableDataSO consumableData;
+
+    public override bool HasEvent => false;
+
+    public override bool HasDialogue => false;
+
+    public override ItemDialogue ItemDialogue => null;
+
+    public override PlayerEventData EventData => null;
+
+    public override WeaponDataSO WeaponData => null;
+
+    public override UtilityDataSO UtilityData => null;
+
+    public override ConsumableDataSO ConsumableData => consumableData;
+}
+
+public abstract class PowerupWeapon : Powerup
+{
+    public WeaponDataSO weaponData;
+
+    public override bool HasEvent => weaponData.eventData.hasEvent;
+
+    public override bool HasDialogue => true;
+
+    public override ItemDialogue ItemDialogue => weaponData.itemDialogue;
+
+    public override PlayerEventData EventData => weaponData.eventData;
+
+    public override WeaponDataSO WeaponData => weaponData;
+
+    public override UtilityDataSO UtilityData => null;
+
+    public override ConsumableDataSO ConsumableData => null;
+}
+
+public abstract class PowerupUtility : Powerup
+{
+    public UtilityDataSO utilityData;
+
+    public override bool HasEvent => utilityData.eventData.hasEvent;
+
+    public override bool HasDialogue => true;
+
+    public override ItemDialogue ItemDialogue => utilityData.itemDialogue;
+
+    public override PlayerEventData EventData => utilityData.eventData;
+
+    public override WeaponDataSO WeaponData => null;
+
+    public override UtilityDataSO UtilityData => utilityData;
+
+    public override ConsumableDataSO ConsumableData => null;
 }

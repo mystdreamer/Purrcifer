@@ -201,14 +201,14 @@ public partial class GameManager : MonoBehaviour
     /// Function for applying stat changes to the player. 
     /// </summary>
     /// <param name="value"> The stat changes to apply. </param>
-    public void ApplyPowerup(PowerupValue value) => PlayerState.ApplyPowerup(value);
+    public void ApplyPowerup(Powerup value) => PlayerState.ApplyPowerup(value);
 
     /// <summary>
     /// Function used to apply event change data to the players current event data. 
     /// </summary>
     /// <param name="eventName"> The event name associated with the event. </param>
     /// <param name="eventID"> The event id associated with the event. </param>
-    public void SetPlayerDataEvent(string eventName, int eventID)
+    public void SetPlayerDataEvent(PlayerEventData data)
     {
         Debug.Log("Item collected: Applying event data.");
         //TODO: Implement this. 

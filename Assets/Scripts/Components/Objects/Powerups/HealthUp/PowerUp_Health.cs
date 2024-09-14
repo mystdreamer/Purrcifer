@@ -1,9 +1,8 @@
-public class PowerUp_Health : Powerup
-{
-    public string eventName;
-    public int eventID; 
+using UnityEngine;
 
-    public override void OnApplication()
+public class PowerUp_Health : PowerupUtility
+{
+    public override void ApplyToPlayer(GameObject player)
     {
         gameObject.SetActive(false);
     }

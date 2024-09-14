@@ -1,7 +1,8 @@
-public class Powerup_Stopwatch : Powerup
-{
+using UnityEngine;
 
-    public override void OnApplication()
+public class Powerup_Stopwatch : PowerupUtility
+{
+    public override void ApplyToPlayer(GameObject player)
     {
         if (GameManager.Instance.Player.GetComponent<Stopwatch>() == null)
             GameManager.Instance.Player.AddComponent<Stopwatch>();

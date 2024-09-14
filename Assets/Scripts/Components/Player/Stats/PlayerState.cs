@@ -11,12 +11,14 @@ public class PlayerState : MonoBehaviour
 {
     private const int IFRAMES = 35;
     private const int MAX_HEALTH_CAP_LIMIT = 12;
-    [SerializeField] private PlayerHealthRange _health;
-    [SerializeField] private PlayerDamageData _damage;
+    [SerializeField] private PlayerHealthData _healthStats;
+    [SerializeField] private PlayerDamageData _damageStats;
+    [SerializeField] private PlayerMovementData _movementStats;
+    [SerializeField] private PlayerItemData _itemStats;
     [SerializeField] private bool invincible = false;
     [SerializeField] private bool deathNotified = false;
 
-    public PlayerDamageData Damage => _damage;
+    public PlayerDamageData Damage => _damageStats;
 
     #region Health Properties. 
     /// <summary>
@@ -24,9 +26,9 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public int Health
     {
-        get => _health.current;
+        get => _healthStats.current;
 
-        private set => _health.current = value;
+        private set => _healthStats.current = value;
     }
 
     public int AddDamage
@@ -62,16 +64,16 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public int HealthMaxCap
     {
-        get => _health.max;
+        get => _healthStats.max;
 
         set
         {
-            _health.max = value;
+            _healthStats.max = value;
 
             //If the value is greater than the allowed max health cap,
             //reset it to the max.
-            if (MAX_HEALTH_CAP_LIMIT < _health.max)
-                _health.max = MAX_HEALTH_CAP_LIMIT;
+            if (MAX_HEALTH_CAP_LIMIT < _healthStats.max)
+                _healthStats.max = MAX_HEALTH_CAP_LIMIT;
         }
     }
 
@@ -80,14 +82,14 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public int HealthMinCap
     {
-        get => _health.min;
-        set => _health.min = value;
+        get => _healthStats.min;
+        set => _healthStats.min = value;
     }
 
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => (_health.current > _health.min);
+    public bool Alive => (_healthStats.current > _healthStats.min);
 
     /// <summary>
     /// Returns the total value of the players health. 
@@ -97,15 +99,15 @@ public class PlayerState : MonoBehaviour
 
     public void SetPlayerData()
     {
-        DataCarrier.Instance.GetPlayerState(ref _health, ref _damage);
+        DataCarrier.Instance.GetPlayerState(ref _healthStats, ref _damageStats);
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
     }
 
     private void Update()
     {
-        if (_health == null)
+        if (_healthStats == null)
             return;
-        UIManager.Instance.PlayerHealthBar.UpdateHealthBar(_health.current, _health.max);
+        UIManager.Instance.PlayerHealthBar.UpdateHealthBar(_healthStats.current, _healthStats.max);
 
         if (!Alive && !deathNotified)
         {
@@ -128,14 +130,27 @@ public class PlayerState : MonoBehaviour
         invincible = false;
     }
 
-    public void ApplyPowerup(PowerupValue value)
+    public void ApplyPowerup(Powerup value)
     {
-        _health.max += value.healthCap; 
-        if(value.refillHealth)
-            _health.current = _health.max;
-        _damage.BaseDamage += value.damageBase; 
-        _damage.DamageMultiplier += value.damageMultiplier;
-        _damage.CriticalHitChance += value.damageCriticalHit;
-        _damage.CriticalHitChance += value.damageCriticalChance; 
+        if(value.WeaponData != null)
+        {
+            Debug.Log("Implement this. ");
+        }
+
+        if (value.UtilityData != null)
+        {
+            UtilityDataSO so = value.UtilityData;
+
+            _damageStats.BaseDamage += so.damageBase; 
+            _damageStats.DamageMultiplier += so.damageMultiplier;
+            _damageStats.CriticalHitDamage += so.damageCriticalHit;
+            _damageStats.CriticalHitChance += so.damageCriticalChance;
+        }
+
+        if (value.ConsumableData != null)
+        {
+            ConsumableDataSO so = value.ConsumableData;
+            Health += so.additiveHealthValue;
+        } 
     }
 }

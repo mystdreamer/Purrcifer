@@ -1,7 +1,8 @@
-﻿public class Powerup_Sword : Powerup
-{
+﻿using UnityEngine;
 
-    public override void OnApplication()
+public class Powerup_Sword : PowerupWeapon
+{
+    public override void ApplyToPlayer(GameObject player)
     {
         if (GameManager.Instance.Player.GetComponent<SwordAttack>() == null)
             GameManager.Instance.Player.AddComponent<SwordAttack>();

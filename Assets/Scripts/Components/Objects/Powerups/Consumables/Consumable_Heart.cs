@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Consumable_Heart : AbsConsumable
+public class Consumable_Heart : PowerupConsumable
 {
-    internal override void ConsumableEffect()
+    public override void ApplyToPlayer(GameObject player)
     {
         GameManager.Instance.PlayerState.AddHealth = 1;
         gameObject.SetActive(false);

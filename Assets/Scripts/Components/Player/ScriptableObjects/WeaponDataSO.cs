@@ -6,6 +6,8 @@ public class WeaponDataSO : ScriptableObject
     [Header("Item Identifiers")]
     public string itemName = "New weapon name here";
     public string weaponID = RandomIdGenerator.GetBase62(5);
+    public PlayerEventData eventData;
+    public ItemDialogue itemDialogue; 
 
     [Header("Item Prefabs.")]
     public GameObject powerupPrefab;
@@ -13,7 +15,7 @@ public class WeaponDataSO : ScriptableObject
     public bool singularPrefab = true;
     public GameObject weaponPrefab;
     
-    public bool dirPrefab = false;
+    public bool directionalPrefab = false;
     public GameObject weaponPrefabUp;
     public GameObject weaponPrefabDown;
     public GameObject weaponPrefabLeft;
@@ -24,6 +26,4 @@ public class WeaponDataSO : ScriptableObject
     public float damageMultiplier;
     public float damageCriticalHit;
     public float damageCriticalChance;
-
-
 }
