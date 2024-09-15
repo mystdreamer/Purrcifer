@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e813293902268614cabc3f8dee629931, type: 3}
   m_Name: Test_PlayerStartingStatsSO
   m_EditorClassIdentifier: 
-  min: 0
-  max: 0
-  current: 0
-  baseDamage: 0
-  damageMultiplier: 0
-  criticalHitDamage: 0
-  criticalHitChance: 0
-  movementSpeed: 0
-  utilityCharges: 0
+  characterName: Bainathy
+  characterID: 1
+  minHealth: 0
+  maxHealth: 3
+  currentHealth: 3
+  baseDamage: 1
+  damageMultiplier: 1
+  criticalHitDamage: 0.5
+  criticalHitChance: 2
+  movementSpeed: 10
+  utilityCharges: 1
+  weaponIDs: 
+  utilityIDs: 

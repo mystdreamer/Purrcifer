@@ -1,4 +1,7 @@
+using Purrcifer.Data.Player;
+using Purrcifer.Inputs.Container;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Movement behaviour controlling the main player character. 
@@ -13,8 +16,8 @@ public class PlayerMovementSys : MonoBehaviour
 
     //Reference to the rigidbody. 
     [SerializeField] private Rigidbody _body;
-
-    [SerializeField] private bool canUpdate = false;
+    private PlayerInputs _inputs;
+    private PlayInput_ControllerAxis inputAxisResolver = new PlayInput_ControllerAxis();
 
     /// <summary>
     /// The players movement speed. 
@@ -30,37 +33,17 @@ public class PlayerMovementSys : MonoBehaviour
 
     public Rigidbody RigidBody => _body;
 
-    public bool UpdatePause
+    public static bool UpdatePause
     {
-        get => canUpdate;
-        set => canUpdate = value;
-    }
+        get; set;
+    } = false; 
 
     void Start()
     {
-        canUpdate = false;
-        //Register the required commands. 
-        RegisterCommands();
+        _inputs = GameManager.PlayerInputs;
     }
 
     #region Movement Command Functions. 
-
-    // ---------------------------------
-    // These act as registerable commands that interface with the custom input manager (PlayerInputSys). 
-    // The input system is set up this way to allow for extra control with assigning/reassigning inputs. 
-    // ---------------------------------
-
-    /// <summary>
-    /// Register the commands functions used by this class with the command events in the input system. 
-    /// </summary>
-    private void RegisterCommands()
-    {
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_LEFT).DoAction += MoveRight;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_RIGHT).DoAction += MoveLeft;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction += MoveDown;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction += MoveUp;
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction += MoveAxis;
-    }
 
     /// <summary>
     /// Function handling right movement input from the input handler (PlayerInputSys).
@@ -69,7 +52,7 @@ public class PlayerMovementSys : MonoBehaviour
     private void MoveRight(bool state)
     {
         if (state)
-            _input += new Vector3(-1, 0, 0);
+            _input += new Vector3(1, 0, 0);
     }
 
     /// <summary>
@@ -79,7 +62,7 @@ public class PlayerMovementSys : MonoBehaviour
     private void MoveLeft(bool result)
     {
         if (result)
-            _input += new Vector3(1, 0, 0);
+            _input += new Vector3(-1, 0, 0);
     }
 
     /// <summary>
@@ -89,7 +72,7 @@ public class PlayerMovementSys : MonoBehaviour
     private void MoveUp(bool result)
     {
         if (result)
-            _input += new Vector3(0, 0, -1);
+            _input += new Vector3(0, 0, 1);
     }
 
     /// <summary>
@@ -99,7 +82,7 @@ public class PlayerMovementSys : MonoBehaviour
     private void MoveDown(bool result)
     {
         if (result)
-            _input += new Vector3(0, 0, 1);
+            _input += new Vector3(0, 0, -1);
     }
 
     /// <summary>
@@ -120,6 +103,22 @@ public class PlayerMovementSys : MonoBehaviour
             _input = _lastInput = Vector3.zero;
             _body.linearVelocity = Vector3.zero;
             return;
+        }
+        else
+        {
+            MoveAxis(inputAxisResolver.Command(_inputs.axis_m_left));
+
+            if (Input.GetKey(_inputs.key_m_up))
+                MoveUp(true);
+
+            if (Input.GetKey(_inputs.key_m_down))
+                MoveDown(true);
+
+            if (Input.GetKey(_inputs.key_m_left))
+                MoveLeft(true);
+
+            if (Input.GetKey(_inputs.key_m_right))
+                MoveRight(true);
         }
     }
 

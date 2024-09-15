@@ -107,6 +107,16 @@ public partial class GameManager : MonoBehaviour
         return room;
     }
     #endregion
+
+    public static void LoadLevel(Purrcifer.LevelLoading.LevelID lvlToLoad, bool fadeOnLoad = true)
+    {
+        UIManager.Instance.StartLevelTransitionFade(lvlToLoad, fadeOnLoad);
+    }
+
+    public static void DisableLevelTransition()
+    {
+        UIManager.Instance.FadeLevelTransitionOut();
+    }
 }
 
 #region Object Pooling. 
@@ -195,7 +205,7 @@ public partial class GameManager : MonoBehaviour
         set
         {
             if (Instance._playerCurrent != null)
-                Instance._playerCurrent.GetComponent<PlayerMovementSys>().UpdatePause = value;
+                PlayerMovementSys.UpdatePause = value;
         }
     }
 
@@ -269,7 +279,7 @@ public partial class GameManager : MonoBehaviour
 
     public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
 
-    public void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
+    public static void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
 }
 #endregion
 

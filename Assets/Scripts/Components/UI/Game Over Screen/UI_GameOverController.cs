@@ -20,7 +20,8 @@ public class UI_GameOverController : MenuBase
 
     internal override void OnDisableOwner()
     {
-        gameOverRoot.SetActive(false);
+        if (gameOverRoot != null)
+            gameOverRoot.SetActive(false);
         base.OnDisableOwner();
     }
 
@@ -43,7 +44,7 @@ public class UI_GameOverController : MenuBase
     {
         Debug.Log("Load Menu Called");
         GameManager.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelID.MAIN, true);
+        UIManager.Instance.StartLevelTransitionFade(LevelID.MENU, true);
         this.enabled = false;
     }
 
