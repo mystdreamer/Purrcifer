@@ -140,7 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad277b994a3a9964ba2ae808d70fa9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomActivatable: 0
+  activationType: 0
+  RoomMarkerType: 0
   up: {fileID: 1895253765184187646}
   down: {fileID: 5400560693863965545}
   left: {fileID: 5039328516406452060}

@@ -14,13 +14,6 @@ namespace Purrcifer.UI
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI dialogueText;
         public AudioClip dialogueAudio;
-        private Queue<string> sentences; 
-
-        // Use this for initialization
-        void Start()
-        {
-            sentences = new Queue<string>();
-        }
 
         public void StartDialogue(ItemDialogue dialogue)
         {
@@ -29,10 +22,6 @@ namespace Purrcifer.UI
                 inUse = true;
                 //Set name text to display. 
                 nameText.text = dialogue.itemName;
-
-                //Queue all sentences within the dialogue. 
-                foreach (string sentence in dialogue.itemFlavourText)
-                    sentences.Enqueue(sentence);
 
                 //Start the Coroutine.
                 StartCoroutine(DisplayFlavourText(dialogue));

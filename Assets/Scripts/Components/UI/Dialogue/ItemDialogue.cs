@@ -14,7 +14,6 @@ public class ItemDialogue
     /// <summary>
     /// The flavour text to accompany the item. 
     /// </summary>
-    [TextArea(3, 10)]
-    public string[] itemFlavourText;
+    public string itemFlavourText;
 
 }
