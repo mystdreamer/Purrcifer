@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1110</x>
-      <y>710</y>
+      <x>1090</x>
+      <y>760</y>
       <w>550</w>
       <h>580</h>
     </coordinates>
@@ -51,8 +51,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2170</x>
-      <y>80</y>
+      <x>1970</x>
+      <y>130</y>
       <w>340</w>
       <h>740</h>
     </coordinates>
@@ -107,27 +107,27 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1820</x>
-      <y>500</y>
-      <w>320</w>
+      <x>1670</x>
+      <y>550</y>
+      <w>270</w>
       <h>310</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Class&gt;&gt;
 PlayerStartingStatsSO::ScriptableObject
 --
-public string characterName;
-public int characterID; 
-public int minHealth;
-public int maxHealth;
-public int currentHealth;
-public float baseDamage;
-public float damageMultiplier;
-public float criticalHitDamage;
-public float criticalHitChance;
-public float movementSpeed;
-public int utilityCharges;
-public int[] weaponIDs;
-public int[] iutilityIDs;
++characterName:string
++characterID:int 
++minHealth:int
++maxHealth:int
++currentHealth:int
++baseDamage:float
++damageMultiplier:float
++criticalHitDamage:float
++criticalHitChance:float
++movementSpeed:float
++utilityCharges:int
++weaponIDs:int[]
++utilityIDs:int[]
 --
 Responsibilities
 -- Resp1
@@ -138,9 +138,9 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1090</x>
-      <y>300</y>
-      <w>690</w>
+      <x>1030</x>
+      <y>350</y>
+      <w>610</w>
       <h>330</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Class&gt;&gt; 
@@ -150,6 +150,7 @@ DataCarrier : MonoBehaviour
 -_runtime:GameSaveFileRuntime 
 +Instance:DataCarrier &lt;static readonly property&gt;
 +RuntimeData:GameSaveFileRuntime &lt;static readonly property&gt;
++PlayerInputs:PlayerInputs &lt;static readonly property&gt;
 +SavedLevel:int &lt;static readonly property&gt;
 --
 -Start():void 
@@ -157,43 +158,20 @@ DataCarrier : MonoBehaviour
 -SaveData():void 
 +Generate():DataCarrier &lt;static&gt;
 +GetPlayerState(ref healthRange:PlayerHealthData, ref damageData:PlayerDamageData):void 
-+UpdatePlayerState(state:PlayerState):void 
++SetPlayerData(state:PlayerState):void 
++SetPlayerData(startingStats:PlayerStartingStatsSO):void 
 +ResetPlayerData():void 
 --
 Responsibilities
 -- Resp1
--- Resp2
-</panel_attributes>
+-- Resp2</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3020</x>
-      <y>0</y>
-      <w>170</w>
-      <h>130</h>
-    </coordinates>
-    <panel_attributes>OuterClass
-{innerclass
-InnerClass
-innerclass}
-{innerclass
-InnerClass
-{innerclass
-InnerInnerClass
---
-field
-innerclass}
-innerclass}
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>2470</x>
-      <y>850</y>
+      <x>2330</x>
+      <y>900</y>
       <w>270</w>
       <h>370</h>
     </coordinates>
@@ -231,8 +209,8 @@ DefaultInputs
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1890</x>
-      <y>1100</y>
+      <x>1750</x>
+      <y>1150</y>
       <w>270</w>
       <h>140</h>
     </coordinates>
@@ -248,8 +226,8 @@ DefaultSettingsData
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1890</x>
-      <y>1000</y>
+      <x>1750</x>
+      <y>1050</y>
       <w>270</w>
       <h>70</h>
     </coordinates>
@@ -262,8 +240,8 @@ DefaultGameStateData
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1710</x>
-      <y>50</y>
+      <x>1570</x>
+      <y>100</y>
       <w>340</w>
       <h>220</h>
     </coordinates>
@@ -282,32 +260,35 @@ XML_Serialization
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>50</y>
+      <x>800</x>
+      <y>70</y>
       <w>610</w>
-      <h>220</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>GameManager::Monobehaviour
 --
 ....
-+GetSavedLevel:int &lt;&lt;Static&gt;&gt; 
-+GetPlayerData(ref healthRange:PlayerHealthData, ref damageData:PlayerDamageData):void
-+UpdatePlayerData(PlayerState state):void
++GetSavedLevel:int &lt;static readonly property&gt;
++GetInputData():PlayerInputs &lt;static readonly property&gt;
 +ResetPlayerData():void
++GetPlayerData(ref healthRange:PlayerHealthData, ref damageData:PlayerDamageData):void
++SetPlayerData(state:PlayerState):void
++SetPlayerData(data:PlayerStartingStatsSO):void
 ....
 Abreviated for the sake of the diagram. XD
 
 --
 Contextual Responsibilities
--- Resp1
--- Resp2</panel_attributes>
+-- Passing calls/data to encapsulated data systems. 
+-- Returning data from current data. 
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>130</x>
-      <y>0</y>
+      <x>320</x>
+      <y>90</y>
       <w>410</w>
       <h>450</h>
     </coordinates>
@@ -349,8 +330,8 @@ Responsibilities
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
-      <y>500</y>
+      <x>320</x>
+      <y>550</y>
       <w>370</w>
       <h>120</h>
     </coordinates>
@@ -366,30 +347,30 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
-      <y>190</y>
-      <w>100</w>
+      <x>270</x>
+      <y>240</y>
+      <w>70</w>
       <h>530</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>80.0;510.0;10.0;510.0;10.0;10.0;50.0;10.0</additional_attributes>
+    <additional_attributes>50.0;510.0;10.0;510.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
-      <y>190</y>
-      <w>100</w>
+      <x>270</x>
+      <y>240</y>
+      <w>70</w>
       <h>400</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>80.0;380.0;10.0;380.0;10.0;10.0;50.0;10.0</additional_attributes>
+    <additional_attributes>50.0;380.0;10.0;380.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
-      <y>630</y>
+      <x>320</x>
+      <y>680</y>
       <w>370</w>
       <h>170</h>
     </coordinates>
@@ -408,19 +389,19 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
-      <y>190</y>
-      <w>100</w>
+      <x>270</x>
+      <y>240</y>
+      <w>70</w>
       <h>700</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>80.0;680.0;10.0;680.0;10.0;10.0;50.0;10.0</additional_attributes>
+    <additional_attributes>50.0;680.0;10.0;680.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
-      <y>810</y>
+      <x>320</x>
+      <y>860</y>
       <w>370</w>
       <h>120</h>
     </coordinates>
@@ -436,19 +417,19 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
-      <y>190</y>
-      <w>100</w>
+      <x>270</x>
+      <y>240</y>
+      <w>70</w>
       <h>900</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>80.0;880.0;10.0;880.0;10.0;10.0;50.0;10.0</additional_attributes>
+    <additional_attributes>50.0;880.0;10.0;880.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>160</x>
-      <y>940</y>
+      <x>320</x>
+      <y>990</y>
       <w>710</w>
       <h>310</h>
     </coordinates>
@@ -474,19 +455,19 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>930</x>
-      <y>260</y>
-      <w>180</w>
+      <x>950</x>
+      <y>310</y>
+      <w>100</w>
       <h>190</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>160.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
+    <additional_attributes>80.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1770</x>
-      <y>260</y>
+      <x>1630</x>
+      <y>310</y>
       <w>110</w>
       <h>140</h>
     </coordinates>
@@ -496,8 +477,8 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1390</x>
-      <y>620</y>
+      <x>1340</x>
+      <y>670</y>
       <w>30</w>
       <h>110</h>
     </coordinates>
@@ -507,41 +488,41 @@ Responsibilities
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1650</x>
-      <y>1160</y>
-      <w>260</w>
+      <x>1630</x>
+      <y>1210</y>
+      <w>140</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1650</x>
-      <y>1030</y>
-      <w>260</w>
+      <x>1630</x>
+      <y>1080</y>
+      <w>140</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1650</x>
-      <y>940</y>
-      <w>560</w>
+      <x>1630</x>
+      <y>990</y>
+      <w>440</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>540.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>420.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2190</x>
-      <y>850</y>
+      <x>2050</x>
+      <y>900</y>
       <w>240</w>
       <h>400</h>
     </coordinates>
@@ -575,8 +556,8 @@ PlayerInputs
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2420</x>
-      <y>940</y>
+      <x>2280</x>
+      <y>990</y>
       <w>70</w>
       <h>30</h>
     </coordinates>
@@ -586,34 +567,70 @@ PlayerInputs
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>160</y>
-      <w>140</w>
+      <x>720</x>
+      <y>210</y>
+      <w>100</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1770</x>
-      <y>450</y>
-      <w>420</w>
+      <x>1630</x>
+      <y>500</y>
+      <w>360</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>400.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>340.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1770</x>
-      <y>570</y>
-      <w>70</w>
+      <x>1630</x>
+      <y>620</y>
+      <w>60</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2330</x>
+      <y>600</y>
+      <w>230</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+PInputIdentifier : int
+--
+M_LEFT = 0, 
+M_RIGHT = 1, 
+M_UP = 2, 
+M_DOWN = 3,
+ACTION_UP = 4, 
+ACTION_LEFT = 5,
+ACTION_DOWN = 6, 
+ACTION_RIGHT = 7, 
+AXIS_LEFT_STICK = 9,
+AXIS_RIGHT_STICK = 10,
+AXIS_DPAD = 11,</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2450</x>
+      <y>840</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
 </diagram>

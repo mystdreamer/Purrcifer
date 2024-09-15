@@ -98,19 +98,14 @@ namespace DataManager
         /// Pushes the current data into the save file. 
         /// </summary>
         /// <param name="state"> The state to set. </param>
-        public void UpdatePlayerState(PlayerState state)
+        public void SetPlayerData(PlayerState state)
         {
             _runtime.SetPlayerHealthData(state);
             _runtime.SetPlayerDamageData(state);
             SaveData();
         }
 
-        /// <summary>
-        /// Used to reset the data currently attributed to the game. 
-        /// </summary>
-        public void ResetPlayerData() => _runtime = _runtime.GetDefaultPlayerData();
-
-        public void Set(PlayerStartingStatsSO startingStats)
+        public void SetPlayerData(PlayerStartingStatsSO startingStats)
         {
             _runtime.characterName = startingStats.characterName;
             _runtime.characterID = startingStats.characterID;
@@ -126,5 +121,10 @@ namespace DataManager
             _runtime.movementSpeed = startingStats.movementSpeed;
             _runtime.utilityCharges = startingStats.utilityCharges;
         }
+
+        /// <summary>
+        /// Used to reset the data currently attributed to the game. 
+        /// </summary>
+        public void ResetPlayerData() => _runtime = _runtime.GetDefaultPlayerData();
     }
 }

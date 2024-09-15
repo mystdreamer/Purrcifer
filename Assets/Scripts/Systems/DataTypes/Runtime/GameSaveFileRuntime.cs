@@ -1,4 +1,5 @@
-﻿using Purrcifer.Data.Defaults;
+﻿using DataManager;
+using Purrcifer.Data.Defaults;
 using Purrcifer.Data.Xml;
 using Purrcifer.PlayerData;
 using System.Collections.Generic;

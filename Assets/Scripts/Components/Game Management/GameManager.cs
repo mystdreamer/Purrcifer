@@ -259,15 +259,17 @@ public partial class GameManager : MonoBehaviour
 
     public PlayerInputs GetInputData() => DataCarrier.PlayerInputs;
 
+    public void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
+
     public void GetPlayerData(ref PlayerHealthData healthRange, ref PlayerDamageData damageData)
     {
         healthRange = (PlayerHealthData)DataCarrier.RuntimeData;
         damageData = (PlayerDamageData)DataCarrier.RuntimeData;
     }
 
-    public void UpdatePlayerData(PlayerState state) => DataCarrier.Instance.UpdatePlayerState(state);
+    public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
 
-    public void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
+    public void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
 }
 #endregion
 
