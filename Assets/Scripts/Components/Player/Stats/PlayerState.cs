@@ -28,7 +28,13 @@ public class PlayerState : MonoBehaviour
     {
         get => _healthStats.current;
 
-        private set => _healthStats.current = value;
+        set
+        {
+            int val = value; 
+            if(val > _healthStats.current)
+                val = _healthStats.current;
+            _healthStats.current = val;
+        } 
     }
 
     public int AddDamage
