@@ -99,7 +99,7 @@ public class PlayerState : MonoBehaviour
 
     public void SetPlayerData()
     {
-        DataCarrier.Instance.GetPlayerState(ref _healthStats, ref _damageStats);
+        GameManager.Instance.GetPlayerData(ref _healthStats, ref _damageStats);
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
     }
 

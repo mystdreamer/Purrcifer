@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using UnityEngine;
 
 namespace Purrcifer.Data.Xml
 {
@@ -43,5 +44,49 @@ namespace Purrcifer.Data.Xml
         public float uiVolume;
         [XmlElement("_bgm_volume")]
         public float bgmVolume;
+
+        [XmlElement("_keyboard_up")]
+        public int key_m_up;
+        [XmlElement("_keyboard_down")]
+        public int key_m_down;
+        [XmlElement("_keyboard_right")]
+        public int key_m_right;
+        [XmlElement("_keyboard_left")]
+        public int key_m_left;
+
+        [XmlElement("_keyboard_action_up")]
+        public int key_a_up;
+        [XmlElement("_keyboard_action_down")]
+        public int key_a_down;
+        [XmlElement("_keyboard_action_right")]
+        public int key_a_right;
+        [XmlElement("_keyboard_action_left")]
+        public int key_a_left;
+        [XmlElement("_keyboard_menu_a")]
+        public int key_menu_a;
+        [XmlElement("_keyboard_util_action_a")]
+        public int key_util_action_a;
+        [XmlElement("_keyboard_util_action_b")]
+        public int key_util_action_b;
+
+        [XmlElement("_ctlr_a")]
+        public int ctlr_a;
+        [XmlElement("_ctlr_b")]
+        public int ctlr_b;
+        [XmlElement("_ctlr_x")]
+        public int ctlr_x;
+        [XmlElement("_ctlr_y")]
+        public int ctlr_y;
+        [XmlElement("_ctlr_util_action_a")]
+        public int ctlr_util_action_a;
+        [XmlElement("_ctlr_util_action_b")]
+        public int ctlr_util_action_b;
+
+        [XmlElement("_axis_m_left")]
+        public int axis_m_left;
+        [XmlElement("_axis_a_right")]
+        public int axis_a_right;
+        [XmlElement("_axis_d_pad")]
+        public int axis_d_pad;
     }
 }

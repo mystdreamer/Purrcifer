@@ -1,4 +1,5 @@
 using Purrcifer.Data.Defaults;
+using Purrcifer.Data.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,23 +36,25 @@ public class SwordAttack : MonoBehaviour
 
     public ItemType Type => _type;
 
+    private PlayerInputs _inputs;
+
     public void Start()
     {
-
+        _inputs = GameManager.Instance.GetInputData();
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(DefaultInputs.CTLR_Y) | Input.GetKeyDown(DefaultInputs.KEY_A_UP))
+        if (Input.GetKeyDown(_inputs.ctlr_y) | Input.GetKeyDown(_inputs.key_a_up))
             Attack(prefabs.up, Vector3.up);
 
-        if (Input.GetKeyDown(DefaultInputs.CTLR_A) | Input.GetKeyDown(DefaultInputs.KEY_A_DOWN))
+        if (Input.GetKeyDown(_inputs.ctlr_a) | Input.GetKeyDown(_inputs.key_a_down))
             Attack(prefabs.down, Vector3.down);
 
-        if (Input.GetKeyDown(DefaultInputs.CTLR_X) | Input.GetKeyDown(DefaultInputs.KEY_A_LEFT))
+        if (Input.GetKeyDown(_inputs.ctlr_x) | Input.GetKeyDown(_inputs.key_a_left))
             Attack(prefabs.left, Vector3.left);
 
-        if (Input.GetKeyDown(DefaultInputs.CTLR_B) | Input.GetKeyDown(DefaultInputs.KEY_A_RIGHT))
+        if (Input.GetKeyDown(_inputs.ctlr_b) | Input.GetKeyDown(_inputs.key_a_right))
             Attack(prefabs.right, Vector3.right);
     }
 

@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1110</x>
+      <y>710</y>
+      <w>550</w>
+      <h>580</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+GameSaveFileRuntime
+--
+public string characterName;
+public int characterID;
+public int minHealth;
+public int maxHealth;
+public int currentHealth;
+public float baseDamage;
+public float damageMultiplier;
+public float criticalHitDamage;
+public float criticalHitChance;
+public float movementSpeed;
+public int utilityCharges;
+public int currentGameLevel;
+public List&lt;int&gt; utilityIds; 
+public List&lt;int&gt; weaponIds; 
+public float masterVolume;
+public float sfxVolume;
+public float uiVolume;
+public float bgmVolume;
+--
+private GameSaveFileRuntime()
+public GameSaveFileRuntime Copy()
+public void SetPlayerHealthData(PlayerState data)
+public void SetPlayerDamageData(PlayerState data)
+public GameSaveFileRuntime GetDefaultPlayerData()
+public static GameSaveFileRuntime Default()
+public static explicit operator GameSaveFileXML(GameSaveFileRuntime data)
+public static explicit operator GameSaveFileRuntime(GameSaveFileXML data)
+public static explicit operator PlayerDamageData(GameSaveFileRuntime data)
+public static explicit operator PlayerHealthData(GameSaveFileRuntime data)
+--
+Responsibilities
+-- Resp1
+-- Resp2
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2170</x>
+      <y>80</y>
+      <w>340</w>
+      <h>740</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+GameSaveFileXML
+--
++characterName:string 
++characterID:int
++minHealth:int
++maxHealth:int
++currentHealth:int
++baseDamage:float
++damageMultiplier:float
++criticalHitDamage:float
++criticalHitChance:float
++movementSpeed:float
++utilityCharges:int
++currentGameLevel:int
++weaponIDs:int[]
++utilityIDs:int[]
++masterVolume:float
++sfxVolume:float
++uiVolume:float
++bgmVolume:float
++key_m_up:int
++key_m_down:int
++key_m_right:int
++key_m_left:int
++key_a_up:int
++key_a_down:int
++key_a_right:int
++key_a_left:int
++key_menu_a:int
++key_util_action_a:int
++key_util_action_b:int
++ctlr_a:int
++ctlr_b:int
++ctlr_x:int
++ctlr_y:int
++ctlr_util_action_a:int
++ctlr_util_action_b:int
++axis_m_left:int
++axis_a_right:int
++axis_d_pad:int
+--
+Responsibilities
+-- Resp1
+-- Resp2
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1820</x>
+      <y>500</y>
+      <w>320</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerStartingStatsSO::ScriptableObject
+--
+public string characterName;
+public int characterID; 
+public int minHealth;
+public int maxHealth;
+public int currentHealth;
+public float baseDamage;
+public float damageMultiplier;
+public float criticalHitDamage;
+public float criticalHitChance;
+public float movementSpeed;
+public int utilityCharges;
+public int[] weaponIDs;
+public int[] iutilityIDs;
+--
+Responsibilities
+-- Resp1
+-- Resp2
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1090</x>
+      <y>300</y>
+      <w>690</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt; 
+DataCarrier : MonoBehaviour
+--
+-_instance:DataCarrier &lt;static field&gt;
+-_runtime:GameSaveFileRuntime 
++Instance:DataCarrier &lt;static readonly property&gt;
++RuntimeData:GameSaveFileRuntime &lt;static readonly property&gt;
++SavedLevel:int &lt;static readonly property&gt;
+--
+-Start():void 
+-LoadData():void 
+-SaveData():void 
++Generate():DataCarrier &lt;static&gt;
++GetPlayerState(ref healthRange:PlayerHealthData, ref damageData:PlayerDamageData):void 
++UpdatePlayerState(state:PlayerState):void 
++ResetPlayerData():void 
+--
+Responsibilities
+-- Resp1
+-- Resp2
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3020</x>
+      <y>0</y>
+      <w>170</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>OuterClass
+{innerclass
+InnerClass
+innerclass}
+{innerclass
+InnerClass
+{innerclass
+InnerInnerClass
+--
+field
+innerclass}
+innerclass}
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2470</x>
+      <y>850</y>
+      <w>270</w>
+      <h>370</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt; 
+DefaultInputs
+--
++KEY_M_UP:KeyCode 
++KEY_M_DOWN:KeyCode 
++KEY_M_RIGHT:KeyCode 
++KEY_M_LEFT:KeyCode 
++KEY_A_UP:KeyCode 
++KEY_A_DOWN:KeyCode 
++KEY_A_RIGHT:KeyCode 
++KEY_A_LEFT:KeyCode 
++KEY_MENU_A:KeyCode 
++UTIL_ACTION_A:KeyCode 
++UTIL_ACTION_B:KeyCode 
++CTLR_A:KeyCode 
++CTLR_B:KeyCode 
++CTLR_X:KeyCode 
++CTLR_Y:KeyCode 
++CTLR_UTIL_ACTION_A:KeyCode 
++CTLR_UTIL_ACTION_B:KeyCode 
++AXIS_M_LEFT:PInputIdentifier
++AXIS_A_RIGHT:PInputIdentifier
++AXIS_DPAD:PInputIdentifier
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1890</x>
+      <y>1100</y>
+      <w>270</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;Class&gt;&gt; 
+DefaultSettingsData
+--
++MASTER_VOLUME:int
++SFX_VOLUME:int
++UI_VOLUME:int
++BGM_VOLUME:int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1890</x>
+      <y>1000</y>
+      <w>270</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+DefaultGameStateData
+--
++CURRENT_LEVEL:int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1710</x>
+      <y>50</y>
+      <w>340</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+XML_Serialization
+--
++folderName:string &lt;&lt;static&gt;&gt;
++PersistDirPath:string &lt;&lt;static&gt;&gt;
++AppDirPath:string &lt;&lt;Static Readonly Property&gt;&gt;
++Serialize&lt;T&gt;(type:T, path:string):void &lt;&lt;static&gt;&gt;
++Deserialize&lt;T&gt;(path:string):T &lt;&lt;static&gt;&gt;
++DataExists(path:string):bool &lt;&lt;static&gt;&gt;
++CheckPathExists(path:string):void &lt;&lt;static&gt;&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>650</x>
+      <y>50</y>
+      <w>610</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>GameManager::Monobehaviour
+--
+....
++GetSavedLevel:int &lt;&lt;Static&gt;&gt; 
++GetPlayerData(ref healthRange:PlayerHealthData, ref damageData:PlayerDamageData):void
++UpdatePlayerData(PlayerState state):void
++ResetPlayerData():void
+....
+Abreviated for the sake of the diagram. XD
+
+--
+Contextual Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>130</x>
+      <y>0</y>
+      <w>410</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerState::MonoBehaviour
+--
+-IFRAMES:int
+-MAX_HEALTH_CAP_LIMIT:int
+-_healthStats:PlayerHealthRange
+-_damageStats:PlayerDamageData
+-_movementStats:PlayerMovementData 
+-_itemStats:PlayerItemData 
+-invincible:bool
+-deathNotified:bool 
+--
++Damage:PlayerDamageData &lt;&lt;Readonly property&gt;&gt;
++Health:int &lt;&lt;Property&gt;&gt;
++AddDamage:int &lt;&lt;Property&gt;&gt;
++AddHealth:int &lt;&lt;Property&gt;&gt;
++HealthMaxCap:int &lt;&lt;Property&gt;&gt;
++HealthMinCap:int &lt;&lt;Property&gt;&gt;
++Alive:bool &lt;&lt;Readonly property&gt;&gt;
++int Length
+--
++SetPlayerData()::void
++Update():void
++DamageIframes():IEnumerator 
++ApplyPowerup(Powerup value):void
+--
+Responsibilities
+-- Holds the players current state. 
+-- Responsible for interfacing data with player systems. 
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>500</y>
+      <w>370</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerMovementData
+--
++moveSpeed:float
+--
+Responsibilities
+-- Contains data related to player movement statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>190</y>
+      <w>100</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;510.0;10.0;510.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>190</y>
+      <w>100</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;380.0;10.0;380.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>630</y>
+      <w>370</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;class&gt;&gt; 
+PlayerHealthData
+--
++min:int
++max:int
++current:int
++PlayerHealthData(min:int, max:int, current:int)
+--
+Responsibilities
+-- Contains data related to player health statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>190</y>
+      <w>100</w>
+      <h>700</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;680.0;10.0;680.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>810</y>
+      <w>370</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerItemData
+--
++utilityCharges::int 
+--
+Responsibilities
+-- Contains data related to player items statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>190</y>
+      <w>100</w>
+      <h>900</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;880.0;10.0;880.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>940</y>
+      <w>710</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Struct&gt;&gt;
+PlayerDamageData
+--
+-_baseDamage:float 
+-_damageMultiplier:float 
+-_criticalHitDamage:float 
+-_criticalHitChance:float 
++BaseDamage:float 
++Damage:float 
++DamageMultiplier:float 
++CriticalHitDamage:float 
++CriticalHitChance:float 
++CriticalHitSuccess:bool 
++PlayerDamageData(baseDamage:float, damageMultiplier:float, criticalHitDamage:float, criticalHitChance:float)
+--
+Responsibilities
+-- Contains data related to player damage statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>260</y>
+      <w>180</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>160.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1770</x>
+      <y>260</y>
+      <w>110</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;90.0;120.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1390</x>
+      <y>620</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1650</x>
+      <y>1160</y>
+      <w>260</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1650</x>
+      <y>1030</y>
+      <w>260</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1650</x>
+      <y>940</y>
+      <w>560</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>540.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2190</x>
+      <y>850</y>
+      <w>240</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerInputs
+--
++key_m_up:KeyCode 
++key_m_down:KeyCode 
++key_m_right:KeyCode 
++key_m_left:KeyCode 
++key_a_up:KeyCode 
++key_a_down:KeyCode 
++key_a_right:KeyCode 
++key_a_left:KeyCode 
++key_menu_a:KeyCode 
++key_util_action_a:KeyCode 
++key_util_action_b:KeyCode
++ctlr_a:KeyCode
++ctlr_b:KeyCode
++ctlr_x:KeyCode
++ctlr_y:KeyCode
++ctlr_util_action_a:KeyCode
++ctlr_util_action_b:KeyCode   
++axis_m_left:PInputIdentifier 
++axis_a_right:PInputIdentifier 
++axis_d_pad:PInputIdentifier    
+--
++GetDefault():PlayerInputs   </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2420</x>
+      <y>940</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>160</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1770</x>
+      <y>450</y>
+      <w>420</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>400.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1770</x>
+      <y>570</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

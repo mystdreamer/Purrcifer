@@ -60,6 +60,9 @@ namespace Purrcifer.Data.Defaults
     }
     #endregion
 
+    /// <summary>
+    /// Default definitions for player inputs. 
+    /// </summary>
     public static class DefaultInputs
     {
         public const KeyCode KEY_M_UP = KeyCode.W;
@@ -72,15 +75,19 @@ namespace Purrcifer.Data.Defaults
         public const KeyCode KEY_A_RIGHT = KeyCode.RightArrow;
         public const KeyCode KEY_A_LEFT = KeyCode.LeftArrow;
         public const KeyCode KEY_MENU_A = KeyCode.Space;
+        public const KeyCode KEY_UTIL_ACTION_A = KeyCode.Q;
+        public const KeyCode KEY_UTIL_ACTION_B = KeyCode.E;
 
         public const KeyCode CTLR_A = KeyCode.Joystick1Button0;
         public const KeyCode CTLR_B = KeyCode.Joystick1Button1;
         public const KeyCode CTLR_X = KeyCode.Joystick1Button2;
         public const KeyCode CTLR_Y = KeyCode.Joystick1Button3;
+        public const KeyCode CTLR_UTIL_ACTION_A = KeyCode.Joystick1Button4;
+        public const KeyCode CTLR_UTIL_ACTION_B = KeyCode.Joystick1Button5;
 
         public const PInputIdentifier AXIS_M_LEFT = PInputIdentifier.AXIS_LEFT_STICK;
         public const PInputIdentifier AXIS_A_RIGHT = PInputIdentifier.AXIS_RIGHT_STICK;
-        public const PInputIdentifier AXIS_DPAD = PInputIdentifier.AXIS_DPAD;
+        public const PInputIdentifier AXIS_D_PAD = PInputIdentifier.AXIS_DPAD;
     }
 
     /// <summary>

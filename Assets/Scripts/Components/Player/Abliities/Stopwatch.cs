@@ -47,11 +47,13 @@ public class Stopwatch : MonoBehaviour
     {
         get
         {
+            //TODO: Replace this with a reference to a uniform player input class. 
             if (Input.GetKey(KeyCode.Q) | Input.GetKey(KeyCode.Joystick1Button4))
             {
                 Debug.Log("Key Pressed Q: Reducing time.");
                 return -1;
             }
+            //TODO: Replace this with a reference to a uniform player input class. 
             if (Input.GetKey(KeyCode.E) | Input.GetKey(KeyCode.Joystick1Button5))
             {
                 Debug.Log("Key Pressed E: Adding time.");

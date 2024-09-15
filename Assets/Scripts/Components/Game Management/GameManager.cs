@@ -6,6 +6,9 @@ using FloorGeneration;
 using System.Collections;
 using Purrcifer.FloorGeneration;
 using Purrcifer.Data.Defaults;
+using Purrcifer.PlayerData;
+using DataManager;
+using Purrcifer.Data.Player;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -247,6 +250,24 @@ public partial class GameManager : MonoBehaviour
         _playerState = _playerCurrent.GetComponent<PlayerState>();
         _playerState.SetPlayerData();
     }
+
+    ///////////////////////////
+    /// PLAYER DATA MANAGEMENT. 
+    ///////////////////////////
+
+    public static int GetSavedLevel => DataCarrier.SavedLevel;
+
+    public PlayerInputs GetInputData() => DataCarrier.PlayerInputs;
+
+    public void GetPlayerData(ref PlayerHealthData healthRange, ref PlayerDamageData damageData)
+    {
+        healthRange = (PlayerHealthData)DataCarrier.RuntimeData;
+        damageData = (PlayerDamageData)DataCarrier.RuntimeData;
+    }
+
+    public void UpdatePlayerData(PlayerState state) => DataCarrier.Instance.UpdatePlayerState(state);
+
+    public void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
 }
 #endregion
 

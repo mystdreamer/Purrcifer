@@ -98,7 +98,7 @@ public abstract class MenuBase : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(DefaultInputs.KEY_MENU_A))
+        if (Input.GetKey(GameManager.Instance.GetInputData().key_menu_a))
             Accept(true); 
     }
 
@@ -210,7 +210,7 @@ public class MainMenuController : MenuBase
     /// </summary>
     public void NewGame()
     {
-        DataCarrier.Instance.ResetPlayerData();
+        GameManager.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(Purrcifer.LevelLoading.LevelID.LEVEL_1, false);
     }
 
@@ -220,7 +220,7 @@ public class MainMenuController : MenuBase
     public void LoadGame()
     {
         Debug.LogError(">> Menu: Loading Game. ");
-        UIManager.Instance.StartLevelTransitionFade(DataCarrier.SavedLevel, false);
+        UIManager.Instance.StartLevelTransitionFade(GameManager.GetSavedLevel, false);
     }
 
     /// <summary>

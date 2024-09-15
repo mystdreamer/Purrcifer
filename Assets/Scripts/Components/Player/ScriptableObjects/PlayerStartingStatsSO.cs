@@ -1,3 +1,4 @@
+using Purrcifer.Data.Player;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerStartingStatsSO", menuName = "Purrcifer/Scriptable Objects/PlayerStartingStatsSO")]
@@ -15,5 +16,5 @@ public class PlayerStartingStatsSO : ScriptableObject
     public float movementSpeed;
     public int utilityCharges;
     public int[] weaponIDs;
-    public int[] iutilityIDs;
+    public int[] utilityIDs;
 }

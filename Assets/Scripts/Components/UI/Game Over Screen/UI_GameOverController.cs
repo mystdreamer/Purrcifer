@@ -31,7 +31,7 @@ public class UI_GameOverController : MenuBase
     private void NewGame()
     {
         Debug.Log("New Game Called");
-        DataCarrier.Instance.ResetPlayerData();
+        GameManager.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(LevelID.LEVEL_1, false);
         this.enabled = false;
     }
@@ -42,7 +42,7 @@ public class UI_GameOverController : MenuBase
     private void LoadMenu()
     {
         Debug.Log("Load Menu Called");
-        DataCarrier.Instance.ResetPlayerData();
+        GameManager.Instance.ResetPlayerData();
         UIManager.Instance.StartLevelTransitionFade(LevelID.MAIN, true);
         this.enabled = false;
     }

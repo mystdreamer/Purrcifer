@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DataManager;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
