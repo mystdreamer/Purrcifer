@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Purrcifer.Data.Player
 {
+    [System.Serializable]
     public class PlayerInputs
     {
         public KeyCode key_m_up;
@@ -29,7 +30,7 @@ namespace Purrcifer.Data.Player
         public PInputIdentifier axis_a_right;
         public PInputIdentifier axis_d_pad;
 
-        public PlayerInputs GetDefault()
+        public static PlayerInputs GetDefault()
         {
             return new PlayerInputs()
             {

@@ -17,9 +17,9 @@ public class PlayerInputSys : MonoBehaviour
     /// <summary>
     /// The current keycode data assigned in the editor. 
     /// </summary>
-    public List<PInput_Key> keycodeData;
-    public List<PInput_ControllerButton> buttonData;
-    public List<PInput_ControllerAxis> axisData;
+    public List<PInput_Key> keycodeData = new List<PInput_Key>();
+    public List<PInput_ControllerButton> buttonData = new List<PInput_ControllerButton>();
+    public List<PInput_ControllerAxis> axisData = new List<PInput_ControllerAxis>();
     public PlayerInput[] inputs;
 
     /// <summary>
@@ -27,15 +27,7 @@ public class PlayerInputSys : MonoBehaviour
     /// </summary>
     public static PlayerInputSys Instance
     {
-        get { 
-            if(instance == null)
-            {
-                GameObject obj = new GameObject("-----Menu PIS-----");
-                PlayerInputSys pis = obj.AddComponent<PlayerInputSys>();
-                return pis;
-            }
-            return instance; 
-        }
+        get => instance;
     }
 
     void Awake()
@@ -96,10 +88,16 @@ public class PlayerInputSys : MonoBehaviour
 
     public PInput_ControllerAxis GetAxis(PInputIdentifier type)
     {
-        for (int i = 0; i < axisData.Count; i++)
+        if (axisData == null)
+            return null;
+
+        if(axisData.Count > 0)
         {
-            if (axisData[i].IsInput(type))
-                return axisData[i];
+            for (int i = 0; i < axisData.Count; i++)
+            {
+                if (axisData[i].IsInput(type))
+                    return axisData[i];
+            }
         }
         return null;
     }
@@ -118,7 +116,7 @@ public class PlayerInputSys : MonoBehaviour
 
     private void SetInputs()
     {
-        PlayerInputs inputs = GameManager.Instance.GetInputData();
+        PlayerInputs inputs = GameManager.PlayerInputs;
 
         ///Setup key list. 
         keycodeData = new List<PInput_Key>()
@@ -175,6 +173,11 @@ public class PlayerInputSys : MonoBehaviour
         instance = null;
     }
 
+    public static void CreateInstance()
+    {
+        GameObject obj = new GameObject("-----Menu Player Input System -----");
+        obj.AddComponent<PlayerInputSys>();
+    }
 
     public void ClearDelegates()
     {

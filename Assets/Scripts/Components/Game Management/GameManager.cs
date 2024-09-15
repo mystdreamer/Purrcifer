@@ -198,6 +198,8 @@ public partial class GameManager : MonoBehaviour
                 Instance._playerCurrent.GetComponent<PlayerMovementSys>().UpdatePause = value;
         }
     }
+
+    public static PlayerInputs PlayerInputs => DataCarrier.PlayerInputs;
     #endregion
 
     /// <summary>
@@ -257,9 +259,7 @@ public partial class GameManager : MonoBehaviour
 
     public static int GetSavedLevel => DataCarrier.SavedLevel;
 
-    public PlayerInputs GetInputData() => DataCarrier.PlayerInputs;
-
-    public void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
+    public static void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
 
     public void GetPlayerData(ref PlayerHealthData healthRange, ref PlayerDamageData damageData)
     {

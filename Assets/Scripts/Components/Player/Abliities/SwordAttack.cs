@@ -40,7 +40,7 @@ public class SwordAttack : MonoBehaviour
 
     public void Start()
     {
-        _inputs = GameManager.Instance.GetInputData();
+        _inputs = GameManager.PlayerInputs;
     }
 
     public void Update()
