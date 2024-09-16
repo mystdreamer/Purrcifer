@@ -51,12 +51,12 @@ namespace CameraHelpers
         /// <summary>
         /// the standard width of a room. 
         /// </summary>
-        private readonly int _roomWidth;
+        private readonly float _roomWidth;
 
         /// <summary>
         /// the standard height of a room. 
         /// </summary>
-        private readonly int _roomHeight;
+        private readonly float _roomHeight;
         
         /// <summary>
         /// Is the camera currently stepping. 

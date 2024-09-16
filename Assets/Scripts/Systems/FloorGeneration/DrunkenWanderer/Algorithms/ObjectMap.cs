@@ -138,7 +138,8 @@ public class ObjectMap
         this[x, y] = GameObject.Instantiate(prefab);
 
         WallType wallType = ObjectGenHelper.RoomMappingConversions.map[(MapIntMarkers)marker];
-        this[x, y].gameObject.GetComponent<RoomWallController>().SetBaseWallType = wallType;
+        Debug.Log(wallType.ToString());
+        this[x, y].gameObject.GetComponent<RoomController>().MarkerType = wallType;
         this[x, y].name = this[x, y].name + "[" + x + ", " + y + "]";
         //Set the position of the object in world space. 
         this[x, y].transform.position = 
@@ -158,7 +159,7 @@ public class ObjectMap
         if (_room == null)
             return;
 
-        RoomWallController _roomCTRLR = _room.GetComponent<RoomWallController>();
+        RoomController _roomCTRLR = _room.GetComponent<RoomController>();
 
         if (_roomCTRLR == null)
             return;
@@ -168,7 +169,7 @@ public class ObjectMap
         DoorSetup(_roomCTRLR, x, y - 1, WallDirection.UP, WallDirection.DOWN);
         DoorSetup(_roomCTRLR, x, y + 1, WallDirection.DOWN, WallDirection.UP);
 
-        void DoorSetup(RoomWallController ctrllr, int x, int y, WallDirection aOp, WallDirection bOp)
+        void DoorSetup(RoomController ctrllr, int x, int y, WallDirection aOp, WallDirection bOp)
         {
             if (this[x, y] == null)
                 return;
@@ -177,9 +178,9 @@ public class ObjectMap
             //Else cover other mappings.
             // ->> Check for hidden room, if is hidden room, pass to the member that isn't a hidden room. 
 
-            RoomWallController bController = this[x, y].GetComponent<RoomWallController>();
-            WallType markerA = ctrllr.RoomMarkerType;
-            WallType markerB = bController.RoomMarkerType;
+            RoomController bController = this[x, y].GetComponent<RoomController>();
+            WallType markerA = ctrllr.MarkerType;
+            WallType markerB = bController.MarkerType;
 
             if((int)markerA == 3 | (int)markerB == 3)
             {

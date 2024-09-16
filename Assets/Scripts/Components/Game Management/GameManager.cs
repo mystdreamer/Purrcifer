@@ -24,7 +24,7 @@ public partial class GameManager : MonoBehaviour
     public static GameManager Instance => _instance;
     #endregion
 
-    void Awake()
+    void OnEnable()
     {
         #region Singleton Setup. 
         if (_instance == null)

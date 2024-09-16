@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class RoomWallController : RoomObjectBase
 {
-    public WallType RoomMarkerType;
+    private WallType RoomMarkerType;
 
     /// <summary>
     /// The door heading upward. 
@@ -45,8 +45,9 @@ public class RoomWallController : RoomObjectBase
         }
     }
 
-    public WallType SetBaseWallType
+    public WallType MarkerType
     {
+        get => RoomMarkerType;
         set
         {
             RoomMarkerType = value; 
