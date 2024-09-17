@@ -210,6 +210,14 @@ public partial class GameManager : MonoBehaviour
     }
 
     public static PlayerInputs PlayerInputs => DataCarrier.PlayerInputs;
+    
+    public PlayerHealthData GetPlayerHealthData => (PlayerHealthData)DataCarrier.RuntimeData;
+
+    public PlayerDamageData GetPlayerDamageData => (PlayerDamageData)DataCarrier.RuntimeData;
+
+    //public PlayerMovementData GetPlayerMovement => (PlayerMovementData)DataCarrier.RuntimeData;
+
+    //public PlayerItemData playerItemData => (PlayerItemData)DataCarrier.RuntimeData;
     #endregion
 
     /// <summary>
@@ -271,11 +279,11 @@ public partial class GameManager : MonoBehaviour
 
     public static void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
 
-    public void GetPlayerData(ref PlayerHealthData healthRange, ref PlayerDamageData damageData)
+    public static void ApplyUpgradeData(UtilityDataSO data)
     {
-        healthRange = (PlayerHealthData)DataCarrier.RuntimeData;
-        damageData = (PlayerDamageData)DataCarrier.RuntimeData;
+        Instance.PlayerState.ApplyPowerup(data);
     }
+
 
     public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
 

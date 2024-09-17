@@ -517,6 +517,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 271102465834195911, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -930
+      objectReference: {fileID: 0}
+    - target: {fileID: 271102465834195911, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -555
+      objectReference: {fileID: 0}
     - target: {fileID: 1608399166349705400, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
       propertyPath: _eventSystem
       value: 
@@ -553,6 +561,14 @@ PrefabInstance:
       propertyPath: 'textElements.Array.data[1]'
       value: 
       objectReference: {fileID: 7939842139995677478}
+    - target: {fileID: 7623230208803115458, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -930
+      objectReference: {fileID: 0}
+    - target: {fileID: 7623230208803115458, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 555
+      objectReference: {fileID: 0}
     - target: {fileID: 8504212471036306597, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
       propertyPath: m_Pivot.x
       value: 0

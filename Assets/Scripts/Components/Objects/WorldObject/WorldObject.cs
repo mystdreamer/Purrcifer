@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class WorldObject : MonoBehaviour
 {
-    internal void OnEnable()
+    internal void Start()
     {
         GameManager.Instance.WorldStateChange += WorldUpdateReceiver;
     }

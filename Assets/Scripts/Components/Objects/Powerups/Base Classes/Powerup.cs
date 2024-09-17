@@ -38,8 +38,7 @@ public abstract class Powerup : MonoBehaviour
             if (HasEvent) GameManager.Instance.SetPlayerDataEvent(EventData);
             //Apply the effect of the item. 
             GameManager.Instance.ApplyPowerup(this);
-            //Cleanup object. 
-            this.gameObject.SetActive(false);
+            OnApplicationEvent(other.gameObject);
         }
     }
 
@@ -47,7 +46,7 @@ public abstract class Powerup : MonoBehaviour
     /// Override to implement powerup logic. 
     /// </summary>
     /// <param name="player"> The player object. </param>
-    public abstract void ApplyToPlayer(GameObject player);
+    public abstract void OnApplicationEvent(GameObject player);
 }
 
 public abstract class PowerupConsumable : Powerup

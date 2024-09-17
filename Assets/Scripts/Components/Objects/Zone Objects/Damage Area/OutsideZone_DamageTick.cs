@@ -20,7 +20,7 @@ public class OutsideZone_DamageTick : OutsideZone
 
         if (eventTicker.TickComplete)
         {
-            GameManager.Instance.PlayerState.AddDamage = 1; 
+            GameManager.Instance.PlayerState.Health -= 1; 
             eventTicker.TickComplete = false;
         }
     }

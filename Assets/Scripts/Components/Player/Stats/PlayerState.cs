@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// Class responsible for carrying player data statistics. 
@@ -30,38 +31,18 @@ public class PlayerState : MonoBehaviour
 
         set
         {
-            int val = value; 
-            if(val > _healthStats.current)
+            int val = value;
+            if (val > _healthStats.current)
                 val = _healthStats.current;
-            _healthStats.current = val;
-        } 
-    }
+            else if (val < _healthStats.current)
+            {
+                if (invincible)
+                    return;
 
-    public int AddDamage
-    {
-        set
-        {
-            if (invincible)
-                return;
-
-            int _value = value;
-            int sign = MathF.Sign(value);
-            if (sign != -1)
-                _value *= -1; //Force to be negative. 
-            Health += _value;
-            invincible = true;
-            StartCoroutine(DamageIframes());
-        }
-    }
-
-    public int AddHealth
-    {
-        set
-        {
-            int abs = Mathf.Abs(value);
-            Health += abs;
-            if (Health > HealthMaxCap)
-                Health = HealthMaxCap; 
+                _healthStats.current = val;
+                invincible = true;
+                StartCoroutine(DamageIframes());
+            }
         }
     }
 
@@ -105,7 +86,8 @@ public class PlayerState : MonoBehaviour
 
     public void SetPlayerData()
     {
-        GameManager.Instance.GetPlayerData(ref _healthStats, ref _damageStats);
+        _healthStats = GameManager.Instance.GetPlayerHealthData;
+        _damageStats = GameManager.Instance.GetPlayerDamageData;
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
     }
 
@@ -113,6 +95,7 @@ public class PlayerState : MonoBehaviour
     {
         if (_healthStats == null)
             return;
+
         UIManager.Instance.PlayerHealthBar.UpdateHealthBar(_healthStats.current, _healthStats.max);
 
         if (!Alive && !deathNotified)
@@ -138,25 +121,33 @@ public class PlayerState : MonoBehaviour
 
     public void ApplyPowerup(Powerup value)
     {
-        if(value.WeaponData != null)
-        {
-            Debug.Log("Implement this. ");
-        }
+        if (value.WeaponData != null)
+            Debug.Log("Powerup: Weapon Data: Implement this. ");
 
         if (value.UtilityData != null)
-        {
-            UtilityDataSO so = value.UtilityData;
-
-            _damageStats.BaseDamage += so.damageBase; 
-            _damageStats.DamageMultiplier += so.damageMultiplier;
-            _damageStats.CriticalHitDamage += so.damageCriticalHit;
-            _damageStats.CriticalHitChance += so.damageCriticalChance;
-        }
+            ApplyPowerup(value.UtilityData);
 
         if (value.ConsumableData != null)
-        {
-            ConsumableDataSO so = value.ConsumableData;
-            Health += so.additiveHealthValue;
-        } 
+            ApplyConsumable(value.ConsumableData);
+    }
+
+    public void ApplyPowerup(UtilityDataSO data)
+    {
+        Debug.Log("Powerup application called");
+        _healthStats.max += data.healthCap;
+        //_movementStats.moveSpeed += data.playerSpeed;
+        //_itemStats.utilityCharges += data.playerCharge;
+        _damageStats.BaseDamage += data.damageBase;
+        _damageStats.DamageMultiplier += data.damageMultiplier;
+        _damageStats.CriticalHitDamage += data.damageCriticalHit;
+        _damageStats.CriticalHitChance += data.damageCriticalChance;
+
+        if (data.refillHealth)
+            Health = HealthMaxCap;
+    }
+
+    public void ApplyConsumable(ConsumableDataSO data)
+    {
+        Health += data.additiveHealthValue;
     }
 }

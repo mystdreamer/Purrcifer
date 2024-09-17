@@ -17,7 +17,7 @@ public class CharacterSelectionObject : MonoBehaviour
         {
             
             GameManager.SetPlayerData(characterStats);
-            GameManager.LoadLevel(Purrcifer.LevelLoading.LevelID.LEVEL_1);
+            GameManager.LoadLevel(Purrcifer.LevelLoading.LevelID.LEVEL_1, false);
             gameObject.SetActive(false);
         }
     }

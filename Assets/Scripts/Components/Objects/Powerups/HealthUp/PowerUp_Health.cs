@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class PowerUp_Health : PowerupUtility
 {
-    public override void ApplyToPlayer(GameObject player)
+    public override void OnApplicationEvent(GameObject player)
     {
-        gameObject.SetActive(false);
+        //Do animation logic here. 
+
+        //Cleanup object. 
+        this.gameObject.SetActive(false);
     }
 }

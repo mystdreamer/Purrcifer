@@ -13,7 +13,7 @@ public class InZone_DamageOverTick : InZone
     public ObjectEventTicker eventTicker;
 
     /// <summary>
-    /// This is overidden, with the base start being called first for object scale updates. 
+    /// This is overridden, with the base start being called first for object scale updates. 
     /// </summary>
     internal override void Start()
     {
@@ -37,7 +37,7 @@ public class InZone_DamageOverTick : InZone
         if (eventTicker.TickComplete)
         {
             //If so apply damage to the player. 
-            GameManager.Instance.PlayerState.AddDamage = 1;
+            GameManager.Instance.PlayerState.Health -= 1;
             eventTicker.TickComplete = false; 
         }
     }

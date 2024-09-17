@@ -138,7 +138,7 @@ public class ObjectMap
         this[x, y] = GameObject.Instantiate(prefab);
 
         WallType wallType = ObjectGenHelper.RoomMappingConversions.map[(MapIntMarkers)marker];
-        Debug.Log(wallType.ToString());
+        //Debug.Log(wallType.ToString());
         this[x, y].gameObject.GetComponent<RoomController>().MarkerType = wallType;
         this[x, y].name = this[x, y].name + "[" + x + ", " + y + "]";
         //Set the position of the object in world space. 
