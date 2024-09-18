@@ -18,5 +18,5 @@ public abstract class WorldObject : MonoBehaviour
         GameManager.Instance.WorldStateChange -= WorldUpdateReceiver;
     }
 
-    public abstract void WorldUpdateReceiver(WorldState state);
+    internal abstract void WorldUpdateReceiver(WorldState state);
 }

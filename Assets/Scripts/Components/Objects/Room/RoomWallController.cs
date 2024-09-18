@@ -69,8 +69,6 @@ public class RoomWallController : RoomObjectBase
         SetLockState = false;
     }
 
-    internal override void SetWorldState(WorldState state) { }
-
     /// <summary>
     /// Set the given side to be a door. 
     /// </summary>
@@ -92,5 +90,10 @@ public class RoomWallController : RoomObjectBase
                 down.WallType = type;
                 break;
         }
+    }
+
+    internal override void WorldUpdateReceiver(WorldState state)
+    {
+
     }
 }

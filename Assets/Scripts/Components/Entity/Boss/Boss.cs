@@ -133,7 +133,7 @@ public abstract class Boss : WorldObject, IEntityInterface
 
     #endregion
 
-    public override void WorldUpdateReceiver(WorldState state)
+    internal override void WorldUpdateReceiver(WorldState state)
     {
         container.CurrentState = state;
         ApplyWorldState(state);

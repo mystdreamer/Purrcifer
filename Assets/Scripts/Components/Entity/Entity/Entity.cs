@@ -160,7 +160,7 @@ public class EntityHealth
     }
 }
 
-public abstract class Entity : WorldObject, IEntityInterface
+public abstract class Entity : RoomObjectBase, IEntityInterface
 {
     [SerializeField] private EntityHealth _health;
     public WorldStateContainer container;
@@ -220,10 +220,10 @@ public abstract class Entity : WorldObject, IEntityInterface
     }
     #endregion
 
-    public override void WorldUpdateReceiver(WorldState state)
+    internal override void WorldUpdateReceiver(WorldState state)
     {
         container.CurrentState = state;
-        ApplyWorldState(state);
+        SetWorldState(state);
     }
 
     private IEnumerator InvincibilityTimer()
@@ -241,7 +241,7 @@ public abstract class Entity : WorldObject, IEntityInterface
     internal void UpdateDots() => EntityHealth.ApplyBuffs(ref _health);
 
     #region Event Calls.
-    internal abstract void ApplyWorldState(WorldState state);
+    internal abstract void SetWorldState(WorldState state);
 
     internal abstract void HealthChangedEvent(float lastValue, float currentValue);
 

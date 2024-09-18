@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9acb10a6d2950654d9767eff110676b9, type: 3}
   m_Name: NormalRoom_Tree
   m_EditorClassIdentifier: 
-  probabilityRange:
-    min: 0
-    max: 0
   itemData:
   - itemName: NormalRoomA_Idle
     key: 0
@@ -50,5 +47,9 @@ MonoBehaviour:
     objectPrefab: {fileID: 749221820945843146, guid: 41b0c9c80ddac0b418faaeae05ecf95b, type: 3}
   - itemName: Norm_AreaPushWaveCD
     key: 8
-    probabilityWeight: 40
+    probabilityWeight: 10
+    objectPrefab: {fileID: 8031202937322810426, guid: 7d8f071419d5df440a9eb75a88729ee1, type: 3}
+  - itemName: Norm_Popworm
+    key: 8
+    probabilityWeight: 10
     objectPrefab: {fileID: 8031202937322810426, guid: 7d8f071419d5df440a9eb75a88729ee1, type: 3}

@@ -49,3 +49,7 @@ MonoBehaviour:
     key: 8
     probabilityWeight: 40
     objectPrefab: {fileID: 3101658487022019026, guid: c5c8658c0c6d8234ea35666e462348c6, type: 3}
+  - itemName: Norm_Popworm
+    key: 9
+    probabilityWeight: 40
+    objectPrefab: {fileID: 356958643103145797, guid: 2027841edc748ae49bcff8b5cefa5200, type: 3}

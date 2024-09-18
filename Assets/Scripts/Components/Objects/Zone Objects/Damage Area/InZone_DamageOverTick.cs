@@ -42,10 +42,6 @@ public class InZone_DamageOverTick : InZone
         }
     }
 
-    internal override void SetWorldState(WorldState state) { 
-        ///Here is where worlds state changes would be implemented. 
-    }
-
     internal override void OnEnterZone()
     {
         //Used to debug collisions.  
@@ -59,5 +55,10 @@ public class InZone_DamageOverTick : InZone
         //Used to debug collisions.  
         UnityEngine.Debug.Log(gameObject.name + ": -> Player left zone. ");
         eventTicker.Enable = false;
+    }
+
+    internal override void WorldUpdateReceiver(WorldState state)
+    {
+        ///Here is where worlds state changes would be implemented. 
     }
 }

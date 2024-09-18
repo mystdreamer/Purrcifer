@@ -11,7 +11,9 @@ public class RoomButton : RoomObjectBase
 
     internal override void OnSleepObject() { }
 
-    internal override void SetWorldState(WorldState state) { }
+    internal override void WorldUpdateReceiver(WorldState state)
+    {
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

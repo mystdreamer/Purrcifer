@@ -80,19 +80,4 @@ public abstract class RoomObjectBase : WorldObject, IRoomObject
     /// Implement Object sleep logic here. 
     /// </summary>
     internal abstract void OnSleepObject();
-
-    /// <summary>
-    /// Sets the world state to the object. 
-    /// </summary>
-    /// <param name="state"> The state to set to the object. </param>
-    public override void WorldUpdateReceiver(WorldState state)
-    {
-        SetWorldState(state);
-    }
-
-    /// <summary>
-    /// Sets the world state to the object. 
-    /// </summary>
-    /// <param name="state"> The state to set to the object. </param>
-    internal abstract void SetWorldState(WorldState state);
 }
