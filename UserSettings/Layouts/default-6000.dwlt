@@ -1422,23 +1422,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1174
-      height: 823
-    m_Scale: {x: 0.61145836, y: 0.61145836}
-    m_Translation: {x: 586.99994, y: 411.49997}
+      width: 654
+      height: 558
+    m_Scale: {x: 0.340625, y: 0.340625}
+    m_Translation: {x: 327, y: 279}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -959.9999
-      y: -672.9812
-      width: 1919.9999
-      height: 1345.9624
+      x: -960.00006
+      y: -819.0826
+      width: 1920.0001
+      height: 1638.1652
     m_MinimalGUI: 1
-  m_defaultScale: 0.61145836
-  m_LastWindowPixelSize: {x: 1174, y: 844}
+  m_defaultScale: 0.340625
+  m_LastWindowPixelSize: {x: 654, y: 579}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
