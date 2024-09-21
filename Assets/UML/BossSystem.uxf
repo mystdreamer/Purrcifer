@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <help_text/>
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>910</x>
+      <y>370</y>
+      <w>460</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/Entity::RoomObjectBase, IEntityInterface/
+--
++container:WorldStateContainer 
+#IEntityInterface.Health:float 
+IEntityInterface.IsAlive:bool
++EntityHealthInstance:EntityHealth [Readonly Property]
++CurrentHealth:float 
++HealthCap:float 
++SetHOT:HealOverTime [Write Only Property] 
++SetDOT:DamageOverTime [Write Only Property]
+#WorldUpdateReceiver(WorldState state):void
+-InvincibilityTimer():IEnumerator
+#FillHealth():void
+#UpdateDots():void
+--
+Event call functions. 
+--
+/#SetWorldState(state:WorldState):void/
+/#HealthChangedEvent(lastValue:float, currentValue:float):void/
+/#OnDeathEvent()void/ 
+/#InvincibilityActivated()void/ 
+--
+--
+Responsibilities
+-- Provides a base class to derive entities from. 
+-- Provides access to an entity health script and HOT/DOT managment. 
+-- Provides world state updates. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1440</x>
+      <y>300</y>
+      <w>390</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+EntityHealth
+--
+-_healthRange:Range 
+-_hots:List&lt;HealOverTime&gt;
+-_dots:List&lt;DamageOverTime&gt;
+-_invincible:bool  
+-_invincibilityLength:float
++Length:float [Readonly Property]
++Alive:bool [Readonly Property]
++Health:float [Property]
++MaxCap:float [Property]
++MinCap:float [Property]
++Invincible:bool [Property]
++InvincibilityLength:float [Property]
++Hots:List&lt;HealOverTime&gt;[Readonly Property]
++Dots:List&lt;DamageOverTime&gt;[Readonly Property]
+--
++SetHealOverTime(hot:HealOverTime):void 
++SetDamageOverTime(dot:DamageOverTime):void  
+_+ApplyBuffs(ref health:EntityHealth):void__
+_+ApplyBuffs(ref health:BossHealth):void__
+-CleanHots():void 
+-CleanDots():void 
++EntityHealth(min:int, max:int, current:int)
+--
+Responsibilities
+-- Provides abstract base class for bosses.
+-- Derving from it provides the utility for world state changes. 
+-- Also provides a boss health class instance. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1440</x>
+      <y>820</y>
+      <w>400</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+BossHealth : EntityHealth
+--
++DamageLock:bool 
++HealLock:bool 
++Health:float 
++BossHealth(min:int, max:int, current:int)
+--
+Responsibilities
+-- Class responsible for managing a boss entities health data.
+-- Provides interfacing for 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>930</x>
+      <y>830</y>
+      <w>440</w>
+      <h>470</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/Boss : WorldObject, IEntityInterface/
+--
+-_health:BossHealth 
++container:WorldStateContainer
+#IEntityInterface.Health:float 
+#IEntityInterface.IsAlivebool [Readonly Property}
++BHealth:BossHealth  [Readonly Property}
++CurrentHealth:float 
++HealthCap:float 
++LockDamage:bool 
++LockHealth:bool 
++SetHOT:HealOverTime 
++SetDOT:DamageOverTime 
+--
+#WorldUpdateReceiver(state:WorldState):void
+-InvincibilityTimer():IEnumerator 
+/#FillHealth():void/ 
+/#UpdateDots():void/
+/#ApplyWorldState(state:WorldState):void/
+/#HealthChangedEvent(lastValue:float, currentValue:float):void/
+/#OnDeathEvent():void/
+/#InvincibilityActivated():void/
+/#IncomingDamageDisabled():void/
+/#IncomingDamageEnabled():void/
+--
+Responsibilities
+-- Provides abstract base class for entities.
+-- Derving from it provides the utility for world state changes. 
+-- Also provides a boss health class instance. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1630</x>
+      <y>780</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1360</x>
+      <y>1000</y>
+      <w>300</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>280.0;10.0;280.0;50.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1360</x>
+      <y>540</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>490</x>
+      <y>920</y>
+      <w>330</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/WorldObject:MonoBehaviour/
+--
+#Start():void 
+#OnDisable():void 
+#OnDestroy():void 
+/#WorldUpdateReceiver(state:WorldState):void/
+--
+Responsibilities
+-- Subscribes to the worldstate change notifier.
+-- Trickles dowm notifications to derrived classes. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>990</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>490</y>
+      <w>400</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+IRoomObject
+--
+AwakenObject():void
+SleepObject():void
+--
+Responsibilities
+-- Exposes interface requirements for activating a room object.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>670</y>
+      <w>360</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+ObjectActivationType
+--
+ON_ROOM_ACTIVATION, 
+ON_OBJECT_START
+--
+Responsibilities
+-- Used to denote whether an object is active or not. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>570</y>
+      <w>390</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/RoomObjectBase::WorldObject, IRoomObject/
+--
++activationType:ObjectActivationType 
+-_objectActive:bool
+-_objectCompleted:bool
++ObjectComplete:bool [Property]
++ObjectActive:bool [Readonly Property] 
++GetName():string
+IRoomObject.AwakenObject():void 
+IRoomObject.SleepObject():void
+/#OnAwakeObject():void/
+/#OnSleepObject():void/
+--
+Responsibilities
+-- Base class for developing objects that are room activated.
+-- Passes awakening and sleep calls to related objects.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>850</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>830</x>
+      <y>660</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>730</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>520</x>
+      <y>280</y>
+      <w>290</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt; 
+WorldState : int
+--
+WORLD_START = 0,
+WORLD_WITCHING = 1,
+WORLD_HELL = 2
+--
+Responsibilites:
+-- denotes the current ingame stage of time. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>110</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;650.0;20.0;650.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>130</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;270.0;110.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>660</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;640.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>150</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;650.0;130.0;650.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>660</w>
+      <h>570</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;590.0;10.0;590.0;550.0;640.0;550.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>570</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>940</x>
+      <y>120</y>
+      <w>410</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+IEntityInterface
+--
+Health:float [Property]
+IsAlive:bool [Readonly Property]
+--
+Responsibilities
+-- Interface for passing entity damage.
+-- Interface providing check methodology for if an object is alive.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1340</x>
+      <y>200</y>
+      <w>60</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;260.0;30.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1340</x>
+      <y>200</y>
+      <w>60</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0;40.0;650.0;30.0;650.0</additional_attributes>
+  </element>
+</diagram>
