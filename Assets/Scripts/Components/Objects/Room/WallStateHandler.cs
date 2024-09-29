@@ -21,7 +21,7 @@ public class WallStateHandler
     /// <summary>
     /// The state applied to this wall. 
     /// </summary>
-    public WallState state;
+    public WallType state;
 
     /// <summary>
     /// Boolean denoting if the wall is a door. 
@@ -32,11 +32,11 @@ public class WallStateHandler
     /// Changes the state of the wall. 
     /// </summary>
     /// <param name="state"></param>
-    public void SetState(WallState state)
+    public void SetState(WallType state)
     {
         switch (state)
         {
-            case WallState.DOOR:
+            case WallType.DOOR:
                 doorWall.SetActive(true);
                 door.SetActive(false);
                 wall.SetActive(false);
@@ -44,7 +44,7 @@ public class WallStateHandler
                 isDoor = true;
                 break;
 
-            case WallState.WALL:
+            case WallType.WALL:
                 doorWall.SetActive(false);
                 door.SetActive(false);
                 wall.SetActive(true);

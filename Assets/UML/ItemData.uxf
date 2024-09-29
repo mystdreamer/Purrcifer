@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>970</x>
+      <y>580</y>
+      <w>440</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/PowerUp::Monobehaviour/
+--
+/+ItemDialogue:ItemDialogue/
+/+EventData:PlayerEventData/ 
+/+HasEvent:bool &lt;Readonly property&gt;/
+/+HasDialogue:bool &lt;Readonly property&gt;/
+--
+-OnTriggerEnter(other:Collider):void 
+-PostApplication():void 
+/+ApplyToPlayer(player:GameObject)void /
+--
+Responsibilities
+-- Provides template class from which all pickups should be defined. 
+-- Is abstract and must be inherreted by base classes.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1440</x>
+      <y>0</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2230</x>
+      <y>1130</y>
+      <w>410</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ScriptableObejct&gt;&gt;
+WeaponDataSO::ScriptableObject
+--
++itemName:string 
++weaponID:string
++eventData:PlayerEventData 
++itemDialogue:ItemDialogue  
++powerupPrefab:GameObject 
++singularPrefab:bool 
++weaponPrefab:GameObject 
++directionalPrefab:bool 
++weaponPrefabUp:GameObject 
++weaponPrefabDown:GameObject
++weaponPrefabLeft:GameObject 
++weaponPrefabRight:GameObject 
++damageBase:float 
++damageMultiplier:float 
++damageCriticalHit:float 
++damageCriticalChance:float 
+--
+Responsibilities
+-- Data ScriptableObject that holds data pertaining to powerups. 
+-- Carries related UI dialogue information. 
+-- Carries item event data. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1400</x>
+      <y>700</y>
+      <w>80</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1400</x>
+      <y>700</y>
+      <w>80</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;300.0;40.0;300.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2230</x>
+      <y>710</y>
+      <w>410</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Stereotype&gt;&gt;
+UtilityDataSO::ScriptableObject
+--
++itemName:string 
++itemID:string 
++eventData:PlayerEventData 
++itemDialogue:ItemDialogue 
++powerupPrefab:GameObject 
++utilityPrefab:GameObject  
++int healthCap
++playerSpeed:float
++playerCharge:int
++damageBase:float
++damageMultiplier:float
++damageCriticalHit:float
++damageCriticalChance:float
++refillHealth:bool 
+--
+--
+Responsibilities
+-- Data ScriptableObject that holds data pertaining to powerups. 
+-- Carries related UI dialogue information. 
+-- Carries item event data. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>700</y>
+      <w>390</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/PowerupUtility::Powerup/
+--
++utilityData:UtilityDataSO
++ItemDialogue:ItemDialogue
++EventData:PlayerEventData
++HasEvent:bool &lt;Readonly property&gt;
++HasDialogue:bool &lt;Readonly property&gt;
++WeaponData:WeaponDataSO &lt;Readonly property&gt;
++UtilityData:UtilityDataSO &lt;Readonly property&gt;
++ConsumableData:ConsumableDataSO &lt;Readonly property&gt;
+--
+Responsibilities
+-- Template class for Utility powerups. 
+-- Is abstract and must be inherrited. 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>990</y>
+      <w>380</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/PowerupWeapon::Powerup/
+--
++WeaponDataSO weaponData;
++ItemDialogue:ItemDialogue
++EventData:PlayerEventData
++HasEvent:bool &lt;Readonly property&gt;
++HasDialogue:bool &lt;Readonly property&gt;
++WeaponData:WeaponDataSO &lt;Readonly property&gt;
++UtilityData:UtilityDataSO &lt;Readonly property&gt;
++ConsumableData:ConsumableDataSO &lt;Readonly property&gt;
+--
+Responsibilities
+-- Template class for weapon powerups.
+-- Is abstract and must be inherreted. 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1620</x>
+      <y>930</y>
+      <w>630</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>610.0;20.0;10.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1600</x>
+      <y>1220</y>
+      <w>650</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>630.0;20.0;10.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1840</x>
+      <y>700</y>
+      <w>60</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>40.0;160.0;10.0;160.0;10.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1880</x>
+      <y>820</y>
+      <w>320</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;class&gt;&gt;
+/PowerUp_Health::PowerupUtility/
+--
++ApplyToPlayer(player:GameObject):void 
+--
+Responsibilities
+-- Provides a method of adding a value to the player health cap.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1880</x>
+      <y>680</y>
+      <w>320</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;class&gt;&gt;
+/PowerUp_Stopwatch::PowerupUtility/
+--
++ApplyToPlayer(player:GameObject):void 
+--
+Responsibilities
+-- Provides a method of applying the Stopwatch behaviour class to the player.
+-- Provides related data for the powerup (stats).</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1840</x>
+      <y>700</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1880</x>
+      <y>990</y>
+      <w>320</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;class&gt;&gt;
+/PowerUp_Sword::PowerupWeapon/
+--
++ApplyToPlayer(player:GameObject):void 
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1740</x>
+      <y>980</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>1270</y>
+      <w>400</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+/PowerupConsumable::Powerup/
+--
++consumableData:ConsumableDataSO 
++EventData:PlayerEventData
++HasEvent:bool &lt;Readonly property&gt;
++HasDialogue:bool &lt;Readonly property&gt;
++WeaponData:WeaponDataSO &lt;Readonly property&gt;
++UtilityData:UtilityDataSO &lt;Readonly property&gt;
++ConsumableData:ConsumableDataSO &lt;Readonly property&gt;
+--
+Responsibilities
+-- Template class for consumable pickups. 
+-- Is abstract and must be inherreted.
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2230</x>
+      <y>1540</y>
+      <w>410</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ScriptableObejct&gt;&gt;
+WeaponDataSO::ScriptableObject
+--
++itemName:string 
++powerupPrefab:GameObject 
++additiveHealthValue:int  
+--
+Responsibilities
+-- Data ScriptableObject that holds data pertaining to powerups. 
+-- Carries related UI dialogue information. 
+-- Carries item event data. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1600</x>
+      <y>1500</y>
+      <w>650</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>630.0;120.0;10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1880</x>
+      <y>1270</y>
+      <w>320</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;class&gt;&gt;
+/Consumable_Heart::PowerupConsumable/
+--
++ApplyToPlayer(player:GameObject):void 
+--
+Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1850</x>
+      <y>1280</y>
+      <w>50</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>30.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1400</x>
+      <y>700</y>
+      <w>80</w>
+      <h>660</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;640.0;40.0;640.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>200</x>
+      <y>490</y>
+      <w>410</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerState::MonoBehaviour
+--
+-IFRAMES:int
+-MAX_HEALTH_CAP_LIMIT:int
+-_healthStats:PlayerHealthRange
+-_damageStats:PlayerDamageData
+-_movementStats:PlayerMovementData 
+-_itemStats:PlayerItemData 
+-invincible:bool
+-deathNotified:bool 
+--
++Damage:PlayerDamageData &lt;&lt;Readonly property&gt;&gt;
++Health:int &lt;&lt;Property&gt;&gt;
++AddDamage:int &lt;&lt;Property&gt;&gt;
++AddHealth:int &lt;&lt;Property&gt;&gt;
++HealthMaxCap:int &lt;&lt;Property&gt;&gt;
++HealthMinCap:int &lt;&lt;Property&gt;&gt;
++Alive:bool &lt;&lt;Readonly property&gt;&gt;
++int Length
+--
++SetPlayerData()::void
++Update():void
++DamageIframes():IEnumerator 
++ApplyPowerup(Powerup value):void
+--
+Responsibilities
+-- Holds the players current state. 
+-- Responsible for interfacing data with player systems. 
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>660</y>
+      <w>280</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>GameManager::Monobehaviour
+--
+....
++ApplyPowerup(value:Powerup):void 
+....
+Abreviated for the sake of the diagram. XD
+
+--
+Contextual Responsibilities
+-- Resp1
+-- Resp2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>670</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>670</y>
+      <w>80</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>1120</y>
+      <w>370</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;class&gt;&gt; 
+PlayerHealthData
+--
++min:int
++max:int
++current:int
++PlayerHealthData(min:int, max:int, current:int)
+--
+Responsibilities
+-- Contains data related to player health statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>1300</y>
+      <w>370</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerItemData
+--
++utilityCharges::int 
+--
+Responsibilities
+-- Contains data related to player items statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>1430</y>
+      <w>710</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Struct&gt;&gt;
+PlayerDamageData
+--
+-_baseDamage:float 
+-_damageMultiplier:float 
+-_criticalHitDamage:float 
+-_criticalHitChance:float 
++BaseDamage:float 
++Damage:float 
++DamageMultiplier:float 
++CriticalHitDamage:float 
++CriticalHitChance:float 
++CriticalHitSuccess:bool 
++PlayerDamageData(baseDamage:float, damageMultiplier:float, criticalHitDamage:float, criticalHitChance:float)
+--
+Responsibilities
+-- Contains data related to player damage statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>990</y>
+      <w>370</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Class&gt;&gt;
+PlayerMovementData
+--
++moveSpeed:float
+--
+Responsibilities
+-- Contains data related to player movement statistics. </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>680</y>
+      <w>100</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;380.0;10.0;380.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>680</y>
+      <w>100</w>
+      <h>530</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;510.0;10.0;510.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>680</y>
+      <w>100</w>
+      <h>700</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;680.0;10.0;680.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>680</y>
+      <w>100</w>
+      <h>900</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;880.0;10.0;880.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+</diagram>

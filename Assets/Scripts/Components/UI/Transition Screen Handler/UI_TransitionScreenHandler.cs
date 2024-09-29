@@ -1,3 +1,4 @@
+using Purrcifer.LevelLoading;
 using Purrcifer.UI;
 using System.Collections;
 using UnityEngine;
@@ -51,7 +52,7 @@ public class UI_TransitionScreenHandler : MonoBehaviour
         }
     }
 
-    public void StartLevelTransition(LevelLoading.LevelID levelToLoad, bool fadeOnLoad)
+    public void StartLevelTransition(LevelID levelToLoad, bool fadeOnLoad)
     {
         StartCoroutine(FadeLevelTransitionIn((int)levelToLoad, fadeOnLoad));
     }
@@ -75,7 +76,7 @@ public class UI_TransitionScreenHandler : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         UIManager.Instance.ResetUIState();
-        LevelLoading.LevelLoadHandler.LoadLevel(levelToLoad);
+        LevelLoadHandler.LoadLevel(levelToLoad);
     }
 
     private IEnumerator FadeLevelTransitionOut()

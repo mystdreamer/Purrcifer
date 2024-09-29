@@ -1,3 +1,6 @@
+using Purrcifer.Data.Defaults;
+using Purrcifer.Data.Player;
+using Purrcifer.Inputs.Container;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -55,6 +58,8 @@ public abstract class MenuBase : MonoBehaviour
     public Color activeColor;
     [SerializeField] bool canUpdate = true;
     [SerializeField] bool opActive = false;
+    [SerializeField] private PlayerInputs _playerInputs;
+    private PlayInput_ControllerAxis inputAxisResolver = new PlayInput_ControllerAxis();
 
     public int SetIndex
     {
@@ -65,46 +70,24 @@ public abstract class MenuBase : MonoBehaviour
     {
         SceneManager.activeSceneChanged += ChangedActiveScene;
         menuIndexer = new MenuIndexer(0, 0, textElements.Length, textElements, inactiveColor, activeColor);
-        RegisterInputs();
+        _playerInputs = GameManager.PlayerInputs;
         OnEnableOwner();
     }
 
     private void OnEnable()
     {
         menuIndexer = new MenuIndexer(0, 0, textElements.Length, textElements, inactiveColor, activeColor);
-        RegisterInputs();
         OnEnableOwner();
-    }
-
-    private void RegisterInputs()
-    {
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction += ResolveVector;
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_DPAD).DoAction += ResolveVector;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction += UpKey;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction += DownKey;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction += Accept;
-    }
-
-    private void DeregisterInputs()
-    {
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction -= ResolveVector;
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_DPAD).DoAction -= ResolveVector;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction -= UpKey;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction -= DownKey;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= Accept;
-        PlayerInputSys.Instance.ClearDelegates(); 
     }
 
     private void Update()
     {
-        if (Input.GetKey(DefaultInputs.KEY_MENU_A))
-            Accept(true); 
+        UpdateInputs();
     }
 
     private void ResetState()
     {
         OnDisableOwner();
-        DeregisterInputs();
         canUpdate = true;
         opActive = false;
     }
@@ -115,15 +98,6 @@ public abstract class MenuBase : MonoBehaviour
 
     private void ChangedActiveScene(Scene current, Scene next)=> ResetState();
 
-    private void OnUnloaded(Scene current, LoadSceneMode mode)
-    {
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_LEFT_STICK).DoAction -= ResolveVector;
-        PlayerInputSys.Instance.GetAxis(PInputIdentifier.AXIS_DPAD).DoAction -= ResolveVector;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_UP).DoAction -= UpKey;
-        PlayerInputSys.Instance.GetKey(PInputIdentifier.M_DOWN).DoAction -= DownKey;
-        PlayerInputSys.Instance.GetButton(PInputIdentifier.ACTION_DOWN).DoAction -= Accept;
-    }
-
     private IEnumerator MenuCooldown()
     {
         yield return new WaitForSeconds(0.25f);
@@ -131,6 +105,21 @@ public abstract class MenuBase : MonoBehaviour
     }
 
     #region Input. 
+
+    private void UpdateInputs()
+    {
+        ResolveVector(inputAxisResolver.Command(_playerInputs.axis_m_left));
+
+        if (Input.GetKey(_playerInputs.key_m_up))
+            UpKey(true);
+
+        if (Input.GetKey(_playerInputs.key_m_down))
+            DownKey(true);
+
+        if (Input.GetKey(GameManager.PlayerInputs.key_menu_a) | Input.GetKey(_playerInputs.ctlr_a))
+            Accept(true);
+    }
+
     private void ResolveVector(Vector3 result)
     {
         if (result.z < 0)
@@ -209,8 +198,8 @@ public class MainMenuController : MenuBase
     /// </summary>
     public void NewGame()
     {
-        DataCarrier.Instance.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
+        GameManager.ResetPlayerData();
+        UIManager.Instance.StartLevelTransitionFade(Purrcifer.LevelLoading.LevelID.CHARACTER_SELECT, false);
     }
 
     /// <summary>
@@ -219,7 +208,7 @@ public class MainMenuController : MenuBase
     public void LoadGame()
     {
         Debug.LogError(">> Menu: Loading Game. ");
-        UIManager.Instance.StartLevelTransitionFade(DataCarrier.SavedLevel, false);
+        UIManager.Instance.StartLevelTransitionFade(GameManager.GetSavedLevel, false);
     }
 
     /// <summary>

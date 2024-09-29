@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9acb10a6d2950654d9767eff110676b9, type: 3}
+  m_Name: ISO_NormalRoom_Tree
+  m_EditorClassIdentifier: 
+  itemData:
+  - itemName: NormalRoomA_Idle
+    key: 0
+    probabilityWeight: 10
+    objectPrefab: {fileID: 6488202036974374233, guid: ce1538397eb4f204f828d6c3ec5eea03, type: 3}
+  - itemName: NormalRoomB_Empty
+    key: 1
+    probabilityWeight: 10
+    objectPrefab: {fileID: 6488202036974374233, guid: ce1538397eb4f204f828d6c3ec5eea03, type: 3}
+  - itemName: NormalRoomB_Button
+    key: 2
+    probabilityWeight: 10
+    objectPrefab: {fileID: 4912919141942690001, guid: 0e94b743938ce2347aac2c3afb9e134d, type: 3}
+  - itemName: NormalRoomB_Heart/Damage Tester
+    key: 3
+    probabilityWeight: 10
+    objectPrefab: {fileID: 6216162527419025023, guid: 56de07055ee88d84c82584033277d5de, type: 3}
+  - itemName: NormalRoomB_Heart/Area Damage Tester
+    key: 4
+    probabilityWeight: 10
+    objectPrefab: {fileID: 6216162527419025023, guid: 56de07055ee88d84c82584033277d5de, type: 3}
+  - itemName: Norm_AreaPushTester
+    key: 5
+    probabilityWeight: 20
+    objectPrefab: {fileID: 1176652981598791482, guid: 2b47ac1f5c925f045bfab7a534b4b533, type: 3}
+  - itemName: Norm_AreaPullTester
+    key: 6
+    probabilityWeight: 10
+    objectPrefab: {fileID: 6377760287880135532, guid: db35de833ee720c40b060163e87d00d1, type: 3}
+  - itemName: Norm_AreaPushWaveCD
+    key: 7
+    probabilityWeight: 10
+    objectPrefab: {fileID: 6561415169832858136, guid: 61c7427380c7e434fa9ae0394e06ba97, type: 3}
+  - itemName: Norm_TeleportorTester
+    key: 8
+    probabilityWeight: 40
+    objectPrefab: {fileID: 3101658487022019026, guid: c5c8658c0c6d8234ea35666e462348c6, type: 3}
+  - itemName: Norm_Popworm
+    key: 9
+    probabilityWeight: 40
+    objectPrefab: {fileID: 356958643103145797, guid: 2027841edc748ae49bcff8b5cefa5200, type: 3}

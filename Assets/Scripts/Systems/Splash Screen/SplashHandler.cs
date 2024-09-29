@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Purrcifer.LevelLoading;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -36,6 +37,6 @@ public class SplashHandler : MonoBehaviour
         }
 
         //Load the main menu.
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.MAIN, true);
+        UIManager.Instance.StartLevelTransitionFade(LevelID.MENU, true);
     }
 }

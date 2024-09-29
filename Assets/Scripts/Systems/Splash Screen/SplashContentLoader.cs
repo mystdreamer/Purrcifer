@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using DataManager;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -16,12 +18,18 @@ public class SplashContentLoader : MonoBehaviour
         LoadContent();
     }
 
-    private void LoadContent()
+    private void LoadContent() => StartCoroutine(Preload());
+
+    private IEnumerator Preload()
     {
         /////Preload content here. 
         DataCarrier.Generate(); //Load the game save data. 
-        PlayerInputSys refSet = PlayerInputSys.Instance; 
-        /////Preload content here. 
+        while(DataCarrier.Instance == null)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        PlayerInputSys.CreateInstance();
 
         SceneManager.LoadSceneAsync("UI_", LoadSceneMode.Additive);
 
@@ -35,5 +43,6 @@ public class SplashContentLoader : MonoBehaviour
     public static SplashContentLoader GetLoader()
     {
         return new GameObject("--ContentLoader-- ").AddComponent<SplashContentLoader>();
+
     }
 }

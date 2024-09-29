@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -13,15 +14,8 @@ namespace Purrcifer.UI
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI dialogueText;
         public AudioClip dialogueAudio;
-        private Queue<string> sentences;
 
-        // Use this for initialization
-        void Start()
-        {
-            sentences = new Queue<string>();
-        }
-
-        public void StartDialogue(Dialogue dialogue)
+        public void StartDialogue(ItemDialogue dialogue)
         {
             if (!inUse)
             {
@@ -29,49 +23,45 @@ namespace Purrcifer.UI
                 //Set name text to display. 
                 nameText.text = dialogue.itemName;
 
-                //Queue all sentences within the dialogue. 
-                foreach (string sentence in dialogue.itemFlavourText)
-                    sentences.Enqueue(sentence);
-
                 //Start the Coroutine.
                 StartCoroutine(DisplayFlavourText(dialogue));
             }
         }
 
-        private IEnumerator DisplayFlavourText(Dialogue dialogue)
+        private IEnumerator DisplayFlavourText(ItemDialogue dialogue)
         {
-            string currentSentence;
-
             //Enable display.
+            ClearText();
             displayFader.FadeIn();
             textFader.FadeIn();
-            dialogueText.text = "";
+
+            //Set the text. 
             nameText.text = dialogue.itemName;
+            dialogueText.text = dialogue.itemFlavourText.ToString();
 
             while (textFader.state != FadeState.IN && displayFader.state != FadeState.IN)
                 yield return new WaitForEndOfFrame();
 
-            while (sentences.Count > 0)
-            {
-                //Get the next line of dialogue. 
-                currentSentence = sentences.Dequeue();
-                dialogueText.text = "";
-                foreach (char letter in currentSentence.ToCharArray())
-                {
-                    dialogueText.text += letter;
-                    yield return new WaitForEndOfFrame();
-                }
-            }
-
-            //Disable display.
-            sentences.Clear();
+            //Delay for reading time.
             yield return new WaitForSeconds(1F);
 
+            //Fade transition out. 
             displayFader.FadeOut();
             textFader.FadeOut();
             while (textFader.state != FadeState.OUT && displayFader.state != FadeState.OUT)
                 yield return new WaitForEndOfFrame();
+
+            //Clear set text. 
+            ClearText();
+
+            //Set to not be in use.
             inUse = false;
+        }
+
+        private void ClearText()
+        {
+            nameText.text = "";
+            dialogueText.text = "";
         }
     }
 }

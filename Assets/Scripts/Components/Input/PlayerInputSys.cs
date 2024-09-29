@@ -1,4 +1,6 @@
 using JetBrains.Annotations;
+using Purrcifer.Data.Defaults;
+using Purrcifer.Data.Player;
 using Purrcifer.Inputs.Container;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,9 @@ public class PlayerInputSys : MonoBehaviour
     /// <summary>
     /// The current keycode data assigned in the editor. 
     /// </summary>
-    public List<PInput_Key> keycodeData;
-    public List<PInput_ControllerButton> buttonData;
-    public List<PInput_ControllerAxis> axisData;
+    public List<PInput_Key> keycodeData = new List<PInput_Key>();
+    public List<PInput_ControllerButton> buttonData = new List<PInput_ControllerButton>();
+    public List<PInput_ControllerAxis> axisData = new List<PInput_ControllerAxis>();
     public PlayerInput[] inputs;
 
     /// <summary>
@@ -25,15 +27,7 @@ public class PlayerInputSys : MonoBehaviour
     /// </summary>
     public static PlayerInputSys Instance
     {
-        get { 
-            if(instance == null)
-            {
-                GameObject obj = new GameObject("-----Menu PIS-----");
-                PlayerInputSys pis = obj.AddComponent<PlayerInputSys>();
-                return pis;
-            }
-            return instance; 
-        }
+        get => instance;
     }
 
     void Awake()
@@ -94,10 +88,16 @@ public class PlayerInputSys : MonoBehaviour
 
     public PInput_ControllerAxis GetAxis(PInputIdentifier type)
     {
-        for (int i = 0; i < axisData.Count; i++)
+        if (axisData == null)
+            return null;
+
+        if(axisData.Count > 0)
         {
-            if (axisData[i].IsInput(type))
-                return axisData[i];
+            for (int i = 0; i < axisData.Count; i++)
+            {
+                if (axisData[i].IsInput(type))
+                    return axisData[i];
+            }
         }
         return null;
     }
@@ -116,31 +116,33 @@ public class PlayerInputSys : MonoBehaviour
 
     private void SetInputs()
     {
+        PlayerInputs inputs = GameManager.PlayerInputs;
+
         ///Setup key list. 
         keycodeData = new List<PInput_Key>()
         {
-            new (DefaultInputs.KEY_M_UP, PInputIdentifier.M_UP, "MOVE_UP"),
-            new (DefaultInputs.KEY_M_DOWN, PInputIdentifier.M_DOWN, "MOVE_DOWN"),
-            new (DefaultInputs.KEY_M_LEFT, PInputIdentifier.M_LEFT, "MOVE_LEFT"),
-            new (DefaultInputs.KEY_M_RIGHT, PInputIdentifier.M_RIGHT, "MOVE_RIGHT"),
-            new (DefaultInputs.KEY_A_UP, PInputIdentifier.ACTION_UP, "ACTION_UP"),
-            new (DefaultInputs.KEY_A_LEFT, PInputIdentifier.ACTION_LEFT, "ACTION_LEFT"),
-            new (DefaultInputs.KEY_A_DOWN, PInputIdentifier.ACTION_DOWN, "ACTION_DOWN"),
-            new (DefaultInputs.KEY_A_RIGHT, PInputIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
+            new (inputs.key_m_up, PInputIdentifier.M_UP, "MOVE_UP"),
+            new (inputs.key_m_down, PInputIdentifier.M_DOWN, "MOVE_DOWN"),
+            new (inputs.key_m_left, PInputIdentifier.M_LEFT, "MOVE_LEFT"),
+            new (inputs.key_m_right, PInputIdentifier.M_RIGHT, "MOVE_RIGHT"),
+            new (inputs.key_a_up, PInputIdentifier.ACTION_UP, "ACTION_UP"),
+            new (inputs.key_a_left, PInputIdentifier.ACTION_LEFT, "ACTION_LEFT"),
+            new (inputs.key_a_down, PInputIdentifier.ACTION_DOWN, "ACTION_DOWN"),
+            new (inputs.key_a_right, PInputIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
         };
 
         buttonData = new List<PInput_ControllerButton>() {
-            new (DefaultInputs.CTLR_Y, PInputIdentifier.ACTION_UP, "ACTION_UP"),
-            new (DefaultInputs.CTLR_X, PInputIdentifier.ACTION_LEFT, "ACTION_LEFT"),
-            new (DefaultInputs.CTLR_A, PInputIdentifier.ACTION_DOWN, "ACTION_DOWN"),
-            new (DefaultInputs.CTLR_B, PInputIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
+            new (inputs.ctlr_y, PInputIdentifier.ACTION_UP, "ACTION_UP"),
+            new (inputs.ctlr_x, PInputIdentifier.ACTION_LEFT, "ACTION_LEFT"),
+            new (inputs.ctlr_a, PInputIdentifier.ACTION_DOWN, "ACTION_DOWN"),
+            new (inputs.ctlr_b, PInputIdentifier.ACTION_RIGHT, "ACTION_RIGHT")
         };
 
         axisData = new List<PInput_ControllerAxis>()
         {
-            new (DefaultInputs.AXIS_M_LEFT, "AXIS_LEFT_STICK"),
-            new (DefaultInputs.AXIS_A_RIGHT, "AXIS_RIGHT_STICK"),
-            new (DefaultInputs.AXIS_DPAD, "AXIS_DPAD"),
+            new (inputs.axis_m_left, "AXIS_LEFT_STICK"),
+            new (inputs.axis_a_right, "AXIS_RIGHT_STICK"),
+            new (inputs.axis_d_pad, "AXIS_DPAD"),
         };
         Setup();
     }
@@ -171,6 +173,11 @@ public class PlayerInputSys : MonoBehaviour
         instance = null;
     }
 
+    public static void CreateInstance()
+    {
+        GameObject obj = new GameObject("-----Menu Player Input System -----");
+        obj.AddComponent<PlayerInputSys>();
+    }
 
     public void ClearDelegates()
     {

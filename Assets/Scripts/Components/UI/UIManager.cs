@@ -1,4 +1,5 @@
-﻿using Purrcifer.UI;
+﻿using Purrcifer.LevelLoading;
+using Purrcifer.UI;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UI_TransitionScreenHandler _transitionScreenHandler;
 
     #region Properties. 
-    public BossHealth bossHealth = null; 
+    public Boss boss = null; 
 
     public static UIManager Instance => _instance;
 
@@ -49,7 +50,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateBossUI();
+
     }
 
     public void ResetUIState()
@@ -58,29 +59,16 @@ public class UIManager : MonoBehaviour
         _gameOverController.enabled = false;
     }
 
-    #region Gameplay Updating.
-
-    private void UpdateBossUI()
-    {
-        if (bossHealth != null)
-        {
-            //Do boss healthbar updates here. 
-            _bossHealthBar.UpdateState(bossHealth.Health);
-        }
-    }
-
-    #endregion
-
     #region UI Management.
-    public static void SetDialogue(Dialogue dialogueData)
+    public static void SetDialogue(ItemDialogue dialogueData)
     {
         _instance._dialogueManager.StartDialogue(dialogueData);
     }
 
-    public static void SetBossHealth(BossHealth bossHealth)
+    public static void SetBossHealth(Boss boss)
     {
-        Instance.bossHealth = bossHealth;
-        Instance._bossHealthBar.SetUp(bossHealth);
+        Instance.boss = boss;
+        Instance._bossHealthBar.SetCurrentBoss = boss;
     }
 
     public static void EnableGameOverScreen() => Instance._gameOverController.enabled = true;
@@ -88,7 +76,7 @@ public class UIManager : MonoBehaviour
 
     #region UI Transition Fade Functions. 
 
-    public void StartLevelTransitionFade(LevelLoading.LevelID levelToLoad, bool fadeOnLoad)
+    public void StartLevelTransitionFade(LevelID levelToLoad, bool fadeOnLoad)
     {
         StartLevelTransitionFade((int)levelToLoad, fadeOnLoad);
     }

@@ -1,10 +1,12 @@
-public class PowerUp_Health : PowerUp_Item
-{
-    public const int HEALTH_INCREASE_VALUE = 1;
+using UnityEngine;
 
-    internal override void ApplyPowerup()
+public class PowerUp_Health : PowerupUtility
+{
+    public override void OnApplicationEvent(GameObject player)
     {
-        GameManager.Instance.playerState.HealthMaxCap += HEALTH_INCREASE_VALUE;
-        GameManager.Instance.playerState.AddHealth = HEALTH_INCREASE_VALUE;
+        //Do animation logic here. 
+
+        //Cleanup object. 
+        this.gameObject.SetActive(false);
     }
 }

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using static UnityEngine.PlayerLoop.PreUpdate;
 using UnityEngine.InputSystem;
+using Purrcifer.LevelLoading;
 
 public class UI_GameOverController : MenuBase
 {
@@ -19,7 +20,8 @@ public class UI_GameOverController : MenuBase
 
     internal override void OnDisableOwner()
     {
-        gameOverRoot.SetActive(false);
+        if (gameOverRoot != null)
+            gameOverRoot.SetActive(false);
         base.OnDisableOwner();
     }
 
@@ -30,8 +32,8 @@ public class UI_GameOverController : MenuBase
     private void NewGame()
     {
         Debug.Log("New Game Called");
-        DataCarrier.Instance.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.LEVEL_1, false);
+        GameManager.ResetPlayerData();
+        UIManager.Instance.StartLevelTransitionFade(LevelID.LEVEL_1, false);
         this.enabled = false;
     }
 
@@ -41,8 +43,8 @@ public class UI_GameOverController : MenuBase
     private void LoadMenu()
     {
         Debug.Log("Load Menu Called");
-        DataCarrier.Instance.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelLoading.LevelID.MAIN, true);
+        GameManager.ResetPlayerData();
+        UIManager.Instance.StartLevelTransitionFade(LevelID.MENU, true);
         this.enabled = false;
     }
 

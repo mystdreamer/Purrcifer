@@ -1,7 +1,9 @@
+using Purrcifer.PlayerData;
 using System;
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// Class responsible for carrying player data statistics. 
@@ -10,12 +12,14 @@ public class PlayerState : MonoBehaviour
 {
     private const int IFRAMES = 35;
     private const int MAX_HEALTH_CAP_LIMIT = 12;
-    [SerializeField] private PlayerHealthRange _health;
-    [SerializeField] private PlayerDamageData _damage;
+    [SerializeField] private PlayerHealthData _healthStats;
+    [SerializeField] private PlayerDamageData _damageStats;
+    [SerializeField] private PlayerMovementData _movementStats;
+    [SerializeField] private PlayerItemData _itemStats;
     [SerializeField] private bool invincible = false;
     [SerializeField] private bool deathNotified = false;
 
-    public PlayerDamageData Damage => _damage;
+    public PlayerDamageData Damage => _damageStats;
 
     #region Health Properties. 
     /// <summary>
@@ -23,36 +27,22 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public int Health
     {
-        get => _health.current;
+        get => _healthStats.current;
 
-        private set => _health.current = value;
-    }
-
-    public int AddDamage
-    {
         set
         {
-            if (invincible)
-                return;
+            int val = value;
+            if (val > _healthStats.current)
+                val = _healthStats.current;
+            else if (val < _healthStats.current)
+            {
+                if (invincible)
+                    return;
 
-            int _value = value;
-            int sign = MathF.Sign(value);
-            if (sign != -1)
-                _value *= -1; //Force to be negative. 
-            Health += _value;
-            invincible = true;
-            StartCoroutine(DamageIframes());
-        }
-    }
-
-    public int AddHealth
-    {
-        set
-        {
-            int abs = Mathf.Abs(value);
-            Health += abs;
-            if (Health > HealthMaxCap)
-                Health = HealthMaxCap; 
+                _healthStats.current = val;
+                invincible = true;
+                StartCoroutine(DamageIframes());
+            }
         }
     }
 
@@ -61,16 +51,16 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public int HealthMaxCap
     {
-        get => _health.max;
+        get => _healthStats.max;
 
         set
         {
-            _health.max = value;
+            _healthStats.max = value;
 
             //If the value is greater than the allowed max health cap,
             //reset it to the max.
-            if (MAX_HEALTH_CAP_LIMIT < _health.max)
-                _health.max = MAX_HEALTH_CAP_LIMIT;
+            if (MAX_HEALTH_CAP_LIMIT < _healthStats.max)
+                _healthStats.max = MAX_HEALTH_CAP_LIMIT;
         }
     }
 
@@ -79,14 +69,14 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     public int HealthMinCap
     {
-        get => _health.min;
-        set => _health.min = value;
+        get => _healthStats.min;
+        set => _healthStats.min = value;
     }
 
     /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
-    public bool Alive => (_health.current > _health.min);
+    public bool Alive => (_healthStats.current > _healthStats.min);
 
     /// <summary>
     /// Returns the total value of the players health. 
@@ -96,15 +86,17 @@ public class PlayerState : MonoBehaviour
 
     public void SetPlayerData()
     {
-        DataCarrier.Instance.GetPlayerState(ref _health, ref _damage);
+        _healthStats = GameManager.Instance.GetPlayerHealthData;
+        _damageStats = GameManager.Instance.GetPlayerDamageData;
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
     }
 
     private void Update()
     {
-        if (_health == null)
+        if (_healthStats == null)
             return;
-        UIManager.Instance.PlayerHealthBar.UpdateHealthbar(_health.current);
+
+        UIManager.Instance.PlayerHealthBar.UpdateHealthBar(_healthStats.current, _healthStats.max);
 
         if (!Alive && !deathNotified)
         {
@@ -125,5 +117,37 @@ public class PlayerState : MonoBehaviour
         }
 
         invincible = false;
+    }
+
+    public void ApplyPowerup(Powerup value)
+    {
+        if (value.WeaponData != null)
+            Debug.Log("Powerup: Weapon Data: Implement this. ");
+
+        if (value.UtilityData != null)
+            ApplyPowerup(value.UtilityData);
+
+        if (value.ConsumableData != null)
+            ApplyConsumable(value.ConsumableData);
+    }
+
+    public void ApplyPowerup(UtilityDataSO data)
+    {
+        Debug.Log("Powerup application called");
+        _healthStats.max += data.healthCap;
+        //_movementStats.moveSpeed += data.playerSpeed;
+        //_itemStats.utilityCharges += data.playerCharge;
+        _damageStats.BaseDamage += data.damageBase;
+        _damageStats.DamageMultiplier += data.damageMultiplier;
+        _damageStats.CriticalHitDamage += data.damageCriticalHit;
+        _damageStats.CriticalHitChance += data.damageCriticalChance;
+
+        if (data.refillHealth)
+            Health = HealthMaxCap;
+    }
+
+    public void ApplyConsumable(ConsumableDataSO data)
+    {
+        Health += data.additiveHealthValue;
     }
 }
