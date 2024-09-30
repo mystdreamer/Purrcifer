@@ -3189,7 +3189,7 @@ GameObject:
   - component: {fileID: 1405711501}
   - component: {fileID: 1405711500}
   m_Layer: 0
-  m_Name: Test_CharSelector
+  m_Name: Test_Tank_CharSelector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3207,7 +3207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e5a964f19b4304b9a247a964f2aa79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterStats: {fileID: 11400000, guid: 1e0475941d289d347a8c2050535716a6, type: 2}
+  characterStats: {fileID: 11400000, guid: a332c217a49440a4b9a6217944d41ce3, type: 2}
 --- !u!65 &1405711501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3291,7 +3291,7 @@ Transform:
   m_GameObject: {fileID: 1405711499}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.92, y: 1.23, z: 0}
+  m_LocalPosition: {x: -4.26, y: 1.23, z: -3.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4099,3 +4099,5 @@ SceneRoots:
   - {fileID: 1748423963}
   - {fileID: 1389893083}
   - {fileID: 1405711504}
+  - {fileID: 127341711}
+  - {fileID: 1294421325}
