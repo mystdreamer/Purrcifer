@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9acb10a6d2950654d9767eff110676b9, type: 3}
+  m_Name: HiddenRoom_Tree
+  m_EditorClassIdentifier: 
+  probabilityRange:
+    min: 0
+    max: 100
+  itemData:
+  - itemName: TreasureRoom_A
+    key: 0
+    probabilityWeight: 10
+    objectPrefab: {fileID: 4056657841414575939, guid: 077e6ee3ebc57ef4eb18197787e9d80f, type: 3}
