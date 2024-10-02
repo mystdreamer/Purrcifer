@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 94b5821ac73865048840c3b5a15d8657
+guid: 39f7665b289115943b200cff29b0c27d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: TP_Floor
-    second: {fileID: 2800000, guid: 65cadc19014e29f4193913abdf1c8d72, type: 3}
+      name: M_Pedestal
+    second: {fileID: 2800000, guid: 3c5dfd0a47bcb034fa329531434c0559, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
