@@ -229,6 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803bd4a1e0c3d8b4f9fa81414fef92c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  talismanPrefab: {fileID: 0}
+  talismanPrefab: {fileID: 4526693296488524787, guid: cb97d9d61cc2c5d4e91b9d96ba234394, type: 3}
   reuseTime: 0.5
   currentReuseTime: 0
