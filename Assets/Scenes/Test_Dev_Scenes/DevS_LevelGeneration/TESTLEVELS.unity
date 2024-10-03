@@ -491,11 +491,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMax
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMin
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9055908992170714807, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -666,7 +666,7 @@ PrefabInstance:
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: normalRoomTree
       value: 
-      objectReference: {fileID: 11400000, guid: f1e13e2996f54a64dbf0ab689f960241, type: 2}
+      objectReference: {fileID: 11400000, guid: a18353a659ef4fd4ca69f6f66945ada2, type: 2}
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: treasureRoomTree
       value: 
