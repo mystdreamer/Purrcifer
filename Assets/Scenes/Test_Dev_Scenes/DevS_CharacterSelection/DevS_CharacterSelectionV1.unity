@@ -366,6 +366,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7058451805365535707, guid: 6099b44d2799eb240b4508e1e2f1b5ee, type: 3}
   m_PrefabInstance: {fileID: 151547706}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &210480195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210480197}
+  - component: {fileID: 210480196}
+  m_Layer: 0
+  m_Name: ChacterSelectionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &210480196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210480195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c950a82883e93a34caa97e877da568dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canSelect: 1
+--- !u!4 &210480197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210480195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &216732173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1031,6 +1076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 11400000, guid: 47851c53e8098ca4abc48d37950dd737, type: 2}
+  characterSelectionHandler: {fileID: 210480196}
 --- !u!65 &1253414936
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3401,6 +3447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 11400000, guid: a332c217a49440a4b9a6217944d41ce3, type: 2}
+  characterSelectionHandler: {fileID: 210480196}
 --- !u!65 &1405711501
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4068,6 +4115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 11400000, guid: 358518c84f1b52f4480f2884b7f111a5, type: 2}
+  characterSelectionHandler: {fileID: 210480196}
 --- !u!65 &1923143549
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4559,3 +4607,4 @@ SceneRoots:
   - {fileID: 1786135247}
   - {fileID: 1996465442}
   - {fileID: 1349272400}
+  - {fileID: 210480197}
