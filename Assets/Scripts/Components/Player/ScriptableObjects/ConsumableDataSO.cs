@@ -9,5 +9,6 @@ public class ConsumableDataSO : ScriptableObject
     [Header("Item Prefabs.")]
     public GameObject powerupPrefab;
 
-    public int additiveHealthValue; 
+    public int additiveHealthValue;
+    public int additiveSealValue; 
 }

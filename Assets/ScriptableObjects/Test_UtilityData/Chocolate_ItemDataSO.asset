@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5ec5f20046d9a54eb3995bfd2233483, type: 3}
-  m_Name: HeartUpgrade_ItemDataSO
+  m_Name: Chocolate_ItemDataSO
   m_EditorClassIdentifier: 
-  itemName: HeartyHeart
-  itemID: 03678
+  itemName: Chocolate
+  itemID: 66080
   eventData:
     name: 
     id: 0
     hasEvent: 0
   itemDialogue:
-    itemName: Hearty Heart
-    itemFlavourText: 'Stole my heart. '
+    itemName: Chocolate
+    itemFlavourText: The good tasting kinda brown
   powerupPrefab: {fileID: 0}
   utilityPrefab: {fileID: 0}
   healthCap: 1
-  playerSpeed: 0
+  playerSpeed: 0.2
   playerCharge: 0
   damageBase: 0
   damageMultiplier: 0
   damageCriticalHit: 0
   damageCriticalChance: 0
-  refillHealth: 1
+  refillHealth: 0
