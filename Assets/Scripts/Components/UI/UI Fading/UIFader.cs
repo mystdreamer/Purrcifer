@@ -7,7 +7,7 @@ namespace Purrcifer.UI
     [System.Serializable]
     public enum FadeState : int
     {
-        OUT = 0, 
+        OUT = 0,
         IN = 1
     }
 
@@ -34,13 +34,21 @@ namespace Purrcifer.UI
         /// Called to fade in the linked objects. 
         /// </summary>
         /// <param name="callback"> Will call this interface when fade completes. </param>
-        public void FadeIn() => StartCoroutine(FadeInCoroutine());
+        public void FadeIn()
+        {
+            StopAllCoroutines();
+            StartCoroutine(FadeInCoroutine());
+        }
 
         /// <summary>
         /// Called to fade out the linked objects. 
         /// </summary>
         /// <param name="callback"> Will call this interface when fade completes. </param>
-        public void FadeOut() => StartCoroutine(FadeOutCoroutine());
+        public void FadeOut()
+        {
+            StopAllCoroutines();
+            StartCoroutine(FadeOutCoroutine());
+        }
 
         /// <summary>
         /// Increases an objects alpha using interpolation. 
@@ -70,8 +78,8 @@ namespace Purrcifer.UI
             while (_alphaCurrent > 0)
             {
                 _alphaCurrent -= Mathf.Lerp(0, 1, Time.deltaTime);
-                
-                if(_alphaCurrent - EPSILION <= 0)
+
+                if (_alphaCurrent - EPSILION <= 0)
                     _alphaCurrent = 0;
 
                 SetValue(_alphaCurrent);
