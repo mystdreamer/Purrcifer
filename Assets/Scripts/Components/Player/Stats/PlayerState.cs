@@ -71,6 +71,15 @@ public class PlayerState : MonoBehaviour
     }
 
     /// <summary>
+    /// Flag denoting player invinability. 
+    /// </summary>
+    public bool Invincible
+    {
+        get => invincible;
+        set => invincible = value;
+    }
+
+    /// <summary>
     /// Returns true if the player is alive. 
     /// </summary>
     public bool Alive => (_healthStats.current > _healthStats.min);

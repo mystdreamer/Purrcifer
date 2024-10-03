@@ -7,16 +7,15 @@ using UnityEngine.AI;
 
 public class FollowScript : Entity
 {
-    public State enemyState = State.INACTIVE;
-    public GameObject playerInstance;
-    public NavMeshAgent enemy;
-    public Vector3 shownPosition;
     public enum State
     {
         INACTIVE,
         ACTIVE
     }
-
+    public State enemyState = State.INACTIVE;
+    public GameObject playerInstance;
+    public NavMeshAgent enemy;
+    public Vector3 shownPosition;    
 
     void Awake()
     {

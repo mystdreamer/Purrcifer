@@ -292,7 +292,6 @@ public partial class GameManager : MonoBehaviour
         Instance.PlayerState.ApplyPowerup(data);
     }
 
-
     public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
 
     public static void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
