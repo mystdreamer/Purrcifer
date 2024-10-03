@@ -605,6 +605,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1608399166349705400, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
+      propertyPath: _letterBox
+      value: 
+      objectReference: {fileID: 4505573947885494207}
+    - target: {fileID: 1608399166349705400, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
       propertyPath: _eventSystem
       value: 
       objectReference: {fileID: 858025467}
@@ -831,6 +835,11 @@ PrefabInstance:
 --- !u!224 &4505573947885494206 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8284588282647713704, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
+  m_PrefabInstance: {fileID: 4505573947885494205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4505573947885494207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3982222236116671380, guid: c74e921d8bdb0574e8697db9a1a9c19e, type: 3}
   m_PrefabInstance: {fileID: 4505573947885494205}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7939842139995677474

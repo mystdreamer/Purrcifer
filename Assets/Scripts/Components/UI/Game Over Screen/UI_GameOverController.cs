@@ -33,7 +33,7 @@ public class UI_GameOverController : MenuBase
     {
         Debug.Log("New Game Called");
         GameManager.ResetPlayerData();
-        UIManager.Instance.StartLevelTransitionFade(LevelID.LEVEL_1, false);
+        UIManager.Instance.StartLevelTransitionFade(LevelID.CHARACTER_SELECT, false);
         this.enabled = false;
     }
 

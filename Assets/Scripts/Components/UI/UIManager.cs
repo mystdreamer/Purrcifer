@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,9 +16,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UI_BossHealthBar _bossHealthBar;
     [SerializeField] private UI_GameOverController _gameOverController;
     [SerializeField] private UI_TransitionScreenHandler _transitionScreenHandler;
+    [SerializeField] private GameObject _letterBox;
 
     #region Properties. 
-    public Boss boss = null; 
+    public Boss boss = null;
 
     public static UIManager Instance => _instance;
 
@@ -51,6 +53,18 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
 
+    }
+
+    public void OnLevelWasLoaded(int level)
+    {
+        if (level == (int)LevelID.MENU | level == (int)LevelID.SPLASH)
+        {
+            _letterBox.SetActive(false);
+        }
+        else
+        {
+            _letterBox.SetActive(true);
+        }
     }
 
     public void ResetUIState()
