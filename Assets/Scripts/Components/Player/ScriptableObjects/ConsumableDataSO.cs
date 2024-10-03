@@ -10,5 +10,5 @@ public class ConsumableDataSO : ScriptableObject
     public GameObject powerupPrefab;
 
     public int additiveHealthValue;
-    public int additiveSealValue; 
+    public int additiveTalismanValue; 
 }

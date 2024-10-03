@@ -1,9 +1,6 @@
 using Purrcifer.PlayerData;
-using System;
 using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// Class responsible for carrying player data statistics. 
@@ -84,11 +81,25 @@ public class PlayerState : MonoBehaviour
     public int Length => HealthMaxCap - HealthMinCap;
     #endregion
 
+    public int Talismans
+    {
+        get => _itemStats.talismanCharges;
+
+        set
+        {
+            _itemStats.talismanCharges = value;
+            if (_itemStats.talismanCharges < 0)
+                _itemStats.talismanCharges = 0;
+        }
+    }
+
     public void SetPlayerData()
     {
         _healthStats = GameManager.Instance.GetPlayerHealthData;
         _damageStats = GameManager.Instance.GetPlayerDamageData;
+        _itemStats = GameManager.Instance.GetPlayerItemData;
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
+        UIManager.Instance.PlayerTalismans.Enable();
     }
 
     private void Update()
@@ -149,5 +160,6 @@ public class PlayerState : MonoBehaviour
     public void ApplyConsumable(ConsumableDataSO data)
     {
         Health += data.additiveHealthValue;
+        _itemStats.talismanCharges += data.additiveTalismanValue;
     }
 }

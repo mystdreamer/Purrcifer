@@ -281,6 +281,9 @@ public class WorldClock : MonoBehaviour
     /// </summary>
     public void ResetPlayTime()
     {
+        playTime.hours = 0;
+        playTime.minutes = 0;
+        playTime.seconds = 0;
         playTime.Time = 0;
         _lastState = _currentState = WorldState.WORLD_START;
     }

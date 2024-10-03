@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UI_GameOverController _gameOverController;
     [SerializeField] private UI_TransitionScreenHandler _transitionScreenHandler;
     [SerializeField] private GameObject _letterBox;
+    [SerializeField] private UI_PlayerTalismans _talismanDisplay;
 
     #region Properties. 
     public Boss boss = null;
@@ -26,6 +27,8 @@ public class UIManager : MonoBehaviour
     public static UI_DialogueManager DialogueManager => Instance._dialogueManager;
 
     public UI_PlayerHealthBarController PlayerHealthBar => _playerHealthBar;
+
+    public UI_PlayerTalismans PlayerTalismans => _talismanDisplay;
 
     public bool TransitionActive => _transitionScreenHandler.FadedIn;
 
@@ -57,13 +60,15 @@ public class UIManager : MonoBehaviour
 
     public void OnLevelWasLoaded(int level)
     {
-        if (level == (int)LevelID.MENU | level == (int)LevelID.SPLASH)
+        if (level == (int)LevelID.MENU | level == (int)LevelID.SPLASH || level == (int) LevelID.CHARACTER_SELECT)
         {
             _letterBox.SetActive(false);
+            _talismanDisplay.Disable();
         }
         else
         {
             _letterBox.SetActive(true);
+            _talismanDisplay.Enable();
         }
     }
 

@@ -50,6 +50,11 @@ public partial class GameManager : MonoBehaviour
         _objectPoolManager = new ObjectPoolManager();
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        WorldClock.ResetPlayTime();
+    }
+
     #region Teleporting Rooms. 
 
     /// <summary>
@@ -110,6 +115,7 @@ public partial class GameManager : MonoBehaviour
 
     public static void LoadLevel(Purrcifer.LevelLoading.LevelID lvlToLoad, bool fadeOnLoad = true)
     {
+        Debug.Log("World state Reset");
         UIManager.Instance.StartLevelTransitionFade(lvlToLoad, fadeOnLoad);
     }
 
@@ -215,9 +221,11 @@ public partial class GameManager : MonoBehaviour
 
     public PlayerDamageData GetPlayerDamageData => (PlayerDamageData)DataCarrier.RuntimeData;
 
-    //public PlayerMovementData GetPlayerMovement => (PlayerMovementData)DataCarrier.RuntimeData;
-
-    //public PlayerItemData playerItemData => (PlayerItemData)DataCarrier.RuntimeData;
+    public PlayerItemData GetPlayerItemData => new PlayerItemData()
+    {
+        utilityCharges = DataCarrier.RuntimeData.utilityCharges,
+        talismanCharges = DataCarrier.RuntimeData.talismanCount
+    };
     #endregion
 
     /// <summary>
@@ -412,7 +420,8 @@ public partial class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        //Enable the world clock. 
+        //Enable the world clock.
+        _worldClock.ResetPlayTime();
         _worldClock.TimerActive = true;
 
         //Enable player movement. 

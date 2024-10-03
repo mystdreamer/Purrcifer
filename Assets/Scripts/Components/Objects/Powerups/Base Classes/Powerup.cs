@@ -10,7 +10,6 @@ public class PlayerEventData
 
 public abstract class Powerup : MonoBehaviour
 {
-
     public abstract bool HasEvent { get; }
 
     public abstract bool HasDialogue { get; }

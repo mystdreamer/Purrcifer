@@ -31,7 +31,7 @@ MonoBehaviour:
     objectPrefab: {fileID: 6216162527419025023, guid: 56de07055ee88d84c82584033277d5de, type: 3}
   - itemName: NormalRoomB_Heart/Area Damage Tester
     key: 4
-    probabilityWeight: 10
+    probabilityWeight: 20
     objectPrefab: {fileID: 6216162527419025023, guid: 56de07055ee88d84c82584033277d5de, type: 3}
   - itemName: Norm_AreaPushTester
     key: 5
@@ -47,9 +47,13 @@ MonoBehaviour:
     objectPrefab: {fileID: 6561415169832858136, guid: 61c7427380c7e434fa9ae0394e06ba97, type: 3}
   - itemName: Norm_TeleportorTester
     key: 8
-    probabilityWeight: 40
+    probabilityWeight: 10
     objectPrefab: {fileID: 3101658487022019026, guid: c5c8658c0c6d8234ea35666e462348c6, type: 3}
   - itemName: Norm_Popworm
     key: 9
-    probabilityWeight: 40
+    probabilityWeight: 10
     objectPrefab: {fileID: 356958643103145797, guid: 2027841edc748ae49bcff8b5cefa5200, type: 3}
+  - itemName: Norm_TalismanRoom
+    key: 10
+    probabilityWeight: 40
+    objectPrefab: {fileID: 6488202036974374233, guid: 07eb314704fcadc429edff1aab3efc92, type: 3}
