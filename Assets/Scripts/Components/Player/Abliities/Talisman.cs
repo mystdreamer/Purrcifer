@@ -10,9 +10,9 @@ public class Talisman : MonoBehaviour
     void Update()
     {
         if(reuseTime > 0)
-            reuseTime -= Time.deltaTime;
+            currentReuseTime -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Escape) && currentReuseTime <= 0) {
+        if (Input.GetKeyDown(KeyCode.Space) && currentReuseTime <= 0) {
             if (GameManager.Instance.PlayerState.Talismans > 0)
             {
                 currentReuseTime = reuseTime;
