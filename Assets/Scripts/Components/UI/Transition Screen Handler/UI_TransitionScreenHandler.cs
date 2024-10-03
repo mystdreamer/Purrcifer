@@ -59,10 +59,15 @@ public class UI_TransitionScreenHandler : MonoBehaviour
 
     public void StartLevelTransition(int levelToLoad, bool fadeOnLoad)
     {
+        StopAllCoroutines(); 
         StartCoroutine(FadeLevelTransitionIn(levelToLoad, fadeOnLoad));
     }
 
-    public void EndLevelTransition() => StartCoroutine(FadeLevelTransitionOut());
+    public void EndLevelTransition()
+    {
+        StopAllCoroutines(); 
+        StartCoroutine(FadeLevelTransitionOut());
+    }
 
     private IEnumerator FadeLevelTransitionIn(int levelToLoad, bool fadeOnLoad)
     {
