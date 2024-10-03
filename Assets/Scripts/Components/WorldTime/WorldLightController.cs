@@ -1,33 +1,48 @@
+using JetBrains.Annotations;
 using Purrcifer.Data.Defaults;
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class WorldLightController : WorldObject
 {
-    public Light worldLight; 
-    public Color colorNormal; 
+    WorldState stateLast;
+    WorldState stateCurrent;
+
+
+    public Light worldLight;
+    public Color colorNormal;
     public Color colorWitchingHour;
     public Color colorHell;
-    
+
     void Awake()
     {
+        stateLast = stateCurrent = WorldState.WORLD_START;
         worldLight.color = colorNormal;
     }
 
     internal override void WorldUpdateReceiver(WorldState state)
     {
         //Set new color over small period of time.
+        stateLast = stateCurrent; 
+        worldLight.color = GetColorType(state);
+    }
+
+    private Color GetColorType(WorldState state)
+    {
         switch (state)
         {
             case WorldState.WORLD_START:
-                worldLight.color = colorNormal;
-                break;
+                return colorNormal;
             case WorldState.WORLD_WITCHING:
-                worldLight.color = colorWitchingHour;
-                break;
+                return colorWitchingHour;
             case WorldState.WORLD_HELL:
-                worldLight.color = colorHell;
-                break;
+                return colorHell;
         }
+
+        //Catch fail cases. 
+        Debug.Log("World Light Controller: No color defined");
+        Debug.Break();
+        return colorNormal;
     }
 }

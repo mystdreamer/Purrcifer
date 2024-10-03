@@ -23,7 +23,7 @@ namespace Purrcifer.Data.Defaults
         /// <summary>
         /// The scale of time per minute. 
         /// </summary>
-        public const float WORLD_TIMESCALE_MINUTE = 10;
+        public const float WORLD_TIMESCALE_MINUTE = 3;
 
         /// <summary>
         /// When world time actually starts. 
