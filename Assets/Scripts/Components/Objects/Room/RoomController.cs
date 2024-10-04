@@ -194,7 +194,7 @@ public class RoomController : MonoBehaviour
             {
                 // Attempt to build/bake the NavMesh
                 navMeshSurface.BuildNavMesh();
-                Debug.Log("NavMesh successfully baked for room: " + gameObject.name);
+                //Debug.Log("NavMesh successfully baked for room: " + gameObject.name);
             }
             catch (System.Exception ex)
             {
@@ -205,7 +205,7 @@ public class RoomController : MonoBehaviour
         else
         {
             // Log an error if NavMeshSurface is missing
-            Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
+            //Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
         }
     }
     #endregion
@@ -234,7 +234,6 @@ public class RoomController : MonoBehaviour
             if (ItemsCompleted())
                 return;
 
-            Debug.Log("Player Detected In room.");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
         }
