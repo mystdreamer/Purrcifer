@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 000baec93e96a7944a726567324c1286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRaidus: 5
+  maxRaidus: 10
   expansionTime: 1.5
   radiusCollider: {fileID: -4250380467219514600}
 --- !u!135 &-4250380467219514600
