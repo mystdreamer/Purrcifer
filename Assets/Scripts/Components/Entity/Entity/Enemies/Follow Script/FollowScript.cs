@@ -42,7 +42,7 @@ public class FollowScript : Entity
         enemyState = State.ACTIVE;
         enemy.enabled = true;
 
-        Debug.Log("Enemy is active and NavMeshAgent enabled.");
+        // Debug.Log("Enemy is active and NavMeshAgent enabled.");
     }
 
     internal override void OnSleepObject()
@@ -51,7 +51,7 @@ public class FollowScript : Entity
         enemyState = State.INACTIVE;
         enemy.enabled = false;
 
-        Debug.Log("Enemy is inactive and NavMeshAgent disabled.");
+        // Debug.Log("Enemy is inactive and NavMeshAgent disabled.");
     }
 
     internal override void HealthChangedEvent(float lastValue, float currentValue) { }
