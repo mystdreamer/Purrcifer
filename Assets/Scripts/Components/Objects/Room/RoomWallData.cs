@@ -96,6 +96,7 @@ namespace Room.WallController
         /// The wall object. 
         /// </summary>
         public Wall wallSet;
+
         /// <summary>
         /// The set of door objects
         /// </summary>

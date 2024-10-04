@@ -14,12 +14,22 @@ public class TalismanEffector : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        collision.gameObject.GetComponent<IOnTalisman>().Resolve();
+        ResolveCollision(collision.gameObject);
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<IOnTalisman>().Resolve();
+        ResolveCollision(other.gameObject);
+    }
+
+    public void ResolveCollision(GameObject obj)
+    {
+        Debug.Log("Talisman collision resolution called");
+        if(obj.GetComponent<TalismanDestructable>() != null)
+        {
+            Debug.Log("Abstract class found");
+            obj.GetComponent<TalismanDestructable>().Resolve();
+        }
     }
 
     public IEnumerator ExpansionEffect()
