@@ -1,4 +1,6 @@
+using Purrcifer.Data.Player;
 using Purrcifer.PlayerData;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -15,8 +17,6 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private PlayerItemData _itemStats;
     [SerializeField] private bool invincible = false;
     [SerializeField] private bool deathNotified = false;
-
-    public PlayerDamageData Damage => _damageStats;
 
     #region Health Properties. 
     /// <summary>
@@ -90,6 +90,59 @@ public class PlayerState : MonoBehaviour
     public int Length => HealthMaxCap - HealthMinCap;
     #endregion
 
+    #region Damage Properties
+
+    /// <summary>
+    /// Base damage. 
+    /// </summary>
+    public float BaseDamage
+    {
+        get => _damageStats.BaseDamage;
+        set => _damageStats.BaseDamage = value;
+    }
+
+    /// <summary>
+    /// The damage multiplier. 
+    /// </summary>
+    public float DamageMultiplier
+    {
+        get => _damageStats.DamageMultiplier;
+        set => _damageStats.DamageMultiplier = value;
+    }
+
+    /// <summary>
+    /// The critical hit damage. 
+    /// </summary>
+    public float CriticalHitDamage
+    {
+        get => _damageStats.CriticalHitDamage;
+        set => _damageStats.CriticalHitDamage = value;
+    }
+
+    /// <summary>
+    /// Returns the raw critical hit chance.
+    /// </summary>
+    public float CriticalHitChance
+    {
+        get => _damageStats.CriticalHitChance;
+        set => _damageStats.CriticalHitChance = value;
+    }
+
+    /// <summary>
+    /// Returns true if critical hit should be applied. 
+    /// </summary>
+    public bool CriticalHitSuccess => _damageStats.CriticalHitSuccess;
+
+    /// <summary>
+    /// Returns the precalculated damage from the player.
+    /// </summary>
+    public float Damage
+    {
+        get => _damageStats.Damage + ((_damageStats.CriticalHitSuccess) ? _damageStats.CriticalHitDamage : 0);
+    }
+
+    #endregion
+
     public int Talismans
     {
         get => _itemStats.talismanCharges;
@@ -102,13 +155,45 @@ public class PlayerState : MonoBehaviour
         }
     }
 
-    public void SetPlayerData()
+    public void SetPlayerData(GameSaveFileRuntime runtime)
     {
-        _healthStats = GameManager.Instance.GetPlayerHealthData;
-        _damageStats = GameManager.Instance.GetPlayerDamageData;
-        _itemStats = GameManager.Instance.GetPlayerItemData;
+        _healthStats = new PlayerHealthData() {
+            min = runtime.minHealth, 
+            max = runtime.maxHealth, 
+            current = runtime.currentHealth
+        };
+
+        _itemStats = new PlayerItemData()
+        {
+            talismanCharges = runtime.talismanCount, 
+            utilityCharges = runtime.utilityCharges,
+        };
+
+        _damageStats = new PlayerDamageData()
+        {
+            BaseDamage = runtime.baseDamage, 
+            DamageMultiplier = runtime.damageMultiplier, 
+            CriticalHitDamage = runtime.criticalHitDamage,
+            CriticalHitChance = runtime.criticalHitChance
+        };
+
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
-        UIManager.Instance.PlayerTalismans.Enable();
+        UIManager.Instance.PlayerTalismans.EnableDisplay = true;
+    }
+
+    public PlayerDamageData GetDamageData() => _damageStats;
+
+    public void GetPlayerData(GameSaveFileRuntime runtime)
+    {
+        runtime.minHealth = HealthMinCap;
+        runtime.maxHealth = HealthMaxCap;
+        runtime.currentHealth = Health;
+        runtime.baseDamage = BaseDamage;
+        runtime.damageMultiplier = DamageMultiplier;
+        runtime.criticalHitDamage = CriticalHitDamage;
+        runtime.criticalHitChance = CriticalHitChance;
+        runtime.talismanCount = _itemStats.talismanCharges; 
+        runtime.utilityCharges = _itemStats.utilityCharges;
     }
 
     private void Update()
@@ -148,27 +233,154 @@ public class PlayerState : MonoBehaviour
             ApplyPowerup(value.UtilityData);
 
         if (value.ConsumableData != null)
-            ApplyConsumable(value.ConsumableData);
+            ApplyPowerup(value.ConsumableData);
     }
 
-    public void ApplyPowerup(UtilityDataSO data)
+    public void ApplyPowerup(UtilityItemDataSO data)
     {
-        Debug.Log("Powerup application called");
-        _healthStats.max += data.healthCap;
-        //_movementStats.moveSpeed += data.playerSpeed;
-        //_itemStats.utilityCharges += data.playerCharge;
-        _damageStats.BaseDamage += data.damageBase;
-        _damageStats.DamageMultiplier += data.damageMultiplier;
-        _damageStats.CriticalHitDamage += data.damageCriticalHit;
-        _damageStats.CriticalHitChance += data.damageCriticalChance;
+        switch (data.type)
+        {
+            case UtilityType.STOPWATCH:
+                Stopwatch stpWatch = gameObject.AddComponent<Stopwatch>();
+                stpWatch.charge = new Range(_itemStats.utilityCharges, 0, _itemStats.utilityCharges);
+                break;
+        }
 
-        if (data.refillHealth)
-            Health = HealthMaxCap;
+        ApplyUpgradeValueTypes(data.statChangeInts);
+        ApplyUpgradeValueTypes(data.statChangeFloats);
     }
 
-    public void ApplyConsumable(ConsumableDataSO data)
+    public void ApplyPowerup(StatUpgradeItemDataSO data)
     {
-        Health += data.additiveHealthValue;
-        _itemStats.talismanCharges += data.additiveTalismanValue;
+        ApplyUpgradeValueTypes(data.statChangeInts);
+        ApplyUpgradeValueTypes(data.statChangeFloats);
+    }
+
+    public void ApplyPowerup(ConsumableDataSO data)
+    {
+        ApplyConsumableValueTypes(data.intEffects);
+        ApplyConsumableValueTypes(data.boolEffects);
+    }
+
+    public void ApplyPowerup(WeaponItemDataSO data)
+    {
+        //Select weapon type: 
+        switch (data.type)
+        {
+            case WeaponType.SWORD:
+                SwordAttack attack = gameObject.AddComponent<SwordAttack>();
+                attack.prefabs = new Weapon_4DirectionalPrefabs();
+                attack.prefabs.up = data.weaponPrefabUp;
+                attack.prefabs.down = data.weaponPrefabDown;
+                attack.prefabs.left = data.weaponPrefabLeft;
+                attack.prefabs.right = data.weaponPrefabRight;
+                attack.prefabs.destructionTime = data.destructionTime;
+                attack.prefabs.cooldownTime = data.cooldownTime;
+                break;
+        }
+
+        ApplyUpgradeValueTypes(data.statChangeInts);
+        ApplyUpgradeValueTypes(data.statChangeFloats);
+        ApplyUpgradeValueTypes(data.statChangeEffects);
+    }
+
+    private void ApplyUpgradeValueTypes(StatChangeInt[] type)
+    {
+        for (int i = 0; i < type.Length; i++)
+        {
+            switch (type[i].type)
+            {
+                case IntItemValueType.CURRENT_HEALTH:
+                    _healthStats.current += type[i].value;
+                    break;
+                case IntItemValueType.HEALTH_CAP:
+                    _healthStats.max += type[i].value;
+                    break;
+                case IntItemValueType.PLAYER_UTILITY_CHARGE:
+                    _itemStats.utilityCharges += type[i].value;
+                    break;
+            }
+        }
+    }
+
+    private void ApplyUpgradeValueTypes(StatChangeFloat[] type)
+    {
+
+        for (int i = 0; i < type.Length; i++)
+        {
+            switch (type[i].type)
+            {
+                case FloatItemValueType.MOVEMENT_SPEED:
+                    _movementStats.moveSpeed += type[i].value;
+                    break;
+                case FloatItemValueType.DAMAGE_BASE:
+                    _damageStats.BaseDamage += type[i].value;
+                    break;
+                case FloatItemValueType.DAMAGE_MULTIPLIER:
+                    _damageStats.DamageMultiplier += type[i].value;
+                    break;
+                case FloatItemValueType.DAMAGE_CRITICAL_HIT:
+                    _damageStats.CriticalHitDamage += type[i].value;
+                    break;
+                case FloatItemValueType.DAMAGE_CRITICAL_CHANCE:
+                    _damageStats.CriticalHitChance += type[i].value;
+                    break;
+            }
+        }
+    }
+
+    private void ApplyUpgradeValueTypes(StatChangeEffect[] type)
+    {
+        for (int i = 0; i < type.Length; i++)
+        {
+            switch (type[i].type)
+            {
+                case BoolItemValueType.FILL_HEALTH:
+                    _healthStats.current += HealthMaxCap;
+                    break;
+                case BoolItemValueType.REDUCE_HEALTH_TO_ONE:
+                    _healthStats.current = 1; 
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void ApplyConsumableValueTypes(ConsumableDataSO.BoolConsumableEffect[] effects)
+    {
+        for (int i = 0; i < effects.Length; i++)
+        {
+            switch (effects[i].type)
+            {
+                case ConsumableDataSO.ConsumableEffectBool.FILL_HEALTH:
+                    _healthStats.current = _healthStats.max;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void ApplyConsumableValueTypes(ConsumableDataSO.IntConsumableEffect[] effects)
+    {
+        for (int i = 0; i < effects.Length; i++)
+        {
+            switch (effects[i].effect)
+            {
+                case ConsumableDataSO.ConsumableEffectInt.ADD_HEALTH:
+                    _healthStats.current += effects[i].value;
+                    break;
+                case ConsumableDataSO.ConsumableEffectInt.REMOVE_HEALTH:
+                    _healthStats.current -= effects[i].value;
+                    break;
+                case ConsumableDataSO.ConsumableEffectInt.ADD_TALISMAN:
+                    _itemStats.talismanCharges += effects[i].value;
+                    break;
+                case ConsumableDataSO.ConsumableEffectInt.ADD_CHARGE:
+                    _itemStats.utilityCharges += effects[i].value;
+                    break;
+            }
+        }
     }
 }

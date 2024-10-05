@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
         {
             // Retrieve player stats from the GameManager
-            float playerBaseDamage = GameManager.Instance.PlayerState.Damage.Damage;
+            float playerBaseDamage = GameManager.Instance.PlayerState.Damage;
 
             // Calculate total damage
             float damage = playerBaseDamage;

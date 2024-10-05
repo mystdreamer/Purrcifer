@@ -26,6 +26,11 @@ namespace Purrcifer.PlayerData
         [Header("The current health.")]
         public int current;
 
+        public PlayerHealthData()
+        {
+
+        }
+
         /// <summary>
         /// CTOR. 
         /// </summary>

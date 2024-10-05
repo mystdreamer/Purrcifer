@@ -5,7 +5,7 @@ public class WeaponDataSO : ScriptableObject
 {
     [Header("Item Identifiers")]
     public string itemName = "New weapon name here";
-    public string weaponID = RandomIdGenerator.GetBase62(5);
+    public int weaponID = RandomIdGenerator.GetBase62(5);
     public PlayerEventData eventData;
     public ItemDialogue itemDialogue; 
 

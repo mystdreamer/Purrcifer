@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 public static class RandomIdGenerator
 {
@@ -8,14 +9,16 @@ public static class RandomIdGenerator
 
     private static System.Random _random = new System.Random();
 
-    public static string GetBase62(int length)
+    public static int GetBase62(int length)
     {
         var sb = new StringBuilder(length);
 
         for (int i = 0; i < length; i++)
             sb.Append(_base62chars[_random.Next(62)]);
 
-        return sb.ToString();
+        int retValue = Convert.ToInt32(sb.ToString());
+
+        return retValue;
     }
 
     public static string GetBase36(int length)

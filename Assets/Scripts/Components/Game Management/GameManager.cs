@@ -9,6 +9,8 @@ using Purrcifer.Data.Defaults;
 using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
+using JetBrains.Annotations;
+using System;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -229,12 +231,6 @@ public partial class GameManager : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// Function for applying stat changes to the player. 
-    /// </summary>
-    /// <param name="value"> The stat changes to apply. </param>
-    public void ApplyPowerup(Powerup value) => PlayerState.ApplyPowerup(value);
-
-    /// <summary>
     /// Function used to apply event change data to the players current event data. 
     /// </summary>
     /// <param name="eventName"> The event name associated with the event. </param>
@@ -276,7 +272,7 @@ public partial class GameManager : MonoBehaviour
         PlayerMovementPaused = true;
         _playerMovementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
         _playerState = _playerCurrent.GetComponent<PlayerState>();
-        _playerState.SetPlayerData();
+        _playerState.SetPlayerData(DataCarrier.RuntimeData);
     }
 
     ///////////////////////////
@@ -287,10 +283,17 @@ public partial class GameManager : MonoBehaviour
 
     public static void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
 
-    public static void ApplyUpgradeData(UtilityDataSO data)
-    {
-        Instance.PlayerState.ApplyPowerup(data);
-    }
+    /// <summary>
+    /// Function for applying stat changes to the player. 
+    /// </summary>
+    /// <param name="value"> The stat changes to apply. </param>
+    public void ApplyPowerup(Powerup value) => PlayerState.ApplyPowerup(value);
+
+    public void ApplyPowerup(WeaponItemDataSO data) => PlayerState.ApplyPowerup(data);
+
+    public void ApplyPowerup(StatUpgradeItemDataSO data) => PlayerState.ApplyPowerup(data);
+
+    public void ApplyPowerup(UtilityItemDataSO data) => PlayerState.ApplyPowerup(data);
 
     public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
 

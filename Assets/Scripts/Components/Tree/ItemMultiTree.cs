@@ -18,3 +18,8 @@ public class ItemMultiTree : MonoBehaviour
         return spawn;
     }
 }
+
+public class UpgradeMultiTree : MonoBehaviour
+{
+
+}

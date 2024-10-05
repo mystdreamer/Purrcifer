@@ -34,6 +34,11 @@ public class UIManager : MonoBehaviour
 
     public bool TransitionInactive => _transitionScreenHandler.FadedOut;
 
+    public bool TalismanEnabled
+    {
+        set => _talismanDisplay.EnableDisplay = value;
+    } 
+
     #endregion
 
     void Start()
@@ -63,12 +68,12 @@ public class UIManager : MonoBehaviour
         if (level == (int)LevelID.MENU | level == (int)LevelID.SPLASH || level == (int) LevelID.CHARACTER_SELECT)
         {
             _letterBox.SetActive(false);
-            _talismanDisplay.Disable();
+            _talismanDisplay.EnableDisplay = true;
         }
         else
         {
             _letterBox.SetActive(true);
-            _talismanDisplay.Enable();
+            _talismanDisplay.EnableDisplay = false;
         }
     }
 

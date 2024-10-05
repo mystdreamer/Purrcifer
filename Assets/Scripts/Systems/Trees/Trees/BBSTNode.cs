@@ -16,7 +16,7 @@
         /// <summary>
         /// The scriptable object data reference carried by the node. 
         /// </summary>
-        public ScriptableObj_TreeItemData data;
+        public TreeItemDataSO data;
 
         /// <summary>
         /// The left leaf. 
@@ -42,7 +42,7 @@
         /// CTOR.
         /// </summary>
         /// <param name="data"> The data to be help by the node. </param>
-        public BBSTNode(ScriptableObj_TreeItemData data)
+        public BBSTNode(TreeItemDataSO data)
         {
             this.key = data.key;
             this.data = data;
@@ -52,7 +52,7 @@
         /// Returns a new BBSTNode from a ScriptableObj_TreeItemData instance. 
         /// </summary>
         /// <param name="data"> The ScriptableObj_TreeItemData to convert. </param>
-        public static explicit operator BBSTNode(ScriptableObj_TreeItemData data)
+        public static explicit operator BBSTNode(TreeItemDataSO data)
         {
             return new BBSTNode(data);
         }

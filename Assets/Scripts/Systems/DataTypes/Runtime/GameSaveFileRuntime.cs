@@ -62,21 +62,6 @@ namespace Purrcifer.Data.Player
             };
         }
 
-        public void SetPlayerHealthData(PlayerState data)
-        {
-            minHealth = data.HealthMinCap;
-            maxHealth = data.HealthMaxCap;
-            currentHealth = data.Health;
-        }
-
-        public void SetPlayerDamageData(PlayerState data)
-        {
-            baseDamage = data.Damage.BaseDamage;
-            damageMultiplier = data.Damage.DamageMultiplier;
-            criticalHitDamage = data.Damage.CriticalHitDamage;
-            criticalHitChance = data.Damage.CriticalHitChance;
-        }
-
         public GameSaveFileRuntime GetDefaultPlayerData()
         {
             return new GameSaveFileRuntime()

@@ -5,7 +5,7 @@ public class UtilityDataSO : ScriptableObject
 {
     [Header("Item Identifiers")]
     public string itemName = "New util item name here";
-    public string itemID = RandomIdGenerator.GetBase62(5);
+    public int itemID = RandomIdGenerator.GetBase62(5);
     public PlayerEventData eventData;
     public ItemDialogue itemDialogue;
 

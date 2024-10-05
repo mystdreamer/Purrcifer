@@ -4,7 +4,7 @@
 /// The basic pool item data class. 
 /// </summary>
 [System.Serializable]
-public class ScriptableObj_TreeItemData
+public class TreeItemDataSO
 {
     /// <summary>
     /// The name of the item. 
@@ -36,7 +36,7 @@ public class ScriptableObj_TreeItemData
     /// <param name="id"> The id of the object. </param>
     /// <param name="probability"> The probability weighting assigned to the object. </param>
     /// <param name="objectPrefab"> The prefab to generate. </param>
-    public ScriptableObj_TreeItemData(int id, int probability, GameObject objectPrefab)
+    public TreeItemDataSO(int id, int probability, GameObject objectPrefab)
     {
         this.key = id;
         this.probabilityWeight = probability;

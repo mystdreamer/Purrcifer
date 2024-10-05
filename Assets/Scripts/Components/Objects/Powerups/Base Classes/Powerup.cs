@@ -1,13 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerEventData
-{
-    public string name;
-    public int id;
-    public bool hasEvent;
-}
-
 public abstract class Powerup : MonoBehaviour
 {
     public abstract bool HasEvent { get; }
@@ -23,7 +15,7 @@ public abstract class Powerup : MonoBehaviour
 
     public abstract WeaponDataSO WeaponData { get; }
 
-    public abstract UtilityDataSO UtilityData { get; }
+    public abstract UtilityItemDataSO UtilityData { get; }
 
     public abstract ConsumableDataSO ConsumableData { get; }
 
@@ -62,7 +54,7 @@ public abstract class PowerupConsumable : Powerup
 
     public override WeaponDataSO WeaponData => null;
 
-    public override UtilityDataSO UtilityData => null;
+    public override UtilityItemDataSO UtilityData => null;
 
     public override ConsumableDataSO ConsumableData => consumableData;
 }
@@ -81,14 +73,14 @@ public abstract class PowerupWeapon : Powerup
 
     public override WeaponDataSO WeaponData => weaponData;
 
-    public override UtilityDataSO UtilityData => null;
+    public override UtilityItemDataSO UtilityData => null;
 
     public override ConsumableDataSO ConsumableData => null;
 }
 
 public abstract class PowerupUtility : Powerup
 {
-    public UtilityDataSO utilityData;
+    public UtilityItemDataSO utilityData;
 
     public override bool HasEvent => utilityData.eventData.hasEvent;
 
@@ -100,7 +92,7 @@ public abstract class PowerupUtility : Powerup
 
     public override WeaponDataSO WeaponData => null;
 
-    public override UtilityDataSO UtilityData => utilityData;
+    public override UtilityItemDataSO UtilityData => utilityData;
 
     public override ConsumableDataSO ConsumableData => null;
 }
