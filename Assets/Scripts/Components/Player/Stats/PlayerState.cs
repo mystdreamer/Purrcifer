@@ -257,6 +257,7 @@ public class PlayerState : MonoBehaviour
     {
         ApplyUpgradeValueTypes(data.statChangeInts);
         ApplyUpgradeValueTypes(data.statChangeFloats);
+        ApplyUpgradeValueTypes(data.statChangeEffects);
     }
 
     public void ApplyPowerup(ConsumableDataSO data)
@@ -293,9 +294,6 @@ public class PlayerState : MonoBehaviour
         {
             switch (type[i].type)
             {
-                case ItemDataSO.IntItemValueType.CURRENT_HEALTH:
-                    _healthStats.current += type[i].value;
-                    break;
                 case ItemDataSO.IntItemValueType.HEALTH_CAP:
                     _healthStats.max += type[i].value;
                     break;
@@ -339,7 +337,7 @@ public class PlayerState : MonoBehaviour
             switch (type[i].type)
             {
                 case ItemDataSO.BoolItemValueType.FILL_HEALTH:
-                    _healthStats.current += HealthMaxCap;
+                    _healthStats.current = HealthMaxCap;
                     break;
                 case ItemDataSO.BoolItemValueType.REDUCE_HEALTH_TO_ONE:
                     _healthStats.current = 1; 

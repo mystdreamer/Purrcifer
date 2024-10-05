@@ -24,7 +24,7 @@ MonoBehaviour:
   powerupPedistoolPrefab: {fileID: 1609120740335180721, guid: 751c8ca78428c754db0cd0cb58154ab6, type: 3}
   statChangeInts:
   - type: 1
-    value: 2
+    value: 1
   statChangeFloats: []
   statChangeEffects:
   - type: 0

@@ -5,7 +5,6 @@ public abstract class ItemDataSO : ScriptableObject
     //Note any added value types need to be addressed in the PlayerState ApplyValueTypes(type)
     public enum IntItemValueType : int
     {
-        CURRENT_HEALTH = 0,
         HEALTH_CAP = 1,
         PLAYER_UTILITY_CHARGE = 2,
     }
