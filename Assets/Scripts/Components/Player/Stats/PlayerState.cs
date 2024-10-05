@@ -232,15 +232,18 @@ public class PlayerState : MonoBehaviour
         if (value.UtilityData != null)
             ApplyPowerup(value.UtilityData);
 
+        if (value.StatUpgradeItemData != null)
+            ApplyPowerup(value.StatUpgradeItemData);
+
         if (value.ConsumableData != null)
             ApplyPowerup(value.ConsumableData);
     }
 
-    public void ApplyPowerup(UtilityItemDataSO data)
+    public void ApplyPowerup(UtilityDataSO data)
     {
         switch (data.type)
         {
-            case UtilityType.STOPWATCH:
+            case UtilityDataSO.UtilityType.STOPWATCH:
                 Stopwatch stpWatch = gameObject.AddComponent<Stopwatch>();
                 stpWatch.charge = new Range(_itemStats.utilityCharges, 0, _itemStats.utilityCharges);
                 break;
@@ -262,12 +265,12 @@ public class PlayerState : MonoBehaviour
         ApplyConsumableValueTypes(data.boolEffects);
     }
 
-    public void ApplyPowerup(WeaponItemDataSO data)
+    public void ApplyPowerup(WeaponDataSO data)
     {
         //Select weapon type: 
         switch (data.type)
         {
-            case WeaponType.SWORD:
+            case WeaponDataSO.WeaponType.SWORD:
                 SwordAttack attack = gameObject.AddComponent<SwordAttack>();
                 attack.prefabs = new Weapon_4DirectionalPrefabs();
                 attack.prefabs.up = data.weaponPrefabUp;
@@ -284,61 +287,61 @@ public class PlayerState : MonoBehaviour
         ApplyUpgradeValueTypes(data.statChangeEffects);
     }
 
-    private void ApplyUpgradeValueTypes(StatChangeInt[] type)
+    private void ApplyUpgradeValueTypes(ItemDataSO.StatChangeInt[] type)
     {
         for (int i = 0; i < type.Length; i++)
         {
             switch (type[i].type)
             {
-                case IntItemValueType.CURRENT_HEALTH:
+                case ItemDataSO.IntItemValueType.CURRENT_HEALTH:
                     _healthStats.current += type[i].value;
                     break;
-                case IntItemValueType.HEALTH_CAP:
+                case ItemDataSO.IntItemValueType.HEALTH_CAP:
                     _healthStats.max += type[i].value;
                     break;
-                case IntItemValueType.PLAYER_UTILITY_CHARGE:
+                case ItemDataSO.IntItemValueType.PLAYER_UTILITY_CHARGE:
                     _itemStats.utilityCharges += type[i].value;
                     break;
             }
         }
     }
 
-    private void ApplyUpgradeValueTypes(StatChangeFloat[] type)
+    private void ApplyUpgradeValueTypes(ItemDataSO.StatChangeFloat[] type)
     {
 
         for (int i = 0; i < type.Length; i++)
         {
             switch (type[i].type)
             {
-                case FloatItemValueType.MOVEMENT_SPEED:
+                case ItemDataSO.FloatItemValueType.MOVEMENT_SPEED:
                     _movementStats.moveSpeed += type[i].value;
                     break;
-                case FloatItemValueType.DAMAGE_BASE:
+                case ItemDataSO.FloatItemValueType.DAMAGE_BASE:
                     _damageStats.BaseDamage += type[i].value;
                     break;
-                case FloatItemValueType.DAMAGE_MULTIPLIER:
+                case ItemDataSO.FloatItemValueType.DAMAGE_MULTIPLIER:
                     _damageStats.DamageMultiplier += type[i].value;
                     break;
-                case FloatItemValueType.DAMAGE_CRITICAL_HIT:
+                case ItemDataSO.FloatItemValueType.DAMAGE_CRITICAL_HIT:
                     _damageStats.CriticalHitDamage += type[i].value;
                     break;
-                case FloatItemValueType.DAMAGE_CRITICAL_CHANCE:
+                case ItemDataSO.FloatItemValueType.DAMAGE_CRITICAL_CHANCE:
                     _damageStats.CriticalHitChance += type[i].value;
                     break;
             }
         }
     }
 
-    private void ApplyUpgradeValueTypes(StatChangeEffect[] type)
+    private void ApplyUpgradeValueTypes(ItemDataSO.StatChangeEffect[] type)
     {
         for (int i = 0; i < type.Length; i++)
         {
             switch (type[i].type)
             {
-                case BoolItemValueType.FILL_HEALTH:
+                case ItemDataSO.BoolItemValueType.FILL_HEALTH:
                     _healthStats.current += HealthMaxCap;
                     break;
-                case BoolItemValueType.REDUCE_HEALTH_TO_ONE:
+                case ItemDataSO.BoolItemValueType.REDUCE_HEALTH_TO_ONE:
                     _healthStats.current = 1; 
                     break;
                 default:

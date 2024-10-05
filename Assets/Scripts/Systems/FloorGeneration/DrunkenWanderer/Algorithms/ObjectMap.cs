@@ -43,15 +43,15 @@ public static class ObjectGenHelper
             case MapIntMarkers.NONE:
                 return null;
             case MapIntMarkers.BOSS:
-                return MasterTree.Instance.BossRoomTree.GetRandomPrefab(false);
+                return MasterTree.GetBossRoomPrefab;
             case MapIntMarkers.START:
-                return MasterTree.Instance.StartRoomTree.GetRandomPrefab(false);
+                return MasterTree.GetStartRoomPrefab;
             case MapIntMarkers.ROOM:
-                return MasterTree.Instance.NormalRoomTree.GetRandomPrefab(false);
+                return MasterTree.GetNormalRoomPrefab;
             case MapIntMarkers.TREASURE:
-                return MasterTree.Instance.TreasureRoomTree.GetRandomPrefab(false);
+                return MasterTree.GetTreasureRoomPrefab;
             case MapIntMarkers.HIDDEN_ROOM:
-                return MasterTree.Instance.HiddenRoomTree.GetRandomPrefab(false);
+                return MasterTree.GetHiddenRoomPrefab;
             default:
                 return null;
         }

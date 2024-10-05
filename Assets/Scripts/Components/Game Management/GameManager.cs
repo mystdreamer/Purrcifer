@@ -289,14 +289,6 @@ public partial class GameManager : MonoBehaviour
     /// <param name="value"> The stat changes to apply. </param>
     public void ApplyPowerup(Powerup value) => PlayerState.ApplyPowerup(value);
 
-    public void ApplyPowerup(WeaponItemDataSO data) => PlayerState.ApplyPowerup(data);
-
-    public void ApplyPowerup(StatUpgradeItemDataSO data) => PlayerState.ApplyPowerup(data);
-
-    public void ApplyPowerup(UtilityItemDataSO data) => PlayerState.ApplyPowerup(data);
-
-    public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
-
     public static void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
 }
 #endregion

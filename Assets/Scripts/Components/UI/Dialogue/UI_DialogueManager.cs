@@ -21,7 +21,7 @@ namespace Purrcifer.UI
             {
                 inUse = true;
                 //Set name text to display. 
-                nameText.text = dialogue.itemName;
+                nameText.text = dialogue.itemDisplayName;
 
                 //Start the Coroutine.
                 StartCoroutine(DisplayFlavourText(dialogue));
@@ -36,8 +36,8 @@ namespace Purrcifer.UI
             textFader.FadeIn();
 
             //Set the text. 
-            nameText.text = dialogue.itemName;
-            dialogueText.text = dialogue.itemFlavourText.ToString();
+            nameText.text = dialogue.itemDisplayName;
+            dialogueText.text = dialogue.itemDisplayText.ToString();
 
             while (textFader.state != FadeState.IN && displayFader.state != FadeState.IN)
                 yield return new WaitForEndOfFrame();

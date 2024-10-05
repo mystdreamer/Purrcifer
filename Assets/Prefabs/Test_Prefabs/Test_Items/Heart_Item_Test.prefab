@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce401d90317603478825d63205377b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  utilityData: {fileID: 11400000, guid: 56351e9c4458f5347be3158e4bebb861, type: 2}
+  statupSO: {fileID: 11400000, guid: 1f198482323860d4f99bdd36428810cd, type: 2}
 --- !u!54 &-119566900393021520
 Rigidbody:
   m_ObjectHideFlags: 0

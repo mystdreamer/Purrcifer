@@ -11,5 +11,5 @@ public class ItemTreeSO : ScriptableObject
     /// <summary>
     /// The list of items held within the pool. 
     /// </summary>
-    public List<TreeItemDataSO> itemData;
+    public List<ItemDataSO> itemData;
 }

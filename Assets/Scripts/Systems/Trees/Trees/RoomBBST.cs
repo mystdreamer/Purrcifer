@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace ItemPool
@@ -8,9 +7,9 @@ namespace ItemPool
     /// Class used to handle item pools. 
     /// </summary>
     [System.Serializable]
-    public class ItemBBST
+    public class RoomBBST
     {
-        public BBST<ItemDataSO> bbst = new BBST<ItemDataSO>();
+        public BBST<RoomDataSO> bbst = new BBST<RoomDataSO>();
 
         /// <summary>
         /// Returns a list of the keys actively held in the tree. 
@@ -18,13 +17,17 @@ namespace ItemPool
         public List<int> Keys => bbst.Keys;
 
         #region CTORS. 
-        public ItemBBST() { }
+        public RoomBBST() { }
 
-        public ItemBBST(ItemDataSO value) 
-            => bbst.Insert(new Node<ItemDataSO>(value, value.itemID, value.itemWeight));
+        public RoomBBST(RoomDataSO value)
+        {
+            bbst.Insert(new Node<RoomDataSO>(value, value.roomID, value.weighting));
+        }
 
-        public ItemBBST(ItemDataSOTree itemPool) 
-            => InsertRange(itemPool.items);
+        public RoomBBST(RoomDataSO[] roomPool)
+        {
+            InsertRange(roomPool);
+        }
         #endregion
 
         #region Item Retrival. 
@@ -34,15 +37,18 @@ namespace ItemPool
         /// </summary>
         /// <param name="remove"> Should the item be removed from the tree upon retrieval. </param>
         /// <returns> GameObject Prefab reference. </returns>
-        public GameObject GetRandomPrefab(bool remove) =>
-            bbst.GetRandomPrefab(remove)?.powerupPedistoolPrefab;
+        public GameObject GetRandomPrefab(bool remove)
+        {
+            RoomDataSO val = bbst.GetRandomPrefab(remove);
+            return (val != null) ? val.roomPrefab : null;
+        }
         #endregion
 
         #region Insertion.
-        public bool Insert(ItemDataSO data) => 
-            bbst.Insert(new Node<ItemDataSO>(data, data.itemID, data.itemWeight));
+        public bool Insert(RoomDataSO data) => 
+            bbst.Insert(new Node<RoomDataSO>(data, data.roomID, data.weighting));
 
-        public void InsertRange(ItemDataSO[] nodes)
+        public void InsertRange(RoomDataSO[] nodes)
         {
             for (int i = 0; i < nodes.Length; i++)
                 Insert(nodes[i]);

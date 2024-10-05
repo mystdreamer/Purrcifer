@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PowerUp_Health : PowerupUtility
+public class PowerUp_Health : PowerupStatup
 {
     public override void OnApplicationEvent(GameObject player)
     {

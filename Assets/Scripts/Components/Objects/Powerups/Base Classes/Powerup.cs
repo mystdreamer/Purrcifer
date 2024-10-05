@@ -15,9 +15,11 @@ public abstract class Powerup : MonoBehaviour
 
     public abstract WeaponDataSO WeaponData { get; }
 
-    public abstract UtilityItemDataSO UtilityData { get; }
+    public abstract UtilityDataSO UtilityData { get; }
 
     public abstract ConsumableDataSO ConsumableData { get; }
+
+    public abstract StatUpgradeItemDataSO StatUpgradeItemData { get; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -54,7 +56,9 @@ public abstract class PowerupConsumable : Powerup
 
     public override WeaponDataSO WeaponData => null;
 
-    public override UtilityItemDataSO UtilityData => null;
+    public override UtilityDataSO UtilityData => null;
+
+    public override StatUpgradeItemDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => consumableData;
 }
@@ -73,14 +77,16 @@ public abstract class PowerupWeapon : Powerup
 
     public override WeaponDataSO WeaponData => weaponData;
 
-    public override UtilityItemDataSO UtilityData => null;
+    public override UtilityDataSO UtilityData => null;
+
+    public override StatUpgradeItemDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => null;
 }
 
 public abstract class PowerupUtility : Powerup
 {
-    public UtilityItemDataSO utilityData;
+    public UtilityDataSO utilityData;
 
     public override bool HasEvent => utilityData.eventData.hasEvent;
 
@@ -92,7 +98,30 @@ public abstract class PowerupUtility : Powerup
 
     public override WeaponDataSO WeaponData => null;
 
-    public override UtilityItemDataSO UtilityData => utilityData;
+    public override UtilityDataSO UtilityData => utilityData;
+
+    public override StatUpgradeItemDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => null;
+}
+
+public abstract class PowerupStatup : Powerup
+{
+    public StatUpgradeItemDataSO statupSO;
+
+    public override bool HasEvent => statupSO.eventData.hasEvent;
+
+    public override bool HasDialogue => true;
+
+    public override ItemDialogue ItemDialogue => statupSO.itemDialogue;
+
+    public override PlayerEventData EventData => statupSO.eventData;
+
+    public override WeaponDataSO WeaponData => null;
+
+    public override UtilityDataSO UtilityData => null;
+
+    public override ConsumableDataSO ConsumableData => null;
+
+    public override StatUpgradeItemDataSO StatUpgradeItemData => statupSO;
 }
