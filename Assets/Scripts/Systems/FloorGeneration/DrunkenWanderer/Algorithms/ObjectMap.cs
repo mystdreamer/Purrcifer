@@ -16,49 +16,6 @@ public enum WallDirection
     DOWN
 }
 
-public static class ObjectGenHelper
-{
-    public static class RoomMappingConversions
-    {
-        public static Dictionary<MapIntMarkers, WallType> map =
-            new Dictionary<MapIntMarkers, WallType>() {
-            { MapIntMarkers.NONE, WallType.NONE },
-            { MapIntMarkers.ROOM, WallType.WALL },
-            { MapIntMarkers.START, WallType.WALL },
-            { MapIntMarkers.BOSS, WallType.WALL },
-            { MapIntMarkers.TREASURE, WallType.WALL },
-            { MapIntMarkers.HIDDEN_ROOM, WallType.HIDDEN_ROOM },
-            };
-    }
-
-    /// <summary>
-    /// Generates an object within the map. 
-    /// </summary>
-    /// <param name="marker"> The marker type representing the object. </param>
-    /// <param name="x"> The x coordinate of the object. </param>
-    /// <param name="y"> The y coordinate of the object. </param>
-    public static GameObject GetObjectRef(MapIntMarkers marker)
-    {
-        switch (marker)
-        {
-            case MapIntMarkers.NONE:
-                return null;
-            case MapIntMarkers.BOSS:
-                return MasterTree.GetBossRoomPrefab;
-            case MapIntMarkers.START:
-                return MasterTree.GetStartRoomPrefab;
-            case MapIntMarkers.ROOM:
-                return MasterTree.GetNormalRoomPrefab;
-            case MapIntMarkers.TREASURE:
-                return MasterTree.GetTreasureRoomPrefab;
-            case MapIntMarkers.HIDDEN_ROOM:
-                return MasterTree.GetHiddenRoomPrefab;
-            default:
-                return null;
-        }
-    }
-}
-
 /// <summary>
 /// Class used to convert the FloorMap int map into an object map. 
 /// </summary>
