@@ -1,4 +1,5 @@
 ﻿using FloorGeneration;
+using Purrcifer.Data.Defaults;
 using Purrcifer.FloorGeneration;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ public class FloorPlan
     /// The minimum value of the map. 
     /// </summary>
     private const int MIN = -1;
+
+    private Vector2 roomScale; 
 
     /// <summary>
     /// The integer map representing the world.
@@ -79,6 +82,7 @@ public class FloorPlan
         plan = new int[data.floorWidth, data.floorHeight];
         floorCenter = new Vector2Int(data.floorWidth / 2, data.floorHeight / 2);
         this[data.floorWidth / 2, data.floorHeight / 2] = 1;
+        roomScale = new Vector2(DefaultRoomData.DEFAULT_WIDTH, DefaultRoomData.DEFAULT_HEIGHT);
     }
 
     /// <summary>
@@ -98,6 +102,11 @@ public class FloorPlan
     /// <returns> True if within range, else false. </returns>
     public bool WithinRange(int x, int y) =>
         (this[x, y] != -1) && (this[x, y] != 1);
+
+    public Vector3 GetConversion(int x, int y)
+    {
+        return new Vector3(floorCenter.x + (x * roomScale.x), 0, floorCenter.y + (y * roomScale.y));
+    }
 
     /// <summary>
     /// Prints the map to the console. 

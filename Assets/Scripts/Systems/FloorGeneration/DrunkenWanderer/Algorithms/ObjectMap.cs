@@ -75,12 +75,9 @@ public class ObjectMap
     /// <param name="marker"> The marker type representing the object. </param>
     /// <param name="x"> The x coordinate of the object. </param>
     /// <param name="y"> The y coordinate of the object. </param>
-    public void GenerateObject(int marker, int x, int y)
+    public void GenerateObject(FloorPlan plan, int marker, int x, int y)
     {
-        this[x, y] = RoomInstancing.BuildRoomObject(
-            ((MapIntMarkers)marker),
-            (int)initialPosition.x, (int)initialPosition.y,
-            x, y, roomSizeWidth, roomSizeHeight);
+        this[x, y] = RoomInstancing.BuildRoomObject((MapIntMarkers)marker, plan.GetConversion(x, y));
     }
 
     /// <summary>

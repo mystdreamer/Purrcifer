@@ -108,7 +108,7 @@ namespace Purrcifer.FloorGeneration
             //Summate if there are enough end points.
             Plan.CacheEndpoints();
 
-            while (Plan.EndPoints.Length < 3)
+            while (Plan.EndPoints.Length < 5)
             {
                 Vector2Int randPos = Helpers_FloorPlan.GetRandomRoom(plan);
 

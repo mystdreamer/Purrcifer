@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Purrcifer.FloorGeneration.RoomResolution
@@ -21,7 +21,7 @@ namespace Purrcifer.FloorGeneration.RoomResolution
                 };
         }
 
-        public static GameObject BuildRoomObject(
+        public static GameObject BuildRoomObject(MapIntMarkers type, Vector3 position)
             MapIntMarkers type,
             int initalX, int initalY,
             int xStep, int yStep,
@@ -38,7 +38,7 @@ namespace Purrcifer.FloorGeneration.RoomResolution
             RoomController c = obj.GetComponent<RoomController>();
             c.MarkerType = wallType;
             c.roomType = type;
-            obj.name = obj.name + "[" + xStep + ", " + yStep + "]";
+                obj.name = obj.name + "[" + position.x + ", 0, " + position.z + "]";
 
             //Set the position of the object in world space. 
             obj.transform.position =
