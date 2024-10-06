@@ -19,7 +19,7 @@ public abstract class Powerup : MonoBehaviour
 
     public abstract ConsumableDataSO ConsumableData { get; }
 
-    public abstract StatUpgradeItemDataSO StatUpgradeItemData { get; }
+    public abstract StatUpgradeDataSO StatUpgradeItemData { get; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -30,7 +30,7 @@ public abstract class Powerup : MonoBehaviour
             //If there is an event assigned to this behaviour fire the event change. 
             if (HasEvent) GameManager.Instance.SetPlayerDataEvent(EventData);
             //Apply the effect of the item. 
-            GameManager.Instance.ApplyPowerup(this);
+            GameManager.Instance.ApplyPowerup = this;
             OnApplicationEvent(other.gameObject);
         }
     }
@@ -58,7 +58,7 @@ public abstract class PowerupConsumable : Powerup
 
     public override UtilityDataSO UtilityData => null;
 
-    public override StatUpgradeItemDataSO StatUpgradeItemData => null;
+    public override StatUpgradeDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => consumableData;
 }
@@ -79,7 +79,7 @@ public abstract class PowerupWeapon : Powerup
 
     public override UtilityDataSO UtilityData => null;
 
-    public override StatUpgradeItemDataSO StatUpgradeItemData => null;
+    public override StatUpgradeDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => null;
 }
@@ -100,14 +100,14 @@ public abstract class PowerupUtility : Powerup
 
     public override UtilityDataSO UtilityData => utilityData;
 
-    public override StatUpgradeItemDataSO StatUpgradeItemData => null;
+    public override StatUpgradeDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => null;
 }
 
 public abstract class PowerupStatup : Powerup
 {
-    public StatUpgradeItemDataSO statupSO;
+    public StatUpgradeDataSO statupSO;
 
     public override bool HasEvent => statupSO.eventData.hasEvent;
 
@@ -123,5 +123,5 @@ public abstract class PowerupStatup : Powerup
 
     public override ConsumableDataSO ConsumableData => null;
 
-    public override StatUpgradeItemDataSO StatUpgradeItemData => statupSO;
+    public override StatUpgradeDataSO StatUpgradeItemData => statupSO;
 }

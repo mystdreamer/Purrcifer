@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 798b924d531b1744faddfd38241567d5, type: 3}
-  m_Name: Normal Room Empty SO
+  m_Name: Normal Room Empty 1 SO
   m_EditorClassIdentifier: 
-  roomName: Normal Room Empty
-  roomID: 8275
+  roomName: 
+  roomID: 99430
   weighting: 10
-  roomPrefab: {fileID: 6488202036974374233, guid: ce1538397eb4f204f828d6c3ec5eea03, type: 3}
+  roomPrefab: {fileID: 7360524612165156533, guid: ad05ff7a69b3db146aa043f503b44e7a, type: 3}

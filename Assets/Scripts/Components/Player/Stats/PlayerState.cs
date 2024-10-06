@@ -143,6 +143,33 @@ public class PlayerState : MonoBehaviour
 
     #endregion
 
+    #region Powerup/Consumable Accessors. 
+    public Powerup SetPowerup
+    {
+        set => ApplyPowerup(value);
+    }
+
+    public StatUpgradeDataSO ApplyStatUpgrade
+    {
+        set => ApplyPowerup(value);
+    }
+
+    public UtilityDataSO ApplyUtilityUpgrade
+    {
+        set => ApplyPowerup(value);
+    }
+
+    public WeaponDataSO ApplyWeaponUpgrade
+    {
+        set => ApplyPowerup(value);
+    }
+
+    public ConsumableDataSO ApplyConsumable
+    {
+        set => ApplyPowerup(value);
+    }
+    #endregion
+
     public int Talismans
     {
         get => _itemStats.talismanCharges;
@@ -224,7 +251,8 @@ public class PlayerState : MonoBehaviour
         invincible = false;
     }
 
-    public void ApplyPowerup(Powerup value)
+    #region Upgrade Functions.
+    private void ApplyPowerup(Powerup value)
     {
         if (value.WeaponData != null)
             Debug.Log("Powerup: Weapon Data: Implement this. ");
@@ -239,7 +267,7 @@ public class PlayerState : MonoBehaviour
             ApplyPowerup(value.ConsumableData);
     }
 
-    public void ApplyPowerup(UtilityDataSO data)
+    private void ApplyPowerup(UtilityDataSO data)
     {
         switch (data.type)
         {
@@ -253,20 +281,20 @@ public class PlayerState : MonoBehaviour
         ApplyUpgradeValueTypes(data.statChangeFloats);
     }
 
-    public void ApplyPowerup(StatUpgradeItemDataSO data)
+    private void ApplyPowerup(StatUpgradeDataSO data)
     {
         ApplyUpgradeValueTypes(data.statChangeInts);
         ApplyUpgradeValueTypes(data.statChangeFloats);
         ApplyUpgradeValueTypes(data.statChangeEffects);
     }
 
-    public void ApplyPowerup(ConsumableDataSO data)
+    private void ApplyPowerup(ConsumableDataSO data)
     {
         ApplyConsumableValueTypes(data.intEffects);
         ApplyConsumableValueTypes(data.boolEffects);
     }
 
-    public void ApplyPowerup(WeaponDataSO data)
+    private void ApplyPowerup(WeaponDataSO data)
     {
         //Select weapon type: 
         switch (data.type)
@@ -384,4 +412,5 @@ public class PlayerState : MonoBehaviour
             }
         }
     }
+    #endregion
 }

@@ -24,5 +24,5 @@ public class WeaponDataSO : ItemDataSO
     public float destructionTime;
     public float cooldownTime;
 
-    public void Apply() => GameManager.Instance.PlayerState.ApplyPowerup(this);
+    public void Apply() => GameManager.Instance.ApplyWeaponUpgrade = this;
 }

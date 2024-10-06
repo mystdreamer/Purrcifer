@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Purrcifer.Data.Defaults;
+using Purrcifer.FloorGeneration.RoomResolution;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -98,6 +99,8 @@ public class ObjectMap
     /// </summary>
     public int Height => objectMap.GetLength(1);
 
+    public FloorPlan plan;
+
     /// <summary>
     /// CTOR. 
     /// </summary>
@@ -109,6 +112,7 @@ public class ObjectMap
         roomSizeWidth = DefaultRoomData.DEFAULT_WIDTH;
         roomSizeHeight = DefaultRoomData.DEFAULT_HEIGHT;
         objectMap = new GameObject[plan.plan.GetLength(0), plan.plan.GetLength(1)];
+        this.plan = plan;
     }
 
     /// <summary>
@@ -130,20 +134,10 @@ public class ObjectMap
     /// <param name="y"> The y coordinate of the object. </param>
     private void BuildRoom(int x, int y, int marker)
     {
-        GameObject prefab = ObjectGenHelper.GetObjectRef((MapIntMarkers)marker);
-        
-        if (prefab == null)
-            return;
-        
-        this[x, y] = GameObject.Instantiate(prefab);
-
-        WallType wallType = ObjectGenHelper.RoomMappingConversions.map[(MapIntMarkers)marker];
-        //Debug.Log(wallType.ToString());
-        this[x, y].gameObject.GetComponent<RoomController>().MarkerType = wallType;
-        this[x, y].name = this[x, y].name + "[" + x + ", " + y + "]";
-        //Set the position of the object in world space. 
-        this[x, y].transform.position = 
-            new Vector3(initialPosition.x + x * roomSizeWidth, 0, initialPosition.y - y * roomSizeHeight);
+        this[x, y] = RoomInstancing.BuildRoomObject(
+            ((MapIntMarkers)marker),
+            (int)initialPosition.x, (int)initialPosition.y,
+            x, y, roomSizeWidth, roomSizeHeight);
     }
 
     /// <summary>
@@ -153,47 +147,7 @@ public class ObjectMap
     /// <param name="y"> The y coord of the cell. </param>
     public void EnableDoors(int x, int y)
     {
-        //Cache neighbour marks.
-        GameObject _room = this[x, y];
-
-        if (_room == null)
-            return;
-
-        RoomController _roomCTRLR = _room.GetComponent<RoomController>();
-
-        if (_roomCTRLR == null)
-            return;
-
-        DoorSetup(_roomCTRLR, x + 1, y, WallDirection.RIGHT, WallDirection.LEFT);
-        DoorSetup(_roomCTRLR, x - 1, y, WallDirection.LEFT, WallDirection.RIGHT);
-        DoorSetup(_roomCTRLR, x, y - 1, WallDirection.UP, WallDirection.DOWN);
-        DoorSetup(_roomCTRLR, x, y + 1, WallDirection.DOWN, WallDirection.UP);
-
-        void DoorSetup(RoomController ctrllr, int x, int y, WallDirection aOp, WallDirection bOp)
-        {
-            if (this[x, y] == null)
-                return;
-
-            //Check if are normal mappings. 
-            //Else cover other mappings.
-            // ->> Check for hidden room, if is hidden room, pass to the member that isn't a hidden room. 
-
-            RoomController bController = this[x, y].GetComponent<RoomController>();
-            WallType markerA = ctrllr.MarkerType;
-            WallType markerB = bController.MarkerType;
-
-            if((int)markerA == 3 | (int)markerB == 3)
-            {
-                markerA = markerB = (WallType)3;
-            }
-            else
-            {
-                markerA = markerB = WallType.DOOR;
-            }
-
-            ctrllr.SetRoomState(aOp, markerA);
-            bController.SetRoomState(bOp, markerB);
-        }
+        ResolveRoomDoorRules.ResolveRoomDoors(plan, this, x, y);
     }
 
     /// <summary>

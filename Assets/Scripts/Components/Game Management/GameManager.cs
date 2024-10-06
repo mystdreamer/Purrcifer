@@ -230,6 +230,34 @@ public partial class GameManager : MonoBehaviour
     };
     #endregion
 
+    #region Powerup/Consumable Accessors.
+
+    /// <summary>
+    /// Function for applying stat changes to the player. 
+    /// </summary>
+    /// <param name="value"> The stat changes to apply. </param>
+    public Powerup ApplyPowerup
+    {
+        set => PlayerState.SetPowerup = value;
+    }
+
+    public StatUpgradeDataSO ApplyStatUpgrade
+    {
+        set => PlayerState.ApplyStatUpgrade = value;
+    }
+
+    public UtilityDataSO ApplyUtilityUpgrade
+    {
+        set => PlayerState.ApplyUtilityUpgrade = value;
+    }
+
+    public WeaponDataSO ApplyWeaponUpgrade
+    {
+        set => PlayerState.ApplyWeaponUpgrade = value;
+    }
+
+    #endregion
+
     /// <summary>
     /// Function used to apply event change data to the players current event data. 
     /// </summary>
@@ -282,12 +310,6 @@ public partial class GameManager : MonoBehaviour
     public static int GetSavedLevel => DataCarrier.SavedLevel;
 
     public static void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
-
-    /// <summary>
-    /// Function for applying stat changes to the player. 
-    /// </summary>
-    /// <param name="value"> The stat changes to apply. </param>
-    public void ApplyPowerup(Powerup value) => PlayerState.ApplyPowerup(value);
 
     public static void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
 }

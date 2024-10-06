@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New StatChangeItemDataSO", menuName = "Purrcifer/Collectable SO/New StatChangeItemDataSO")]
-public class StatUpgradeItemDataSO : ItemDataSO
+public class StatUpgradeDataSO : ItemDataSO
 {
     
-    public virtual void Apply() => GameManager.Instance.PlayerState.ApplyPowerup(this);
+    public virtual void Apply() => GameManager.Instance.ApplyStatUpgrade = this;
 }

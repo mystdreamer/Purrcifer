@@ -13,5 +13,5 @@ public class UtilityDataSO : ItemDataSO
 
     public UtilityType type;
 
-    public void Apply() => GameManager.Instance.PlayerState.ApplyPowerup(this);
+    public void Apply() => GameManager.Instance.ApplyUtilityUpgrade = this;
 }
