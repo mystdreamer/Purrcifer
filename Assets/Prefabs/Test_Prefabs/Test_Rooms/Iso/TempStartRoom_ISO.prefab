@@ -82,7 +82,8 @@ MonoBehaviour:
   roomDetector:
     roomTransform: {fileID: 7345997731791078569}
   roomObjects: []
-  RoomMarkerType: 0
+  wallType: 0
+  roomType: 2
   up: {fileID: 1467074633835043330}
   down: {fileID: 4809029296498422017}
   left: {fileID: 6153735585332244879}

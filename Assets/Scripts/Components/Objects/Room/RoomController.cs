@@ -110,7 +110,8 @@ public class RoomController : MonoBehaviour
 
     #region Door Control.
 
-    [SerializeField] private WallType RoomMarkerType;
+    [SerializeField] private WallType wallType;
+    public MapIntMarkers roomType; 
 
     /// <summary>
     /// The door heading upward. 
@@ -148,10 +149,10 @@ public class RoomController : MonoBehaviour
 
     public WallType MarkerType
     {
-        get => RoomMarkerType;
+        get => wallType;
         set
         {
-            RoomMarkerType = value;
+            wallType = value;
             right.WallType = value;
             left.WallType = value;
             up.WallType = value;

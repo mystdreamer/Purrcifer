@@ -56,8 +56,6 @@ public class ObjectMap
     /// </summary>
     public int Height => objectMap.GetLength(1);
 
-    public FloorPlan plan;
-
     /// <summary>
     /// CTOR. 
     /// </summary>
@@ -69,7 +67,6 @@ public class ObjectMap
         roomSizeWidth = DefaultRoomData.DEFAULT_WIDTH;
         roomSizeHeight = DefaultRoomData.DEFAULT_HEIGHT;
         objectMap = new GameObject[plan.plan.GetLength(0), plan.plan.GetLength(1)];
-        this.plan = plan;
     }
 
     /// <summary>
@@ -79,17 +76,6 @@ public class ObjectMap
     /// <param name="x"> The x coordinate of the object. </param>
     /// <param name="y"> The y coordinate of the object. </param>
     public void GenerateObject(int marker, int x, int y)
-    {
-        BuildRoom(x, y, marker);
-    }
-
-    /// <summary>
-    /// Builds a room within world space and adds it to the object map.
-    /// </summary>
-    /// <param name="prefab"> The prefab to create. </param>
-    /// <param name="x"> The x coordinate of the object. </param>
-    /// <param name="y"> The y coordinate of the object. </param>
-    private void BuildRoom(int x, int y, int marker)
     {
         this[x, y] = RoomInstancing.BuildRoomObject(
             ((MapIntMarkers)marker),
@@ -104,7 +90,7 @@ public class ObjectMap
     /// <param name="y"> The y coord of the cell. </param>
     public void EnableDoors(int x, int y)
     {
-        ResolveRoomDoorRules.ResolveRoomDoors(plan, this, x, y);
+        DoorTypeResolution.ResolveRoomDoors(this, x, y);
     }
 
     /// <summary>

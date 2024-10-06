@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Purrcifer.FloorGeneration.RoomResolution;
+using System.Collections;
 using UnityEngine;
 
 namespace FloorGeneration
@@ -13,28 +14,10 @@ namespace FloorGeneration
         private IEnumerator GenerateObjectConversion(FloorData data, FloorPlan plan)
         {
             ObjectMap objMap = new ObjectMap(data, plan);
-            int posValue;
-
-            for (int i = 0; i < plan.plan.GetLength(0); i++)
-            {
-                for (int j = 0; j < plan.plan.GetLength(1); j++)
-                {
-                    posValue = plan.plan[i, j];
-                    objMap.GenerateObject(posValue, i, j);
-                    yield return new WaitForEndOfFrame();
-                }
-            }
-
-            for (int i = 0; i < plan.plan.GetLength(0); i++)
-            {
-                for (int j = 0; j < plan.plan.GetLength(1); j++)
-                {
-                    objMap.EnableDoors(i, j);
-                    yield return new WaitForEndOfFrame();
-                }
-            }
-
-            GameManager.Instance.SetObjectMap(objMap); 
+            FloorMapConversion.GenerateObjectMap(plan, ref objMap);
+            FloorMapConversion.OpenDoors(plan, ref objMap);
+            GameManager.Instance.SetObjectMap(objMap);
+            yield return new WaitForEndOfFrame(); 
             Destroy(this.gameObject);
         }
 

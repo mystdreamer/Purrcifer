@@ -100,7 +100,7 @@ public partial class GameManager : MonoBehaviour
         int mapMarkerConversion = (int)marker;
 
         //Retrieve the positions of matching rooms. 
-        Vector2Int[] matched = floorMap.GetTypeMark(mapMarkerConversion).ToArray();
+        Vector2Int[] matched = Helpers_FloorPlan.GetMarksWithType(floorMap, mapMarkerConversion);
 
         //Retrieve the room object.
         GameObject room = _objectMap[matched[0]];
