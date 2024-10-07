@@ -2613,7 +2613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3868749709382797730
 Transform:
   m_ObjectHideFlags: 0
@@ -3208,12 +3208,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3527739137039683116}
   m_Layer: 0
-  m_Name: 'Left_HiddenRoom_Door '
+  m_Name: 'Left_HiddenRoom_Wall '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3527739137039683116
 Transform:
   m_ObjectHideFlags: 0
@@ -4999,8 +4999,8 @@ MonoBehaviour:
     _door: {fileID: 7214039139962297618}
     _wall: {fileID: 8594892937871562721}
   hiddenRoomSet:
-    _door: {fileID: 4627159054896634638}
-    _wall: {fileID: 8014311694988301566}
+    _door: {fileID: 8014311694988301566}
+    _wall: {fileID: 4627159054896634638}
     _breakable: {fileID: 1142234116925142563}
 --- !u!1 &7027058077791802496
 GameObject:
@@ -5642,7 +5642,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3583756932676128290}
   m_Layer: 0
-  m_Name: Left_HiddenRoom_Wall
+  m_Name: Left_HiddenRoom_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

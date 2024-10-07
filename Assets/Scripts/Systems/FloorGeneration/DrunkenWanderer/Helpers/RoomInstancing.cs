@@ -22,10 +22,6 @@ namespace Purrcifer.FloorGeneration.RoomResolution
         }
 
         public static GameObject BuildRoomObject(MapIntMarkers type, Vector3 position)
-            MapIntMarkers type,
-            int initalX, int initalY,
-            int xStep, int yStep,
-            float width, float height)
         {
             GameObject prefab = GetObjectRef(type);
 
@@ -41,8 +37,7 @@ namespace Purrcifer.FloorGeneration.RoomResolution
                 obj.name = obj.name + "[" + position.x + ", 0, " + position.z + "]";
 
             //Set the position of the object in world space. 
-            obj.transform.position =
-                new UnityEngine.Vector3(initalX + (xStep * width), 0, initalY - yStep * height);
+            obj.transform.position = position;
 
             return obj;
         }

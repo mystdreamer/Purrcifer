@@ -491,11 +491,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMax
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMin
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9055908992170714807, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: m_LocalPosition.x

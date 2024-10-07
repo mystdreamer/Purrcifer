@@ -15,4 +15,4 @@ MonoBehaviour:
   roomName: Treasure Room A
   roomID: 42170
   weighting: 10
-  roomPrefab: {fileID: 3682019197337844941, guid: fc1fcc83e35068b41a78839b54b08217, type: 3}
+  roomPrefab: {fileID: 3081234204099102808, guid: 87e63e41fc8870b4d96700bbc1ee35af, type: 3}

@@ -11,7 +11,7 @@ namespace Purrcifer.FloorGeneration.RoomResolution
                 for(int j = 0; j < plan.plan.GetLength(1); j++)
                 {
                     posValue = plan.plan[i, j];
-                    map.GenerateObject(plan, posValue, j, -i);
+                    map.GenerateObject(plan, posValue, j, i);
                 }
             }
         }
@@ -22,7 +22,7 @@ namespace Purrcifer.FloorGeneration.RoomResolution
             {
                 for (int j = 0; j < plan.plan.GetLength(1); j++)
                 {
-                    map.EnableDoors(j, -i);
+                    map.EnableDoors(j, i);
                 }
             }
         }

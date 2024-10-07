@@ -34,7 +34,7 @@ public class MasterTree : MonoBehaviour
         Instance.roomTree.bossRoomPool.GetRandomPrefab(false);
 
     public static GameObject GetHiddenRoomPrefab =>
-        Instance.roomTree.treasureRoomPool.GetRandomPrefab(false);
+        Instance.roomTree.hiddenRoomPool.GetRandomPrefab(false);
 
     private void Awake()
     {

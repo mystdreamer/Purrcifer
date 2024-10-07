@@ -47,8 +47,8 @@
             //Get neighbours. 
             AttemptNeighbourResolution(map, controller, x + 1, y, WallDirection.RIGHT, WallDirection.LEFT);
             AttemptNeighbourResolution(map, controller, x - 1, y, WallDirection.LEFT, WallDirection.RIGHT);
-            AttemptNeighbourResolution(map, controller, x, y - 1, WallDirection.UP, WallDirection.DOWN);
-            AttemptNeighbourResolution(map, controller, x, y + 1, WallDirection.DOWN, WallDirection.UP);
+            AttemptNeighbourResolution(map, controller, x, y + 1, WallDirection.UP, WallDirection.DOWN);
+            AttemptNeighbourResolution(map, controller, x, y - 1, WallDirection.DOWN, WallDirection.UP);
         }
 
         private static void AttemptNeighbourResolution(

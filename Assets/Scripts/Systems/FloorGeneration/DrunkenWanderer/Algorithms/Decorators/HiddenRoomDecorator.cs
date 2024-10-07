@@ -14,7 +14,7 @@ namespace Purrcifer.FloorGeneration
         public override bool Decorate(ref FloorPlan plan)
         {
             Vector2Int[] rooms = Helpers_FloorPlan.GetMarksWithType(plan, 0);
-            Vector2Int[] roomsWithAdj = Helpers_FloorPlan.SortByAdjacency(plan, rooms, 2);
+            Vector2Int[] roomsWithAdj = Helpers_FloorPlan.SortByAdjacency(plan, rooms, 3);
 
             if (roomsWithAdj.Length > 0)
             {
