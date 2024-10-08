@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Inspector
   m_RootView: {fileID: 9}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -403,7 +403,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes/Test_Dev_Scenes/DevS_SplashScreen
+    - Assets/Art/Models/Enemies
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -413,17 +413,17 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes/Test_Dev_Scenes/DevS_SplashScreen
+  - Assets/Art/Models/Enemies
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Mason\OneDrive - Swinburne University\Year 3\Semester
     2\GAM20003 Digital Game Prototyping Lab\Assignments\Purrcifer\Purrcifer
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 603}
-    m_SelectedIDs: e8da0000
-    m_LastClickedID: 56040
-    m_ExpandedIDs: 0000000042da000044da000046da000048da00004ada00004cda00004eda000050da000052da000054da000056da000000ca9a3b
+    scrollPos: {x: 0, y: 15}
+    m_SelectedIDs: 96b10000
+    m_LastClickedID: 45462
+    m_ExpandedIDs: 00000000beb00000c0b00000c2b00000c4b00000c6b00000c8b00000cab00000ccb00000ceb00000d0b00000d2b0000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -452,7 +452,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000042da000044da000046da000048da00004ada00004cda00004eda000050da000052da000054da000056da0000
+    m_ExpandedIDs: 00000000beb00000c0b00000c2b00000c4b00000c6b00000c8b00000cab00000ccb00000ceb00000d0b00000d2b00000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -598,9 +598,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: c0dc0000
-      m_LastClickedID: 0
-      m_ExpandedIDs: 5471ffff3e85ffffc0a6ffffd8b2ffff
+      m_SelectedIDs: 72d9ffff
+      m_LastClickedID: -9870
+      m_ExpandedIDs: 1edcffff7addffff9edeffffa0e2ffffe0f3ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1310,11 +1310,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.060599156, y: -0.9090829, z: 0.38683036, w: -0.1424131}
     speed: 2
-    m_Value: {x: -0.06001815, y: -0.909285, z: 0.38691637, w: -0.14104769}
+    m_Value: {x: 0.060599156, y: 0.90908283, z: -0.38683036, w: 0.1424131}
   m_Size:
-    m_Target: 4.054051
+    m_Target: 4.6263456
     speed: 2
-    m_Value: 3.8794744
+    m_Value: 4.427125
   m_Ortho:
     m_Target: 0
     speed: 2
