@@ -135,7 +135,7 @@ public class Boss_Worm : MonoBehaviour
         public float HalfBossPosHeight => (roomHeight / 2) + offset;
         public int GetRandomZone => UnityEngine.Random.Range(1, 4);
 
-        public IEnumerator PreformAttack(GameObject target, Vector3 roomCenter, ref bool attackComplete)
+        public IEnumerator PreformAttack(GameObject target, Vector3 roomCenter)
         {
             float width = GetDivisionAWidth;
             float height = roomHeight;
@@ -180,6 +180,11 @@ public class Boss_Worm : MonoBehaviour
             initalPoint.z -= HalfBossPosHeight;
             endPoint.z += HalfBossPosHeight;
         }
+    }
+
+    public class SpawnAttack
+    {
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
