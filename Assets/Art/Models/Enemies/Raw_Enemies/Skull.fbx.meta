@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 98448ad2dd9db1a4da8173fdd0a3199f
+guid: 213a81fc8e0c4fd409c56d1dab99d6a4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: M_Hairball
-    second: {fileID: 2800000, guid: 0293b02a45e35304388c9048609f3a23, type: 3}
+      name: M_Child_Shirt
+    second: {fileID: 2800000, guid: e96dd1bf805577f48b6bdaa683e42e56, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Skull
+    second: {fileID: 2800000, guid: 34be059df1b835041b6bfa1be8ab0f9b, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

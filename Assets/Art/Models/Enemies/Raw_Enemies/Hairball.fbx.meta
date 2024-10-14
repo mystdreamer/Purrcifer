@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2dd46111217fea54da282a26adb7ac35
+guid: ea093645501bdeb4483a11531ba486e8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: M_Skull
-    second: {fileID: 2800000, guid: 2951829d7acf99d4da078c87dc465540, type: 3}
+      name: M_Hairball
+    second: {fileID: 2800000, guid: 4c8ccbba688890b41b3692e04eaf27be, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

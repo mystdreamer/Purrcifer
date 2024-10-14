@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7ce89e7997fed1f4f9dc34ee78d75f0e
+guid: 7e9c46825236772419168a71672c4f65
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,7 +8,12 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: M_Blob
-    second: {fileID: 2800000, guid: 95396360fd28c0f4d8a699f8936c3d84, type: 3}
+    second: {fileID: 2800000, guid: a4c39a0f64ec39b458bfca0be85cd242, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: M_Child_Shirt
+    second: {fileID: 2800000, guid: cc306624452349846892f71758dc2f11, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

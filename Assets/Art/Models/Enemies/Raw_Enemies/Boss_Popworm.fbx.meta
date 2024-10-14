@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 70319c7976285a346b0cca0356777867
+guid: 7df86ac1fb25feb4499041795d1afa3e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: M_Boss_LeachKingP1
-    second: {fileID: 2800000, guid: 20ddd9a3a405be1469349a0a2dc197f0, type: 3}
+      name: M_Boss_Popworm
+    second: {fileID: 2800000, guid: a7f335d683dc21f45a2c132583ff1c23, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
