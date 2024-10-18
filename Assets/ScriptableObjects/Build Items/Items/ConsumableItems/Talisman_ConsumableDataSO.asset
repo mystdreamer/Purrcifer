@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d2ecb4f45168e4991e7cb8291d540c, type: 3}
   m_Name: Talisman_ConsumableDataSO
   m_EditorClassIdentifier: 
-  itemName: Consumable item here.
-  powerupPrefab: {fileID: 0}
-  additiveHealthValue: 0
-  additiveTalismanValue: 1
+  itemName: Talisman
+  powerupPrefab: {fileID: 3438968863821123993, guid: 356af6a0b57931c4e8a1006a4bda0ef6, type: 3}

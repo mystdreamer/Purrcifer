@@ -110,7 +110,8 @@ public class RoomController : MonoBehaviour
 
     #region Door Control.
 
-    [SerializeField] private WallType RoomMarkerType;
+    [SerializeField] private WallType wallType;
+    public MapIntMarkers roomType; 
 
     /// <summary>
     /// The door heading upward. 
@@ -148,10 +149,10 @@ public class RoomController : MonoBehaviour
 
     public WallType MarkerType
     {
-        get => RoomMarkerType;
+        get => wallType;
         set
         {
-            RoomMarkerType = value;
+            wallType = value;
             right.WallType = value;
             left.WallType = value;
             up.WallType = value;
@@ -194,7 +195,7 @@ public class RoomController : MonoBehaviour
             {
                 // Attempt to build/bake the NavMesh
                 navMeshSurface.BuildNavMesh();
-                Debug.Log("NavMesh successfully baked for room: " + gameObject.name);
+                //Debug.Log("NavMesh successfully baked for room: " + gameObject.name);
             }
             catch (System.Exception ex)
             {
@@ -205,7 +206,7 @@ public class RoomController : MonoBehaviour
         else
         {
             // Log an error if NavMeshSurface is missing
-            Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
+            //Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
         }
     }
     #endregion
@@ -234,7 +235,6 @@ public class RoomController : MonoBehaviour
             if (ItemsCompleted())
                 return;
 
-            Debug.Log("Player Detected In room.");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
         }
@@ -274,7 +274,6 @@ public class RoomController : MonoBehaviour
 
     private void EnableInterfaces()
     {
-        //Debug.Log("Activating objects.");
         //Room should be activated. 
         SetRoomContentsEnableState(true);
         roomState = RoomState.ACTIVE;
@@ -282,7 +281,6 @@ public class RoomController : MonoBehaviour
 
     private void DisableInterfaces()
     {
-        //Debug.Log("Deactivating objects.");
         //Room should be deactivated. 
         SetRoomContentsEnableState(false);
         roomState = RoomState.COMPLETED;

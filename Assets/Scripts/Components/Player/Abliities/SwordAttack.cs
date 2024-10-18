@@ -82,7 +82,9 @@ public class SwordAttack : MonoBehaviour
             {
                 Debug.Log("Hit GO: " +  hits[j].transform.gameObject);
                 IEntityInterface _interface = hits[j].collider.gameObject.GetComponent<IEntityInterface>();
-                _interface.Health -= 1;
+
+                //Apply damage to the Enemy. 
+                _interface.Health -= GameManager.Instance.PlayerState.Damage;
             }
         }
     }

@@ -1,16 +1,7 @@
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerEventData
-{
-    public string name;
-    public int id;
-    public bool hasEvent;
-}
-
 public abstract class Powerup : MonoBehaviour
 {
-
     public abstract bool HasEvent { get; }
 
     public abstract bool HasDialogue { get; }
@@ -28,6 +19,8 @@ public abstract class Powerup : MonoBehaviour
 
     public abstract ConsumableDataSO ConsumableData { get; }
 
+    public abstract StatUpgradeDataSO StatUpgradeItemData { get; }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
@@ -37,7 +30,7 @@ public abstract class Powerup : MonoBehaviour
             //If there is an event assigned to this behaviour fire the event change. 
             if (HasEvent) GameManager.Instance.SetPlayerDataEvent(EventData);
             //Apply the effect of the item. 
-            GameManager.Instance.ApplyPowerup(this);
+            GameManager.Instance.ApplyPowerup = this;
             OnApplicationEvent(other.gameObject);
         }
     }
@@ -65,6 +58,8 @@ public abstract class PowerupConsumable : Powerup
 
     public override UtilityDataSO UtilityData => null;
 
+    public override StatUpgradeDataSO StatUpgradeItemData => null;
+
     public override ConsumableDataSO ConsumableData => consumableData;
 }
 
@@ -83,6 +78,8 @@ public abstract class PowerupWeapon : Powerup
     public override WeaponDataSO WeaponData => weaponData;
 
     public override UtilityDataSO UtilityData => null;
+
+    public override StatUpgradeDataSO StatUpgradeItemData => null;
 
     public override ConsumableDataSO ConsumableData => null;
 }
@@ -103,5 +100,28 @@ public abstract class PowerupUtility : Powerup
 
     public override UtilityDataSO UtilityData => utilityData;
 
+    public override StatUpgradeDataSO StatUpgradeItemData => null;
+
     public override ConsumableDataSO ConsumableData => null;
+}
+
+public abstract class PowerupStatup : Powerup
+{
+    public StatUpgradeDataSO statupSO;
+
+    public override bool HasEvent => statupSO.eventData.hasEvent;
+
+    public override bool HasDialogue => true;
+
+    public override ItemDialogue ItemDialogue => statupSO.itemDialogue;
+
+    public override PlayerEventData EventData => statupSO.eventData;
+
+    public override WeaponDataSO WeaponData => null;
+
+    public override UtilityDataSO UtilityData => null;
+
+    public override ConsumableDataSO ConsumableData => null;
+
+    public override StatUpgradeDataSO StatUpgradeItemData => statupSO;
 }

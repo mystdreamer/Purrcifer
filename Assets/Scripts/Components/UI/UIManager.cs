@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,9 +16,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UI_BossHealthBar _bossHealthBar;
     [SerializeField] private UI_GameOverController _gameOverController;
     [SerializeField] private UI_TransitionScreenHandler _transitionScreenHandler;
+    [SerializeField] private GameObject _letterBox;
+    [SerializeField] private UI_PlayerTalismans _talismanDisplay;
 
     #region Properties. 
-    public Boss boss = null; 
+    public Boss boss = null;
 
     public static UIManager Instance => _instance;
 
@@ -25,9 +28,16 @@ public class UIManager : MonoBehaviour
 
     public UI_PlayerHealthBarController PlayerHealthBar => _playerHealthBar;
 
+    public UI_PlayerTalismans PlayerTalismans => _talismanDisplay;
+
     public bool TransitionActive => _transitionScreenHandler.FadedIn;
 
     public bool TransitionInactive => _transitionScreenHandler.FadedOut;
+
+    public bool TalismanEnabled
+    {
+        set => _talismanDisplay.EnableDisplay = value;
+    } 
 
     #endregion
 
@@ -51,6 +61,20 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
 
+    }
+
+    public void OnLevelWasLoaded(int level)
+    {
+        if (level == (int)LevelID.MENU | level == (int)LevelID.SPLASH || level == (int) LevelID.CHARACTER_SELECT)
+        {
+            _letterBox.SetActive(false);
+            _talismanDisplay.EnableDisplay = true;
+        }
+        else
+        {
+            _letterBox.SetActive(true);
+            _talismanDisplay.EnableDisplay = false;
+        }
     }
 
     public void ResetUIState()

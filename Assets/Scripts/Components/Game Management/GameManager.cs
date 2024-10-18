@@ -9,6 +9,8 @@ using Purrcifer.Data.Defaults;
 using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
+using JetBrains.Annotations;
+using System;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -48,6 +50,11 @@ public partial class GameManager : MonoBehaviour
 
         //Generate ObjectPoolManager. 
         _objectPoolManager = new ObjectPoolManager();
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        WorldClock.ResetPlayTime();
     }
 
     #region Teleporting Rooms. 
@@ -93,7 +100,7 @@ public partial class GameManager : MonoBehaviour
         int mapMarkerConversion = (int)marker;
 
         //Retrieve the positions of matching rooms. 
-        Vector2Int[] matched = floorMap.GetTypeMark(mapMarkerConversion).ToArray();
+        Vector2Int[] matched = Helpers_FloorPlan.GetMarksWithType(floorMap, mapMarkerConversion);
 
         //Retrieve the room object.
         GameObject room = _objectMap[matched[0]];
@@ -110,6 +117,7 @@ public partial class GameManager : MonoBehaviour
 
     public static void LoadLevel(Purrcifer.LevelLoading.LevelID lvlToLoad, bool fadeOnLoad = true)
     {
+        Debug.Log("World state Reset");
         UIManager.Instance.StartLevelTransitionFade(lvlToLoad, fadeOnLoad);
     }
 
@@ -215,16 +223,40 @@ public partial class GameManager : MonoBehaviour
 
     public PlayerDamageData GetPlayerDamageData => (PlayerDamageData)DataCarrier.RuntimeData;
 
-    //public PlayerMovementData GetPlayerMovement => (PlayerMovementData)DataCarrier.RuntimeData;
-
-    //public PlayerItemData playerItemData => (PlayerItemData)DataCarrier.RuntimeData;
+    public PlayerItemData GetPlayerItemData => new PlayerItemData()
+    {
+        utilityCharges = DataCarrier.RuntimeData.utilityCharges,
+        talismanCharges = DataCarrier.RuntimeData.talismanCount
+    };
     #endregion
+
+    #region Powerup/Consumable Accessors.
 
     /// <summary>
     /// Function for applying stat changes to the player. 
     /// </summary>
     /// <param name="value"> The stat changes to apply. </param>
-    public void ApplyPowerup(Powerup value) => PlayerState.ApplyPowerup(value);
+    public Powerup ApplyPowerup
+    {
+        set => PlayerState.SetPowerup = value;
+    }
+
+    public StatUpgradeDataSO ApplyStatUpgrade
+    {
+        set => PlayerState.ApplyStatUpgrade = value;
+    }
+
+    public UtilityDataSO ApplyUtilityUpgrade
+    {
+        set => PlayerState.ApplyUtilityUpgrade = value;
+    }
+
+    public WeaponDataSO ApplyWeaponUpgrade
+    {
+        set => PlayerState.ApplyWeaponUpgrade = value;
+    }
+
+    #endregion
 
     /// <summary>
     /// Function used to apply event change data to the players current event data. 
@@ -268,7 +300,7 @@ public partial class GameManager : MonoBehaviour
         PlayerMovementPaused = true;
         _playerMovementSys = _playerCurrent.GetComponent<PlayerMovementSys>();
         _playerState = _playerCurrent.GetComponent<PlayerState>();
-        _playerState.SetPlayerData();
+        _playerState.SetPlayerData(DataCarrier.RuntimeData);
     }
 
     ///////////////////////////
@@ -278,14 +310,6 @@ public partial class GameManager : MonoBehaviour
     public static int GetSavedLevel => DataCarrier.SavedLevel;
 
     public static void ResetPlayerData() => DataCarrier.Instance.ResetPlayerData();
-
-    public static void ApplyUpgradeData(UtilityDataSO data)
-    {
-        Instance.PlayerState.ApplyPowerup(data);
-    }
-
-
-    public void SetPlayerData(PlayerState state) => DataCarrier.Instance.SetPlayerData(state);
 
     public static void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
 }
@@ -412,7 +436,8 @@ public partial class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        //Enable the world clock. 
+        //Enable the world clock.
+        _worldClock.ResetPlayTime();
         _worldClock.TimerActive = true;
 
         //Enable player movement. 

@@ -23,6 +23,7 @@ namespace Purrcifer.Data.Player
         public float criticalHitChance;
         public float movementSpeed;
         public int utilityCharges;
+        public int talismanCount;
         public int currentGameLevel;
         public List<int> utilityIds;
         public List<int> weaponIds;
@@ -50,6 +51,7 @@ namespace Purrcifer.Data.Player
                 criticalHitChance = criticalHitChance,
                 movementSpeed = movementSpeed,
                 utilityCharges = utilityCharges,
+                talismanCount = talismanCount,
                 currentGameLevel = currentGameLevel,
                 utilityIds = utilityIds,
                 weaponIds = weaponIds,
@@ -58,21 +60,6 @@ namespace Purrcifer.Data.Player
                 uiVolume = uiVolume,
                 bgmVolume = bgmVolume,
             };
-        }
-
-        public void SetPlayerHealthData(PlayerState data)
-        {
-            minHealth = data.HealthMinCap;
-            maxHealth = data.HealthMaxCap;
-            currentHealth = data.Health;
-        }
-
-        public void SetPlayerDamageData(PlayerState data)
-        {
-            baseDamage = data.Damage.BaseDamage;
-            damageMultiplier = data.Damage.DamageMultiplier;
-            criticalHitDamage = data.Damage.CriticalHitDamage;
-            criticalHitChance = data.Damage.CriticalHitChance;
         }
 
         public GameSaveFileRuntime GetDefaultPlayerData()
@@ -90,6 +77,7 @@ namespace Purrcifer.Data.Player
                 criticalHitChance = 0,
                 movementSpeed = 0,
                 utilityCharges = 0,
+                talismanCount = 0,
                 currentGameLevel = DefaultGameStateData.CURRENT_LEVEL,
                 utilityIds = new List<int>(),
                 weaponIds = new List<int>(),
@@ -116,6 +104,7 @@ namespace Purrcifer.Data.Player
                 criticalHitChance = 0,
                 movementSpeed = 0,
                 utilityCharges = 0,
+                talismanCount = 0,
                 currentGameLevel = DefaultGameStateData.CURRENT_LEVEL,
                 utilityIds = new List<int>(),
                 weaponIds = new List<int>(),
@@ -141,6 +130,7 @@ namespace Purrcifer.Data.Player
                 criticalHitDamage = data.criticalHitDamage,
                 criticalHitChance = data.criticalHitChance,
                 movementSpeed = data.movementSpeed,
+                talismanCount = data.talismanCount,
                 utilityCharges = data.utilityCharges,
                 currentGameLevel = data.currentGameLevel,
                 utilityIDs = data.utilityIds.ToArray(),
@@ -187,6 +177,7 @@ namespace Purrcifer.Data.Player
                 criticalHitChance = data.criticalHitChance,
                 movementSpeed = data.movementSpeed,
                 utilityCharges = data.utilityCharges,
+                talismanCount = data.talismanCount,
                 currentGameLevel = data.currentGameLevel,
                 utilityIds = data.utilityIDs.ToList(),
                 weaponIds = data.weaponIDs.ToList(),

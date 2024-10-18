@@ -11,4 +11,5 @@ public class FloorData
     public int floorHeight;
     public int initialX, initialY;
     public float spawnOver;
+    public int numberOfEndpoints = 3;
 }

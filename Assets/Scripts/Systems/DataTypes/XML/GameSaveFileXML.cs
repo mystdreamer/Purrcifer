@@ -88,5 +88,6 @@ namespace Purrcifer.Data.Xml
         public int axis_a_right;
         [XmlElement("_axis_d_pad")]
         public int axis_d_pad;
+        internal int talismanCount;
     }
 }

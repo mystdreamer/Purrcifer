@@ -7,6 +7,11 @@ public class UI_PlayerTalismans : MonoBehaviour
     public GameObject talismanParent;
     public TextMeshProUGUI textMeshProUGUI;
 
+    public bool EnableDisplay
+    {
+        set { talismanParent.SetActive(value); }
+    }
+
     void Update()
     {
         if (GameManager.Instance == null)
@@ -16,15 +21,5 @@ public class UI_PlayerTalismans : MonoBehaviour
             return;
 
         textMeshProUGUI.text = GameManager.Instance.PlayerState.Talismans.ToString();
-    }
-
-    public void Enable()
-    {
-        talismanParent.SetActive(true);
-    }
-
-    public void Disable()
-    {
-        talismanParent.SetActive(false);
     }
 }

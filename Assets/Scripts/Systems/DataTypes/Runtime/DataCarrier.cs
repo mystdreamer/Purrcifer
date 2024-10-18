@@ -100,8 +100,7 @@ namespace DataManager
         /// <param name="state"> The state to set. </param>
         public void SetPlayerData(PlayerState state)
         {
-            _runtime.SetPlayerHealthData(state);
-            _runtime.SetPlayerDamageData(state);
+            GameManager.Instance.PlayerState.GetPlayerData(_runtime);
             SaveData();
         }
 

@@ -7,7 +7,7 @@ namespace Purrcifer.PlayerData
     /// Class used for containing damage statistics. 
     /// </summary>
     [System.Serializable]
-    public struct PlayerDamageData
+    public class PlayerDamageData
     {
         /// <summary>
         /// The base damage of the player. 
@@ -94,6 +94,14 @@ namespace Purrcifer.PlayerData
             }
         }
         #endregion
+
+        public PlayerDamageData()
+        {
+            _baseDamage = 0;
+            _damageMultiplier = 0;
+            _criticalHitDamage = 0;
+            _criticalHitChance = 0;
+        }
 
         public PlayerDamageData(float baseDamage, float damageMultiplier, float criticalHitDamage, float criticalHitChance)
         {

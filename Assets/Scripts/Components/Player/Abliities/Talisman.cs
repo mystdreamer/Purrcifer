@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Talisman : MonoBehaviour
 {
-
     public GameObject talismanPrefab;
     public float reuseTime = 0.5F;
     public float currentReuseTime = 0; 

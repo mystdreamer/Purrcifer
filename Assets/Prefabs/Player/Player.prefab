@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 201464169746819814}
   - component: {fileID: 5545469451611894756}
   - component: {fileID: 6903156727511804708}
+  - component: {fileID: 9190098539274939385}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -152,11 +153,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799055d58eba2f84bb574baf9a45e6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health:
+  _healthStats:
     min: 0
     max: 0
     current: 0
-  _damage:
+  _damageStats:
     _baseDamage: 0
     _damageMultiplier: 0
     _criticalHitDamage: 0
@@ -176,7 +177,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _body: {fileID: 8006632741209967316}
-  canUpdate: 0
   speed: 20
 --- !u!114 &5545469451611894756
 MonoBehaviour:
@@ -211,9 +211,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d398836b35a8204d903d11bfd7f370f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopwatchValues:
+  charge:
     min: 0
     max: 5
-  currentCharge: 5
+    current: 5
   rateOfChange: 1
   _delayRate: 0.2
+--- !u!114 &9190098539274939385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831002017157304993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803bd4a1e0c3d8b4f9fa81414fef92c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  talismanPrefab: {fileID: 4526693296488524787, guid: cb97d9d61cc2c5d4e91b9d96ba234394, type: 3}
+  reuseTime: 0.5
+  currentReuseTime: 0

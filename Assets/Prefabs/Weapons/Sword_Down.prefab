@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2389155928083714921}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sword_Down
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -24,14 +24,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8993293385750091446}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 1, z: 0.01}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7698483580756310173}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 180}
 --- !u!1001 &7880238844146442102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,11 +92,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_Temp
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7626fd030a220464d95c653da0abdc67, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7626fd030a220464d95c653da0abdc67, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1225079697308864380}
   m_SourcePrefab: {fileID: 100100000, guid: 7626fd030a220464d95c653da0abdc67, type: 3}
+--- !u!1 &7033869091149996583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7626fd030a220464d95c653da0abdc67, type: 3}
+  m_PrefabInstance: {fileID: 7880238844146442102}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1225079697308864380
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7033869091149996583}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 0.2, z: 0.2}
+  m_Center: {x: -0.031702906, y: -0.00000010213887, z: -0.00000009033833}
 --- !u!4 &7698483580756310173 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7626fd030a220464d95c653da0abdc67, type: 3}

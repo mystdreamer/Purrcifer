@@ -9,11 +9,11 @@ public class ItemDialogue
     /// <summary>
     /// The name of the item. 
     /// </summary>
-    public string itemName;
+    public string itemDisplayName;
 
     /// <summary>
     /// The flavour text to accompany the item. 
     /// </summary>
-    public string itemFlavourText;
+    public string itemDisplayText;
 
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee54bd4a417d294bb7ee6cb7bb04a13, type: 3}
+  m_Name: RoomTreeSO
+  m_EditorClassIdentifier: 
+  startRooms:
+  - {fileID: 11400000, guid: c2c4167f4d67f6442ac438be0fabe50a, type: 2}
+  normalRooms:
+  - {fileID: 11400000, guid: 96166acd16caa8d4f8a68e8bb7ab7521, type: 2}
+  - {fileID: 11400000, guid: 639a6e1583bd45044af0fab3d930ad88, type: 2}
+  - {fileID: 11400000, guid: aba1797fa8cd4444c8d96480ed24b60b, type: 2}
+  bossRooms:
+  - {fileID: 11400000, guid: 1b4367fd631bbc14a8384244db72eb3e, type: 2}
+  treasureRooms:
+  - {fileID: 11400000, guid: a7ef452d4d586d64b83622138fe41fa3, type: 2}
+  hiddenRooms:
+  - {fileID: 11400000, guid: 7e60a36136398384c90645ccc0bc8582, type: 2}
