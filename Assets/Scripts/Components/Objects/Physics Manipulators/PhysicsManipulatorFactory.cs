@@ -1,4 +1,5 @@
 using Purrcifer.Object.PhysicsManipulators;
+using Purrcifer.PhysManipulation.BaseClass;
 using UnityEngine;
 
 /// <summary>
@@ -35,7 +36,7 @@ public enum PhysicsManipulatorType
 /// <summary>
 /// Static class used to generate physics manipulators. 
 /// </summary>
-public static class PhysicsManipulatorObj
+public static class PhysicsManipulatorFactory
 {
     /// <summary>
     /// Generates and returns an ObjectPhysicsManipulator
@@ -63,88 +64,93 @@ public static class PhysicsManipulatorObj
 }
 
 #region Abstract Base Classes. 
-public abstract class PhysicsManipulator : MonoBehaviour
+
+namespace Purrcifer.PhysManipulation.BaseClass
 {
-    internal bool _manipulatorActive = false;
-
-    public bool Enabled
+    public abstract class PhysicsManipulator : MonoBehaviour
     {
-        get => _manipulatorActive;
-        set => _manipulatorActive = value;
-    }
-}
+        internal bool _manipulatorActive = false;
 
-public abstract class PhysicsManipulatorCD : PhysicsManipulator
-{
-
-    public abstract ObjectPhysicsFX Effect { get; }
-
-    public abstract Vector3 Direction { get; set; }
-
-    public abstract float Force { get; set; }
-
-    public abstract Vector3 ManipulatorPosition { get; set; }
-
-    private void Update()
-    {
-        if (_manipulatorActive) Effect.ApplyEffect();
-    }
-}
-
-public abstract class PhysicsManipulatorPoint : PhysicsManipulator
-{
-
-    public abstract ObjectPhysicsFX Effect { get; }
-
-    public abstract float Force { get; set; }
-
-    public abstract Transform Center { get; set; }
-
-    private void Update()
-    {
-        if (_manipulatorActive) Effect.ApplyEffect();
-    }
-}
-
-public abstract class PhysicsManipulatorCDWave : PhysicsManipulatorCD
-{
-    public ObjectEventTicker eventTicker;
-
-    public float TickRate
-    {
-        get => eventTicker._tickRate;
-        set => eventTicker._tickRate = value;
-    }
-
-    private void Update()
-    {
-        if (_manipulatorActive && eventTicker.TickComplete)
+        public bool Enabled
         {
-            Effect.ApplyEffect();
-            eventTicker.TickComplete = false;
+            get => _manipulatorActive;
+            set => _manipulatorActive = value;
+        }
+    }
+
+    public abstract class PhysicsManipulatorCD : PhysicsManipulator
+    {
+
+        public abstract ObjectPhysicsFX Effect { get; }
+
+        public abstract Vector3 Direction { get; set; }
+
+        public abstract float Force { get; set; }
+
+        public abstract Vector3 ManipulatorPosition { get; set; }
+
+        private void Update()
+        {
+            if (_manipulatorActive) Effect.ApplyEffect();
+        }
+    }
+
+    public abstract class PhysicsManipulatorPoint : PhysicsManipulator
+    {
+
+        public abstract ObjectPhysicsFX Effect { get; }
+
+        public abstract float Force { get; set; }
+
+        public abstract Transform Center { get; set; }
+
+        private void Update()
+        {
+            if (_manipulatorActive) Effect.ApplyEffect();
+        }
+    }
+
+    public abstract class PhysicsManipulatorCDWave : PhysicsManipulatorCD
+    {
+        public ObjectEventTicker eventTicker;
+
+        public float TickRate
+        {
+            get => eventTicker._tickRate;
+            set => eventTicker._tickRate = value;
+        }
+
+        private void Update()
+        {
+            if (_manipulatorActive && eventTicker.TickComplete)
+            {
+                Effect.ApplyEffect();
+                eventTicker.TickComplete = false;
+            }
+        }
+    }
+
+    public abstract class PhysicsManipulatorPointWave : PhysicsManipulatorPoint
+    {
+        public ObjectEventTicker eventTicker;
+
+        public float TickRate
+        {
+            get => eventTicker._tickRate;
+            set => eventTicker._tickRate = value;
+        }
+
+        private void Update()
+        {
+            if (_manipulatorActive && eventTicker.TickComplete)
+            {
+                Effect.ApplyEffect();
+                eventTicker.TickComplete = false;
+            }
         }
     }
 }
 
-public abstract class PhysicsManipulatorPointWave : PhysicsManipulatorPoint
-{
-    public ObjectEventTicker eventTicker;
-
-    public float TickRate
-    {
-        get => eventTicker._tickRate;
-        set => eventTicker._tickRate = value;
-    }
-
-    private void Update()
-    {
-        if (_manipulatorActive && eventTicker.TickComplete)
-        {
-            Effect.ApplyEffect();
-            eventTicker.TickComplete = false;
-        }
-    }
-}
 #endregion
 
 #region Manipulators. 
