@@ -131,6 +131,16 @@ public abstract class Boss : WorldObject, IEntityInterface
         set => _health.SetDamageOverTime(value);
     }
 
+    HealOverTime IEntityInterface.SetHot
+    {
+        set => _health.SetHealOverTime(value);
+    }
+
+    DamageOverTime IEntityInterface.SetDot
+    {
+        set => _health.SetDamageOverTime(value);
+    }
+
     #endregion
 
     internal override void WorldUpdateReceiver(WorldState state)

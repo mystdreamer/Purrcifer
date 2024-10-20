@@ -1,12 +1,10 @@
-using JetBrains.Annotations;
-using NUnit.Framework;
 using Purrcifer.BossAI;
 using Purrcifer.Data.Defaults;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Worm : MonoBehaviour
+public class BossWorm : MonoBehaviour
 {
     public class BulletControllerWorm : MonoBehaviour
     {
@@ -73,7 +71,7 @@ public class Boss_Worm : MonoBehaviour
             Vector3[] bulletPositions = CalculateRadialPoints(position, bulletSpawnRadius, bulletSpawnCount);
 
             //Calculate unit vectors from boss to point.
-            Vector3[] directionVecs = CaculateDirectionVecs(bulletPositions, initalPoint, bulletSpawnRadius);
+            Vector3[] directionVecs = CalculateDirectionVecs(bulletPositions, initalPoint, bulletSpawnRadius);
             
             //Generate object. 
             for (int i = 0; i < bulletPositions.Length; i++)
@@ -110,7 +108,7 @@ public class Boss_Worm : MonoBehaviour
             return points.ToArray();
         }
 
-        public Vector3[] CaculateDirectionVecs(Vector3[] bulletPoints, Vector3 initalPoint, float radiusFromBoss)
+        public Vector3[] CalculateDirectionVecs(Vector3[] bulletPoints, Vector3 initalPoint, float radiusFromBoss)
         {
             Vector3[] vecs = new Vector3[bulletPoints.Length];
 
