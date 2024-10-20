@@ -504,40 +504,63 @@ public class BossWorm : Boss
     private IEnumerator State_Spawn()
     {
         StateSpawnExecuting = true;
-        GameObject standing = GameObject.Instantiate(standingPrefab);
-        standing.SetActive(true);
-        standing.transform.position = Camera.main.transform.position - new Vector3(0, 12, 0);
+        StartCoroutine(ShowBoss(Camera.main.transform.position));
 
-        float moved = 0;
-
-        while (moved < 7)
-        {
-            moved += 9F * Time.deltaTime;
-            standing.transform.position += new Vector3(0, 6F * Time.deltaTime, 0);
-            yield return new WaitForSeconds(0.01f);
-        }
+        while (!bossShowing)
+            yield return null;
 
         yield return new WaitForSeconds(0.85F);
 
         StartCoroutine(spawnAttack.PreformAttack(Camera.main.transform.position));
 
         while (!spawnAttack.attackComplete)
-        {
             yield return null;
-        }
 
-        moved = 7;
+        StartCoroutine(HideBoss());
 
-        while (moved > 0)
+        while (bossShowing)
+            yield return null;
+
+        spawnAttack.attacking = spawnAttack.attackComplete = false;
+        Destroy(bossSpawn);
+        StateSpawnExecuting = false;
+        RandAttackTransition();
+    }
+
+    private GameObject bossSpawn;
+    private bool bossShowing = false;
+    private float emergenceDistance = 6F; 
+
+    private IEnumerator ShowBoss(Vector3 position)
+    {
+        bossSpawn = GameObject.Instantiate(standingPrefab);
+        bossSpawn.SetActive(true);
+        bossSpawn.transform.position = Camera.main.transform.position - new Vector3(0, 12, 0);
+
+        float moved = 0;
+
+        while (moved < emergenceDistance)
         {
-            moved -= 9F * Time.deltaTime;
-            standing.transform.position -= new Vector3(0, 6F * Time.deltaTime, 0);
+            moved += emergenceDistance * Time.deltaTime;
+            bossSpawn.transform.position += new Vector3(0, emergenceDistance * Time.deltaTime, 0);
             yield return new WaitForSeconds(0.01f);
         }
 
-        spawnAttack.attacking = spawnAttack.attackComplete = false;
-        RandAttackTransition();
-        StateSpawnExecuting = false;
+        bossShowing = true;
+    }
+
+    private IEnumerator HideBoss()
+    {
+        float moved = emergenceDistance;
+
+        while (moved > 0)
+        {
+            moved -= emergenceDistance * Time.deltaTime;
+            bossSpawn.transform.position -= new Vector3(0, emergenceDistance * Time.deltaTime, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        bossShowing = false;
     }
 
     private IEnumerator IdleTimer()
