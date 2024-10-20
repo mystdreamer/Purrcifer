@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee54bd4a417d294bb7ee6cb7bb04a13, type: 3}
+  m_Name: Test Room Data Tree SO
+  m_EditorClassIdentifier: 
+  startRooms:
+  - {fileID: 11400000, guid: c2c4167f4d67f6442ac438be0fabe50a, type: 2}
+  normalRooms:
+  - {fileID: 11400000, guid: 2a169b8b550f76440b434f7a9078d004, type: 2}
+  bossRooms:
+  - {fileID: 11400000, guid: 1b4367fd631bbc14a8384244db72eb3e, type: 2}
+  treasureRooms:
+  - {fileID: 11400000, guid: 2a169b8b550f76440b434f7a9078d004, type: 2}
+  hiddenRooms:
+  - {fileID: 11400000, guid: 2a169b8b550f76440b434f7a9078d004, type: 2}

@@ -1,5 +1,71 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &141274433845997839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8368853599489307229}
+  - component: {fileID: 4551681655947638099}
+  - component: {fileID: 3432310486762603119}
+  m_Layer: 0
+  m_Name: BasicEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8368853599489307229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141274433845997839}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.9223936, y: 2.1050332, z: -3.2595212}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1232890739932859041}
+  - {fileID: 8225289619109601401}
+  - {fileID: 8252936610833818707}
+  m_Father: {fileID: 699042180874983155}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4551681655947638099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141274433845997839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc406bde70d9efa4a9929cbe86476f22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  childWorldStart: {fileID: 1452824304480211049}
+  childWorldWitching: {fileID: 8180806155589124419}
+  childWorldHell: {fileID: 1533821206804763966}
+--- !u!114 &3432310486762603119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141274433845997839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc406bde70d9efa4a9929cbe86476f22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  childWorldStart: {fileID: 1452824304480211049}
+  childWorldWitching: {fileID: 8180806155589124419}
+  childWorldHell: {fileID: 1533821206804763966}
 --- !u!1 &1452824304480211049
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,11 +98,11 @@ Transform:
   m_GameObject: {fileID: 1452824304480211049}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 1.5850692, z: 0}
+  m_LocalPosition: {x: 7.077606, y: -0.519964, z: 3.2595212}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 699042180874983155}
+  m_Father: {fileID: 8368853599489307229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6280131979356085207
 MeshFilter:
@@ -106,7 +172,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -200,9 +266,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c84c4bf96fc5a34590bfdc0c20013a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationType: 0
+  _health:
+    _healthRange:
+      min: 0
+      max: 0
+      current: 0
+    _invincible: 0
+    _invincibilityLength: 0
+  container:
+    lastState: 0
+    currentState: 0
   maxHealth: 2
-  currentHealth: 0
-  damageAmount: 1
+  damageAmount: 0
 --- !u!1 &1533821206804763966
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +294,7 @@ GameObject:
   - component: {fileID: 8529987073370588920}
   - component: {fileID: 8111767689736937926}
   - component: {fileID: 3242768583009249734}
-  - component: {fileID: 8766102377222280214}
+  - component: {fileID: 8556907912126407959}
   m_Layer: 6
   m_Name: Enemy (2)
   m_TagString: Enemy
@@ -235,11 +311,11 @@ Transform:
   m_GameObject: {fileID: 1533821206804763966}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 1.5850692, z: 4}
+  m_LocalPosition: {x: 7.077606, y: -0.519964, z: 7.2595215}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 699042180874983155}
+  m_Father: {fileID: 8368853599489307229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9139863481566989672
 MeshFilter:
@@ -309,7 +385,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -391,7 +467,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4
---- !u!114 &8766102377222280214
+--- !u!114 &8556907912126407959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -400,10 +476,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1533821206804763966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7fd1f73822b55546a29fea1e7d59bf7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c84c4bf96fc5a34590bfdc0c20013a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 1
+  activationType: 0
+  _health:
+    _healthRange:
+      min: 0
+      max: 0
+      current: 0
+    _invincible: 0
+    _invincibilityLength: 0
+  container:
+    lastState: 0
+    currentState: 0
+  maxHealth: 10
+  damageAmount: 2
 --- !u!1 &3748159131872453065
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,7 +506,7 @@ GameObject:
   - component: {fileID: 6342601331182472717}
   - component: {fileID: 3700867779676712582}
   m_Layer: 12
-  m_Name: Cube
+  m_Name: WeaponCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -433,7 +521,7 @@ Transform:
   m_GameObject: {fileID: 3748159131872453065}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.7883325, y: 1.5494236, z: -0.8147977}
+  m_LocalPosition: {x: 3.7883325, y: 1.5494236, z: -5.814798}
   m_LocalScale: {x: 1, y: 3, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -717,11 +805,9 @@ Transform:
   - {fileID: 7015013203228641860}
   - {fileID: 7036345683862509384}
   - {fileID: 795333386542422864}
-  - {fileID: 1232890739932859041}
-  - {fileID: 8225289619109601401}
-  - {fileID: 8252936610833818707}
   - {fileID: 2674574503468509083}
   - {fileID: 9198566870666176448}
+  - {fileID: 8368853599489307229}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2113831434424631190
@@ -743,7 +829,8 @@ MonoBehaviour:
   - {fileID: 197190517119310403}
   - {fileID: 8001991345344371504}
   - {fileID: 8111767689736937926}
-  RoomMarkerType: 0
+  wallType: 0
+  roomType: 0
   up: {fileID: 674783083359813818}
   down: {fileID: 6898474021313031097}
   left: {fileID: 5217176978096597815}
@@ -794,6 +881,7 @@ GameObject:
   - component: {fileID: 1936630705990158304}
   - component: {fileID: 8001991345344371504}
   - component: {fileID: 7755845822297444733}
+  - component: {fileID: 7836304308577833509}
   m_Layer: 6
   m_Name: Enemy (1)
   m_TagString: Enemy
@@ -810,11 +898,11 @@ Transform:
   m_GameObject: {fileID: 8180806155589124419}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 1.5850692, z: -4}
+  m_LocalPosition: {x: 7.077606, y: -0.519964, z: -0.74047875}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 699042180874983155}
+  m_Father: {fileID: 8368853599489307229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8141172545553003534
 MeshFilter:
@@ -966,6 +1054,31 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7836304308577833509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8180806155589124419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c84c4bf96fc5a34590bfdc0c20013a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activationType: 0
+  _health:
+    _healthRange:
+      min: 0
+      max: 0
+      current: 0
+    _invincible: 0
+    _invincibilityLength: 0
+  container:
+    lastState: 0
+    currentState: 0
+  maxHealth: 5
+  damageAmount: 1
 --- !u!1001 &2258401314420790728
 PrefabInstance:
   m_ObjectHideFlags: 0
