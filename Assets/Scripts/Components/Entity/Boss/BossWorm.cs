@@ -58,49 +58,95 @@ public class BossWorm : Entity
             CRY_HARDER = 130
         }
 
+        private enum BulletCount : int
+        {
+            NORMAL = 6,
+            CRY = 7,
+            CRY_HARDER = 8
+        }
+
         private const float BLOCKER_OFFSET = 6;
         
         public float bulletSpawnRadius;
         public int bulletSpawnCount;
         public float bulletLifetime;
         public GameObject bulletTypePrefab;
-        public GameObject bulletBlockerPrefab; 
+        public GameObject bulletBlockerPrefab;
 
-        public void PreformAttack(Vector3 position, WorldState state)
+        private int GetBulletSpeed(WorldState state)
         {
-            BulletSpeeds speed;
-
             switch (state)
             {
                 case WorldState.WORLD_START:
-                    speed = BulletSpeeds.NORMAL;
-                    break;
+                    return (int)BulletSpeeds.NORMAL;
                 case WorldState.WORLD_WITCHING:
-                    speed = BulletSpeeds.CRY;
-                    break;
+                    return (int)BulletSpeeds.CRY;
                 case WorldState.WORLD_HELL:
-                    speed = BulletSpeeds.CRY_HARDER;
-                    break;
+                    return (int)BulletSpeeds.CRY_HARDER;
                 default:
-                    speed = BulletSpeeds.NORMAL;
-                    break;
+                    return (int)BulletSpeeds.NORMAL;
             }
 
+        }
+
+        private int GetBulletCount(WorldState state)
+        {
+            switch (state)
+            {
+                case WorldState.WORLD_START:
+                    return (int)BulletCount.NORMAL;
+                case WorldState.WORLD_WITCHING:
+                    return (int)BulletCount.CRY;
+                case WorldState.WORLD_HELL:
+                    return (int)BulletCount.CRY_HARDER;
+                default:
+                    return (int)BulletCount.NORMAL;
+            }
+        }
+
+        public IEnumerator PreformAttack(Vector3 position, WorldState state)
+        {
+            //Calculate the center and get the bullet data. 
             Vector3 adjustedCentre = new Vector3(position.x, 1, position.z);
+            int speed = GetBulletSpeed(state);
+            int count = GetBulletCount(state);
 
             //Generate the bullet blockers. 
             GenerateBlockingObjects(adjustedCentre);
 
+            yield return new WaitForSeconds(0.5F);
+
+            int waveCount = 1;
+
+            switch (state)
+            {
+                case WorldState.WORLD_WITCHING:
+                    waveCount = 2;
+                    break;
+                case WorldState.WORLD_HELL:
+                    waveCount = 4;
+                    break;
+            }
+
+            for (int i = 0; i < waveCount; i++)
+            {
+                SpawnWave(adjustedCentre, speed, count);
+                yield return new WaitForSeconds(0.55f);
+            }
+        }
+
+        public void SpawnWave(Vector3 centre, float speed, int count)
+        {
             //Calculate firing points. 
-            Vector3[] bulletPositions = CalculateRadialPoints(adjustedCentre, bulletSpawnRadius, bulletSpawnCount);
+            Vector3[] positions = CalculateRadialPoints(centre, bulletSpawnRadius, count);
 
             //Calculate unit vectors from boss to point.
-            Vector3[] directionVecs = CalculateDirectionVecs(bulletPositions, adjustedCentre, bulletSpawnRadius);
-            
-            //Generate object. 
-            for (int i = 0; i < bulletPositions.Length; i++)
+            Vector3[] directions = CalculateDirectionVecs(positions, centre, bulletSpawnRadius);
+
+            //Generate objects. 
+            for (int i = 0; i < positions.Length; i++)
             {
-                BulletControllerWorm.Generate(bulletTypePrefab, adjustedCentre + bulletPositions[i] + new Vector3(0, 1, 0), directionVecs[i], (int)speed, bulletLifetime);
+                BulletControllerWorm.Generate(bulletTypePrefab, centre + positions[i] + new Vector3(0, 1, 0), directions[i], (int)speed, bulletLifetime);
             }
         }
 
@@ -245,7 +291,7 @@ public class BossWorm : Entity
 
     public class BulletWave
     {
-
+        
     }
 
     public enum BossState
@@ -353,7 +399,7 @@ public class BossWorm : Entity
 
     private void State_BlockAttack()
     {
-        blockingAttack.PreformAttack(Camera.main.transform.position, GameManager.WorldState);
+        StartCoroutine(blockingAttack.PreformAttack(Camera.main.transform.position, GameManager.WorldState));
         bossState = BossState.IDLE;
     }
 
