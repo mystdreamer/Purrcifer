@@ -125,15 +125,15 @@ public class BossWorm : Entity
     public class DashAttack
     {
         public float offset;
-        public float roomWidth = DefaultRoomData.DEFAULT_WIDTH;
-        public float roomHeight = DefaultRoomData.DEFAULT_HEIGHT;
-        public float attackTime = 5f;
+        float roomWidth = DefaultRoomData.DEFAULT_WIDTH;
+        float roomHeight = DefaultRoomData.DEFAULT_HEIGHT;
+        float attackTime = 2f;
         public float speed = 1f; 
         public GameObject downDashObjectPrefab;
         public GameObject dashTelegraph;
         public bool attackStarted = false;         
-        public bool attackComplete = false; 
-
+        public bool attackComplete = false;
+        public float telegraphOffset = 0.25F;
         public float GetDivisionAWidth => roomWidth / 3;
         public float HalfBossPosHeight => (roomHeight / 2) + offset;
         public int GetRandomZone => UnityEngine.Random.Range(1, 4);
@@ -152,7 +152,15 @@ public class BossWorm : Entity
             CalculateBossPoints(attackCenter, ref bossInitalPoint, ref bossEndPoint);
 
             GameObject currentDuplicate = GameObject.Instantiate(downDashObjectPrefab); 
+            GameObject telegraph = GameObject.Instantiate(dashTelegraph);
             currentDuplicate.transform.position = bossInitalPoint;
+            telegraph.transform.position = bossInitalPoint + new Vector3(0, 0, 18);
+            
+            //Show telegraph.
+            telegraph.SetActive(true);
+            yield return new WaitForSeconds(0.25F);
+
+            //Move boss item. 
             currentDuplicate.SetActive(true);
 
             while (currentTime < attackTime)
@@ -163,6 +171,7 @@ public class BossWorm : Entity
             }
 
             Destroy(currentDuplicate);
+            Destroy(telegraph);
             attackComplete = true;
         }
 
@@ -173,12 +182,12 @@ public class BossWorm : Entity
             switch (zone)
             {
                 case 1:
-                    attackCenter.x -= roomWidth / 2; //Move point to min point.
+                    attackCenter.x -= (roomWidth / 2) + 10; //Move point to min point.
                     break;
                 case 2:
                     break;
                 case 3:
-                    attackCenter.x += roomWidth / 2; //Move point to min point.
+                    attackCenter.x += (roomWidth / 2) - 10; //Move point to min point.
                     break;
             }
 

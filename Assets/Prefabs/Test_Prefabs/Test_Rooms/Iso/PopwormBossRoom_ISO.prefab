@@ -280,10 +280,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 998869459231628220}
     m_Modifications:
-    - target: {fileID: 2534390676781470400, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
-      propertyPath: dashAttack.downDashObjectPrefab
-      value: 
-      objectReference: {fileID: 912821915631721999}
     - target: {fileID: 4189333899693248034, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -328,24 +324,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Popworm
       objectReference: {fileID: 0}
-    - target: {fileID: 5207423426237436252, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7966181162527593840, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
---- !u!1 &912821915631721999 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7966181162527593840, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
-  m_PrefabInstance: {fileID: 7072746249311882111}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4687270678987610559 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2534390676781470400, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}

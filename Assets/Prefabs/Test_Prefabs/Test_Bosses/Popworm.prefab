@@ -73,6 +73,7 @@ MonoBehaviour:
     attackTime: 7
     speed: 1
     downDashObjectPrefab: {fileID: 7966181162527593840}
+    dashTelegraph: {fileID: 5223667971529942286}
     attackStarted: 0
     attackComplete: 0
   bossState: 1
@@ -126,7 +127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &661580583253651781
 Transform:
   m_ObjectHideFlags: 0
@@ -153,6 +154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5076636380245236017}
   - component: {fileID: 3633941019321596220}
+  - component: {fileID: 8971716380994825868}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -185,8 +187,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Intensity: 100
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -240,6 +242,29 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &8971716380994825868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6096909259841086711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &7966181162527593840
 GameObject:
   m_ObjectHideFlags: 0
