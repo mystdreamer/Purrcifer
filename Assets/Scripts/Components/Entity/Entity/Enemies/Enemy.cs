@@ -58,7 +58,7 @@ public class Enemy : Entity
     private void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
-        Destroy(gameObject);
+        Destroy(gameObject.transform.parent.gameObject);
     }
 
     internal override void HealthChangedEvent(float lastValue, float currentValue)
@@ -70,6 +70,7 @@ public class Enemy : Entity
     internal override void OnDeathEvent()
     {
         //TODO: Death animation, sound, etc.
+        ObjectComplete = true;
         Die();
     }
 
