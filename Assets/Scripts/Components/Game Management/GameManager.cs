@@ -382,6 +382,8 @@ public partial class GameManager : MonoBehaviour
         get => Instance._worldClock.PlayTime;
         set => Instance._worldClock.PlayTime = value;
     }
+
+    public static WorldState WorldState => Instance._worldClock.CurrentState;
     #endregion
 
     #region Delegates.

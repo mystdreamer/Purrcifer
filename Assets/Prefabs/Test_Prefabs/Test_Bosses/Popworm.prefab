@@ -59,23 +59,20 @@ MonoBehaviour:
     lastState: 1
     currentState: 2
   blockingAttack:
-    blockerOffset: 2.5
-    bulletSpawnRadius: 60
-    bulletSpawnCount: 3
-    bulletSpeed: 0.5
+    bulletSpawnRadius: 1
+    bulletSpawnCount: 14
+    bulletSpeed: 4.5
     bulletLifetime: 4
     bulletTypePrefab: {fileID: 4211250518798269788, guid: 6ad2ebec4ef396347aae450daa853cbe, type: 3}
     bulletBlockerPrefab: {fileID: 1694539417639114677, guid: 473de72f9c9cb6d498767919097631dd, type: 3}
   dashAttack:
     offset: 0
-    roomWidth: 20
-    roomHeight: 1
-    attackTime: 7
     speed: 1
     downDashObjectPrefab: {fileID: 7966181162527593840}
     dashTelegraph: {fileID: 5223667971529942286}
     attackStarted: 0
     attackComplete: 0
+    telegraphOffset: 0.25
   bossState: 1
   randArr: 010000000200000003000000040000000500000006000000010000000200000003000000040000000500000006000000010000000200000003000000040000000500000006000000
   idleStarted: 1
