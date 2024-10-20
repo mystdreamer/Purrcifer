@@ -1,22 +1,30 @@
+using JetBrains.Annotations;
 using Purrcifer.BossAI;
 using Purrcifer.Data.Defaults;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossWorm : Entity
+public class BossWorm : Boss
 {
     public class BulletControllerWorm : MonoBehaviour
     {
+        Rigidbody body;
+        private Vector3 currentScaleIncrement = Vector3.zero;
         public float lifetime = 10f;
         public Vector3 direction;
         public float speed;
         public float currentLifetime = 0;
-        Rigidbody body;
+        public Vector3 initalSize;
+        public Vector3 endSize;
+        public bool hasGrowthOverTime = false;
+        public bool hasDirection = false;
+
 
         public void Start()
         {
             body = GetComponent<Rigidbody>();
+            transform.localScale = initalSize;
         }
 
         public void FixedUpdate()
@@ -26,7 +34,14 @@ public class BossWorm : Entity
             if (currentLifetime >= lifetime)
                 gameObject.SetActive(false);
 
-            body.linearVelocity = direction * (speed * Time.deltaTime);
+            if (hasDirection)
+                body.linearVelocity = direction * (speed * Time.deltaTime);
+
+            if (hasGrowthOverTime)
+            {
+                currentScaleIncrement += endSize * Time.deltaTime;
+                transform.localScale = initalSize + currentScaleIncrement;
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -42,9 +57,21 @@ public class BossWorm : Entity
         {
             GameObject obj = GameObject.Instantiate(bulletPrefab);
             BulletControllerWorm controller = obj.AddComponent<BulletControllerWorm>();
-            obj.transform.position = position;
+            obj.transform.position = position; 
             controller.direction = direction;
             controller.speed = speed;
+            controller.hasDirection = true;
+        }
+
+        public static void GenerateScale(GameObject bulletPrefab, Vector3 position, Vector3 initalSize, Vector3 growthSize, float lifetime, float speed)
+        {
+            GameObject obj = GameObject.Instantiate(bulletPrefab);
+            BulletControllerWorm controller = obj.AddComponent<BulletControllerWorm>();
+            obj.transform.position = position;
+            controller.speed = speed;
+            controller.hasGrowthOverTime = true;
+            controller.initalSize = initalSize;
+            controller.endSize = growthSize - initalSize;
         }
     }
 
@@ -296,9 +323,33 @@ public class BossWorm : Entity
         }
     }
 
+    [System.Serializable]
     public class SpawnAttack
     {
+        public GameObject prefabToSpawn;
+        public bool attacking = false; 
+        public bool attackComplete = false;
 
+        public IEnumerator PreformAttack(Vector3 initialPoint)
+        {
+            attacking = true;
+            float roomWidth = DefaultRoomData.DEFAULT_WIDTH - 20;
+            float roomHeight = DefaultRoomData.DEFAULT_HEIGHT - 10;
+
+            Vector3 spawnPos = new Vector3(
+                UnityEngine.Random.Range(-(roomWidth / 2), (roomWidth / 2)),
+                UnityEngine.Random.Range(-(roomWidth / 2), (roomHeight / 2)));
+
+            //Display telegraph here. 
+
+            yield return new WaitForSeconds(0.10F);
+
+            //Spawn bullet. 
+            BulletControllerWorm.GenerateScale(prefabToSpawn, initialPoint + spawnPos, Vector3.one * 0.8f, Vector3.one * 10, 5, 0.2F);
+
+            yield return new WaitForSeconds(5F);
+            attackComplete = true;
+        }
     }
 
     public class BulletWave
@@ -416,7 +467,7 @@ public class BossWorm : Entity
             StartCoroutine(blockingAttack.PreformAttack(Camera.main.transform.position, GameManager.WorldState));
         }
 
-        if(blockingAttack.started && blockingAttack.complete)
+        if (blockingAttack.started && blockingAttack.complete)
         {
             blockingAttack.started = false;
             blockingAttack.complete = false;
@@ -426,7 +477,13 @@ public class BossWorm : Entity
 
     private void State_Spawn()
     {
-        bossState = BossState.IDLE;
+        if(!spawnAttack.attacking)
+            StartCoroutine(spawnAttack.PreformAttack(Camera.main.transform.position));
+        if(spawnAttack.attacking && spawnAttack.attackComplete)
+        {
+            spawnAttack.attacking = spawnAttack.attackComplete = false;
+            RandAttackTransition();
+        }
     }
 
     private IEnumerator IdleTimer()
@@ -436,10 +493,6 @@ public class BossWorm : Entity
     }
 
     #region Inbuilts.
-
-    internal override void SetWorldState(WorldState state)
-    {
-    }
 
     internal override void HealthChangedEvent(float lastValue, float currentValue)
     {
@@ -453,11 +506,23 @@ public class BossWorm : Entity
     {
     }
 
-    internal override void OnAwakeObject()
+    internal new void Start()
+    {
+        bossState = BossState.AWAKE;
+        UIManager.SetBossHealth(this);
+        base.Start();
+    }
+
+    internal override void ApplyWorldState(WorldState state)
+    {
+
+    }
+
+    internal override void IncomingDamageDisabled()
     {
     }
 
-    internal override void OnSleepObject()
+    internal override void IncomingDamageEnabled()
     {
     }
     #endregion

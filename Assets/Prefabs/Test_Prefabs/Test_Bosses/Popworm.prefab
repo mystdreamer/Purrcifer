@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a08fb0a89570b24cb96fef428f3a754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
   _health:
     _healthRange:
       min: 0
@@ -64,6 +63,8 @@ MonoBehaviour:
     bulletLifetime: 4
     bulletTypePrefab: {fileID: 4211250518798269788, guid: 6ad2ebec4ef396347aae450daa853cbe, type: 3}
     bulletBlockerPrefab: {fileID: 1694539417639114677, guid: 473de72f9c9cb6d498767919097631dd, type: 3}
+    started: 0
+    complete: 0
   dashAttack:
     offset: 0
     speed: 1
@@ -72,6 +73,11 @@ MonoBehaviour:
     attackStarted: 0
     attackComplete: 0
     telegraphOffset: 0.25
+  spawnAttack:
+    prefabToSpawn: {fileID: 4211250518798269788, guid: 6ad2ebec4ef396347aae450daa853cbe, type: 3}
+    count: 0
+    attacking: 0
+    attackComplete: 0
   bossState: 1
   randArr: 010000000200000003000000040000000500000006000000010000000200000003000000040000000500000006000000010000000200000003000000040000000500000006000000
   idleStarted: 1
