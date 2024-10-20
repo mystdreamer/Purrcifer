@@ -510,18 +510,29 @@ public class BossWorm : Boss
 
         float moved = 0;
 
-        while (moved < 9)
+        while (moved < 7)
         {
             moved += 9F * Time.deltaTime;
             standing.transform.position += new Vector3(0, 6F * Time.deltaTime, 0);
             yield return new WaitForSeconds(0.01f);
         }
 
+        yield return new WaitForSeconds(0.85F);
+
         StartCoroutine(spawnAttack.PreformAttack(Camera.main.transform.position));
 
         while (!spawnAttack.attackComplete)
         {
             yield return null;
+        }
+
+        moved = 7;
+
+        while (moved > 0)
+        {
+            moved -= 9F * Time.deltaTime;
+            standing.transform.position -= new Vector3(0, 6F * Time.deltaTime, 0);
+            yield return new WaitForSeconds(0.01f);
         }
 
         spawnAttack.attacking = spawnAttack.attackComplete = false;
