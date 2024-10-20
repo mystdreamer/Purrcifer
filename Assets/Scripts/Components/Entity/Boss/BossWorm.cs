@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using NUnit.Framework.Constraints;
 using Purrcifer.BossAI;
 using Purrcifer.Data.Defaults;
 using System.Collections;
@@ -19,12 +20,15 @@ public class BossWorm : Boss
         public Vector3 endSize;
         public bool hasGrowthOverTime = false;
         public bool hasDirection = false;
+        public bool deactivateOnCollision = true;
 
 
         public void Start()
         {
+            StartCoroutine(LifeTime(lifetime));
             body = GetComponent<Rigidbody>();
-            transform.localScale = initalSize;
+            if (hasGrowthOverTime)
+                transform.localScale = initalSize;
         }
 
         public void FixedUpdate()
@@ -32,16 +36,24 @@ public class BossWorm : Boss
             lifetime += Time.deltaTime;
 
             if (currentLifetime >= lifetime)
-                gameObject.SetActive(false);
+                Destroy(gameObject);
 
             if (hasDirection)
                 body.linearVelocity = direction * (speed * Time.deltaTime);
 
-            if (hasGrowthOverTime)
-            {
-                currentScaleIncrement += endSize * Time.deltaTime;
-                transform.localScale = initalSize + currentScaleIncrement;
-            }
+            UpdateGrowth();
+        }
+
+        private float scaleTime = 0;
+
+        private void UpdateGrowth()
+        {
+            if (!hasGrowthOverTime)
+                return;
+
+            scaleTime += Time.deltaTime;
+            currentScaleIncrement = Vector3.Lerp(initalSize, endSize, scaleTime);
+            transform.localScale = currentScaleIncrement;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -50,28 +62,49 @@ public class BossWorm : Boss
             {
                 GameManager.Instance.PlayerState.Health -= 1;
             }
-            Destroy(gameObject);
+            if (deactivateOnCollision)
+                Destroy(gameObject);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                GameManager.Instance.PlayerState.Health -= 1;
+            }
+            if (deactivateOnCollision)
+                Destroy(gameObject);
+        }
+
+        private IEnumerator LifeTime(float time)
+        {
+            yield return new WaitForSeconds(time);
+            GameObject.Destroy(gameObject);
         }
 
         public static void Generate(GameObject bulletPrefab, Vector3 position, Vector3 direction, float speed, float lifetime)
         {
             GameObject obj = GameObject.Instantiate(bulletPrefab);
             BulletControllerWorm controller = obj.AddComponent<BulletControllerWorm>();
-            obj.transform.position = position; 
+            obj.transform.position = position;
             controller.direction = direction;
             controller.speed = speed;
             controller.hasDirection = true;
         }
 
-        public static void GenerateScale(GameObject bulletPrefab, Vector3 position, Vector3 initalSize, Vector3 growthSize, float lifetime, float speed)
+        public static GameObject GenerateScale(GameObject bulletPrefab, Vector3 position, Vector3 initalSize, Vector3 growthSize, float lifetime, float speed)
         {
             GameObject obj = GameObject.Instantiate(bulletPrefab);
             BulletControllerWorm controller = obj.AddComponent<BulletControllerWorm>();
-            obj.transform.position = position;
+            obj.transform.position = new Vector3(position.x, 0, position.z);
             controller.speed = speed;
             controller.hasGrowthOverTime = true;
             controller.initalSize = initalSize;
             controller.endSize = growthSize - initalSize;
+            controller.endSize.y = controller.initalSize.y = 8F;
+            controller.deactivateOnCollision = false;
+            obj.GetComponent<SphereCollider>().isTrigger = true;
+            return obj;
         }
     }
 
@@ -81,15 +114,22 @@ public class BossWorm : Boss
         private enum BulletSpeeds : int
         {
             NORMAL = 100,
-            CRY = 110,
-            CRY_HARDER = 130
+            CRY = 125,
+            CRY_HARDER = 150
         }
 
         private enum BulletCount : int
         {
-            NORMAL = 6,
-            CRY = 7,
+            NORMAL = 4,
+            CRY = 6,
             CRY_HARDER = 8
+        }
+
+        private enum BulletWaves : int
+        {
+            NORMAL = 6,
+            CRY = 10,
+            CRY_HARDER = 20
         }
 
         private const float BLOCKER_OFFSET = 6;
@@ -133,6 +173,21 @@ public class BossWorm : Boss
             }
         }
 
+        private int GetBulletWaveCount(WorldState state)
+        {
+            switch (state)
+            {
+                case WorldState.WORLD_START:
+                    return (int)BulletWaves.NORMAL;
+                case WorldState.WORLD_WITCHING:
+                    return (int)BulletWaves.CRY;
+                case WorldState.WORLD_HELL:
+                    return (int)BulletWaves.CRY_HARDER;
+                default:
+                    return (int)BulletWaves.NORMAL;
+            }
+        }
+
         public IEnumerator PreformAttack(Vector3 position, WorldState state)
         {
             started = true;
@@ -141,31 +196,20 @@ public class BossWorm : Boss
             Vector3 adjustedCentre = new Vector3(position.x, 1, position.z);
             int speed = GetBulletSpeed(state);
             int count = GetBulletCount(state);
+            int waves = GetBulletWaveCount(state);
 
             //Generate the bullet blockers. 
             GenerateBlockingObjects(adjustedCentre, out GameObject a, out GameObject b);
 
             yield return new WaitForSeconds(0.5F);
 
-            int waveCount = 1;
-
-            switch (state)
-            {
-                case WorldState.WORLD_WITCHING:
-                    waveCount = 4;
-                    break;
-                case WorldState.WORLD_HELL:
-                    waveCount = 8;
-                    break;
-            }
-
-            for (int i = 0; i < waveCount; i++)
+            for (int i = 0; i < waves; i++)
             {
                 SpawnWave(adjustedCentre, 25 * i, speed, count);
                 yield return new WaitForSeconds(0.55f);
             }
 
-            yield return new WaitForSeconds(0.5F);
+            yield return new WaitForSeconds(0.25F);
 
             Destroy(a);
             Destroy(b);
@@ -279,7 +323,7 @@ public class BossWorm : Boss
 
             //Show telegraph.
             telegraph.SetActive(true);
-            yield return new WaitForSeconds(0.25F);
+            yield return new WaitForSeconds(0.55F);
 
             //Move boss item. 
             currentDuplicate.SetActive(true);
@@ -327,7 +371,7 @@ public class BossWorm : Boss
     public class SpawnAttack
     {
         public GameObject prefabToSpawn;
-        public bool attacking = false; 
+        public bool attacking = false;
         public bool attackComplete = false;
 
         public IEnumerator PreformAttack(Vector3 initialPoint)
@@ -342,29 +386,24 @@ public class BossWorm : Boss
 
             //Display telegraph here. 
 
-            yield return new WaitForSeconds(0.10F);
+            yield return new WaitForSeconds(0.05F);
 
             //Spawn bullet. 
-            BulletControllerWorm.GenerateScale(prefabToSpawn, initialPoint + spawnPos, Vector3.one * 0.8f, Vector3.one * 10, 5, 0.2F);
+            GameObject spawn = BulletControllerWorm.GenerateScale(prefabToSpawn, initialPoint + spawnPos, Vector3.one, new Vector3(30, 0, 30), 1.5F, 0.002F);
 
-            yield return new WaitForSeconds(5F);
+            yield return new WaitForSeconds(1.6F);
+            Destroy(spawn);
             attackComplete = true;
         }
     }
 
-    public class BulletWave
-    {
-
-    }
 
     public enum BossState
     {
         AWAKE = 0,
         IDLE = 1,
         DASH = 2,
-        UNDERGROUND = 3,
         SPAWN = 4,
-        BULLET_WAVE = 5,
         BLOCK_ATTACK = 6,
         INACTIVE = 100,
     }
@@ -373,9 +412,10 @@ public class BossWorm : Boss
     public DashAttack dashAttack;
     public SpawnAttack spawnAttack;
     public BossState bossState = BossState.INACTIVE;
-    public int[] randArr = { 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6 };
+    public int[] randArr = { 1, 2, 4, 6, 2, 4, 6, 2, 4, 6 };
     public bool idleStarted = false;
     public float idleDuration = 3F;
+    public GameObject standingPrefab;
 
     private void Update()
     {
@@ -396,14 +436,9 @@ public class BossWorm : Boss
             case BossState.DASH:
                 State_Dash();
                 break;
-            case BossState.UNDERGROUND:
-                State_Underground();
-                break;
             case BossState.SPAWN:
-                State_Spawn();
-                break;
-            case BossState.BULLET_WAVE:
-                State_BulletWave();
+                if (!StateSpawnExecuting)
+                    StartCoroutine(State_Spawn());
                 break;
             case BossState.BLOCK_ATTACK:
                 State_BlockAttack();
@@ -449,17 +484,6 @@ public class BossWorm : Boss
         }
     }
 
-    private void State_Underground()
-    {
-        bossState = BossState.IDLE;
-    }
-
-    private void State_BulletWave()
-    {
-        bossState = BossState.IDLE;
-
-    }
-
     private void State_BlockAttack()
     {
         if (!blockingAttack.started)
@@ -475,15 +499,34 @@ public class BossWorm : Boss
         }
     }
 
-    private void State_Spawn()
+    private bool StateSpawnExecuting = false;
+
+    private IEnumerator State_Spawn()
     {
-        if(!spawnAttack.attacking)
-            StartCoroutine(spawnAttack.PreformAttack(Camera.main.transform.position));
-        if(spawnAttack.attacking && spawnAttack.attackComplete)
+        StateSpawnExecuting = true;
+        GameObject standing = GameObject.Instantiate(standingPrefab);
+        standing.SetActive(true);
+        standing.transform.position = Camera.main.transform.position - new Vector3(0, 12, 0);
+
+        float moved = 0;
+
+        while (moved < 9)
         {
-            spawnAttack.attacking = spawnAttack.attackComplete = false;
-            RandAttackTransition();
+            moved += 9F * Time.deltaTime;
+            standing.transform.position += new Vector3(0, 6F * Time.deltaTime, 0);
+            yield return new WaitForSeconds(0.01f);
         }
+
+        StartCoroutine(spawnAttack.PreformAttack(Camera.main.transform.position));
+
+        while (!spawnAttack.attackComplete)
+        {
+            yield return null;
+        }
+
+        spawnAttack.attacking = spawnAttack.attackComplete = false;
+        RandAttackTransition();
+        StateSpawnExecuting = false;
     }
 
     private IEnumerator IdleTimer()

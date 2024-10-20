@@ -74,14 +74,14 @@ MonoBehaviour:
     attackComplete: 0
     telegraphOffset: 0.25
   spawnAttack:
-    prefabToSpawn: {fileID: 4211250518798269788, guid: 6ad2ebec4ef396347aae450daa853cbe, type: 3}
-    count: 0
+    prefabToSpawn: {fileID: 4211250518798269788, guid: 88abfa0fa1c81c947b9705ed9859d684, type: 3}
     attacking: 0
     attackComplete: 0
   bossState: 1
   randArr: 010000000200000003000000040000000500000006000000010000000200000003000000040000000500000006000000010000000200000003000000040000000500000006000000
   idleStarted: 1
   idleDuration: 0.5
+  standingPrefab: {fileID: 5207423426237436252}
 --- !u!1 &5207423426237436252
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +393,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Name
