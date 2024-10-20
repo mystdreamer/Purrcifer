@@ -662,11 +662,15 @@ PrefabInstance:
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: roomTreeSO
       value: 
-      objectReference: {fileID: 11400000, guid: e63e14b3e1e194d46abd452724ab96b4, type: 2}
+      objectReference: {fileID: 11400000, guid: cc4d39c1bd73c894fbc8cadd3a1d6514, type: 2}
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: bossRoomTree
       value: 
       objectReference: {fileID: 11400000, guid: 2e6014b3e5e13d04fa6240126b365a51, type: 2}
+    - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
+      propertyPath: roomTree.pool
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: startRoomTree
       value: 
