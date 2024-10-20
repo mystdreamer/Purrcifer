@@ -30,7 +30,11 @@ public abstract class RoomObjectBase : WorldObject, IRoomObject
     /// Has this object completed.
     /// </summary>
     private bool _objectCompleted = false;
-    
+
+    protected RoomObjectBase()
+    {
+    }
+
     /// <summary>
     /// Represents whether the object has completed or not. 
     /// </summary>
