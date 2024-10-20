@@ -185,6 +185,7 @@ public class BossWorm : Entity
             Vector3 bossInitalPoint = Vector3.zero;
             Vector3 bossEndPoint = Vector3.zero;
             CalculateBossPoints(attackCenter, ref bossInitalPoint, ref bossEndPoint);
+            bossInitalPoint.y = 1;
 
             GameObject currentDuplicate = GameObject.Instantiate(downDashObjectPrefab); 
             GameObject telegraph = GameObject.Instantiate(dashTelegraph);
