@@ -53,7 +53,7 @@ namespace Purrcifer.FloorGeneration.RoomResolution
             switch (marker)
             {
                 case MapIntMarkers.BOSS:
-                    return MasterTree.GetNormalRoomPrefab;
+                    return MasterTree.GetBossRoomPrefab;
                 case MapIntMarkers.START:
                     return MasterTree.GetStartRoomPrefab;
                 case MapIntMarkers.ROOM:

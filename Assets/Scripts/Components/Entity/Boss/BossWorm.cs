@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossWorm : MonoBehaviour
+public class BossWorm : Entity
 {
     public class BulletControllerWorm : MonoBehaviour
     {
@@ -128,13 +128,19 @@ public class BossWorm : MonoBehaviour
         public float roomWidth = DefaultRoomData.DEFAULT_WIDTH;
         public float roomHeight = DefaultRoomData.DEFAULT_HEIGHT;
         public float attackTime = 5f;
+        public float speed = 1f; 
+        public GameObject downDashObjectPrefab;
+        public GameObject dashTelegraph;
+        public bool attackStarted = false;         
+        public bool attackComplete = false; 
 
         public float GetDivisionAWidth => roomWidth / 3;
         public float HalfBossPosHeight => (roomHeight / 2) + offset;
         public int GetRandomZone => UnityEngine.Random.Range(1, 4);
 
-        public IEnumerator PreformAttack(GameObject target, Vector3 roomCenter)
+        public IEnumerator PreformAttack(Vector3 roomCenter)
         {
+            attackStarted = true;
             float width = GetDivisionAWidth;
             float height = roomHeight;
             float step = roomHeight / attackTime;
@@ -145,12 +151,19 @@ public class BossWorm : MonoBehaviour
             Vector3 bossEndPoint = Vector3.zero;
             CalculateBossPoints(attackCenter, ref bossInitalPoint, ref bossEndPoint);
 
+            GameObject currentDuplicate = GameObject.Instantiate(downDashObjectPrefab); 
+            currentDuplicate.transform.position = bossInitalPoint;
+            currentDuplicate.SetActive(true);
+
             while (currentTime < attackTime)
             {
                 currentTime += Time.deltaTime;
-                target.transform.position = bossInitalPoint + Vector3.down * step;
+                currentDuplicate.transform.position += Vector3.back * speed;
                 yield return null;
             }
+
+            Destroy(currentDuplicate);
+            attackComplete = true;
         }
 
         private Vector3 CalculateAttackCenter(Vector3 roomCenter)
@@ -172,10 +185,10 @@ public class BossWorm : MonoBehaviour
             return attackCenter;
         }
 
-        private void CalculateBossPoints(Vector3 attackCenter, ref Vector3 initalPoint, ref Vector3 endPoint)
+        private void CalculateBossPoints(Vector3 attackCenter, ref Vector3 initialPoint, ref Vector3 endPoint)
         {
-            initalPoint = endPoint = attackCenter;
-            initalPoint.z -= HalfBossPosHeight;
+            initialPoint = endPoint = attackCenter;
+            initialPoint.z -= HalfBossPosHeight;
             endPoint.z += HalfBossPosHeight;
         }
     }
@@ -185,9 +198,153 @@ public class BossWorm : MonoBehaviour
         
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class BulletWave
     {
 
     }
+
+    public enum BossState
+    {
+        AWAKE = 0, 
+        IDLE = 1, 
+        DASH = 2, 
+        UNDERGROUND = 3, 
+        SPAWN = 4, 
+        BULLET_WAVE = 5,
+        BLOCK_ATTACK = 6,
+        INACTIVE = 100,
+    }
+
+    public BlockingAttack blockingAttack;
+    public DashAttack dashAttack;
+    public SpawnAttack spawnAttack;
+    public BossState bossState = BossState.INACTIVE;
+    public int[] randArr = { 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6 };
+    public bool idleStarted = false;
+    public float idleDuration = 3F; 
+
+    private void Update()
+    {
+        StateManager();
+    }
+
+    private void StateManager()
+    {
+        switch (bossState)
+        {
+            case BossState.AWAKE:
+                RandAttackTransition();
+                break;
+            case BossState.IDLE:
+                if (!idleStarted)
+                    State_Idle();
+                break;
+            case BossState.DASH:
+                State_Dash();
+                break;
+            case BossState.UNDERGROUND:
+                State_Underground();
+                break;
+            case BossState.SPAWN:
+                State_Spawn();
+                break;
+            case BossState.BULLET_WAVE:
+                State_BulletWave();
+                break;
+            case BossState.BLOCK_ATTACK:
+                State_BlockAttack();
+                break;
+            case BossState.INACTIVE:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RandAttackTransition()
+    {
+        int id = randArr[UnityEngine.Random.Range(0, randArr.Length - 1)];
+        bossState = (BossState)id;
+        StateManager();
+    }
+
+    private void State_Awake()
+    {
+        //Add awake animation/effects here. 
+
+        RandAttackTransition();
+    }
+
+    private void State_Idle()
+    {
+        idleStarted = true;
+        StartCoroutine(IdleTimer());
+    }
+
+    private void State_Dash()
+    {
+        if (!dashAttack.attackStarted)
+        {
+            StartCoroutine(dashAttack.PreformAttack(Camera.main.transform.position));
+        }
+        if(dashAttack.attackStarted && dashAttack.attackComplete)
+        {
+            dashAttack.attackStarted = false;
+            dashAttack.attackComplete = false;
+            RandAttackTransition();
+        }
+    }
+
+    private void State_Underground()
+    {
+        bossState = BossState.IDLE;
+    }
+
+    private void State_BulletWave()
+    {
+        bossState = BossState.IDLE;
+    }
+
+    private void State_BlockAttack()
+    {
+        bossState = BossState.IDLE;
+    }
+
+    private void State_Spawn()
+    {
+        bossState = BossState.IDLE;
+    }
+
+    private IEnumerator IdleTimer()
+    {
+        yield return new WaitForSeconds(idleDuration);
+        RandAttackTransition();
+    }
+
+    #region Inbuilts.
+
+    internal override void SetWorldState(WorldState state)
+    {
+    }
+
+    internal override void HealthChangedEvent(float lastValue, float currentValue)
+    {
+    }
+
+    internal override void OnDeathEvent()
+    {
+    }
+
+    internal override void InvincibilityActivated()
+    {
+    }
+
+    internal override void OnAwakeObject()
+    {
+    }
+
+    internal override void OnSleepObject()
+    {
+    }
+    #endregion
 }

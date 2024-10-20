@@ -209,7 +209,6 @@ public abstract class Entity : RoomObjectBase, IEntityInterface
         get => EntityHealthInstance.MaxCap;
         set => EntityHealthInstance.MaxCap = value;
     }
-
     
     public HealOverTime SetHOT { 
         set => _health.SetHealOverTime(value); 
