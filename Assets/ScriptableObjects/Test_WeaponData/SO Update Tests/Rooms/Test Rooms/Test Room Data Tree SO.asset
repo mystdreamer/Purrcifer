@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c2c4167f4d67f6442ac438be0fabe50a, type: 2}
   normalRooms:
   - {fileID: 11400000, guid: 2a169b8b550f76440b434f7a9078d004, type: 2}
+  - {fileID: 11400000, guid: fbb9c25e930f3f442ace13e4ced11f65, type: 2}
   bossRooms:
   - {fileID: 11400000, guid: 172da20e6be73fd40895ed0c8e2aa927, type: 2}
   treasureRooms:

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomName: TestRoom
   roomID: 21093
-  weighting: 1
+  weighting: 10
   roomPrefab: {fileID: 6216162527419025023, guid: afc31abe685548e4fbe5366ebe402bb6, type: 3}
