@@ -8,14 +8,14 @@ public class Enemy : Entity
     public int maxHealth = 10;
     public int damageAmount = 1;
 
-    protected override void InitializeHealth()
+    protected override void InitialiseHealth()
     {
         _health = new EntityHealth(0, maxHealth, maxHealth);
     }
 
     protected override void Awake()
     {
-        base.Awake();  // This will call InitializeHealth
+        base.Awake();  // This will call InitialiseHealth
         Debug.Log($"Starting Enemy with health: {CurrentHealth}/{MaxHealth}");
     }
 
@@ -29,18 +29,14 @@ public class Enemy : Entity
         Debug.Log("Enemy Sleep: OnSleepObject called.");
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject == GameManager.Instance.Player)
-        {
-            GameManager.Instance.PlayerState.Health -= damageAmount;
-            Debug.Log("Player takes damage: " + damageAmount);
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+        if (other.gameObject == GameManager.Instance.Player)
+        {
+            GameManager.Instance.PlayerState.Health -= damageAmount;
+            Debug.Log($"Player takes damage: {damageAmount}");
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
         {
             float playerBaseDamage = GameManager.Instance.PlayerState.Damage;
             TakeDamage(playerBaseDamage);

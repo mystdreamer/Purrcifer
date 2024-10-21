@@ -126,10 +126,10 @@ public abstract class Entity : RoomObjectBase, IEntityInterface
 
     protected virtual void Awake()
     {
-        InitializeHealth();
+        InitialiseHealth();
     }
 
-    protected virtual void InitializeHealth()
+    protected virtual void InitialiseHealth()
     {
         // Default implementation, can be overridden in derived classes
         _health = new EntityHealth(0, 100, 100);
