@@ -8,6 +8,17 @@ public class Enemy : Entity
     public int maxHealth = 10;
     public int damageAmount = 1;
 
+    protected override void InitialiseHealth()
+    {
+        _health = new EntityHealth(0, maxHealth, maxHealth);
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();  // This will call InitialiseHealth
+        Debug.Log($"Starting Enemy with health: {CurrentHealth}/{MaxHealth}");
+    }
+
     internal override void OnAwakeObject()
     {
         Debug.Log("Enemy Awake: OnAwakeObject called.");
@@ -18,43 +29,31 @@ public class Enemy : Entity
         Debug.Log("Enemy Sleep: OnSleepObject called.");
     }
 
-    new private void Start()
-    {
-        base.Start();  // Call base Start() to retain inherited behavior
-        CurrentHealth = maxHealth;  // Initialize health
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject == GameManager.Instance.Player)
-        {
-            GameManager.Instance.PlayerState.Health -= damageAmount;
-            Debug.Log("Player takes damage: " + damageAmount);
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+        if (other.gameObject == GameManager.Instance.Player)
+        {
+            GameManager.Instance.PlayerState.Health -= damageAmount;
+            Debug.Log($"Player takes damage: {damageAmount}");
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
         {
             float playerBaseDamage = GameManager.Instance.PlayerState.Damage;
             TakeDamage(playerBaseDamage);
         }
     }
 
-    // Handle the damage enemy takes
     public void TakeDamage(float damage)
     {
         ((IEntityInterface)this).Health -= damage;
-        Debug.Log("Enemy takes damage: " + damage + ". Current Health: " + CurrentHealth);
+        Debug.Log($"Enemy takes damage: {damage}. Current Health: {CurrentHealth}/{MaxHealth}");
 
-        if (!((IEntityInterface)this).IsAlive)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
     }
 
-    // Handle enemy death
     private void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
@@ -63,13 +62,11 @@ public class Enemy : Entity
 
     internal override void HealthChangedEvent(float lastValue, float currentValue)
     {
-        // TODO: Add health bar update logic here for enemy UI
         Debug.Log($"Enemy health changed from {lastValue} to {currentValue}");
     }
 
     internal override void OnDeathEvent()
     {
-        //TODO: Death animation, sound, etc.
         ObjectComplete = true;
         Die();
     }
