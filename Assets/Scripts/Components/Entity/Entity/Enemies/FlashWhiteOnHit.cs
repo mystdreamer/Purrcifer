@@ -29,9 +29,9 @@ public class FlashWhiteOnHit : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("PlayerProjectile"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
         {
             StartCoroutine(FlashEmission());
         }
