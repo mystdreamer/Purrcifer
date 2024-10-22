@@ -98,7 +98,8 @@ public class SwordAttack : MonoBehaviour
     private IEnumerator CoolDown()
     {
         canFire = false;
-        yield return new WaitForSeconds(prefabs.cooldownTime);
+        float fireRate = Mathf.Clamp(prefabs.cooldownTime - GameManager.Instance.PlayerState.AttackRate, 0F, 100F);
+        yield return new WaitForSeconds(fireRate);
         canFire = true;
     }
 

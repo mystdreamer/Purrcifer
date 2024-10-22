@@ -116,6 +116,7 @@ namespace DataManager
             _runtime.damageMultiplier = startingStats.damageMultiplier;
             _runtime.criticalHitDamage = startingStats.criticalHitDamage;
             _runtime.criticalHitChance = startingStats.criticalHitChance;
+            _runtime.attackRate = startingStats.attackRate;
 
             _runtime.movementSpeed = startingStats.movementSpeed;
             _runtime.utilityCharges = startingStats.utilityCharges;
