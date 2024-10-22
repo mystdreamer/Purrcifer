@@ -5,6 +5,7 @@
 [CreateAssetMenu(fileName = "ConsumableDataSO", menuName = "Purrcifer/Collectable SO/ConsumableSO")]
 public class ConsumableDataSO : ScriptableObject
 {
+    [System.Serializable]
     public enum ConsumableEffectInt
     {
         ADD_HEALTH = 0,
@@ -13,17 +14,20 @@ public class ConsumableDataSO : ScriptableObject
         ADD_CHARGE = 3,
     }
 
+    [System.Serializable]
     public enum ConsumableEffectBool
     {
         FILL_HEALTH = 0,
     }
 
+    [System.Serializable]
     public struct IntConsumableEffect
     {
         public ConsumableEffectInt effect;
         public int value;
     }
 
+    [System.Serializable]
     public struct BoolConsumableEffect
     {
         public ConsumableEffectBool type;
