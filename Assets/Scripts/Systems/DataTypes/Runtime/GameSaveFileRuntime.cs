@@ -22,6 +22,7 @@ namespace Purrcifer.Data.Player
         public float criticalHitDamage;
         public float criticalHitChance;
         public float movementSpeed;
+        public float attackRate;
         public int utilityCharges;
         public int talismanCount;
         public int currentGameLevel;

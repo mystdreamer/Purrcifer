@@ -36,6 +36,13 @@ namespace Purrcifer.PlayerData
         [Range(0f, 100f)]
         [SerializeField] private float _criticalHitChance;
 
+        /// <summary>
+        /// The players critical hit chance.
+        /// </summary>
+        [Header("The attack rate.")]
+        [Range(0f, 100f)]
+        [SerializeField] private float _attackRate;
+
         #region Access Properties. 
         /// <summary>
         /// Base damage. 
@@ -93,6 +100,13 @@ namespace Purrcifer.PlayerData
                 return (chance <= criticalChanceRemap);
             }
         }
+
+        public float AttackRate
+        {
+            get => _attackRate;
+            set => _attackRate = value;
+        }
+            
         #endregion
 
         public PlayerDamageData()

@@ -24,6 +24,7 @@ public abstract class ItemDataSO : ScriptableObject
         DAMAGE_MULTIPLIER = 4,
         DAMAGE_CRITICAL_HIT = 5,
         DAMAGE_CRITICAL_CHANCE = 6,
+        ATTACK_RATE = 7,
     }
 
     [System.Serializable]
