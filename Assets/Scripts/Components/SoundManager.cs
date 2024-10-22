@@ -31,7 +31,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioCollection attackSounds;
     [SerializeField] private AudioCollection talismanSounds;
     [SerializeField] private AudioCollection doorSounds;
-    [SerializeField] private AudioCollection damageTakenSounds;
+    [SerializeField] private AudioCollection damageSounds;
     [SerializeField] private float sfxFadeSpeed = 8f;
 
     [Header("Music")]
@@ -85,6 +85,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        LoadVolumeSettings();
+    }
+
     void OnDisable()
     {
         if (GameManager.Instance != null)
@@ -123,29 +128,165 @@ public class SoundManager : MonoBehaviour
         footstepSource.volume = 0f;
         footstepSource.loop = true;
         footstepSource.playOnAwake = false;
-
-        Debug.Log($"Audio sources setup complete. Music Source: {musicSource != null}, SFX Source: {sfxSource != null}, Footstep Source: {footstepSource != null}");
     }
     #endregion
 
-    #region Level and State Management
+    #region Volume Controls
+    public float GetMusicVolume()
+    {
+        return musicVolume;
+    }
+
+    public float GetSFXVolume()
+    {
+        float volume;
+        audioMixer.GetFloat("SFXVolume", out volume);
+        return Mathf.Pow(10, volume / 20); // Convert from decibels back to 0-1 range
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        musicVolume = Mathf.Clamp01(volume);
+        audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+        if (musicSource != null)
+        {
+            musicSource.volume = musicVolume;
+        }
+        SaveVolumeSettings();
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        volume = Mathf.Clamp01(volume);
+        float dbValue = Mathf.Log10(volume) * 20;
+        audioMixer.SetFloat("SFXVolume", dbValue);
+        audioMixer.SetFloat("FootstepsVolume", dbValue);
+        SaveVolumeSettings();
+    }
+
+    private void LoadVolumeSettings()
+    {
+        if (PlayerPrefs.HasKey("BGMVolume"))
+        {
+            SetMusicVolume(PlayerPrefs.GetFloat("BGMVolume"));
+        }
+
+        if (PlayerPrefs.HasKey("SFXVolume"))
+        {
+            SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
+        }
+    }
+
+    private void SaveVolumeSettings()
+    {
+        PlayerPrefs.SetFloat("BGMVolume", musicVolume);
+        PlayerPrefs.SetFloat("SFXVolume", GetSFXVolume());
+        PlayerPrefs.Save();
+    }
+
+    public void ResetToDefault()
+    {
+        SetMusicVolume(1f);
+        SetSFXVolume(1f);
+        SaveVolumeSettings();
+    }
+    #endregion
+
+    #region Sound Effects
+    public void OnMovementStateChanged(bool moving)
+    {
+        if (moving != isMoving)
+        {
+            isMoving = moving;
+            if (moving)
+            {
+                StartFootsteps();
+            }
+            else
+            {
+                StopFootsteps();
+            }
+        }
+    }
+
+    public void OnAttack()
+    {
+        if (attackSounds.clips != null && attackSounds.clips.Length > 0)
+        {
+            AudioClip clip = attackSounds.clips[Random.Range(0, attackSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-attackSounds.randomPitchVariance, attackSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, attackSounds.volume);
+        }
+    }
+
+    public void OnTalismanCast()
+    {
+        if (talismanSounds.clips != null && talismanSounds.clips.Length > 0)
+        {
+            AudioClip clip = talismanSounds.clips[Random.Range(0, talismanSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-talismanSounds.randomPitchVariance, talismanSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, talismanSounds.volume);
+        }
+    }
+
+    public void OnDoorStateChanged()
+    {
+        if (doorSounds.clips != null && doorSounds.clips.Length > 0)
+        {
+            AudioClip clip = doorSounds.clips[Random.Range(0, doorSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-doorSounds.randomPitchVariance, doorSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, doorSounds.volume);
+        }
+    }
+
+    public void OnPlayerDamaged()
+    {
+        if (damageSounds.clips != null && damageSounds.clips.Length > 0)
+        {
+            AudioClip clip = damageSounds.clips[Random.Range(0, damageSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-damageSounds.randomPitchVariance, damageSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, damageSounds.volume);
+        }
+    }
+
+    private void StartFootsteps()
+    {
+        if (footstepSounds.clips != null && footstepSounds.clips.Length > 0)
+        {
+            footstepSource.clip = footstepSounds.clips[Random.Range(0, footstepSounds.clips.Length)];
+            footstepSource.Play();
+            if (footstepFadeCoroutine != null)
+            {
+                StopCoroutine(footstepFadeCoroutine);
+            }
+            footstepFadeCoroutine = StartCoroutine(FadeFootsteps(true));
+        }
+    }
+
+    private void StopFootsteps()
+    {
+        if (footstepFadeCoroutine != null)
+        {
+            StopCoroutine(footstepFadeCoroutine);
+        }
+        footstepFadeCoroutine = StartCoroutine(FadeFootsteps(false));
+    }
+    #endregion
+
+    #region Music Management
     public void OnLevelLoaded()
     {
-        Debug.Log("=== LEVEL LOADED EVENT ===");
-        Debug.Log($"Previous state - IsInGame: {isInGame}, Current Music: {(musicSource.clip != null ? musicSource.clip.name : "null")}");
-
+        Debug.Log("Level loaded - transitioning from splash music to game music");
         isInGame = true;
-
         if (GameManager.WorldClock != null)
         {
             WorldState currentState = GameManager.WorldClock.CurrentState;
-            Debug.Log($"Level Loaded - Current world state: {currentState}");
-            Debug.Log("Forcing music update for level load");
-            UpdateMusicBasedOnWorldState(currentState);
+            Debug.Log($"Current world state on level load: {currentState}");
+            OnWorldStateChanged(currentState);
         }
         else
         {
-            Debug.LogError("WorldClock is null during OnLevelLoaded");
+            Debug.LogError("WorldClock is null on level load");
         }
     }
 
@@ -160,7 +301,6 @@ public class SoundManager : MonoBehaviour
         Debug.Log($"Updating music for state: {state}, Current music: {(musicSource.clip != null ? musicSource.clip.name : "null")}");
         AudioClip targetMusic = null;
 
-        // First verify we have all music clips assigned
         bool hasAllClips = worldStartMusic != null && worldWitchingMusic != null && worldHellMusic != null;
         if (!hasAllClips)
         {
@@ -208,10 +348,6 @@ public class SoundManager : MonoBehaviour
             }
             musicTransitionCoroutine = StartCoroutine(TransitionMusic(targetMusic));
         }
-        else
-        {
-            Debug.Log($"No music change needed. Current: {(musicSource.clip != null ? musicSource.clip.name : "null")}");
-        }
     }
 
     private void OnWorldStateChanged(WorldState newState)
@@ -219,87 +355,6 @@ public class SoundManager : MonoBehaviour
         Debug.Log($"World state changed to: {newState}");
         currentState = newState;
         UpdateMusicBasedOnWorldState(newState);
-    }
-    #endregion
-
-    #region Sound Effects
-    public void OnMovementStateChanged(bool moving)
-    {
-        if (moving != isMoving)
-        {
-            isMoving = moving;
-            if (moving)
-            {
-                StartFootsteps();
-            }
-            else
-            {
-                StopFootsteps();
-            }
-        }
-    }
-
-    public void OnTalismanCast()
-    {
-        if (talismanSounds.clips != null && talismanSounds.clips.Length > 0)
-        {
-            AudioClip clip = talismanSounds.clips[Random.Range(0, talismanSounds.clips.Length)];
-            sfxSource.pitch = 1f + Random.Range(-talismanSounds.randomPitchVariance, talismanSounds.randomPitchVariance);
-            sfxSource.PlayOneShot(clip, talismanSounds.volume);
-        }
-    }
-
-    public void OnPlayerDamaged()
-    {
-        if (damageTakenSounds.clips != null && damageTakenSounds.clips.Length > 0)
-        {
-            AudioClip clip = damageTakenSounds.clips[Random.Range(0, damageTakenSounds.clips.Length)];
-            sfxSource.pitch = 1f + Random.Range(-damageTakenSounds.randomPitchVariance, damageTakenSounds.randomPitchVariance);
-            sfxSource.PlayOneShot(clip, damageTakenSounds.volume);
-        }
-    }
-
-    public void OnDoorStateChanged()
-    {
-        if (doorSounds.clips != null && doorSounds.clips.Length > 0)
-        {
-            AudioClip clip = doorSounds.clips[Random.Range(0, doorSounds.clips.Length)];
-            sfxSource.pitch = 1f + Random.Range(-doorSounds.randomPitchVariance, doorSounds.randomPitchVariance);
-            sfxSource.PlayOneShot(clip, doorSounds.volume);
-        }
-    }
-
-    public void OnAttack()
-    {
-        if (attackSounds.clips != null && attackSounds.clips.Length > 0)
-        {
-            AudioClip clip = attackSounds.clips[Random.Range(0, attackSounds.clips.Length)];
-            sfxSource.pitch = 1f + Random.Range(-attackSounds.randomPitchVariance, attackSounds.randomPitchVariance);
-            sfxSource.PlayOneShot(clip, attackSounds.volume);
-        }
-    }
-
-    private void StartFootsteps()
-    {
-        if (footstepSounds.clips != null && footstepSounds.clips.Length > 0)
-        {
-            footstepSource.clip = footstepSounds.clips[Random.Range(0, footstepSounds.clips.Length)];
-            footstepSource.Play();
-            if (footstepFadeCoroutine != null)
-            {
-                StopCoroutine(footstepFadeCoroutine);
-            }
-            footstepFadeCoroutine = StartCoroutine(FadeFootsteps(true));
-        }
-    }
-
-    private void StopFootsteps()
-    {
-        if (footstepFadeCoroutine != null)
-        {
-            StopCoroutine(footstepFadeCoroutine);
-        }
-        footstepFadeCoroutine = StartCoroutine(FadeFootsteps(false));
     }
     #endregion
 
@@ -326,8 +381,6 @@ public class SoundManager : MonoBehaviour
 
     private IEnumerator TransitionMusic(AudioClip newTrack)
     {
-        Debug.Log($"TransitionMusic started. Target track: {newTrack.name}");
-
         if (newTrack == null)
         {
             Debug.LogError("Attempted to transition to null music track");
@@ -340,10 +393,8 @@ public class SoundManager : MonoBehaviour
             yield break;
         }
 
-        // Store the target volume for later
         float targetVolume = musicVolume;
 
-        // If we're currently playing something, fade it out
         if (musicSource.clip != null && musicSource.isPlaying)
         {
             float startVolume = musicSource.volume;
@@ -356,23 +407,12 @@ public class SoundManager : MonoBehaviour
                 yield return null;
             }
 
-            musicSource.volume = 0f; // Ensure we're fully faded out
+            musicSource.volume = 0f;
         }
 
-        // Change the track
-        Debug.Log($"Changing clip from {(musicSource.clip != null ? musicSource.clip.name : "null")} to {newTrack.name}");
-        musicSource.Stop();
         musicSource.clip = newTrack;
         musicSource.Play();
 
-        // Verify the clip changed and is playing
-        if (musicSource.clip != newTrack || !musicSource.isPlaying)
-        {
-            Debug.LogError($"Failed to change music! Clip assigned: {musicSource.clip == newTrack}, Is Playing: {musicSource.isPlaying}");
-            yield break;
-        }
-
-        // Fade in the new track
         float fadeInTime = 0f;
         while (fadeInTime < musicTransitionDuration * 0.5f)
         {
@@ -382,68 +422,6 @@ public class SoundManager : MonoBehaviour
         }
 
         musicSource.volume = targetVolume;
-        Debug.Log($"Music transition complete. Now playing: {musicSource.clip.name} at volume {musicSource.volume}");
-    }
-    #endregion
-
-    #region Volume Controls
-    public void SetMusicVolume(float volume)
-    {
-        musicVolume = Mathf.Clamp01(volume);
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
-    }
-
-    public void SetSFXVolume(float volume)
-    {
-        volume = Mathf.Clamp01(volume);
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
-        audioMixer.SetFloat("FootstepsVolume", Mathf.Log10(volume) * 20);
-    }
-
-    public void StopAllAudio()
-    {
-        if (musicSource != null)
-        {
-            musicSource.Stop();
-        }
-        if (sfxSource != null)
-        {
-            sfxSource.Stop();
-        }
-        if (footstepSource != null)
-        {
-            footstepSource.Stop();
-        }
-    }
-    #endregion
-
-    #region Debug
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            WorldState state = GameManager.WorldClock.CurrentState;
-            Debug.Log($"Debug Check - World State: {state}");
-            Debug.Log($"Debug Check - Current Music: {(musicSource.clip != null ? musicSource.clip.name : "null")}");
-            Debug.Log($"Debug Check - Is Playing: {musicSource.isPlaying}");
-            Debug.Log($"Debug Check - Volume: {musicSource.volume}");
-            Debug.Log($"Debug Check - Correct clip for state is loaded: {IsCorrectMusicForState(state)}");
-        }
-    }
-
-    private bool IsCorrectMusicForState(WorldState state)
-    {
-        switch (state)
-        {
-            case WorldState.WORLD_START:
-                return musicSource.clip == worldStartMusic;
-            case WorldState.WORLD_WITCHING:
-                return musicSource.clip == worldWitchingMusic;
-            case WorldState.WORLD_HELL:
-                return musicSource.clip == worldHellMusic;
-            default:
-                return false;
-        }
     }
     #endregion
 }
