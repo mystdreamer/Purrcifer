@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BTREETester : MonoBehaviour
 {
-    public BBST<int> testBBST = new BBST<int>();
+    public ItemList<int> testBBST = new ItemList<int>();
 
     void Start()
     {

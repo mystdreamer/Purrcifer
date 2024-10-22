@@ -1,0 +1,76 @@
+## Enemies
+Floating skull: 
+A floating human skull, bobs around the room and rushes the player to headbutt the player until either one dies. 
+Can be pushed away when hit by the player.
+
+Leach: 
+An oversized bloodsucking leech, wriggles towards the player until it latches on, 
+draining the player’s health little by little until they’ve drained the player of all their blood.
+
+Shadow Person: 
+A shadowy figure as dark as the night, nearly invisible in the dark. 
+Relentlessly attacks the player, punching until either the player or the figure isn’t moving.
+
+Blob: 
+A weird, colorful blob of unknown origins. 
+The blob slowly oozes around the room, until coming into contact with the player, 
+where it attempts to drown the player in its slime.
+
+Hairball: 
+A weird, moving mass of hair and … something else, rolls around the room attempting to roll into the player.
+
+## Set Dressing
+Limbs: Floating arms and legs that were cursed with the same spell as the flying weapons. They float around the room, slapping and kicking the player when they get close enough, evaporating to dust when killed.
+
+Glass bottle: Cliché dark green/clear see-through broken glass bottle. Any bottle can be made into a weapon, while not very practical, can still cause some serious damage. Fast attack speed, small damage, fast attack speed.
+“Normally used to hold liquids, but when broken can be used with deadly force.”
+Items Weapons:
+Sacrificial Dagger: 50% chance of eating the next picked up health pickup. Instant kills enemies. “A blade blacker than the night.”
+
+Sword: A basic silver sword with a grey handle and crossguard t. Medium attack range, medium damage, medium speed.
+“Honor thyself and thine enemy.”
+
+Kitchen Knife: A small knife with a silver blade, brown handle. A practical impromptu weapon found in every household. Short range, small damage, quick attack speed.
+“Sever the enemies mortal coil.”
+Items Health:
+
+Heart pickup: red heart-shaped pickup, adds one heart containers. “The heart makes the world go round”.
+Burning Heart pickup: Red fiery heart-shaped pickup, Adds two hearts. “Let the flame within guide the way.”.
+
+Cookies: 
+Basic brown, delicious looking cookie with chocolate chips. 
+Heals a small Adds 2 hearts to player.
+
+Chocolate: 
+A chocolate bar still half in the wrapper, with a bite taken out of the corner? 
+Adds health up +1 and increases speed a tiny bit. “The good tasting kinda brown”
+
+Coffee: 
+A cup of extra stimulation. 
+Applies a permanent speed upgrade. “The universal motherly beverage.”
+
+Sugar: 
+Small tasty white pile of addiction. Health + Tiny bit of extra speed applied.
+
+## Items
+
+Pills: 
+Cluster of colorful pills that effects the player. Unsure what effects the pills have on the player.
+
+Kitsune/Zelda mask: 
+A mask that gives the player enhanced vision, allows him to see secrets, and what lies ahead in their path.
+
+Telephone: 
+Basic grey telephone with the wire connected to it snipped halfway down, yet it still rings. 
+Not sure what effect it has on the player yet.
+
+Seals: Breaks hidden walls. 
+
+## Items: 
+Squeaky hammer: 
+Pink and yellow toy squeaky hammer, smaller than a normal hammer. 
+A weapon that’s greatly underestimated and is imbued with powers from the gods. 
+Heavy damage, small range, slow attack speed.
+“It’s much heavier than I expected, but I think it can deal some damage?”
+
+Spear of Longinus: Grows in a singular direction endlessly. 

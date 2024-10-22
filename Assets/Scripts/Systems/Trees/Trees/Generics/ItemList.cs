@@ -8,7 +8,7 @@ namespace ItemPool
     /// Class used to handle item pools. 
     /// </summary>
     [System.Serializable]
-    public class BBST<T>
+    public class ItemList<T>
     {
         public List<Node<T>> nodes = new List<Node<T>>();
 
@@ -27,9 +27,9 @@ namespace ItemPool
         /// </summary>
         public List<int> Keys => keys;
 
-        public BBST() { }
+        public ItemList() { }
 
-        public BBST(T t, int key, int weight) =>
+        public ItemList(T t, int key, int weight) =>
             Insert(new Node<T>(t, key, weight));
 
         private void RegenWeighting()

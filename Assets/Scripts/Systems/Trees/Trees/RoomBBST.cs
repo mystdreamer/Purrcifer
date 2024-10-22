@@ -9,7 +9,7 @@ namespace ItemPool
     [System.Serializable]
     public class RoomBBST
     {
-        public BBST<RoomDataSO> bbst = new BBST<RoomDataSO>();
+        public ItemList<RoomDataSO> bbst = new ItemList<RoomDataSO>();
 
         /// <summary>
         /// Returns a list of the keys actively held in the tree. 
