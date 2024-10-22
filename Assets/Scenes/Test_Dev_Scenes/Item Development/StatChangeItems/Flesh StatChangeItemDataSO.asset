@@ -10,20 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14b9895c3c4d5c3468c1919da3aee71f, type: 3}
-  m_Name: Cookies_StatChangeItemDataSO
+  m_Name: Flesh StatChangeItemDataSO
   m_EditorClassIdentifier: 
-  itemID: 9556
-  itemWeight: 4
+  itemID: 58875
+  itemWeight: 0
   eventData:
     eventName: 
     eventID: 0
     hasEvent: 0
   itemDialogue:
-    itemDisplayName: Cookies
-    itemDisplayText: 'Crunchhhhyyyy. '
-  powerupPedistoolPrefab: {fileID: 0}
+    itemDisplayName: Lump Of Flesh
+    itemDisplayText: Its still bleeding...
+  powerupPedistoolPrefab: {fileID: 3624437528338676225, guid: dffd117784879594795464661027128b, type: 3}
   statChangeInts:
   - type: 1
-    value: 2
-  statChangeFloats: []
-  statChangeEffects: []
+    value: 1
+  statChangeFloats:
+  - type: 3
+    value: 1
+  - type: 4
+    value: 1
+  - type: 5
+    value: 1
+  - type: 6
+    value: 1
+  - type: 1
+    value: 1
+  statChangeEffects:
+  - type: 0

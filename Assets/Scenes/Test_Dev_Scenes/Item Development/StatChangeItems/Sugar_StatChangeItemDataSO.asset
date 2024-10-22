@@ -21,7 +21,7 @@ MonoBehaviour:
   itemDialogue:
     itemDisplayName: Sugar
     itemDisplayText: Addictions... We all have one.
-  powerupPedistoolPrefab: {fileID: 0}
+  powerupPedistoolPrefab: {fileID: 805630867954899314, guid: 60ce27f9fc88077498ba5f98c9a7fc49, type: 3}
   statChangeInts:
   - type: 1
     value: 1
