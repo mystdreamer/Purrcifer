@@ -139,8 +139,7 @@ public class PlayerMovementSys : MonoBehaviour
         if (_input != Vector3.zero)
         {
             Vector3 cardinalDirection = GetNearestCardinalDirection(_input);
-            Quaternion targetRotation = Quaternion.LookRotation(cardinalDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.LookRotation(cardinalDirection, Vector3.up);
         }
 
         //Cache the last input (possible to be used for attacks).
