@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 248161863747212003}
   - component: {fileID: 312548191001744526}
   - component: {fileID: 1062929309893278610}
+  - component: {fileID: -6395218900392801358}
   m_Layer: 0
   m_Name: Cookie_Pedestool
   m_TagString: Untagged
@@ -75,6 +76,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statupSO: {fileID: 11400000, guid: c794210f3ef41b64ea9bd18d7ca63328, type: 2}
+--- !u!135 &-6395218900392801358
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940188690703178341}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8205476707381962223
 GameObject:
   m_ObjectHideFlags: 0

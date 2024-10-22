@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 2525440142369986973}
   - component: {fileID: 7291377398433212095}
   - component: {fileID: 7175499471971341878}
+  - component: {fileID: -7092931718919423024}
   m_Layer: 0
   m_Name: Flesh_Pedestool
   m_TagString: Untagged
@@ -196,6 +197,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statupSO: {fileID: 11400000, guid: 1f198482323860d4f99bdd36428810cd, type: 2}
+--- !u!135 &-7092931718919423024
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3624437528338676225}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3634574473910512896
 PrefabInstance:
   m_ObjectHideFlags: 0

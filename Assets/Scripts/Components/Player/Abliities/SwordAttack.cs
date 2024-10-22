@@ -72,21 +72,21 @@ public class SwordAttack : MonoBehaviour
         Vector3[] directions = GetDirections(vector);
         RaycastHit[] hits;
 
-        //Get hits for each vector direction. 
-        for (int i = 0; i < directions.Length; i++)
-        {
-            hits = CastAndCheck(directions[i], OFFSET, LENGTH - OFFSET);
+        ////Get hits for each vector direction. 
+        //for (int i = 0; i < directions.Length; i++)
+        //{
+        //    hits = CastAndCheck(directions[i], OFFSET, LENGTH - OFFSET);
             
-            //Check if hits are damageable interfaces. 
-            for (int j = 0; j < hits.Length; j++)
-            {
-                Debug.Log("Hit GO: " +  hits[j].transform.gameObject);
-                IEntityInterface _interface = hits[j].collider.gameObject.GetComponent<IEntityInterface>();
+        //    ////Check if hits are damageable interfaces. 
+        //    //for (int j = 0; j < hits.Length; j++)
+        //    //{
+        //    //    Debug.Log("Hit GO: " +  hits[j].transform.gameObject);
+        //    //    IEntityInterface _interface = hits[j].collider.gameObject.GetComponent<IEntityInterface>();
 
-                //Apply damage to the Enemy. 
-                _interface.Health -= GameManager.Instance.PlayerState.Damage;
-            }
-        }
+        //    //    //Apply damage to the Enemy. 
+        //    //    _interface.Health -= GameManager.Instance.PlayerState.Damage;
+        //    //}
+        //}
     }
 
     private IEnumerator WeaponDisposer(GameObject prefab, float time)

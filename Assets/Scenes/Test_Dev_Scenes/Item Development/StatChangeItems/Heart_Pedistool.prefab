@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 8994679734129567377}
   - component: {fileID: 2961391199455422504}
   - component: {fileID: 9097619687453831590}
+  - component: {fileID: -1429786627253748887}
   m_Layer: 0
   m_Name: Heart_Pedistool
   m_TagString: Untagged
@@ -196,6 +197,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statupSO: {fileID: 11400000, guid: 1f198482323860d4f99bdd36428810cd, type: 2}
+--- !u!135 &-1429786627253748887
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680107883107441373}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3616031683454029099
 PrefabInstance:
   m_ObjectHideFlags: 0
