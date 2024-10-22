@@ -216,7 +216,7 @@ public partial class GameManager : MonoBehaviour
     }
 
     public static PlayerInputs PlayerInputs => DataCarrier.PlayerInputs;
-    
+
     public PlayerHealthData GetPlayerHealthData => (PlayerHealthData)DataCarrier.RuntimeData;
 
     public PlayerDamageData GetPlayerDamageData => (PlayerDamageData)DataCarrier.RuntimeData;
@@ -424,23 +424,35 @@ public partial class GameManager : MonoBehaviour
     /// IEnumerator used to handle the transition out of the loading screen. 
     /// </summary>
     /// <returns></returns>
+    // In GameManager.cs, modify RemoveLoadingScreen:
     private IEnumerator RemoveLoadingScreen()
     {
-        //Call transition out. 
+        // Call transition out. 
         UIManager.Instance.FadeLevelTransitionOut();
         yield return new WaitForSeconds(0.5f);
 
-        //Wait for UI transition to be complete. 
+        // Wait for UI transition to be complete. 
         while (!UIManager.Instance.TransitionInactive)
         {
             yield return new WaitForSeconds(0.5f);
         }
 
-        //Enable the world clock.
+        // Add this before enabling world clock
+        if (SoundManager.Instance != null)
+        {
+            Debug.Log("Notifying SoundManager of level load");
+            SoundManager.Instance.OnLevelLoaded();
+        }
+        else
+        {
+            Debug.LogError("SoundManager not found when loading level");
+        }
+
+        // Enable the world clock.
         _worldClock.ResetPlayTime();
         _worldClock.TimerActive = true;
 
-        //Enable player movement. 
+        // Enable player movement. 
         PlayerMovementPaused = false;
         yield return true;
     }

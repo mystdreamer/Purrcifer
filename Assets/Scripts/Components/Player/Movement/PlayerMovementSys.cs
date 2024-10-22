@@ -129,6 +129,11 @@ public class PlayerMovementSys : MonoBehaviour
         if (UpdatePause)
             return;
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.OnMovementStateChanged(_input.magnitude > 0);
+        }
+
         //Normalise the given input. 
         _input.Normalize();
 
