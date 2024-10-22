@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 5983034841015094942}
   - component: {fileID: 3215897845541289512}
   - component: {fileID: 4006397867796918559}
+  - component: {fileID: 2687264522338667340}
   m_Layer: 0
   m_Name: PopWorm_Default
   m_TagString: Untagged
@@ -139,6 +140,29 @@ CapsuleCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.22
+  m_Height: 6.03
+  m_Direction: 0
+  m_Center: {x: -0.15, y: 0.16, z: 0.1}
+--- !u!136 &2687264522338667340
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207423426237436252}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -311,6 +335,7 @@ GameObject:
   - component: {fileID: 6654145703211419790}
   - component: {fileID: 1035444313483919475}
   - component: {fileID: 9158976427851633310}
+  - component: {fileID: 824098789145982596}
   m_Layer: 0
   m_Name: PopWorm_Down
   m_TagString: Untagged
@@ -380,6 +405,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 2534390676781470400}
+--- !u!65 &824098789145982596
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966181162527593840}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.63, y: 2.17, z: 4}
+  m_Center: {x: -12.17, y: 0.8, z: 0}
 --- !u!1001 &1138573329376116117
 PrefabInstance:
   m_ObjectHideFlags: 0
