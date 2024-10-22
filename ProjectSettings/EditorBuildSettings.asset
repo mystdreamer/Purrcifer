@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Test_Dev_Scenes/DevS_SplashScreen/SplashScreen.unity
-    guid: b74e8102719ef50478b01cf81e6c394c
+    path: Assets/Scenes/Levels/Intro Splash/SplashScreen.unity
+    guid: 67bad05935225b0478cbba32a70ceb59
   - enabled: 1
-    path: Assets/Scenes/Test_Dev_Scenes/DevS_MenuScreen/DEVS_MenuV1.unity
-    guid: 32ab01f801ff0fe4d8ace6724f3d4148
+    path: Assets/Scenes/Levels/Main Menu/MenuV1.unity
+    guid: d9770b3b4a317b04d85ff8d62f0c4650
   - enabled: 1
-    path: Assets/Scenes/Test_Dev_Scenes/DevS_CharacterSelection/DevS_CharacterSelectionV1.unity
-    guid: e46097e304e4d4b4d8d63b5140f85295
+    path: Assets/Scenes/Levels/CharacterSelection/CharacterSelection.unity
+    guid: 99ba89c52fc89374184643a772d0359a
   - enabled: 1
     path: Assets/Scenes/Levels/Intro Level/Intro_Level.unity
     guid: b60439a05ffd60c47a2b72e456c147c2
@@ -22,8 +22,8 @@ EditorBuildSettings:
       ISO.unity
     guid: 0b8f3bcc286d4a7479656a7cddb009ff
   - enabled: 1
-    path: Assets/Scenes/UI_.unity
-    guid: 95f068d18d0568e4a800b9e324814227
+    path: Assets/Scenes/Levels/UI/UI_.unity
+    guid: b20a562f9f54639419f200b6a8f9fde3
   - enabled: 1
     path: Assets/Scenes/Test_Dev_Scenes/DevS_LevelGeneration/TESTLEVELS.unity
     guid: df8c7866437db7d449818f5bbd76608d
