@@ -27,7 +27,6 @@ public class BossHitbox : MonoBehaviour
 
     public void ResolveCollisions(GameObject collisionObject)
     {
-        Debug.Log("Boss collision hit.");
         if (collisionObject.tag == "Weapon")
         {
             Debug.Log("Boss collision hit: Applying damage.");

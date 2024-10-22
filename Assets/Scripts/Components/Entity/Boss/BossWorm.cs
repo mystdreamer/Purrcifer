@@ -578,6 +578,9 @@ public class BossWorm : Boss
 
     internal override void OnDeathEvent()
     {
+        Debug.Log("Boss Dead!");
+        StopAllCoroutines();
+        Destroy(bossSpawn);
     }
 
     internal override void InvincibilityActivated()
