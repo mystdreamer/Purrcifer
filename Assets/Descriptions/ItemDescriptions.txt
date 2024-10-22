@@ -1,0 +1,158 @@
+-----------------------------------------------
+## Enemies: 
+-----------------------------------------------
+Floating skull: 
+A floating human skull, bobs around the room and rushes the player to headbutt the player until either one dies. 
+Can be pushed away when hit by the player.
+
+Leach: 
+An oversized bloodsucking leech, wriggles towards the player until it latches on, 
+draining the player’s health little by little until they’ve drained the player of all their blood.
+- Has Model.
+
+Shadow Person: 
+A shadowy figure as dark as the night, nearly invisible in the dark. 
+Relentlessly attacks the player, punching until either the player or the figure isn’t moving.
+
+Blob: 
+A weird, colorful blob of unknown origins. 
+The blob slowly oozes around the room, until coming into contact with the player, 
+where it attempts to drown the player in its slime.
+
+Hairball: 
+A weird, moving mass of hair and … something else, rolls around the room attempting to roll into the player.
+
+-----------------------------------------------
+## Set Dressing
+-----------------------------------------------
+Limbs: Floating arms and legs that were cursed.
+-Touching this creeps the player out. 
+- Missing Model. 
+
+Glass bottle: Cliché dark green/clear see-through broken glass bottle. 
+Any bottle can be made into a weapon, while not very practical, can still cause some serious damage. 
+- Generates a AOE effect with shards of glass that stab.
+- Missing Model. 
+
+-----------------------------------------------
+## Items Consumables: 
+-----------------------------------------------
+Pills: 
+- Cluster of colorful pills that effects the player. Unsure what effects the pills have on the player.
+- Can't prep data because have no idea what is required yet. 
+- Missing Model. 
+
+-----------------------------------------------
+##Data prepped Items Consumables: 
+-----------------------------------------------
+Seals: Breaks hidden walls. 
+- +1 talisman use.
+- Missing Model. 
+
+-----------------------------------------------
+##Data/Model prepped Items Consumables: 
+-----------------------------------------------
+Heart Consumable: red heart-shaped pickup.
+- +1 hearts. 
+- Has Model.
+
+-----------------------------------------------
+## Items Weapons:
+-----------------------------------------------
+Sacrificial Dagger: 50% chance of eating the next picked up health pickup. Instant kills enemies. “A blade blacker than the night.”
+
+Sword: A basic silver sword with a grey handle and crossguard t. 
+- Medium attack range.
+- Medium damage.
+- Medium speed.
+- FT: “Honor thyself and thine enemy.”
+
+Kitchen Knife: A small knife with a silver blade, brown handle. A practical impromptu weapon found in every household. 
+- Short range.
+- Low damage.
+- Fast speed.
+“Sever the enemies mortal coil.”
+
+Squeaky hammer: 
+Pink and yellow toy squeaky hammer, smaller than a normal hammer. 
+A weapon that’s greatly underestimated and is imbued with powers from the gods. 
+- Heavy damage.
+- Small range.
+- Slow attack speed.
+“It’s much heavier than I expected, but I think it can deal some damage?”
+
+Spear of Longinus: Grows in a singular direction endlessly. 
+- Missing Model. 
+
+-----------------------------------------------
+## Items Utility:
+-----------------------------------------------
+
+Stopwatch: Allows for the rewinding and fast forwarding of time. 
+- Missing Model. 
+
+Kitsune/Zelda mask: 
+A mask that gives the player enhanced vision, allows him to see secrets, and what lies ahead in their path.
+- Missing Model. 
+
+Telephone: 
+Basic grey telephone with the wire connected to it snipped halfway down, yet it still rings. 
+Not sure what effect it has on the player yet. 
+- Missing Model. 
+
+-----------------------------------------------
+## Data Added Stat Effect Items:
+-----------------------------------------------
+
+Chocolate: A chocolate bar still half in the wrapper, with a bite taken out of the corner? 
+- +1 health. 
+- +0.5F speed. 
+- FT: “The good tasting kinda brown”
+- Missing Model. 
+
+Coffee: A cup of extra stimulation. 
+- +1.5F to speed. 
+- FT: “I can FEEL the stimulation”
+- Missing Model. 
+
+-----------------------------------------------
+##Data/Models prepped Stat Effect Items:
+-----------------------------------------------
+Chunk of flesh: Flesh shaped flesh. 
+- +1.5 shot rate. 
+- +2* damage multiplier. 
+- +1 critical hit. 
+
+The little book of pain: Contains the forbidden words, causing an elevation in insanity. 
+- +1 shot rate. 
+- +1 base damage. 
+- +1 damage multiplier. 
+- +1 critical hit. 
+
+The big book of pain: Contains the forbidden words, causing an elevation in insanity. 
+- +2 shot rate. 
+- +2 base damage. 
+- +2 damage multiplier. 
+- +2 critical hit. 
+
+Heart Item: red heart-shaped pickup.
+- +1 hearts. 
+- FT: “The heart beats harder”
+- Has Model. 
+
+Burning Heart: Red fiery heart-shaped pickup, 
+- +2 hearts.
+- +1 to damage base.
+- Fills health.
+- FT: “Let the flame within guide the way”
+- Has Model. 
+
+Cookies: Basic brown, delicious looking cookie with chocolate chips. 
+- +2 hearts. 
+- FT: "Crunchhhhyyyy" 
+- Has Model. 
+
+Sugar: Small tasty white pile of addiction. 
+- +1 Health.
+- +0.5F speed.
+- Has Model. 

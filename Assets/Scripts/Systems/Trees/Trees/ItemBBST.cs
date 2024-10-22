@@ -10,7 +10,7 @@ namespace ItemPool
     [System.Serializable]
     public class ItemBBST
     {
-        public BBST<ItemDataSO> bbst = new BBST<ItemDataSO>();
+        public ItemList<ItemDataSO> bbst = new ItemList<ItemDataSO>();
 
         /// <summary>
         /// Returns a list of the keys actively held in the tree. 
@@ -36,16 +36,21 @@ namespace ItemPool
         /// <returns> GameObject Prefab reference. </returns>
         public GameObject GetRandomPrefab(bool remove) =>
             bbst.GetRandomPrefab(remove)?.powerupPedistoolPrefab;
+
+        public ItemDataSO GetNode(bool remove)
+        {
+            return bbst.GetRandomNode(remove)?.item;
+        }
         #endregion
 
         #region Insertion.
         public bool Insert(ItemDataSO data) => 
-            bbst.Insert(new Node<ItemDataSO>(data, data.itemID, data.itemWeight));
+            bbst.Insert((Node<ItemDataSO>)data);
 
         public void InsertRange(ItemDataSO[] nodes)
         {
             for (int i = 0; i < nodes.Length; i++)
-                Insert(nodes[i]);
+                bbst.Insert((Node<ItemDataSO>)nodes[i]);
         }
         #endregion
 

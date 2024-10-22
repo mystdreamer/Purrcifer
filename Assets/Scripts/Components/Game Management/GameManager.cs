@@ -9,8 +9,6 @@ using Purrcifer.Data.Defaults;
 using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
-using JetBrains.Annotations;
-using System;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -382,6 +380,8 @@ public partial class GameManager : MonoBehaviour
         get => Instance._worldClock.PlayTime;
         set => Instance._worldClock.PlayTime = value;
     }
+
+    public static WorldState WorldState => Instance._worldClock.CurrentState;
     #endregion
 
     #region Delegates.

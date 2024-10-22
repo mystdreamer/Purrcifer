@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using ItemPool;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public abstract class ItemDataSO : ScriptableObject
 {
@@ -22,6 +24,7 @@ public abstract class ItemDataSO : ScriptableObject
         DAMAGE_MULTIPLIER = 4,
         DAMAGE_CRITICAL_HIT = 5,
         DAMAGE_CRITICAL_CHANCE = 6,
+        ATTACK_RATE = 7,
     }
 
     [System.Serializable]
@@ -63,4 +66,9 @@ public abstract class ItemDataSO : ScriptableObject
     public StatChangeInt[] statChangeInts;
     public StatChangeFloat[] statChangeFloats;
     public StatChangeEffect[] statChangeEffects;
+
+    public static explicit operator Node<ItemDataSO>(ItemDataSO item)
+    {
+        return new Node<ItemDataSO>(item, item.itemID, item.itemWeight);
+    }
 }

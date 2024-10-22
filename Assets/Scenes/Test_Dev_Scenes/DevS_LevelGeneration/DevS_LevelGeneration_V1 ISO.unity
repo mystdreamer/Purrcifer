@@ -211,13 +211,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1325118341669938961, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
+      propertyPath: near clip plane
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2479190243357444653, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2479190243357444653, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2479190243357444653, guid: ba3dd6007ef83dd48b30311b20382827, type: 3}
       propertyPath: m_LocalPosition.z
@@ -491,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMax
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6919907993121835937, guid: b9b57c7a75d15f34ea9a9e63f5d898b1, type: 3}
       propertyPath: floorData.roomCountMin
@@ -662,11 +666,15 @@ PrefabInstance:
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: roomTreeSO
       value: 
-      objectReference: {fileID: 11400000, guid: e63e14b3e1e194d46abd452724ab96b4, type: 2}
+      objectReference: {fileID: 11400000, guid: cc4d39c1bd73c894fbc8cadd3a1d6514, type: 2}
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: bossRoomTree
       value: 
       objectReference: {fileID: 11400000, guid: 2e6014b3e5e13d04fa6240126b365a51, type: 2}
+    - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
+      propertyPath: roomTree.pool
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: startRoomTree
       value: 

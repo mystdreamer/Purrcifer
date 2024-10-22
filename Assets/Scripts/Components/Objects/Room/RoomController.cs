@@ -55,6 +55,9 @@ public class RoomController : MonoBehaviour
     public RoomObjectBase[] roomObjects;
     private NavMeshSurface navMeshSurface;
 
+    private float activeStateCheckInterval = 5f;
+    private float lastActiveStateCheckTime;
+
     #region Properties. 
     private GameObject Player
     {
@@ -102,16 +105,23 @@ public class RoomController : MonoBehaviour
 
     private void Update()
     {
-        if (Player == null | roomState == RoomState.COMPLETED)
+        if (Player == null || roomState == RoomState.COMPLETED)
             return;
 
         StateMachine();
+
+        // Check UpdateActiveState every 5 seconds when the room is active
+        if (roomState == RoomState.ACTIVE && Time.time - lastActiveStateCheckTime >= activeStateCheckInterval)
+        {
+            UpdateActiveState();
+            lastActiveStateCheckTime = Time.time;
+        }
     }
 
     #region Door Control.
 
     [SerializeField] private WallType wallType;
-    public MapIntMarkers roomType; 
+    public MapIntMarkers roomType;
 
     /// <summary>
     /// The door heading upward. 
@@ -288,24 +298,36 @@ public class RoomController : MonoBehaviour
 
     private bool ItemsCompleted()
     {
+        bool allCompleted = true;
+        bool allDestroyed = true;
+
         for (int i = 0; i < roomObjects.Length; i++)
         {
-            //Debug.Log("Room State Object Check: " + roomObjects[i].GetName() + " - " + roomObjects[i].Complete);
-            if (!roomObjects[i].ObjectComplete)
-                return false;
+            if (roomObjects[i] != null)
+            {
+                allDestroyed = false;
+                if (!roomObjects[i].ObjectComplete)
+                {
+                    allCompleted = false;
+                    break;
+                }
+            }
         }
 
-        return true;
+        return allCompleted || allDestroyed;
     }
 
     private void SetRoomContentsEnableState(bool state)
     {
         for (int i = 0; i < roomObjects.Length; i++)
         {
-            if (state == true)
-                ((IRoomObject)roomObjects[i]).AwakenObject();
-            else if (state == false)
-                ((IRoomObject)roomObjects[i]).SleepObject();
+            if (roomObjects[i] != null)
+            {
+                if (state == true)
+                    ((IRoomObject)roomObjects[i]).AwakenObject();
+                else if (state == false)
+                    ((IRoomObject)roomObjects[i]).SleepObject();
+            }
         }
     }
     #endregion

@@ -1,14 +1,11 @@
 ﻿namespace ItemPool
 {
+    [System.Serializable]
     public class Node<T>
     {
-        public static readonly Node<T> NULL_NODE = null;
         public T item;
         public int key;
         public int weight;
-
-        public Node<T> Left = NULL_NODE;
-        public Node<T> Right = NULL_NODE;
 
         /// <summary>
         /// Returns the BBSTNode as a formatted string.  

@@ -10,19 +10,12 @@ namespace ItemPool
     [System.Serializable]
     public class UpgradeBBST
     {
-        public BBST<ItemDataSO> bbst = new BBST<ItemDataSO>();
-
-        /// <summary>
-        /// The current root node in the tree. 
-        /// </summary>
-        public Node<ItemDataSO> Root => bbst.root;
+        public ItemList<ItemDataSO> bbst = new ItemList<ItemDataSO>();
 
         /// <summary>
         /// Returns a list of the keys actively held in the tree. 
         /// </summary>
         public List<int> Keys => bbst.Keys;
-
-        private int AddID { set { bbst.Keys.Add(value); } }
 
         #region CTORS. 
         public UpgradeBBST() { }

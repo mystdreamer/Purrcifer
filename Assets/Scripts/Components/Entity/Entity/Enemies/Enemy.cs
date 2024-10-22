@@ -1,61 +1,83 @@
 using UnityEngine;
+using Purrcifer.Data.Defaults;
+using Purrcifer.Entity.HotsDots;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
-    public int maxHealth = 2;       // Max enemy hp
-    public int currentHealth;       // Current enemy hp
-    public int damageAmount = 1;    // Enemy damage amount
+    [Header("Enemy Stats")]
+    public int maxHealth = 10;
+    public int damageAmount = 1;
 
-    void Awake()
+    protected override void InitialiseHealth()
     {
-        // Initialize enemy health
-        currentHealth = maxHealth;
+        _health = new EntityHealth(0, maxHealth, maxHealth);
     }
 
-    void OnCollisionEnter(Collision collision)
+    protected override void Awake()
     {
-        if (collision.gameObject == GameManager.Instance.Player)
+        base.Awake();  // This will call InitialiseHealth
+        Debug.Log($"Starting Enemy with health: {CurrentHealth}/{MaxHealth}");
+    }
+
+    internal override void OnAwakeObject()
+    {
+        Debug.Log("Enemy Awake: OnAwakeObject called.");
+    }
+
+    internal override void OnSleepObject()
+    {
+        Debug.Log("Enemy Sleep: OnSleepObject called.");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == GameManager.Instance.Player)
         {
-            // Access player health from GameManager and apply damage
             GameManager.Instance.PlayerState.Health -= damageAmount;
-            Debug.Log("Player takes damage: " + damageAmount);
+            Debug.Log($"Player takes damage: {damageAmount}");
         }
-
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if the enemy collides with an object in the "Weapon" layer
-        if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
         {
-            // Retrieve player stats from the GameManager
             float playerBaseDamage = GameManager.Instance.PlayerState.Damage;
-
-            // Calculate total damage
-            float damage = playerBaseDamage;
-
-            // Enemy takes damage
-            TakeDamage(damage);
+            TakeDamage(playerBaseDamage);
         }
     }
 
-    // damage logic
     public void TakeDamage(float damage)
     {
-        currentHealth -= Mathf.RoundToInt(damage);
-        Debug.Log("Enemy takes damage: " + damage + ". Current Health: " + currentHealth);
+        ((IEntityInterface)this).Health -= damage;
+        Debug.Log($"Enemy takes damage: {damage}. Current Health: {CurrentHealth}/{MaxHealth}");
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
     }
 
-    // death logic
     private void Die()
     {
-        Debug.Log("Enemy has died.");
-        // TODO: add more logic here, ie dropping loot, death animations, etc.
-        Destroy(gameObject);
+        Debug.Log($"{gameObject.name} has died.");
+        Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    internal override void HealthChangedEvent(float lastValue, float currentValue)
+    {
+        Debug.Log($"Enemy health changed from {lastValue} to {currentValue}");
+    }
+
+    internal override void OnDeathEvent()
+    {
+        ObjectComplete = true;
+        Die();
+    }
+
+    internal override void InvincibilityActivated()
+    {
+        Debug.Log("Enemy is invincible for a short time.");
+    }
+
+    internal override void SetWorldState(WorldState state)
+    {
+        Debug.Log("World state updated for enemy.");
     }
 }

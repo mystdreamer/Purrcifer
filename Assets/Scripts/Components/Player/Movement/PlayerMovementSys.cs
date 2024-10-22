@@ -24,6 +24,8 @@ public class PlayerMovementSys : MonoBehaviour
     /// </summary>
     public float speed = 100;
 
+    [SerializeField] private float rotationSpeed = 10f;
+
     public static Vector3 LastInput => _lastInput;
 
     public Vector3 ApplyForce
@@ -36,7 +38,7 @@ public class PlayerMovementSys : MonoBehaviour
     public static bool UpdatePause
     {
         get; set;
-    } = false; 
+    } = false;
 
     void Start()
     {
@@ -133,11 +135,44 @@ public class PlayerMovementSys : MonoBehaviour
         //Apply the given movement to the players rigidbody multiplied by the players speed. 
         _body.linearVelocity = _input * speed;
 
+        // Rotate the player to face the nearest cardinal direction
+        if (_input != Vector3.zero)
+        {
+            Vector3 cardinalDirection = GetNearestCardinalDirection(_input);
+            transform.rotation = Quaternion.LookRotation(cardinalDirection, Vector3.up);
+        }
+
         //Cache the last input (possible to be used for attacks).
         //TODO: Remove later if unused. 
         _lastInput = _input;
 
         //Reset the current input. 
         _input = Vector3.zero;
+    }
+
+    private Vector3 GetNearestCardinalDirection(Vector3 input)
+    {
+        Vector3[] cardinalDirections = new Vector3[]
+        {
+            Vector3.forward,  // Up
+            Vector3.back,     // Down
+            Vector3.left,     // Left
+            Vector3.right     // Right
+        };
+
+        Vector3 nearestDirection = Vector3.zero;
+        float maxDot = -Mathf.Infinity;
+
+        foreach (Vector3 direction in cardinalDirections)
+        {
+            float dot = Vector3.Dot(input.normalized, direction);
+            if (dot > maxDot)
+            {
+                maxDot = dot;
+                nearestDirection = direction;
+            }
+        }
+
+        return nearestDirection;
     }
 }

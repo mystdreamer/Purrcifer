@@ -9,7 +9,7 @@ namespace ItemPool
     [System.Serializable]
     public class RoomBBST
     {
-        public BBST<RoomDataSO> bbst = new BBST<RoomDataSO>();
+        public ItemList<RoomDataSO> bbst = new ItemList<RoomDataSO>();
 
         /// <summary>
         /// Returns a list of the keys actively held in the tree. 
@@ -46,12 +46,12 @@ namespace ItemPool
 
         #region Insertion.
         public bool Insert(RoomDataSO data) => 
-            bbst.Insert(new Node<RoomDataSO>(data, data.roomID, data.weighting));
+            bbst.Insert((Node<RoomDataSO>)data);
 
         public void InsertRange(RoomDataSO[] nodes)
         {
             for (int i = 0; i < nodes.Length; i++)
-                Insert(nodes[i]);
+                bbst.Insert((Node<RoomDataSO>)nodes[i]);
         }
         #endregion
 

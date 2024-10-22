@@ -48,11 +48,11 @@ public class FlashRedOnHit : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
         if (targetObject != null &&
-            (collision.gameObject.layer == LayerMask.NameToLayer("Enemy") ||
-             collision.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile")))
+            (other.gameObject.layer == LayerMask.NameToLayer("Enemy") ||
+             other.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile")))
         {
             StartCoroutine(FlashRed());
         }

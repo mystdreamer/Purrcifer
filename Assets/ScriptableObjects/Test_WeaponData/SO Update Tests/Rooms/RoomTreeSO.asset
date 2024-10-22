@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 639a6e1583bd45044af0fab3d930ad88, type: 2}
   - {fileID: 11400000, guid: aba1797fa8cd4444c8d96480ed24b60b, type: 2}
   bossRooms:
-  - {fileID: 11400000, guid: 1b4367fd631bbc14a8384244db72eb3e, type: 2}
+  - {fileID: 11400000, guid: 172da20e6be73fd40895ed0c8e2aa927, type: 2}
   treasureRooms:
   - {fileID: 11400000, guid: a7ef452d4d586d64b83622138fe41fa3, type: 2}
   hiddenRooms:
