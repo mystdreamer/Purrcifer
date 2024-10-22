@@ -30,7 +30,7 @@ public class BossHitbox : MonoBehaviour
         if (collisionObject.tag == "Weapon")
         {
             Debug.Log("Boss collision hit: Applying damage.");
-            boss.CurrentHealth -= GameManager.Instance.PlayerState.Damage;
+            boss.Health -= GameManager.Instance.PlayerState.Damage;
         }
     }
 }

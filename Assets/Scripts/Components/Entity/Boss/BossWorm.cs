@@ -581,6 +581,8 @@ public class BossWorm : Boss
         Debug.Log("Boss Dead!");
         StopAllCoroutines();
         Destroy(bossSpawn);
+        UIManager.DisableBossHealthBar();
+        gameObject.SetActive(false);
     }
 
     internal override void InvincibilityActivated()

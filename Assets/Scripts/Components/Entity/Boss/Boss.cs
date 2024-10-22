@@ -44,12 +44,14 @@ public class BossHealth : EntityHealth
     }
 }
 
+[System.Serializable]
 public abstract class Boss : WorldObject, IEntityInterface
 {
     [SerializeField] private BossHealth _health;
     public WorldStateContainer container;
-    #region Properties. 
-    float IEntityInterface.Health
+    #region Properties.
+    
+    public float Health
     {
         get => _health.Health;
         set
@@ -77,20 +79,20 @@ public abstract class Boss : WorldObject, IEntityInterface
         }
     }
 
-    bool IEntityInterface.IsAlive => _health.Alive;
+    public bool IsAlive => _health.Alive;
 
     public BossHealth BHealth => _health;
 
-    public float CurrentHealth
-    {
-        get => BHealth.Health;
-        set
-        {
-            BHealth.Health = value;
-            if (!_health.Alive)
-                OnDeathEvent();
-        }
-    }
+    //public float CurrentHealth
+    //{
+    //    get => BHealth.Health;
+    //    set
+    //    {
+    //        BHealth.Health = value;
+    //        if (!_health.Alive)
+    //            OnDeathEvent();
+    //    }
+    //}
 
     public float HealthCap
     {
@@ -145,6 +147,7 @@ public abstract class Boss : WorldObject, IEntityInterface
     {
         set => _health.SetDamageOverTime(value);
     }
+    float IEntityInterface.Health { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     #endregion
 
@@ -163,7 +166,7 @@ public abstract class Boss : WorldObject, IEntityInterface
 
     internal void FillHealth()
     {
-        CurrentHealth = HealthCap;
+        Health = HealthCap;
     }
 
     internal void UpdateDots() => EntityHealth.ApplyBuffs(ref _health);

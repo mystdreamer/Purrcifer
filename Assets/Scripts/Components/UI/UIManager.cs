@@ -95,6 +95,12 @@ public class UIManager : MonoBehaviour
         Instance._bossHealthBar.SetCurrentBoss = boss;
     }
 
+    public static void DisableBossHealthBar()
+    {
+        Instance.boss = null;
+        Instance._bossHealthBar.Deactivate();
+    }
+
     public static void EnableGameOverScreen() => Instance._gameOverController.enabled = true;
     #endregion
 

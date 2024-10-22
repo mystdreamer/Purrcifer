@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationType: 0
-  bossToEnable: {fileID: 2765356654287331266}
+  bossRef: {fileID: 4687270678987610559}
 --- !u!114 &8012011660752099305 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2461953482046696783, guid: af3c837b66345b64fb9050e893dfdf3e, type: 3}
@@ -242,11 +242,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
---- !u!1 &2765356654287331266 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4920169417565344957, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+--- !u!114 &4687270678987610559 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2534390676781470400, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
   m_PrefabInstance: {fileID: 7072746249311882111}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a08fb0a89570b24cb96fef428f3a754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6342459990636348765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4189333899693248034, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
