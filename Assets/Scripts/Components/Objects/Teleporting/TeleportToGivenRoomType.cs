@@ -9,6 +9,6 @@ public class TeleportToGivenRoom : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-            GameManager.Instance.Teleport(other.gameObject, markerToTeleportTo);
+            GameManager.Instance.Teleport(other.gameObject, markerToTeleportTo, other.gameObject.transform.position.y);
     }
 }

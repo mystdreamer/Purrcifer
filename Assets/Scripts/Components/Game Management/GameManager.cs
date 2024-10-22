@@ -1,5 +1,7 @@
 #define TOP_LEVEL_DEBUG
 #undef TOP_LEVEL_DEBUG
+#define DEV_SHORTCUTS
+//#undef DEV_SHORTCUTS
 
 using UnityEngine;
 using FloorGeneration;
@@ -55,24 +57,50 @@ public partial class GameManager : MonoBehaviour
         WorldClock.ResetPlayTime();
     }
 
+    private void Update()
+    {
+#if DEV_SHORTCUTS
+
+        if (Input.GetKey(KeyCode.F1))
+        {
+            TeleportPlayer(MapIntMarkers.TREASURE);
+        }
+
+        if (Input.GetKey(KeyCode.F2))
+        {
+            TeleportPlayer(MapIntMarkers.BOSS);
+        }
+
+        if (Input.GetKey(KeyCode.F3))
+        {
+            TeleportPlayer(MapIntMarkers.HIDDEN_ROOM);
+        }
+#endif
+    }
+
     #region Teleporting Rooms. 
+
+    public void TeleportPlayer(MapIntMarkers type)
+    {
+        Teleport(Player, type, playerPrefab.transform.position.y);
+        Teleport(Camera.main.gameObject, type, Camera.main.transform.position.y);
+    }
 
     /// <summary>
     /// Function teleports the passed object to a room of the given type. 
     /// </summary>
     /// <param name="teleportObject"> The object to teleport. </param>
     /// <param name="marker"> The room type to teleport to. </param>
-    public void Teleport(GameObject teleportObject, MapIntMarkers marker)
+    public void Teleport(GameObject teleportObject, MapIntMarkers marker, float yOverride)
     {
         //Get the room object. 
         GameObject matchedObj = GameManager.Instance.GetRoomByType(marker, out Vector2Int coordinates);
-
+        Vector3 newPos = new Vector3(coordinates.x * DefaultRoomData.DEFAULT_WIDTH, yOverride, coordinates.y * DefaultRoomData.DEFAULT_HEIGHT);
         //If the provided room to teleport to is null, don't teleport. 
         if (matchedObj != null)
         {
             //Else update the objects position and set the cameras new position in the world. 
-            teleportObject.transform.position = matchedObj.transform.position;
-            SetCamera(new Vector3(coordinates.x * DefaultRoomData.DEFAULT_WIDTH, coordinates.y * DefaultRoomData.DEFAULT_HEIGHT));
+            teleportObject.transform.position = new Vector3(matchedObj.transform.position.x, yOverride, matchedObj.transform.position.z);
         }
     }
     #endregion
