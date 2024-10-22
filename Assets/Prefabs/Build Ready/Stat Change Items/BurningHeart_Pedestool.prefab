@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 8577192832796153533}
   - component: {fileID: -119566900393021520}
   m_Layer: 0
-  m_Name: BurningHeart_Item
+  m_Name: BurningHeart_Pedestool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
