@@ -1,21 +1,24 @@
+using Purrcifer.Data.Defaults;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossSpawner : MonoBehaviour
+public class BossSpawner : RoomObjectBase
 {
-    /// <summary>
-    /// The current spawned item. 
-    /// </summary>
-    public GameObject itemSpawned;
+    public GameObject bossToEnable;
 
-    void Start()
+    internal override void OnAwakeObject()
     {
-        /////Get an item type to spawn. 
-        //GameObject itemPrefab = MasterTree.GetBossPrefab;
+        bossToEnable.SetActive(true);
+    }
 
-        ////Spawn the item and update its position. 
-        //itemSpawned = GameObject.Instantiate(itemPrefab);
-        //itemSpawned.transform.position = transform.position;
+    internal override void OnSleepObject()
+    {
+        bossToEnable.SetActive(false);
+    }
+
+    internal override void WorldUpdateReceiver(WorldState state)
+    {
+
     }
 }

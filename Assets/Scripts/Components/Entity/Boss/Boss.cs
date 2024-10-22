@@ -84,7 +84,12 @@ public abstract class Boss : WorldObject, IEntityInterface
     public float CurrentHealth
     {
         get => BHealth.Health;
-        set => BHealth.Health = value;
+        set
+        {
+            BHealth.Health = value;
+            if (!_health.Alive)
+                OnDeathEvent();
+        }
     }
 
     public float HealthCap
