@@ -1,5 +1,5 @@
 using UnityEngine;
-using Purrcifer.Data.Defaults; // Ensure the namespace containing WorldState is imported
+using Purrcifer.Data.Defaults;
 
 public class EnemyStateChange : MonoBehaviour
 {
@@ -7,60 +7,82 @@ public class EnemyStateChange : MonoBehaviour
     [SerializeField] private GameObject childWorldWitching;
     [SerializeField] private GameObject childWorldHell;
 
+    private GameObject currentActiveChild;
+    private Vector3 lastActivePosition;
+
     private void Start()
     {
-        // Subscribe to the WorldStateChange event to listen for world state changes
         GameManager.Instance.WorldStateChange += OnWorldStateChange;
-
-        // Initialize the enemy based on the current world state by accessing WorldClock statically
+        // Initialize position tracking with current position
+        lastActivePosition = GetCurrentActiveChildPosition();
         OnWorldStateChange(GameManager.WorldClock.CurrentState);
     }
 
     private void OnDestroy()
     {
-        // Ensure all child objects are activated before destruction
         ActivateAllChildren();
-
-        // Unsubscribe from the WorldStateChange event when the enemy is destroyed
         if (GameManager.Instance != null)
         {
             GameManager.Instance.WorldStateChange -= OnWorldStateChange;
         }
     }
 
-    // Ensure this method matches the WorldUpdateEvent delegate's signature
-    private void OnWorldStateChange(WorldState newState)
+    private Vector3 GetCurrentActiveChildPosition()
     {
-        UpdateChildBasedOnWorldState(newState);
+        if (childWorldStart.activeSelf) return childWorldStart.transform.position;
+        if (childWorldWitching.activeSelf) return childWorldWitching.transform.position;
+        if (childWorldHell.activeSelf) return childWorldHell.transform.position;
+        return transform.position; // Default to parent position if no child is active
     }
 
-    // Activates the correct child object and deactivates the others based on the world state
+    private void SaveCurrentPosition()
+    {
+        lastActivePosition = GetCurrentActiveChildPosition();
+    }
+
     private void UpdateChildBasedOnWorldState(WorldState state)
     {
-        ActivateAllChildren();
+        // Save the position of currently active child before deactivating
+        SaveCurrentPosition();
+
         // Deactivate all child objects first
         childWorldStart.SetActive(false);
         childWorldWitching.SetActive(false);
         childWorldHell.SetActive(false);
 
-        // Activate the appropriate child object based on the current state
+        // Activate the appropriate child object and set its position
+        GameObject nextActiveChild = null;
         switch (state)
         {
             case WorldState.WORLD_START:
                 childWorldStart.SetActive(true);
+                nextActiveChild = childWorldStart;
                 break;
 
             case WorldState.WORLD_WITCHING:
                 childWorldWitching.SetActive(true);
+                nextActiveChild = childWorldWitching;
                 break;
 
             case WorldState.WORLD_HELL:
                 childWorldHell.SetActive(true);
+                nextActiveChild = childWorldHell;
                 break;
+        }
+
+        // Update the position of the newly activated child
+        if (nextActiveChild != null)
+        {
+            nextActiveChild.transform.position = lastActivePosition;
+            currentActiveChild = nextActiveChild;
         }
     }
 
-    // Ensure all child objects are activated before the object is destroyed
+    private void OnWorldStateChange(WorldState newState)
+    {
+        UpdateChildBasedOnWorldState(newState);
+    }
+
     private void ActivateAllChildren()
     {
         childWorldStart.SetActive(true);
@@ -68,13 +90,9 @@ public class EnemyStateChange : MonoBehaviour
         childWorldHell.SetActive(true);
     }
 
-    // Override Destroy method to ensure all child objects are active before destruction
     public void DestroyWithChildren()
     {
-        // Activate all children first
         ActivateAllChildren();
-
-        // Now destroy the object
         Destroy(gameObject);
     }
 }
