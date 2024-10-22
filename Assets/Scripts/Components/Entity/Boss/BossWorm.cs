@@ -513,6 +513,7 @@ public class BossWorm : Boss
         while (!spawnAttack.attackComplete)
             yield return null;
 
+        yield return new WaitForSeconds(0.85F);
         StartCoroutine(HideBoss());
 
         while (bossShowing)
@@ -532,8 +533,8 @@ public class BossWorm : Boss
         bossSpawn = GameObject.Instantiate(standingPrefab);
         bossSpawn.SetActive(true);
         bossSpawn.transform.position = Camera.main.transform.position - new Vector3(0, 12, 0);
-
         BHealth.Invincible = false;
+
         float moved = 0;
 
         while (moved < emergenceDistance)
@@ -551,7 +552,6 @@ public class BossWorm : Boss
         float moved = emergenceDistance;
 
         yield return new WaitForSeconds(1.5f);
-        BHealth.Invincible = true;
 
         while (moved > 0)
         {
@@ -560,6 +560,7 @@ public class BossWorm : Boss
             yield return new WaitForSeconds(0.01f);
         }
 
+        BHealth.Invincible = true;
         bossShowing = false;
     }
 
