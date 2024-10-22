@@ -1,16 +1,17 @@
+using Purrcifer.LevelLoading;
 using UnityEngine;
 
 public class LevelLoadTrigger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public LevelID levelIDToLoad;
+    private bool loading = false;
 
-    // Update is called once per frame
-    void Update()
+    public void OnTriggerEnter(Collider other)
     {
-        
+        if(other.gameObject.CompareTag("Player") && !loading)
+        {
+            loading = true;
+            LevelLoadHandler.LoadLevel(levelIDToLoad);
+        }
     }
 }
