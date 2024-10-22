@@ -21,7 +21,7 @@ MonoBehaviour:
   itemDialogue:
     itemDisplayName: Health Heart
     itemDisplayText: The heart beats harder
-  powerupPedistoolPrefab: {fileID: 0}
+  powerupPedistoolPrefab: {fileID: 5680107883107441373, guid: d43e30246e8037946b2cb53c4bd9bdc3, type: 3}
   statChangeInts:
   - type: 1
     value: 1
