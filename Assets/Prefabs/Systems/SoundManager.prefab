@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2776994183379398493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3835683075010760668}
+  - component: {fileID: 6662176358824103821}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3835683075010760668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2776994183379398493}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 140.46443, y: 30.976133, z: 109.99426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6662176358824103821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2776994183379398493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2df25c47f22b364aa0f0e28dea2cb91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 30198ee3b88ee0143b51bff05e7926e6, type: 2}
+  musicMixerGroup: {fileID: 4615133173724483392, guid: 30198ee3b88ee0143b51bff05e7926e6, type: 2}
+  sfxMixerGroup: {fileID: -3278577053803465989, guid: 30198ee3b88ee0143b51bff05e7926e6, type: 2}
+  footstepsMixerGroup: {fileID: 268626980472343778, guid: 30198ee3b88ee0143b51bff05e7926e6, type: 2}
+  footstepSounds:
+    clips:
+    - {fileID: 8300000, guid: 934af570d40416047befcedbd1afb93d, type: 3}
+    volume: 1
+    randomPitchVariance: 0.1
+  attackSounds:
+    clips:
+    - {fileID: 8300000, guid: e3af52ca6baa4a547ab0b232f99af80a, type: 3}
+    volume: 1
+    randomPitchVariance: 0.1
+  sfxFadeSpeed: 8
+  worldStartMusic: {fileID: 8300000, guid: 0f6aa7c7e1d4bb64a9d07a6a2417930f, type: 3}
+  worldWitchingMusic: {fileID: 8300000, guid: da6070743b3431e4a861c2088b3f4705, type: 3}
+  worldHellMusic: {fileID: 8300000, guid: 3934f3ddfd59abb4290ca3b1251d29ea, type: 3}
+  musicTransitionDuration: 2
+  musicVolume: 0.5
