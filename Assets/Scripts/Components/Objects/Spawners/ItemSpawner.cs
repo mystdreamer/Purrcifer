@@ -14,6 +14,8 @@ public class ItemSpawner : MonoBehaviour
     [Header("The gameobject providing a point for the object to be spawned at.")]
     public GameObject itemSpawnPoint;
 
+    public ItemDataSO itemDataSO;
+
     /// <summary>
     /// The current spawned item. 
     /// </summary>
@@ -22,9 +24,9 @@ public class ItemSpawner : MonoBehaviour
     void Start()
     {
         ///Get an item type to spawn. 
-        GameObject itemPrefab = MasterTree.Instance.GetItemSpawnTreasureRoom;
+        itemDataSO = MasterTree.Instance.GetItemSpawnTreasureRoomSO;
         //Spawn the item and update its position. 
-        itemSpawned = GameObject.Instantiate(itemPrefab);
+        GameObject itemSpawned = GameObject.Instantiate(itemDataSO.powerupPedistoolPrefab);
         itemSpawned.transform.position = itemSpawnPoint.transform.position;
     }
 }

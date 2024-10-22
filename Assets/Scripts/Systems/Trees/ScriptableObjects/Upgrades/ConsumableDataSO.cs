@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-
-
 [CreateAssetMenu(fileName = "ConsumableDataSO", menuName = "Purrcifer/Collectable SO/ConsumableSO")]
 public class ConsumableDataSO : ScriptableObject
 {

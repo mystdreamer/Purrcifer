@@ -54,19 +54,44 @@ namespace ItemPool
         /// <returns> GameObject Prefab reference. </returns>
         public T GetRandomPrefab(bool remove)
         {
-            int rand = UnityEngine.Random.Range(0, weightedKeys.Count);
-            rand = weightedKeys[rand];
-            Node<T> val = Search(rand);
+            Node<T> val = GetRandomEntry();
 
             if (val != null)
             {
                 if (remove)
-                    Delete(rand);
+                    Delete(val.key);
 
                 return val.item;
             }
 
             return default;
+        }
+
+        /// <summary>
+        /// Returns a randomly selected item from within the tree. 
+        /// </summary>
+        /// <param name="remove"> Should the item be removed from the tree upon retrieval. </param>
+        /// <returns> GameObject Prefab reference. </returns>
+        public Node<T> GetRandomNode(bool remove)
+        {
+            Node<T> rand = GetRandomEntry();
+
+            if (rand != null)
+            {
+                if (remove)
+                    Delete(rand.key);
+
+                return rand;
+            }
+
+            return default;
+        }
+
+        public Node<T> GetRandomEntry()
+        {
+            int rand = UnityEngine.Random.Range(0, weightedKeys.Count);
+            rand = weightedKeys[rand];
+            return Search(rand);
         }
 
         public bool Insert(Node<T> t)
