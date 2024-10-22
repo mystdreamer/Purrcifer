@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4189333899693248034
 Transform:
   m_ObjectHideFlags: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
       max: 100
       current: 100
     _invincible: 0
-    _invincibilityLength: 0
+    _invincibilityLength: 0.25
   container:
     lastState: 1
     currentState: 2
@@ -88,9 +88,9 @@ GameObject:
   - component: {fileID: 3215897845541289512}
   - component: {fileID: 4006397867796918559}
   - component: {fileID: 2687264522338667340}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PopWorm_Default
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -336,9 +336,9 @@ GameObject:
   - component: {fileID: 1035444313483919475}
   - component: {fileID: 9158976427851633310}
   - component: {fileID: 824098789145982596}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PopWorm_Down
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -486,17 +486,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8039312759787082098, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6242292879683075276, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2197190381869207219, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1623557328253111466, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Name
       value: Boss_Popworm
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3477925255151203368, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443594483059483218, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -568,13 +600,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8039312759787082098, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -6242292879683075276, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2197190381869207219, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1623557328253111466, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Name
       value: Boss_Popworm
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3477925255151203368, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4443594483059483218, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
