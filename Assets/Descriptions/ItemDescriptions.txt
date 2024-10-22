@@ -24,7 +24,8 @@ Limbs: Floating arms and legs that were cursed with the same spell as the flying
 
 Glass bottle: Cliché dark green/clear see-through broken glass bottle. Any bottle can be made into a weapon, while not very practical, can still cause some serious damage. Fast attack speed, small damage, fast attack speed.
 “Normally used to hold liquids, but when broken can be used with deadly force.”
-Items Weapons:
+
+## Items Weapons:
 Sacrificial Dagger: 50% chance of eating the next picked up health pickup. Instant kills enemies. “A blade blacker than the night.”
 
 Sword: A basic silver sword with a grey handle and crossguard t. Medium attack range, medium damage, medium speed.
@@ -32,25 +33,6 @@ Sword: A basic silver sword with a grey handle and crossguard t. Medium attack r
 
 Kitchen Knife: A small knife with a silver blade, brown handle. A practical impromptu weapon found in every household. Short range, small damage, quick attack speed.
 “Sever the enemies mortal coil.”
-Items Health:
-
-Heart pickup: red heart-shaped pickup, adds one heart containers. “The heart makes the world go round”.
-Burning Heart pickup: Red fiery heart-shaped pickup, Adds two hearts. “Let the flame within guide the way.”.
-
-Cookies: 
-Basic brown, delicious looking cookie with chocolate chips. 
-Heals a small Adds 2 hearts to player.
-
-Chocolate: 
-A chocolate bar still half in the wrapper, with a bite taken out of the corner? 
-Adds health up +1 and increases speed a tiny bit. “The good tasting kinda brown”
-
-Coffee: 
-A cup of extra stimulation. 
-Applies a permanent speed upgrade. “The universal motherly beverage.”
-
-Sugar: 
-Small tasty white pile of addiction. Health + Tiny bit of extra speed applied.
 
 ## Items
 
@@ -74,3 +56,32 @@ Heavy damage, small range, slow attack speed.
 “It’s much heavier than I expected, but I think it can deal some damage?”
 
 Spear of Longinus: Grows in a singular direction endlessly. 
+
+## Data Added:
+
+Heart pickup: red heart-shaped pickup.
+- +1 hearts. 
+- FT: “The heart beats harder”
+
+Burning Heart pickup: Red fiery heart-shaped pickup, 
+- +2 hearts.
+- +1 to damage base.
+- Fills health.
+- FT: “Let the flame within guide the way”
+
+Cookies: Basic brown, delicious looking cookie with chocolate chips. 
+- +2 hearts. 
+- FT: "Crunchhhhyyyy" 
+
+Chocolate: A chocolate bar still half in the wrapper, with a bite taken out of the corner? 
+- +1 health. 
+- +0.5F speed. 
+- FT: “The good tasting kinda brown”
+
+Coffee: A cup of extra stimulation. 
+- +1.5F to speed. 
+- FT: “I can FEEL the stimulation”
+
+Sugar: Small tasty white pile of addiction. 
+- +1 Health.
+- +0.5F speed.
