@@ -70,7 +70,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_4258C632: 1
+    - Vector1_4258C632: 0.5
     - Vector1_B847FAE5: 10
     - _AlphaClip: 0
     - _Blend: 0
