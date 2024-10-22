@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Test_Dev_Scenes/DevS_LevelGeneration/DevS_LevelGeneration_V1
       ISO.unity
     guid: 0b8f3bcc286d4a7479656a7cddb009ff
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Levels/Level One/Level1.unity
     guid: 8f580e5f0b826de4cbaa65f89f2673cd
   - enabled: 1
