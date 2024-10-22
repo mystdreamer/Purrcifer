@@ -40,6 +40,16 @@ public class PlayerState : MonoBehaviour
                 invincible = true;
                 StartCoroutine(DamageIframes());
             }
+
+            // On player taking damage, play the damage sound effect.
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.OnPlayerDamaged();
+            }
+
+            _healthStats.current = val;
+            invincible = true;
+            StartCoroutine(DamageIframes());
         }
     }
 
@@ -141,8 +151,9 @@ public class PlayerState : MonoBehaviour
         get => _damageStats.Damage + ((_damageStats.CriticalHitSuccess) ? _damageStats.CriticalHitDamage : 0);
     }
 
-    public float AttackRate { 
-        get => _damageStats.AttackRate; 
+    public float AttackRate
+    {
+        get => _damageStats.AttackRate;
     }
     #endregion
 
@@ -187,22 +198,23 @@ public class PlayerState : MonoBehaviour
 
     public void SetPlayerData(GameSaveFileRuntime runtime)
     {
-        _healthStats = new PlayerHealthData() {
-            min = runtime.minHealth, 
-            max = runtime.maxHealth, 
+        _healthStats = new PlayerHealthData()
+        {
+            min = runtime.minHealth,
+            max = runtime.maxHealth,
             current = runtime.currentHealth
         };
 
         _itemStats = new PlayerItemData()
         {
-            talismanCharges = runtime.talismanCount, 
+            talismanCharges = runtime.talismanCount,
             utilityCharges = runtime.utilityCharges,
         };
 
         _damageStats = new PlayerDamageData()
         {
-            BaseDamage = runtime.baseDamage, 
-            DamageMultiplier = runtime.damageMultiplier, 
+            BaseDamage = runtime.baseDamage,
+            DamageMultiplier = runtime.damageMultiplier,
             CriticalHitDamage = runtime.criticalHitDamage,
             CriticalHitChance = runtime.criticalHitChance,
             AttackRate = runtime.attackRate,
@@ -229,7 +241,7 @@ public class PlayerState : MonoBehaviour
         runtime.damageMultiplier = DamageMultiplier;
         runtime.criticalHitDamage = CriticalHitDamage;
         runtime.criticalHitChance = CriticalHitChance;
-        runtime.talismanCount = _itemStats.talismanCharges; 
+        runtime.talismanCount = _itemStats.talismanCharges;
         runtime.utilityCharges = _itemStats.utilityCharges;
         runtime.movementSpeed = _movementStats.moveSpeed;
     }
@@ -382,7 +394,7 @@ public class PlayerState : MonoBehaviour
                     _healthStats.current = HealthMaxCap;
                     break;
                 case ItemDataSO.BoolItemValueType.REDUCE_HEALTH_TO_ONE:
-                    _healthStats.current = 1; 
+                    _healthStats.current = 1;
                     break;
                 default:
                     break;

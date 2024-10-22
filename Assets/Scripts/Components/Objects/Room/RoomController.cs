@@ -54,11 +54,12 @@ public class RoomController : MonoBehaviour
     public RoomDetector roomDetector;
     public RoomObjectBase[] roomObjects;
     private NavMeshSurface navMeshSurface;
+    private bool hasPlayedCompletionSound = false;
 
     private float activeStateCheckInterval = 5f;
     private float lastActiveStateCheckTime;
 
-    #region Properties. 
+    #region Properties
     private GameObject Player
     {
         get
@@ -76,7 +77,6 @@ public class RoomController : MonoBehaviour
     {
         get
         {
-            //If the reference isn't set update it. 
             if (playerReference == null)
             {
                 playerReference = GameManager.Instance.Player;
@@ -101,6 +101,7 @@ public class RoomController : MonoBehaviour
 
         // Bake NavMesh for this room
         BakeNavMesh();
+        Debug.Log($"Room {gameObject.name}: Initialized with state {roomState}");
     }
 
     private void Update()
@@ -118,38 +119,20 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    #region Door Control.
-
+    #region Door Control
     [SerializeField] private WallType wallType;
     public MapIntMarkers roomType;
 
-    /// <summary>
-    /// The door heading upward. 
-    /// </summary>
     public RoomWallData up;
-
-    /// <summary>
-    /// The door heading downwards. 
-    /// </summary>
     public RoomWallData down;
-
-    /// <summary>
-    /// The door heading left. 
-    /// </summary>
     public RoomWallData left;
-
-    /// <summary>
-    /// The door heading right. 
-    /// </summary>
     public RoomWallData right;
 
-    /// <summary>
-    /// Lock/Unlock the room. 
-    /// </summary>
     public bool SetLockState
     {
         set
         {
+            Debug.Log($"Room {gameObject.name}: Setting lock state to {value}");
             up.SetDoorLockState = value;
             down.SetDoorLockState = value;
             right.SetDoorLockState = value;
@@ -170,12 +153,9 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Set the given side to be a door. 
-    /// </summary>
-    /// <param name="direction"> The side to set. </param>
     public void SetRoomState(WallDirection direction, WallType type)
     {
+        Debug.Log($"Room {gameObject.name}: Setting wall {direction} to type {type}");
         switch (direction)
         {
             case WallDirection.LEFT:
@@ -192,72 +172,61 @@ public class RoomController : MonoBehaviour
                 break;
         }
     }
-
     #endregion
 
-    #region Bake Navigation Meshes. 
+    #region Nav Mesh
     private void BakeNavMesh()
     {
-        // Check if NavMeshSurface is available
         if (navMeshSurface != null)
         {
             try
             {
-                // Attempt to build/bake the NavMesh
                 navMeshSurface.BuildNavMesh();
-                //Debug.Log("NavMesh successfully baked for room: " + gameObject.name);
+                Debug.Log($"Room {gameObject.name}: NavMesh baked successfully");
             }
             catch (System.Exception ex)
             {
-                // Catch any exceptions and log the error
-                Debug.LogError("NavMesh baking failed for room: " + gameObject.name + ". Exception: " + ex.Message);
+                Debug.LogError($"Room {gameObject.name}: NavMesh baking failed - {ex.Message}");
             }
-        }
-        else
-        {
-            // Log an error if NavMeshSurface is missing
-            //Debug.LogError("NavMeshSurface is missing on room: " + gameObject.name + ". Baking aborted.");
         }
     }
     #endregion
 
-    #region State Setting. 
-    /// <summary>
-    /// State machine used for controlling the rooms state. 
-    /// </summary>
+    #region State Management
     private void StateMachine()
     {
         if (roomState == RoomState.INACTIVE)
+        {
             UpdateSleepState();
-
-        if (roomState == RoomState.ACTIVE)
+        }
+        else if (roomState == RoomState.ACTIVE)
+        {
             UpdateActiveState();
+        }
     }
 
-    /// <summary>
-    /// Set the room back to its sleep state. 
-    /// </summary>
     private void UpdateSleepState()
     {
-        //Handle entrance check.
         if (roomDetector.PlayerInRoom(PlayerPosition))
         {
             if (ItemsCompleted())
+            {
+                Debug.Log($"Room {gameObject.name}: Already completed, staying in sleep state");
                 return;
+            }
 
+            Debug.Log($"Room {gameObject.name}: Player entered, transitioning from sleep state");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
         }
     }
 
-    /// <summary>
-    /// Function required for checking the rooms current completion state. 
-    /// </summary>
     private void UpdateActiveState()
     {
         bool roomContentsCheck = ItemsCompleted();
-        if (roomContentsCheck)
+        if (roomContentsCheck && roomState != RoomState.TRANSITIONING)
         {
+            Debug.Log($"Room {gameObject.name}: Room completed, transitioning from active state");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(DisableDelayOperation(ROOM_CLOSE_DELAY));
         }
@@ -265,7 +234,7 @@ public class RoomController : MonoBehaviour
 
     private IEnumerator EnableDelayOperation(float time)
     {
-        Debug.Log("Beginning Delay On Room Enter.");
+        Debug.Log($"Room {gameObject.name}: Starting enable delay");
         yield return new WaitForSeconds(time);
         SetLockState = true;
         EnableInterfaces();
@@ -273,25 +242,29 @@ public class RoomController : MonoBehaviour
 
     private IEnumerator DisableDelayOperation(float time)
     {
-        Debug.Log("Beginning Delay On Room Exit.");
+        Debug.Log($"Room {gameObject.name}: Starting disable delay");
         yield return new WaitForSeconds(time);
         SetLockState = false;
         DisableInterfaces();
     }
-    #endregion
-
-    #region Object interface control. 
 
     private void EnableInterfaces()
     {
-        //Room should be activated. 
+        if (roomState == RoomState.COMPLETED)
+        {
+            Debug.Log($"Room {gameObject.name}: Attempt to enable already completed room blocked");
+            return;
+        }
+
+        Debug.Log($"Room {gameObject.name}: Enabling interfaces");
         SetRoomContentsEnableState(true);
+        hasPlayedCompletionSound = false;
         roomState = RoomState.ACTIVE;
     }
 
     private void DisableInterfaces()
     {
-        //Room should be deactivated. 
+        Debug.Log($"Room {gameObject.name}: Disabling interfaces");
         SetRoomContentsEnableState(false);
         roomState = RoomState.COMPLETED;
     }
@@ -314,25 +287,38 @@ public class RoomController : MonoBehaviour
             }
         }
 
-        return allCompleted || allDestroyed;
+        bool completed = allCompleted || allDestroyed;
+
+        if (completed && !hasPlayedCompletionSound && roomState == RoomState.ACTIVE)
+        {
+            if (SoundManager.Instance != null)
+            {
+                Debug.Log($"Room {gameObject.name}: Playing completion sound");
+                SoundManager.Instance.OnDoorStateChanged();
+                hasPlayedCompletionSound = true;
+            }
+        }
+
+        return completed;
     }
 
     private void SetRoomContentsEnableState(bool state)
     {
+        Debug.Log($"Room {gameObject.name}: Setting contents state to {state}");
         for (int i = 0; i < roomObjects.Length; i++)
         {
             if (roomObjects[i] != null)
             {
-                if (state == true)
+                if (state)
                     ((IRoomObject)roomObjects[i]).AwakenObject();
-                else if (state == false)
+                else
                     ((IRoomObject)roomObjects[i]).SleepObject();
             }
         }
     }
     #endregion
 
-    #region Gizmos drawing.
+    #region Debug
     private void OnDrawGizmos()
     {
         roomDetector.Draw();

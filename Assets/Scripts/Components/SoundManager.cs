@@ -29,6 +29,9 @@ public class SoundManager : MonoBehaviour
     [Header("Sound Effects")]
     [SerializeField] private AudioCollection footstepSounds;
     [SerializeField] private AudioCollection attackSounds;
+    [SerializeField] private AudioCollection talismanSounds;
+    [SerializeField] private AudioCollection doorSounds;
+    [SerializeField] private AudioCollection damageTakenSounds;
     [SerializeField] private float sfxFadeSpeed = 8f;
 
     [Header("Music")]
@@ -233,6 +236,36 @@ public class SoundManager : MonoBehaviour
             {
                 StopFootsteps();
             }
+        }
+    }
+
+    public void OnTalismanCast()
+    {
+        if (talismanSounds.clips != null && talismanSounds.clips.Length > 0)
+        {
+            AudioClip clip = talismanSounds.clips[Random.Range(0, talismanSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-talismanSounds.randomPitchVariance, talismanSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, talismanSounds.volume);
+        }
+    }
+
+    public void OnPlayerDamaged()
+    {
+        if (damageTakenSounds.clips != null && damageTakenSounds.clips.Length > 0)
+        {
+            AudioClip clip = damageTakenSounds.clips[Random.Range(0, damageTakenSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-damageTakenSounds.randomPitchVariance, damageTakenSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, damageTakenSounds.volume);
+        }
+    }
+
+    public void OnDoorStateChanged()
+    {
+        if (doorSounds.clips != null && doorSounds.clips.Length > 0)
+        {
+            AudioClip clip = doorSounds.clips[Random.Range(0, doorSounds.clips.Length)];
+            sfxSource.pitch = 1f + Random.Range(-doorSounds.randomPitchVariance, doorSounds.randomPitchVariance);
+            sfxSource.PlayOneShot(clip, doorSounds.volume);
         }
     }
 

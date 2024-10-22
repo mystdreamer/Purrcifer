@@ -62,6 +62,11 @@ public class SwordAttack : MonoBehaviour
     {
         if (vector == Vector3.zero | !canFire) return;
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.OnAttack();
+        }
+
         GameObject inst = GameObject.Instantiate(prefab);
         inst.transform.position = transform.position;
         inst.transform.parent = transform;
@@ -76,7 +81,7 @@ public class SwordAttack : MonoBehaviour
         //for (int i = 0; i < directions.Length; i++)
         //{
         //    hits = CastAndCheck(directions[i], OFFSET, LENGTH - OFFSET);
-            
+
         //    ////Check if hits are damageable interfaces. 
         //    //for (int j = 0; j < hits.Length; j++)
         //    //{
