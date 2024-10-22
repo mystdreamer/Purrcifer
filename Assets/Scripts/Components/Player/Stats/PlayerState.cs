@@ -204,6 +204,11 @@ public class PlayerState : MonoBehaviour
             CriticalHitChance = runtime.criticalHitChance
         };
 
+        _movementStats = new PlayerMovementData()
+        {
+            moveSpeed = runtime.movementSpeed,
+        };
+
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
         UIManager.Instance.PlayerTalismans.EnableDisplay = true;
     }
@@ -221,6 +226,7 @@ public class PlayerState : MonoBehaviour
         runtime.criticalHitChance = CriticalHitChance;
         runtime.talismanCount = _itemStats.talismanCharges; 
         runtime.utilityCharges = _itemStats.utilityCharges;
+        runtime.movementSpeed = _movementStats.moveSpeed;
     }
 
     private void Update()
