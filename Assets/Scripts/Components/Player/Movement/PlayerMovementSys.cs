@@ -18,6 +18,7 @@ public class PlayerMovementSys : MonoBehaviour
     [SerializeField] private Rigidbody _body;
     private PlayerInputs _inputs;
     private PlayInput_ControllerAxis inputAxisResolver = new PlayInput_ControllerAxis();
+    private SettingsMenuController settingsMenu;
 
     /// <summary>
     /// The players movement speed. 
@@ -43,6 +44,11 @@ public class PlayerMovementSys : MonoBehaviour
     void Start()
     {
         _inputs = GameManager.PlayerInputs;
+        settingsMenu = FindObjectOfType<SettingsMenuController>();
+        if (settingsMenu == null)
+        {
+            Debug.LogWarning("Settings Menu not found in scene!");
+        }
     }
 
     #region Movement Command Functions. 
@@ -100,6 +106,13 @@ public class PlayerMovementSys : MonoBehaviour
 
     private void Update()
     {
+        // Handle escape key for settings menu
+        if (Input.GetKeyDown(KeyCode.Escape) && settingsMenu != null)
+        {
+            settingsMenu.ToggleSettingsMenu();
+            return;
+        }
+
         if (UpdatePause)
         {
             _input = _lastInput = Vector3.zero;
