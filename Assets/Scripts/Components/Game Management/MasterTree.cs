@@ -21,6 +21,9 @@ public class MasterTree : MonoBehaviour
     public GameObject GetItemSpawnTreasureRoom =>
         Instance.itemTree.poolTree.GetRandomPrefab(false);
 
+    public ItemDataSO GetItemSpawnTreasureRoomSO =>
+        Instance.itemTree.poolTree.GetNode(false);
+
     public static GameObject GetStartRoomPrefab =>
         Instance.roomTree.startRoomPool.GetRandomPrefab(false);
 

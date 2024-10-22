@@ -34,12 +34,12 @@ Sword: A basic silver sword with a grey handle and crossguard t. Medium attack r
 Kitchen Knife: A small knife with a silver blade, brown handle. A practical impromptu weapon found in every household. Short range, small damage, quick attack speed.
 “Sever the enemies mortal coil.”
 
-## Items
+## Items Consumables: 
 
-Pills: 
-Cluster of colorful pills that effects the player. Unsure what effects the pills have on the player.
+# Pills: 
+- Cluster of colorful pills that effects the player. Unsure what effects the pills have on the player.
 
-Kitsune/Zelda mask: 
+# Kitsune/Zelda mask: 
 A mask that gives the player enhanced vision, allows him to see secrets, and what lies ahead in their path.
 
 Telephone: 

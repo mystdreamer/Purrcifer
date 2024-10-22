@@ -36,6 +36,11 @@ namespace ItemPool
         /// <returns> GameObject Prefab reference. </returns>
         public GameObject GetRandomPrefab(bool remove) =>
             bbst.GetRandomPrefab(remove)?.powerupPedistoolPrefab;
+
+        public ItemDataSO GetNode(bool remove)
+        {
+            return bbst.GetRandomNode(remove)?.item;
+        }
         #endregion
 
         #region Insertion.
