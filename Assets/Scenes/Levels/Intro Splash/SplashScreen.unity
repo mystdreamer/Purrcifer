@@ -1328,19 +1328,43 @@ PrefabInstance:
     - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
       propertyPath: worldHellMusic
       value: 
-      objectReference: {fileID: 8300000, guid: a722c7fc508b8e748882c928b4c5790c, type: 3}
+      objectReference: {fileID: 8300000, guid: 7b3f84e03ac8fe24ebc91cf3f4b723f0, type: 3}
     - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
       propertyPath: worldStartMusic
       value: 
-      objectReference: {fileID: 8300000, guid: 2e2a51a620fa60048b7df1c33581e445, type: 3}
+      objectReference: {fileID: 8300000, guid: 1f4852d1c6bc5884794f5be54f234a61, type: 3}
     - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
       propertyPath: splashScreenMusic
       value: 
-      objectReference: {fileID: 8300000, guid: e896380fee5bab147a2220cce8b37626, type: 3}
+      objectReference: {fileID: 8300000, guid: 2214c63c7d90a6b4bba17a72a99e1baf, type: 3}
     - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
       propertyPath: worldWitchingMusic
       value: 
-      objectReference: {fileID: 8300000, guid: 6a4b0fbc2e5b24b49b10e1a962f178ce, type: 3}
+      objectReference: {fileID: 8300000, guid: c2aada9ee59d5bc4b8f3655223e18d1b, type: 3}
+    - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
+      propertyPath: footstepSounds.volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
+      propertyPath: doorSounds.clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
+      propertyPath: 'doorSounds.clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
+      propertyPath: talismanSounds.clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
+      propertyPath: 'footstepSounds.clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 19b37a0a6b719ac479ea740a8340bc67, type: 3}
+    - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
+      propertyPath: 'talismanSounds.clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e486b63d6a62f143ab423a0220b7a57, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
