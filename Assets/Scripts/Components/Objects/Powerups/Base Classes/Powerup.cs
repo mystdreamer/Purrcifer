@@ -2,6 +2,8 @@ using UnityEngine;
 
 public abstract class Powerup : MonoBehaviour
 {
+    private bool hasCollided = false; 
+
     public abstract bool HasEvent { get; }
 
     public abstract bool HasDialogue { get; }
@@ -23,8 +25,11 @@ public abstract class Powerup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (hasCollided)
+            return;
         if (other.tag == "Player")
         {
+            hasCollided = true;
             //Display the items dialogue. 
             if(HasDialogue) UIManager.SetDialogue(ItemDialogue);
             //If there is an event assigned to this behaviour fire the event change. 

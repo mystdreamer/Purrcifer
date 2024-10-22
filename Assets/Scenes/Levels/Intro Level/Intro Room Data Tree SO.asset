@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee54bd4a417d294bb7ee6cb7bb04a13, type: 3}
+  m_Name: Intro Room Data Tree SO
+  m_EditorClassIdentifier: 
+  startRooms:
+  - {fileID: 11400000, guid: 9a6ca285576ecee42a6d8f4e7478b39e, type: 2}
+  - {fileID: 11400000, guid: f1d01ac3880f6fd45a118e6c8f5c040c, type: 2}
+  normalRooms:
+  - {fileID: 11400000, guid: 9637af8f5973bc3418cbcd063888482a, type: 2}
+  - {fileID: 11400000, guid: 97098ddcb44007f45941fe63e998748c, type: 2}
+  - {fileID: 11400000, guid: 77935757532bbbf4ebecb9ebe8f19bb1, type: 2}
+  - {fileID: 11400000, guid: 96790b246bfd50d499d8ce549d013a8d, type: 2}
+  bossRooms:
+  - {fileID: 11400000, guid: 0d81c10e3c192ed46bf148d631c3a988, type: 2}
+  treasureRooms:
+  - {fileID: 11400000, guid: 8dc78d0b1aa54e84cb9e68a800c96703, type: 2}
+  hiddenRooms:
+  - {fileID: 11400000, guid: 033f2c9301a96af4ea8acb5b6fd96512, type: 2}
