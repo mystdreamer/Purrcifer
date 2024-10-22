@@ -20,7 +20,7 @@ MonoBehaviour:
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Coffee
-    itemDisplayText: I feel the stimulation
+    itemDisplayText: I can FEEL the stimulation
   powerupPedistoolPrefab: {fileID: 0}
   statChangeInts: []
   statChangeFloats:

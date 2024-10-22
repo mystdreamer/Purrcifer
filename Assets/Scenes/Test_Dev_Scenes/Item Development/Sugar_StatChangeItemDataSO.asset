@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: Sugar_StatChangeItemDataSO
   m_EditorClassIdentifier: 
   itemID: 27657
-  itemWeight: 0
+  itemWeight: 12
   eventData:
     eventName: 
     eventID: 0
     hasEvent: 0
   itemDialogue:
-    itemDisplayName: 
-    itemDisplayText: 
+    itemDisplayName: Sugar
+    itemDisplayText: Addictions... We all have one.
   powerupPedistoolPrefab: {fileID: 0}
-  statChangeInts: []
-  statChangeFloats: []
+  statChangeInts:
+  - type: 1
+    value: 1
+  statChangeFloats:
+  - type: 1
+    value: 0.5
   statChangeEffects: []
