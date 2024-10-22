@@ -1352,7 +1352,7 @@ PrefabInstance:
     - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
       propertyPath: 'doorSounds.clips.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: da6070743b3431e4a861c2088b3f4705, type: 3}
     - target: {fileID: 6662176358824103821, guid: 0e64c33ad9196e341bb31ddd367b6970, type: 3}
       propertyPath: talismanSounds.clips.Array.size
       value: 1
