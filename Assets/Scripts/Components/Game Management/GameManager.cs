@@ -9,8 +9,6 @@ using Purrcifer.Data.Defaults;
 using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
-using JetBrains.Annotations;
-using System;
 
 public partial class GameManager : MonoBehaviour
 {
