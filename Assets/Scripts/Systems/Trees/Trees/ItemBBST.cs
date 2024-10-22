@@ -40,12 +40,12 @@ namespace ItemPool
 
         #region Insertion.
         public bool Insert(ItemDataSO data) => 
-            bbst.Insert(new Node<ItemDataSO>(data, data.itemID, data.itemWeight));
+            bbst.Insert((Node<ItemDataSO>)data);
 
         public void InsertRange(ItemDataSO[] nodes)
         {
             for (int i = 0; i < nodes.Length; i++)
-                Insert(nodes[i]);
+                bbst.Insert((Node<ItemDataSO>)nodes[i]);
         }
         #endregion
 

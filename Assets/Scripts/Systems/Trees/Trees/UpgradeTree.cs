@@ -13,11 +13,6 @@ namespace ItemPool
         public BBST<ItemDataSO> bbst = new BBST<ItemDataSO>();
 
         /// <summary>
-        /// The current root node in the tree. 
-        /// </summary>
-        public Node<ItemDataSO> Root => bbst.root;
-
-        /// <summary>
         /// Returns a list of the keys actively held in the tree. 
         /// </summary>
         public List<int> Keys => bbst.Keys;
