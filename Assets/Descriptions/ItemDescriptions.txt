@@ -118,6 +118,22 @@ Coffee: A cup of extra stimulation.
 -----------------------------------------------
 ##Data/Models prepped Stat Effect Items:
 -----------------------------------------------
+Chunk of flesh: Flesh shaped flesh. 
+- +1.5 shot rate. 
+- +2* damage multiplier. 
+- +1 critical hit. 
+
+The little book of pain: Contains the forbidden words, causing an elevation in insanity. 
+- +1 shot rate. 
+- +1 base damage. 
+- +1 damage multiplier. 
+- +1 critical hit. 
+
+The big book of pain: Contains the forbidden words, causing an elevation in insanity. 
+- +2 shot rate. 
+- +2 base damage. 
+- +2 damage multiplier. 
+- +2 critical hit. 
 
 Heart Item: red heart-shaped pickup.
 - +1 hearts. 

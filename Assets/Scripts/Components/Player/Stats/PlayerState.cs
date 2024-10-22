@@ -141,9 +141,24 @@ public class PlayerState : MonoBehaviour
         get => _damageStats.Damage + ((_damageStats.CriticalHitSuccess) ? _damageStats.CriticalHitDamage : 0);
     }
 
+    public float AttackRate { 
+        get => _damageStats.AttackRate; 
+    }
     #endregion
 
     #region Powerup/Consumable Accessors. 
+    public int Talismans
+    {
+        get => _itemStats.talismanCharges;
+
+        set
+        {
+            _itemStats.talismanCharges = value;
+            if (_itemStats.talismanCharges < 0)
+                _itemStats.talismanCharges = 0;
+        }
+    }
+
     public Powerup SetPowerup
     {
         set => ApplyPowerup(value);
@@ -170,18 +185,6 @@ public class PlayerState : MonoBehaviour
     }
     #endregion
 
-    public int Talismans
-    {
-        get => _itemStats.talismanCharges;
-
-        set
-        {
-            _itemStats.talismanCharges = value;
-            if (_itemStats.talismanCharges < 0)
-                _itemStats.talismanCharges = 0;
-        }
-    }
-
     public void SetPlayerData(GameSaveFileRuntime runtime)
     {
         _healthStats = new PlayerHealthData() {
@@ -201,7 +204,13 @@ public class PlayerState : MonoBehaviour
             BaseDamage = runtime.baseDamage, 
             DamageMultiplier = runtime.damageMultiplier, 
             CriticalHitDamage = runtime.criticalHitDamage,
-            CriticalHitChance = runtime.criticalHitChance
+            CriticalHitChance = runtime.criticalHitChance,
+            AttackRate = runtime.attackRate,
+        };
+
+        _movementStats = new PlayerMovementData()
+        {
+            moveSpeed = runtime.movementSpeed,
         };
 
         UIManager.Instance.PlayerHealthBar.HealthBarEnabled = true;
@@ -214,6 +223,7 @@ public class PlayerState : MonoBehaviour
     {
         runtime.minHealth = HealthMinCap;
         runtime.maxHealth = HealthMaxCap;
+        runtime.attackRate = AttackRate;
         runtime.currentHealth = Health;
         runtime.baseDamage = BaseDamage;
         runtime.damageMultiplier = DamageMultiplier;
@@ -221,6 +231,7 @@ public class PlayerState : MonoBehaviour
         runtime.criticalHitChance = CriticalHitChance;
         runtime.talismanCount = _itemStats.talismanCharges; 
         runtime.utilityCharges = _itemStats.utilityCharges;
+        runtime.movementSpeed = _movementStats.moveSpeed;
     }
 
     private void Update()
@@ -353,6 +364,9 @@ public class PlayerState : MonoBehaviour
                     break;
                 case ItemDataSO.FloatItemValueType.DAMAGE_CRITICAL_CHANCE:
                     _damageStats.CriticalHitChance += type[i].value;
+                    break;
+                case ItemDataSO.FloatItemValueType.ATTACK_RATE:
+                    _damageStats.AttackRate += type[i].value;
                     break;
             }
         }

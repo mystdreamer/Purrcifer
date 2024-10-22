@@ -10,23 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14b9895c3c4d5c3468c1919da3aee71f, type: 3}
-  m_Name: Burning_Heart_StatChangeItemDataSO
+  m_Name: Heart_StatChangeItemDataSO
   m_EditorClassIdentifier: 
-  itemID: 20952
-  itemWeight: 4
+  itemID: 57495
+  itemWeight: 10
   eventData:
     eventName: 
     eventID: 0
     hasEvent: 0
   itemDialogue:
-    itemDisplayName: Burning Heart
-    itemDisplayText: Let the flame within guide the way.
-  powerupPedistoolPrefab: {fileID: 1609120740335180721, guid: 33fb2dc23c1aa5242a74933cf5212eda, type: 3}
+    itemDisplayName: Health Heart
+    itemDisplayText: The heart beats harder
+  powerupPedistoolPrefab: {fileID: 5680107883107441373, guid: d43e30246e8037946b2cb53c4bd9bdc3, type: 3}
   statChangeInts:
   - type: 1
-    value: 2
-  statChangeFloats:
-  - type: 3
     value: 1
+  statChangeFloats: []
   statChangeEffects:
   - type: 0
