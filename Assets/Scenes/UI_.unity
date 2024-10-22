@@ -768,6 +768,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: TransitionScreen_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6550229308432813943, guid: c5bc13da1c4773d48a3bc172ade36160, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 320.67007
+      objectReference: {fileID: 0}
+    - target: {fileID: 6550229308432813943, guid: c5bc13da1c4773d48a3bc172ade36160, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 192.40002
+      objectReference: {fileID: 0}
+    - target: {fileID: 6550229308432813943, guid: c5bc13da1c4773d48a3bc172ade36160, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.4649658
+      objectReference: {fileID: 0}
+    - target: {fileID: 6550229308432813943, guid: c5bc13da1c4773d48a3bc172ade36160, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.3999939
+      objectReference: {fileID: 0}
     - target: {fileID: 7049476594850687002, guid: c5bc13da1c4773d48a3bc172ade36160, type: 3}
       propertyPath: m_Pivot.x
       value: 0

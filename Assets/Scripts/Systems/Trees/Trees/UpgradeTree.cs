@@ -17,8 +17,6 @@ namespace ItemPool
         /// </summary>
         public List<int> Keys => bbst.Keys;
 
-        private int AddID { set { bbst.Keys.Add(value); } }
-
         #region CTORS. 
         public UpgradeBBST() { }
 
