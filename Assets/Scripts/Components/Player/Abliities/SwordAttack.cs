@@ -29,7 +29,6 @@ public class SwordAttack : TimedWeapons
     private const float LENGTH = 2;
     private const int NUMBER = 2;
     private const float OFFSET = 0.55F;
-    private PlayerInputs _inputs;
     private ItemType _type = ItemType.SWORD;
     public Vector3 direction = Vector3.zero;
     public RaycastHit[] hits;

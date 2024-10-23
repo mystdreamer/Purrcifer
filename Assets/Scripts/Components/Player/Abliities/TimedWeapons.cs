@@ -10,7 +10,7 @@ public abstract class TimedWeapons : MonoBehaviour
 
     public void OnEnable()
     {
-        _inputs = GetComponent<PlayerInputs>();
+        _inputs = GameManager.PlayerInputs;
     }
 
     public void Update()
