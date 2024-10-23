@@ -33,4 +33,10 @@ public class BossHitbox : MonoBehaviour
             boss.Health -= GameManager.Instance.PlayerState.Damage;
         }
     }
+
+    public void ApplyDamage(float value)
+    {
+        Debug.Log("Boss collision hit: Applying damage.");
+        boss.Health -= value;
+    }
 }

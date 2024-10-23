@@ -25,7 +25,7 @@ public class BossHealth : EntityHealth
         set
         {
             //Check if the applied value is less than the current and return if locked. 
-            if (DamageLock && HealLock && value < base.Health)
+            if (DamageLock | HealLock)
                 return;
 
             base.Health = value;
@@ -56,6 +56,7 @@ public abstract class Boss : WorldObject, IEntityInterface
         get => _health.Health;
         set
         {
+            Debug.Log("Boss Health modification: Starting");
             if (_health.Invincible || !_health.Alive)
                 return;
 

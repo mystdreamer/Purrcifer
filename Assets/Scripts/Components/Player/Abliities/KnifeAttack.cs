@@ -12,6 +12,7 @@ public class KnifeAttack : TimedWeapons
         GameObject _rPrefab = prefabs.ResolvePrefab(direction);
 
         if (_rPrefab == null | !_canFire) return;
+        _canFire = false;
 
         //Play attack sound. 
         if (SoundManager.Instance != null)

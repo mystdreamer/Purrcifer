@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine; 
 
 namespace Purrcifer.BossAI
@@ -19,6 +20,13 @@ namespace Purrcifer.BossAI
                 UnityEngine.Random.Range(xMin, xMax + 1),
                 UnityEngine.Random.Range(yMin, yMax + 1)
                 );
+        }
+
+        public static List<BossHitbox> GetHitBoxes(GameObject obj)
+        {
+            List<BossHitbox> hBox = obj.GetComponents<BossHitbox>().ToList();
+            hBox.AddRange(obj.GetComponentsInChildren<BossHitbox>());
+            return hBox;
         }
     }
 }

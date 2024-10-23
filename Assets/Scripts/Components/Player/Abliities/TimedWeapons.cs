@@ -6,7 +6,7 @@ using Input = UnityEngine.Input;
 public abstract class TimedWeapons : MonoBehaviour
 {
     private PlayerInputs _inputs;
-    internal bool _canFire = true;
+    public bool _canFire = true;
 
     public void OnEnable()
     {
@@ -15,6 +15,9 @@ public abstract class TimedWeapons : MonoBehaviour
 
     public void Update()
     {
+        if (!_canFire)
+            return;
+
         if (_inputs == null && GameManager.Instance != null)
             _inputs = GameManager.PlayerInputs;
 
@@ -49,7 +52,6 @@ public abstract class TimedWeapons : MonoBehaviour
 
     internal IEnumerator CoolDown(float cooldownTime)
     {
-        _canFire = false;
         float fireRate = Mathf.Clamp(cooldownTime - GameManager.Instance.PlayerState.AttackRate, 0F, 100F);
         yield return new WaitForSeconds(fireRate);
         _canFire = true;

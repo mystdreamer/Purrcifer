@@ -352,7 +352,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnWorldStateChanged(WorldState newState)
     {
-        Debug.Log($"World state changed to: {newState}");
+        //Debug.Log($"World state changed to: {newState}");
         currentState = newState;
         UpdateMusicBasedOnWorldState(newState);
     }

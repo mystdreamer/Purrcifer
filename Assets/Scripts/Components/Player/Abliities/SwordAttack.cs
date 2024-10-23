@@ -9,14 +9,14 @@ using Vector3 = UnityEngine.Vector3;
 public class SwordAttack : TimedWeapons
 {
     public Vector3 direction = Vector3.zero;
-    public RaycastHit[] hits;
     public Weapon_4DirectionalPrefabs prefabs;
 
     internal override void Attack(Vector3 direction)
     {
-        GameObject _rPrefab = prefabs.ResolvePrefab(direction);
 
+        GameObject _rPrefab = prefabs.ResolvePrefab(direction);
         if (_rPrefab == null | !_canFire) return;
+        _canFire = false;
 
         //Play attack sound. 
         if (SoundManager.Instance != null)
