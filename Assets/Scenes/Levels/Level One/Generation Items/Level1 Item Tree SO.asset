@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Level1 Item Tree SO
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: 1f198482323860d4f99bdd36428810cd, type: 2}
+  - {fileID: 11400000, guid: 8d7a8f2322898564aaa27ba2a6c5ee49, type: 2}
   - {fileID: 11400000, guid: 2db4a4ac84791624abb9a7d444c8b5f0, type: 2}
+  - {fileID: 11400000, guid: b8f357432a02ff24eb09562ff9c49f09, type: 2}
   - {fileID: 11400000, guid: c794210f3ef41b64ea9bd18d7ca63328, type: 2}
+  - {fileID: 11400000, guid: 79d34a0f0890adb4eb0760e74efe2287, type: 2}
+  - {fileID: 11400000, guid: 72f37a656657ede458158fb14087eded, type: 2}
+  - {fileID: 11400000, guid: 0c9b7c4da102d214c85866ba8d46ffeb, type: 2}
   - {fileID: 11400000, guid: 0163001557c1a0f4f94c2d4d22d6d87a, type: 2}

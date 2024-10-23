@@ -662,7 +662,7 @@ PrefabInstance:
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: itemTreeSO
       value: 
-      objectReference: {fileID: 11400000, guid: b25a13f470f2cbd47a3d000ce9f66224, type: 2}
+      objectReference: {fileID: 11400000, guid: 5f87bcf3ad5f2204e8684279b51c3f0e, type: 2}
     - target: {fileID: 8882849823201469956, guid: 43a49b6081aa12c40a446d080684c779, type: 3}
       propertyPath: roomTreeSO
       value: 

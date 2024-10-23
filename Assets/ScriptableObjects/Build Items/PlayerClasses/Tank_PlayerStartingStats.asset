@@ -22,7 +22,7 @@ MonoBehaviour:
   criticalHitDamage: 0.2
   criticalHitChance: 4
   attackRate: 3
-  movementSpeed: 5
+  movementSpeed: 3.5
   utilityCharges: 1
   weaponIDs: 
   utilityIDs: 

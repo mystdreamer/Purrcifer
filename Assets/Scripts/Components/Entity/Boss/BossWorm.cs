@@ -112,9 +112,9 @@ public class BossWorm : Boss
     {
         private enum BulletSpeeds : int
         {
-            NORMAL = 100,
-            CRY = 125,
-            CRY_HARDER = 150
+            NORMAL = 120,
+            CRY = 145,
+            CRY_HARDER = 160
         }
 
         private enum BulletCount : int
@@ -203,7 +203,7 @@ public class BossWorm : Boss
             for (int i = 0; i < waves; i++)
             {
                 SpawnWave(adjustedCentre, 0, speed, count);
-                yield return new WaitForSeconds(0.55f);
+                yield return new WaitForSeconds(0.35f);
             }
 
             yield return new WaitForSeconds(0.25F);
@@ -380,7 +380,7 @@ public class BossWorm : Boss
             Vector3 spawnPos = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * Random.Range(6, 12);
 
             //Display telegraph here. 
-            yield return new WaitForSeconds(0.25F);
+            yield return new WaitForSeconds(0.45F);
 
             //Spawn bullet. 
             GameObject spawn = BulletControllerWorm.GenerateScale(prefabToSpawn, initialPoint + spawnPos, Vector3.one, new Vector3(30, 0, 30), 0.5F, 0.002F);

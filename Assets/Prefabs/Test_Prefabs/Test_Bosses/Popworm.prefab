@@ -50,10 +50,10 @@ MonoBehaviour:
   _health:
     _healthRange:
       min: 0
-      max: 100
-      current: 100
+      max: 50
+      current: 50
     _invincible: 0
-    _invincibilityLength: 0.25
+    _invincibilityLength: 0.15
   container:
     lastState: 1
     currentState: 2

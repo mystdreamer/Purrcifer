@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14b9895c3c4d5c3468c1919da3aee71f, type: 3}
-  m_Name: Coffee_StatChangeItemDataSO
+  m_Name: Chocolate_StatChangeItemDataSO
   m_EditorClassIdentifier: 
-  itemID: 17467
-  itemWeight: 7
+  itemID: 89182
+  itemWeight: 0
   eventData:
     eventName: 
     eventID: 0
     hasEvent: 0
   itemDialogue:
-    itemDisplayName: Coffee
-    itemDisplayText: I can FEEL the stimulation
-  powerupPedistoolPrefab: {fileID: 0}
-  statChangeInts: []
+    itemDisplayName: Chocolate
+    itemDisplayText: 'Tasty brown. '
+  powerupPedistoolPrefab: {fileID: 1101764301075956782, guid: bbe7bf72bc985094da837f6d9ee6f415, type: 3}
+  statChangeInts:
+  - type: 1
+    value: 1
   statChangeFloats:
   - type: 1
-    value: 1.5
-  statChangeEffects: []
+    value: 0.5
+  statChangeEffects:
+  - type: 0
