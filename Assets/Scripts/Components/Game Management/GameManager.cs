@@ -11,6 +11,7 @@ using Purrcifer.Data.Defaults;
 using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
+using Purrcifer.PlayerDataCore;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -61,19 +62,34 @@ public partial class GameManager : MonoBehaviour
     {
 #if DEV_SHORTCUTS
 
-        if (Input.GetKey(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             TeleportPlayer(MapIntMarkers.TREASURE);
         }
 
-        if (Input.GetKey(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             TeleportPlayer(MapIntMarkers.BOSS);
         }
 
-        if (Input.GetKey(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             TeleportPlayer(MapIntMarkers.HIDDEN_ROOM);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            _playerState.Invincible = !_playerState.Invincible;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            _playerState.Health -= 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            _playerState.Health += 1;
         }
 #endif
     }

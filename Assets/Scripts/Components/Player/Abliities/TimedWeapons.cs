@@ -15,10 +15,16 @@ public abstract class TimedWeapons : MonoBehaviour
 
     public void Update()
     {
+        if (_inputs == null && GameManager.Instance != null)
+            _inputs = GameManager.PlayerInputs;
+
+        if (_inputs == null | GameManager.Instance == null | GameManager.Instance.PlayerState == null)
+            return;
+
         if (Input.GetKeyDown(_inputs.ctlr_y) | Input.GetKeyDown(_inputs.key_a_up))
-            Attack(Vector3.up);
+            Attack(Vector3.forward);
         if (Input.GetKeyDown(_inputs.ctlr_a) | Input.GetKeyDown(_inputs.key_a_down))
-            Attack(Vector3.down);
+            Attack(Vector3.back);
         if (Input.GetKeyDown(_inputs.ctlr_x) | Input.GetKeyDown(_inputs.key_a_left))
             Attack(Vector3.left);
         if (Input.GetKeyDown(_inputs.ctlr_b) | Input.GetKeyDown(_inputs.key_a_right))
@@ -27,9 +33,17 @@ public abstract class TimedWeapons : MonoBehaviour
 
     internal abstract void Attack(Vector3 direction);
 
-    internal IEnumerator WeaponDisposer(GameObject prefab, float time)
+    internal IEnumerator WeaponDisposer(GameObject owner, GameObject prefab, float time)
     {
-        yield return new WaitForSeconds(time);
+        float _time = time;
+
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            prefab.transform.position = transform.position;
+            yield return new WaitForEndOfFrame();
+        }
+
         Destroy(prefab);
     }
 

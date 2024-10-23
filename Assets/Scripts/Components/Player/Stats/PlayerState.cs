@@ -1,5 +1,6 @@
 using Purrcifer.Data.Player;
 using Purrcifer.PlayerData;
+using Purrcifer.PlayerDataCore;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -28,28 +29,31 @@ public class PlayerState : MonoBehaviour
 
         set
         {
+            int priorVal = _healthStats.current;
             int val = value;
-            if (val > _healthStats.current)
-                val = _healthStats.current;
-            else if (val < _healthStats.current)
+
+            //If can apply damage. 
+            if (val < priorVal)
             {
+
                 if (invincible)
                     return;
 
-                _healthStats.current = val;
+                //Else apply the damage. 
+                _healthStats.current = Mathf.Clamp(val, _healthStats.min, _healthStats.max);
                 invincible = true;
+
+                // On player taking damage, play the damage sound effect.
+                if (SoundManager.Instance != null)
+                    SoundManager.Instance.OnPlayerDamaged();
+
                 StartCoroutine(DamageIframes());
             }
-
-            // On player taking damage, play the damage sound effect.
-            if (SoundManager.Instance != null)
+            //Apply healing if new value is greater
+            else if (val > priorVal)
             {
-                SoundManager.Instance.OnPlayerDamaged();
+                _healthStats.current = Mathf.Clamp(val, _healthStats.min, _healthStats.max);
             }
-
-            _healthStats.current = val;
-            invincible = true;
-            StartCoroutine(DamageIframes());
         }
     }
 
@@ -81,7 +85,7 @@ public class PlayerState : MonoBehaviour
     }
 
     /// <summary>
-    /// Flag denoting player invinability. 
+    /// Flag denoting player invincibility. 
     /// </summary>
     public bool Invincible
     {
@@ -196,6 +200,7 @@ public class PlayerState : MonoBehaviour
     }
     #endregion
 
+    #region Data Functions. 
     public void SetPlayerData(GameSaveFileRuntime runtime)
     {
         _healthStats = new PlayerHealthData()
@@ -245,6 +250,7 @@ public class PlayerState : MonoBehaviour
         runtime.utilityCharges = _itemStats.utilityCharges;
         runtime.movementSpeed = _movementStats.moveSpeed;
     }
+    #endregion
 
     private void Update()
     {
@@ -261,6 +267,7 @@ public class PlayerState : MonoBehaviour
         }
     }
 
+    #region Invincibility.
     private IEnumerator DamageIframes()
     {
         int iframes = IFRAMES;
@@ -273,6 +280,7 @@ public class PlayerState : MonoBehaviour
 
         invincible = false;
     }
+    #endregion
 
     #region Upgrade Functions.
     private void ApplyPowerup(Powerup value)

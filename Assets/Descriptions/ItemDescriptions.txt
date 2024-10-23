@@ -53,18 +53,6 @@ Seals: Breaks hidden walls.
 ## Items Weapons:
 -----------------------------------------------
 
-Sword: A basic silver sword with a grey handle and crossguard t. 
-- Medium attack range.
-- Medium damage.
-- Medium speed.
-- FT: “Honor thyself and thine enemy.”
-
-Kitchen Knife: A small knife with a silver blade, brown handle. A practical impromptu weapon found in every household. 
-- Short range.
-- Low damage.
-- Fast speed.
-“Sever the enemies mortal coil.”
-
 Squeaky hammer: 
 Pink and yellow toy squeaky hammer, smaller than a normal hammer. 
 A weapon that’s greatly underestimated and is imbued with powers from the gods. 

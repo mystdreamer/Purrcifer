@@ -1,12 +1,7 @@
-using Purrcifer.Data.Defaults;
-using Purrcifer.Data.Player;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using UnityEngine;
+﻿using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-public class SwordAttack : TimedWeapons
+public class KnifeAttack : TimedWeapons
 {
     public Vector3 direction = Vector3.zero;
     public RaycastHit[] hits;

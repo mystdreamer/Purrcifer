@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Purrcifer.PlayerData
+namespace Purrcifer.PlayerDataCore
 {
     /// <summary>
     /// Serializable data class containing health data. 
