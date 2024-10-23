@@ -99,6 +99,8 @@ public class SqueakyHammer : TimedWeapons
     public float weaponCooldown;
     public float weaponLifeTime;
     public float damage;
+    public AudioClip squeakySound;
+    public AudioSource aSource; 
 
     internal override void Attack(Vector3 direction)
     {
@@ -111,7 +113,7 @@ public class SqueakyHammer : TimedWeapons
 
         hammerInstance.transform.position = hammerPoint;
         visualization.transform.position = hammerPoint;
-
+        aSource.PlayOneShot(squeakySound);
         //Detect hammer collision hits. 
 
         StartCoroutine(CoolDown(weaponCooldown));
