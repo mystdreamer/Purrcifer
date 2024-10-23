@@ -31,7 +31,6 @@ public class SwordAttack : TimedWeapons
     private const float OFFSET = 0.55F;
     private PlayerInputs _inputs;
     private ItemType _type = ItemType.SWORD;
-    private bool canFire = true;
     public Vector3 direction = Vector3.zero;
     public RaycastHit[] hits;
     public Weapon_4DirectionalPrefabs prefabs;
@@ -50,7 +49,7 @@ public class SwordAttack : TimedWeapons
     {
         GameObject _rPrefab = ResolvePrefab(direction);
 
-        if (_rPrefab == null | !canFire) return;
+        if (_rPrefab == null | !_canFire) return;
 
         //Play attack sound. 
         if (SoundManager.Instance != null)

@@ -50,16 +50,8 @@ Seals: Breaks hidden walls.
 - Missing Model. 
 
 -----------------------------------------------
-##Data/Model prepped Items Consumables: 
------------------------------------------------
-Heart Consumable: red heart-shaped pickup.
-- +1 hearts. 
-- Has Model.
-
------------------------------------------------
 ## Items Weapons:
 -----------------------------------------------
-Sacrificial Dagger: 50% chance of eating the next picked up health pickup. Instant kills enemies. “A blade blacker than the night.”
 
 Sword: A basic silver sword with a grey handle and crossguard t. 
 - Medium attack range.
@@ -122,37 +114,3 @@ Chunk of flesh: Flesh shaped flesh.
 - +1.5 shot rate. 
 - +2* damage multiplier. 
 - +1 critical hit. 
-
-The little book of pain: Contains the forbidden words, causing an elevation in insanity. 
-- +1 shot rate. 
-- +1 base damage. 
-- +1 damage multiplier. 
-- +1 critical hit. 
-
-The big book of pain: Contains the forbidden words, causing an elevation in insanity. 
-- +2 shot rate. 
-- +2 base damage. 
-- +2 damage multiplier. 
-- +2 critical hit. 
-
-Heart Item: red heart-shaped pickup.
-- +1 hearts. 
-- FT: “The heart beats harder”
-- Has Model. 
-
-Burning Heart: Red fiery heart-shaped pickup, 
-- +2 hearts.
-- +1 to damage base.
-- Fills health.
-- FT: “Let the flame within guide the way”
-- Has Model. 
-
-Cookies: Basic brown, delicious looking cookie with chocolate chips. 
-- +2 hearts. 
-- FT: "Crunchhhhyyyy" 
-- Has Model. 
-
-Sugar: Small tasty white pile of addiction. 
-- +1 Health.
-- +0.5F speed.
-- Has Model. 
