@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e4ebcfc52b3759e4bbcf5130668b6562
+guid: e7ced8c0fde72ca4781a5677dfdd9dcd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: M_ToyHammer
-    second: {fileID: 2800000, guid: 1a6a126f03df01847b0daa423eea3124, type: 3}
+    second: {fileID: 2800000, guid: 66186508e3a7f2f488d129795cc7d25d, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
