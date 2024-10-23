@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4189333899693248034}
   - component: {fileID: 2534390676781470400}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Popworm
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,9 +179,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 661580583253651781}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Down_Telegraph
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,9 +213,9 @@ GameObject:
   - component: {fileID: 5076636380245236017}
   - component: {fileID: 3633941019321596220}
   - component: {fileID: 8971716380994825868}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Point Light
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -494,6 +494,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -6242292879683075276, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -501,6 +505,10 @@ PrefabInstance:
     - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2807672364885502945, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: -2197190381869207219, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Layer
@@ -521,6 +529,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 3477925255151203368, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Layer
@@ -631,6 +643,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 3477925255151203368, guid: 197de3d60b3b43d4bbf739ccaebf4ac3, type: 3}
       propertyPath: m_Layer

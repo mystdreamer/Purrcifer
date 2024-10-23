@@ -155,7 +155,7 @@ public class RoomController : MonoBehaviour
 
     public void SetRoomState(WallDirection direction, WallType type)
     {
-        Debug.Log($"Room {gameObject.name}: Setting wall {direction} to type {type}");
+        //Debug.Log($"Room {gameObject.name}: Setting wall {direction} to type {type}");
         switch (direction)
         {
             case WallDirection.LEFT:
@@ -211,11 +211,11 @@ public class RoomController : MonoBehaviour
         {
             if (ItemsCompleted())
             {
-                Debug.Log($"Room {gameObject.name}: Already completed, staying in sleep state");
+                //Debug.Log($"Room {gameObject.name}: Already completed, staying in sleep state");
                 return;
             }
 
-            Debug.Log($"Room {gameObject.name}: Player entered, transitioning from sleep state");
+            //Debug.Log($"Room {gameObject.name}: Player entered, transitioning from sleep state");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
         }
@@ -226,7 +226,7 @@ public class RoomController : MonoBehaviour
         bool roomContentsCheck = ItemsCompleted();
         if (roomContentsCheck && roomState != RoomState.TRANSITIONING)
         {
-            Debug.Log($"Room {gameObject.name}: Room completed, transitioning from active state");
+            //Debug.Log($"Room {gameObject.name}: Room completed, transitioning from active state");
             roomState = RoomState.TRANSITIONING;
             StartCoroutine(DisableDelayOperation(ROOM_CLOSE_DELAY));
         }
@@ -234,7 +234,7 @@ public class RoomController : MonoBehaviour
 
     private IEnumerator EnableDelayOperation(float time)
     {
-        Debug.Log($"Room {gameObject.name}: Starting enable delay");
+        //Debug.Log($"Room {gameObject.name}: Starting enable delay");
         yield return new WaitForSeconds(time);
         SetLockState = true;
         EnableInterfaces();
@@ -242,7 +242,7 @@ public class RoomController : MonoBehaviour
 
     private IEnumerator DisableDelayOperation(float time)
     {
-        Debug.Log($"Room {gameObject.name}: Starting disable delay");
+        //Debug.Log($"Room {gameObject.name}: Starting disable delay");
         yield return new WaitForSeconds(time);
         SetLockState = false;
         DisableInterfaces();
@@ -252,11 +252,11 @@ public class RoomController : MonoBehaviour
     {
         if (roomState == RoomState.COMPLETED)
         {
-            Debug.Log($"Room {gameObject.name}: Attempt to enable already completed room blocked");
+            //Debug.Log($"Room {gameObject.name}: Attempt to enable already completed room blocked");
             return;
         }
 
-        Debug.Log($"Room {gameObject.name}: Enabling interfaces");
+        //Debug.Log($"Room {gameObject.name}: Enabling interfaces");
         SetRoomContentsEnableState(true);
         hasPlayedCompletionSound = false;
         roomState = RoomState.ACTIVE;
@@ -264,7 +264,7 @@ public class RoomController : MonoBehaviour
 
     private void DisableInterfaces()
     {
-        Debug.Log($"Room {gameObject.name}: Disabling interfaces");
+        //Debug.Log($"Room {gameObject.name}: Disabling interfaces");
         SetRoomContentsEnableState(false);
         roomState = RoomState.COMPLETED;
     }
@@ -293,7 +293,7 @@ public class RoomController : MonoBehaviour
         {
             if (SoundManager.Instance != null)
             {
-                Debug.Log($"Room {gameObject.name}: Playing completion sound");
+                //Debug.Log($"Room {gameObject.name}: Playing completion sound");
                 SoundManager.Instance.OnDoorStateChanged();
                 hasPlayedCompletionSound = true;
             }
@@ -304,7 +304,7 @@ public class RoomController : MonoBehaviour
 
     private void SetRoomContentsEnableState(bool state)
     {
-        Debug.Log($"Room {gameObject.name}: Setting contents state to {state}");
+        //Debug.Log($"Room {gameObject.name}: Setting contents state to {state}");
         for (int i = 0; i < roomObjects.Length; i++)
         {
             if (roomObjects[i] != null)

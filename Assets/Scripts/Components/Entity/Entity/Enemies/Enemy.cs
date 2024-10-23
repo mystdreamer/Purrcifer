@@ -16,27 +16,31 @@ public class Enemy : Entity
     protected override void Awake()
     {
         base.Awake();  // This will call InitialiseHealth
-        Debug.Log($"Starting Enemy with health: {CurrentHealth}/{MaxHealth}");
+        //Debug.Log($"Starting Enemy with health: {CurrentHealth}/{MaxHealth}");
     }
 
     internal override void OnAwakeObject()
     {
-        Debug.Log("Enemy Awake: OnAwakeObject called.");
+        //Debug.Log("Enemy Awake: OnAwakeObject called.");
     }
 
     internal override void OnSleepObject()
     {
-        Debug.Log("Enemy Sleep: OnSleepObject called.");
+        //Debug.Log("Enemy Sleep: OnSleepObject called.");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) => ResolveCollision(other.gameObject);
+
+    private void OnCollisionEnter(Collision collision) => ResolveCollision(collision.gameObject);
+
+    private void ResolveCollision(GameObject obj)
     {
-        if (other.gameObject == GameManager.Instance.Player)
+        if (obj == GameManager.Instance.Player)
         {
             GameManager.Instance.PlayerState.Health -= damageAmount;
             Debug.Log($"Player takes damage: {damageAmount}");
         }
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Weapon"))
+        else if (obj.gameObject.layer == LayerMask.NameToLayer("Weapon"))
         {
             float playerBaseDamage = GameManager.Instance.PlayerState.Damage;
             TakeDamage(playerBaseDamage);
@@ -56,13 +60,13 @@ public class Enemy : Entity
 
     private void Die()
     {
-        Debug.Log($"{gameObject.name} has died.");
+        //Debug.Log($"{gameObject.name} has died.");
         Destroy(gameObject.transform.parent.gameObject);
     }
 
     internal override void HealthChangedEvent(float lastValue, float currentValue)
     {
-        Debug.Log($"Enemy health changed from {lastValue} to {currentValue}");
+        //Debug.Log($"Enemy health changed from {lastValue} to {currentValue}");
     }
 
     internal override void OnDeathEvent()
@@ -73,11 +77,11 @@ public class Enemy : Entity
 
     internal override void InvincibilityActivated()
     {
-        Debug.Log("Enemy is invincible for a short time.");
+        //Debug.Log("Enemy is invincible for a short time.");
     }
 
     internal override void SetWorldState(WorldState state)
     {
-        Debug.Log("World state updated for enemy.");
+        //Debug.Log("World state updated for enemy.");
     }
 }

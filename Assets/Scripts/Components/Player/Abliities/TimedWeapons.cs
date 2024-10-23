@@ -33,7 +33,7 @@ public abstract class TimedWeapons : MonoBehaviour
 
     internal abstract void Attack(Vector3 direction);
 
-    internal IEnumerator WeaponDisposer(GameObject owner, GameObject prefab, float time)
+    internal IEnumerator WeaponDisposer(GameObject prefab, float time)
     {
         float _time = time;
 

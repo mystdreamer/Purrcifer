@@ -1,3 +1,6 @@
+using JetBrains.Annotations;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -22,51 +25,70 @@ public class HammerRadius
     }
 }
 
+public class HammerHitCollider : MonoBehaviour
+{
+    float currentTime = 0;
+    float sizeStep = 4 / 100;
+    float damage;
+
+    private void FixedUpdate()
+    {
+        transform.localScale = transform.localScale + (Vector3.one * sizeStep * Time.deltaTime);
+    }
+
+    public static GameObject GenerateHitSphere(HammerRadius hRadius, float damage)
+    {
+        GameObject effectMarker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        effectMarker.layer = LayerMask.NameToLayer("Weapon");
+        SphereCollider coll = effectMarker.AddComponent<SphereCollider>();
+        coll.radius = hRadius.radius;
+        coll.isTrigger = true;
+        HammerHitCollider hhc = effectMarker.AddComponent<HammerHitCollider>();
+        hhc.damage = damage;
+        return effectMarker;
+    }
+}
+
 public class SqueakyHammer : TimedWeapons
 {
     public HammerRadius hammerRadius;
-    public GameObject hammerPrefab;
+    public Weapon_4DirectionalPrefabs prefabs;
     public float weaponCooldown;
     public float weaponLifeTime;
 
     internal override void Attack(Vector3 direction)
     {
-        Vector3 hammerPoint = transform.position + (direction.normalized * hammerRadius.radius);
-        RaycastHit[] hits = Physics.SphereCastAll(hammerPoint, hammerRadius.radius, Vector3.up);
+        Vector3 hammerPoint = CalculateAttackPosition(direction);
 
         //Create and position the hammer. 
-        GameObject hammerInstance = Instantiate(hammerPrefab);
-        Vector3 hammerPosition = gameObject.transform.position + (direction.normalized * hammerRadius.radius);
+        GameObject hammerInstance = Instantiate(prefabs.ResolvePrefab(direction));
+        GameObject visualization = HammerHitCollider.GenerateHitSphere(hammerRadius, GameManager.Instance.PlayerState.Damage);
 
-        //Calculate the player damage. 
-        float damage = GameManager.Instance.PlayerState.Damage;
+        hammerInstance.transform.position = hammerPoint;
+        visualization.transform.position = hammerPoint;
 
         //Detect hammer collision hits. 
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i].collider != null)
-            {
-                GameObject obj = hits[i].collider.gameObject;
-
-                //If is hit apply effects. 
-                if (hammerRadius.InRadius(hammerPoint, obj.transform.position, out Vector3 _force))
-                    ApplyHammerEffects(obj, damage, _force);
-            }
-        }
 
         StartCoroutine(CoolDown(weaponCooldown));
         StartCoroutine(WeaponDisposer(hammerInstance, weaponLifeTime));
+        StartCoroutine(WeaponDisposer(visualization, weaponLifeTime));
     }
 
-    private void ApplyHammerEffects(GameObject hitObj, float damage, Vector3 force)
+    private Vector3 CalculateAttackPosition(Vector3 direction)
     {
-        hitObj.GetComponent<Rigidbody>().AddForce(force);
-        Enemy e;
-        if ((e = hitObj.GetComponent<Enemy>()) != null)
-            e.CurrentHealth -= GameManager.Instance.PlayerState.Damage;
+        return transform.position + (direction.normalized * hammerRadius.radius);
+    }
 
-        Boss b;
-        if ((b = hitObj.GetComponent<Boss>()) != null)
-            b.BHealth.Health -= GameManager.Instance.PlayerState.Damage;
+    private void OnDrawGizmos()
+    {
+        Vector3 upAttack = CalculateAttackPosition(Vector3.forward);
+        Vector3 downAttack = CalculateAttackPosition(Vector3.back);
+        Vector3 leftAttack = CalculateAttackPosition(Vector3.left);
+        Vector3 rightAttack = CalculateAttackPosition(Vector3.right);
+
+        Gizmos.DrawSphere(upAttack, hammerRadius.radius);
+        Gizmos.DrawSphere(downAttack, hammerRadius.radius);
+        Gizmos.DrawSphere(leftAttack, hammerRadius.radius);
+        Gizmos.DrawSphere(rightAttack, hammerRadius.radius);
     }
 }

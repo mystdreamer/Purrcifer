@@ -21,7 +21,7 @@ public class KnifeAttack : TimedWeapons
         _inst.transform.position = transform.position;
         _inst.transform.parent = transform;
 
-        StartCoroutine(WeaponDisposer(this.gameObject, _inst, prefabs.destructionTime));
+        StartCoroutine(WeaponDisposer(_inst, prefabs.destructionTime));
         StartCoroutine(CoolDown(prefabs.cooldownTime));
     }
 }
