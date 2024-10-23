@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 7940190156483478133}
   - component: {fileID: 3479089238807984362}
   - component: {fileID: 3033578505298694991}
-  m_Layer: 0
+  - component: {fileID: 419260967928204527}
+  m_Layer: 12
   m_Name: Player_SacDagger
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,10 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 2.5
   currentRotation: 0
-  speed: 0.2
-  rotationStep: 0.0015
-  target: {fileID: 0}
-  damage: 0
+  speed: 0.0025
+  rotationAmountPerTick: 0.5
+  targetObject: {fileID: 0}
+  damage: 5
 --- !u!54 &3479089238807984362
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -101,6 +102,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 0.23, z: 0.22}
   m_Center: {x: -0.65, y: 0, z: 0}
+--- !u!65 &419260967928204527
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8183605255367728869}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 0.23, z: 0.22}
+  m_Center: {x: -0.65, y: 0, z: 0}
 --- !u!1001 &934742356694906883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,9 +131,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9039395760081100415}
     m_Modifications:
+    - target: {fileID: 4208790654558350254, guid: e3253e09a7dda2c4ca977bdd1c07f938, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4788877775074006493, guid: e3253e09a7dda2c4ca977bdd1c07f938, type: 3}
       propertyPath: m_Name
       value: Dagger
+      objectReference: {fileID: 0}
+    - target: {fileID: 4788877775074006493, guid: e3253e09a7dda2c4ca977bdd1c07f938, type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8670682173205730539, guid: e3253e09a7dda2c4ca977bdd1c07f938, type: 3}
       propertyPath: m_LocalScale.x
