@@ -12,6 +12,7 @@ using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
 using Purrcifer.PlayerDataCore;
+using UnityEngine.Rendering;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public partial class GameManager : MonoBehaviour
     /// </summary>
     public static GameManager Instance => _instance;
     #endregion
+
+    [SerializeField] private LevelLightingSettings lightingSettings;
 
     void OnEnable()
     {
@@ -468,9 +471,27 @@ public partial class GameManager : MonoBehaviour
     /// IEnumerator used to handle the transition out of the loading screen. 
     /// </summary>
     /// <returns></returns>
-    // In GameManager.cs, modify RemoveLoadingScreen:
     private IEnumerator RemoveLoadingScreen()
     {
+        // Apply lighting settings for the level
+        if (lightingSettings != null)
+        {
+            RenderSettings.skybox = lightingSettings.skybox;
+            RenderSettings.ambientIntensity = lightingSettings.ambientIntensity;
+            RenderSettings.ambientSkyColor = lightingSettings.ambientSkyColor;
+            RenderSettings.ambientEquatorColor = lightingSettings.ambientEquatorColor;
+            RenderSettings.ambientGroundColor = lightingSettings.ambientGroundColor;
+            RenderSettings.defaultReflectionMode = lightingSettings.defaultReflectionMode;
+            RenderSettings.defaultReflectionResolution = lightingSettings.defaultReflectionResolution;
+            RenderSettings.reflectionIntensity = lightingSettings.reflectionIntensity;
+            RenderSettings.fog = lightingSettings.fog;
+            RenderSettings.fogColor = lightingSettings.fogColor;
+            RenderSettings.fogMode = lightingSettings.fogMode;
+            RenderSettings.fogDensity = lightingSettings.fogDensity;
+            RenderSettings.fogStartDistance = lightingSettings.fogStartDistance;
+            RenderSettings.fogEndDistance = lightingSettings.fogEndDistance;
+        }
+
         // Call transition out. 
         UIManager.Instance.FadeLevelTransitionOut();
         yield return new WaitForSeconds(0.5f);

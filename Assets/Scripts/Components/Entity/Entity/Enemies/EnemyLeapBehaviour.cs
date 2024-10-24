@@ -32,6 +32,7 @@ public class EnemyLeapBehaviour : Entity
     private Vector3 leapTarget;
     private Vector3 leapStartPosition;
     private LayerMask wallLayer;
+    private bool hasReachedStoppingDistance = false;
 
     void Awake()
     {
@@ -39,8 +40,6 @@ public class EnemyLeapBehaviour : Entity
         enemy = GetComponent<NavMeshAgent>();
         playerInstance = GameManager.Instance.Player;
         enemy.enabled = false;
-
-        // Get the Wall layer mask
         wallLayer = LayerMask.GetMask("Wall");
     }
 
@@ -66,26 +65,46 @@ public class EnemyLeapBehaviour : Entity
         enemy.enabled = true;
         enemy.SetDestination(playerInstance.transform.position);
 
-        if (!enemy.pathPending && enemy.remainingDistance <= enemy.stoppingDistance)
+        // Check if we've reached stopping distance
+        if (!enemy.pathPending)
         {
-            StartCharging();
+            if (enemy.remainingDistance <= enemy.stoppingDistance)
+            {
+                if (!hasReachedStoppingDistance)
+                {
+                    hasReachedStoppingDistance = true;
+                    StartCharging();
+                }
+            }
+            else
+            {
+                hasReachedStoppingDistance = false;
+            }
         }
     }
 
     private void StartCharging()
     {
-        enemyState = State.CHARGING;
-        enemy.enabled = false;
-
-        if (stoppingEffect != null && !isEffectActive)
-        {
-            stoppingEffect.Play();
-            isEffectActive = true;
-        }
-
+        // Cancel any existing coroutine
         if (currentCoroutine != null)
         {
             StopCoroutine(currentCoroutine);
+        }
+
+        // Stop any existing particle effect
+        if (stoppingEffect != null && stoppingEffect.isPlaying)
+        {
+            stoppingEffect.Stop();
+            isEffectActive = false;
+        }
+
+        enemyState = State.CHARGING;
+        enemy.enabled = false;
+
+        if (stoppingEffect != null)
+        {
+            stoppingEffect.Play();
+            isEffectActive = true;
         }
 
         currentCoroutine = StartCoroutine(ChargeAndLeap());
@@ -96,11 +115,9 @@ public class EnemyLeapBehaviour : Entity
         Vector3 directionToPlayer = (playerInstance.transform.position - transform.position).normalized;
         Vector3 targetPosition = transform.position + directionToPlayer * leapDistance;
 
-        // Check for walls using raycast
         RaycastHit hit;
         if (Physics.Raycast(transform.position, directionToPlayer, out hit, leapDistance, wallLayer))
         {
-            // If we hit a wall, set the target position slightly before the hit point
             targetPosition = hit.point - (directionToPlayer * 0.5f);
         }
 
@@ -131,20 +148,16 @@ public class EnemyLeapBehaviour : Entity
         float stepDistance = leapSpeed * Time.deltaTime;
         Vector3 nextPosition = transform.position + directionToTarget * stepDistance;
 
-        // Check for walls in the path of this frame's movement
         RaycastHit hit;
         if (Physics.Raycast(transform.position, directionToTarget, out hit, stepDistance, wallLayer))
         {
-            // If we hit a wall, stop at the hit point
             transform.position = hit.point - (directionToTarget * 0.5f);
             enemyState = State.COOLDOWN;
             return;
         }
 
-        // If no wall collision, perform the movement
         transform.position = nextPosition;
 
-        // Check if we've reached the target
         if (Vector3.Distance(transform.position, leapTarget) < 0.1f)
         {
             enemyState = State.COOLDOWN;
@@ -159,20 +172,27 @@ public class EnemyLeapBehaviour : Entity
         }
 
         yield return new WaitForSeconds(cooldownDuration);
+
+        // Reset for next cycle
+        hasReachedStoppingDistance = false;
         enemyState = State.FOLLOWING;
+        enemy.enabled = true;
     }
 
     internal override void OnAwakeObject()
     {
         shownPosition = gameObject.transform.position;
         playerInstance = GameManager.Instance.Player;
+        hasReachedStoppingDistance = false;
         enemyState = State.FOLLOWING;
+        enemy.enabled = true;
     }
 
     internal override void OnSleepObject()
     {
         enemyState = State.INACTIVE;
         enemy.enabled = false;
+        hasReachedStoppingDistance = false;
 
         if (currentCoroutine != null)
         {
@@ -208,7 +228,6 @@ public class EnemyLeapBehaviour : Entity
     {
         if (enemyState == State.LEAPING)
         {
-            // Draw leap path
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(leapStartPosition, leapTarget);
             Gizmos.DrawWireSphere(leapTarget, 0.5f);
