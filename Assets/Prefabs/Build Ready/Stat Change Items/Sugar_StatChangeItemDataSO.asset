@@ -16,7 +16,7 @@ MonoBehaviour:
   itemWeight: 12
   eventData:
     eventName: 
-    eventID: 0
+    eventID: 1010
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Sugar

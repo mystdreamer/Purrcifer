@@ -15,8 +15,8 @@ MonoBehaviour:
   itemID: 72816
   itemWeight: 2
   eventData:
-    eventName: 
-    eventID: 0
+    eventName: BigBookOfPain_Collected
+    eventID: 1006
     hasEvent: 0
   itemDialogue:
     itemDisplayName: 

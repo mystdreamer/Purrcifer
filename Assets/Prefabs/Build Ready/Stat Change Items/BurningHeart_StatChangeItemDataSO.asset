@@ -15,8 +15,8 @@ MonoBehaviour:
   itemID: 20952
   itemWeight: 4
   eventData:
-    eventName: 
-    eventID: 0
+    eventName: BurningHeart_Collected
+    eventID: 1008
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Burning Heart

@@ -16,7 +16,7 @@ MonoBehaviour:
   itemWeight: 5
   eventData:
     eventName: 
-    eventID: 0
+    eventID: 1009
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Whipped Flesh

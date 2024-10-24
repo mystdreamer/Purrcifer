@@ -16,7 +16,7 @@ MonoBehaviour:
   itemWeight: 8
   eventData:
     eventName: 
-    eventID: 0
+    eventID: 1007
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Little Tome Of Pain

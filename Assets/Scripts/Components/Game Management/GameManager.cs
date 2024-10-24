@@ -361,6 +361,8 @@ public partial class GameManager : MonoBehaviour
     public void SetPlayerDataEvent(PlayerEventData data)
     {
         Debug.Log("Item collected: Applying event data.");
+        DataManager.DataCarrier.SetEventState(data.eventID, true);
+        DataManager.DataCarrier.PlayerEventData.SaveEvents();
 
     }
 }

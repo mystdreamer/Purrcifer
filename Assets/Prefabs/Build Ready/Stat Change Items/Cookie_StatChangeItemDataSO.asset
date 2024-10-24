@@ -16,7 +16,7 @@ MonoBehaviour:
   itemWeight: 4
   eventData:
     eventName: 
-    eventID: 0
+    eventID: 1011
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Cookies

@@ -33,7 +33,7 @@ public abstract class Powerup : MonoBehaviour
             //Display the items dialogue. 
             if(HasDialogue) UIManager.SetDialogue(ItemDialogue);
             //If there is an event assigned to this behaviour fire the event change. 
-            if (HasEvent) GameManager.Instance.SetPlayerDataEvent(EventData);
+            GameManager.Instance.SetPlayerDataEvent(EventData);
             //Apply the effect of the item. 
             GameManager.Instance.ApplyPowerup = this;
             OnApplicationEvent(other.gameObject);

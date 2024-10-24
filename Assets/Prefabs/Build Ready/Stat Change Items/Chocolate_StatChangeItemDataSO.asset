@@ -16,7 +16,7 @@ MonoBehaviour:
   itemWeight: 0
   eventData:
     eventName: 
-    eventID: 0
+    eventID: 1012
     hasEvent: 0
   itemDialogue:
     itemDisplayName: Chocolate
