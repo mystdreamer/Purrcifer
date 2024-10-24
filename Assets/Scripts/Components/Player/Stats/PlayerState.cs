@@ -161,6 +161,8 @@ public class PlayerState : MonoBehaviour
     }
     #endregion
 
+    public float MovementSpeed => _movementStats.moveSpeed; 
+
     #region Powerup/Consumable Accessors. 
     public int Talismans
     {
