@@ -13,7 +13,9 @@ public class Manager_ItemCollection : MonoBehaviour
     public GameObject sugarPrefab;
     public GameObject cookiePrefab;
     public GameObject chocolatePrefab;
-    public GameObject normalHeartPrefab;       
+    public GameObject normalHeartPrefab;
+
+    public float resolveFixFloat; 
 
     private void Start()
     {
