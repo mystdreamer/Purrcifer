@@ -238,11 +238,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Popworm
       objectReference: {fileID: 0}
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 4920169417565344957, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654145703211419790, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5207423426237436252, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3575098376721630042}
+    - targetCorrespondingSourceObject: {fileID: 7966181162527593840, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8102492772098041310}
   m_SourcePrefab: {fileID: 100100000, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+<<<<<<< Updated upstream
 --- !u!114 &4687270678987610559 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2534390676781470400, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
@@ -254,6 +272,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a08fb0a89570b24cb96fef428f3a754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+--- !u!1 &912821915631721999 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7966181162527593840, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+  m_PrefabInstance: {fileID: 7072746249311882111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8102492772098041310
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912821915631721999}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.63, y: 2.17, z: 4}
+  m_Center: {x: -12.17, y: 0.8, z: 0}
+--- !u!1 &2765356654287331266 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4920169417565344957, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+  m_PrefabInstance: {fileID: 7072746249311882111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3054299513894738467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5207423426237436252, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}
+  m_PrefabInstance: {fileID: 7072746249311882111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &3575098376721630042
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3054299513894738467}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.22
+  m_Height: 6.03
+  m_Direction: 0
+  m_Center: {x: -0.15, y: 0.16, z: 0.1}
+>>>>>>> Stashed changes
 --- !u!4 &6342459990636348765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4189333899693248034, guid: 49181e0ef09532f4192a36d0e6a5b4bb, type: 3}

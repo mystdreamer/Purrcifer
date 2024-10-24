@@ -88,7 +88,11 @@ GameObject:
   - component: {fileID: 3215897845541289512}
   - component: {fileID: 4006397867796918559}
   - component: {fileID: 2687264522338667340}
+<<<<<<< Updated upstream
   m_Layer: 6
+=======
+  m_Layer: 0
+>>>>>>> Stashed changes
   m_Name: PopWorm_Default
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -336,7 +340,11 @@ GameObject:
   - component: {fileID: 1035444313483919475}
   - component: {fileID: 9158976427851633310}
   - component: {fileID: 824098789145982596}
+<<<<<<< Updated upstream
   m_Layer: 6
+=======
+  m_Layer: 0
+>>>>>>> Stashed changes
   m_Name: PopWorm_Down
   m_TagString: Enemy
   m_Icon: {fileID: 0}
