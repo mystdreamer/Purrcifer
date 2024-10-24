@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activationType: 0
   bossRef: {fileID: 4687270678987610559}
+  trophyPrefab: {fileID: 713292248493346433, guid: ac84d3f42fb75734d9a5dcdbc532f6be, type: 3}
 --- !u!114 &8012011660752099305 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2461953482046696783, guid: af3c837b66345b64fb9050e893dfdf3e, type: 3}

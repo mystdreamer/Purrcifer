@@ -6,6 +6,7 @@ using UnityEngine;
 public class BossSpawner : RoomObjectBase
 {
     public Boss bossRef;
+    public GameObject trophyPrefab;
 
     internal override void OnAwakeObject()
     {
@@ -24,7 +25,12 @@ public class BossSpawner : RoomObjectBase
 
     public void Update()
     {
-        if (!bossRef.IsAlive)
+        if (!bossRef.IsAlive && !ObjectComplete)
+        {
+            GameObject trophy = GameObject.Instantiate(trophyPrefab);
+            trophy.transform.position = new Vector3(Camera.main.transform.position.x, 1, Camera.main.transform.position.z); 
+            trophy.SetActive(true);
             ObjectComplete = true;
+        }
     }
 }
