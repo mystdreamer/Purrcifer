@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class Manager_WeaponCollection : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public bool hammerUnlocked;
+    public bool knifeUnlocked;
+    public bool sacDagUnlocked;
+    public bool spearUnlocked;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool hammerObject;
+    public bool knifeObject;
+    public bool sacDaggerObject;
+    public bool spearObj;
+
 }

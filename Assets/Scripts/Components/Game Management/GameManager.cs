@@ -13,6 +13,7 @@ using DataManager;
 using Purrcifer.Data.Player;
 using Purrcifer.PlayerDataCore;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -304,17 +305,6 @@ public partial class GameManager : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// Function used to apply event change data to the players current event data. 
-    /// </summary>
-    /// <param name="eventName"> The event name associated with the event. </param>
-    /// <param name="eventID"> The event id associated with the event. </param>
-    public void SetPlayerDataEvent(PlayerEventData data)
-    {
-        Debug.Log("Item collected: Applying event data.");
-        //TODO: Implement this. 
-    }
-
-    /// <summary>
     /// Set the current camera's position. 
     /// </summary>
     /// <param name="position"> The position to set. </param>
@@ -359,6 +349,22 @@ public partial class GameManager : MonoBehaviour
     public static void SetPlayerData(PlayerStartingStatsSO data) => DataCarrier.Instance.SetPlayerData(data);
 }
 #endregion
+
+public partial class GameManager : MonoBehaviour
+{
+    public List<PlayerEventData> events = new List<PlayerEventData>();
+
+    /// <summary>
+    /// Function used to apply event change data to the players current event data. 
+    /// </summary>
+    /// <param name="eventName"> The event name associated with the event. </param>
+    /// <param name="eventID"> The event id associated with the event. </param>
+    public void SetPlayerDataEvent(PlayerEventData data)
+    {
+        Debug.Log("Item collected: Applying event data.");
+        //TODO: Implement this. 
+    }
+}
 
 #region World state management. 
 public partial class GameManager : MonoBehaviour

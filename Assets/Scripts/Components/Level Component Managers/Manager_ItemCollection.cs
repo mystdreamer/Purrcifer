@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class Manager_ItemCollection : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public bool pillsUnlocked;
+    public bool swordUnlocked;
+    public bool maskUnlocked;
+    public bool stopwatchUnlocked;
+    public bool bigBookOfPainUnlocked;
+    public bool smallBookOfPainUnlocked;
+    public bool burningHeartUnlocked;
+    public bool fleshUnlocked;
+    public bool sugarUnlocked;
+    public bool cookieUnlocked;
+    public bool chocolateUnlocked;
+    public bool normalHeartUnlocked;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject pillsPrefab;
+    public GameObject swordPrefab;
+    public GameObject maskPrefab;
+    public GameObject stopwatchPrefab;
+    public GameObject bigBookOfPainPrefab;
+    public GameObject smallBookOfPainPrefab;
+    public GameObject burningHeartPrefab;
+    public GameObject fleshPrefab;
+    public GameObject sugarPrefab;
+    public GameObject cookiePrefab;
+    public GameObject chocolatePrefab;
+    public GameObject normalHeartPrefab;
 }

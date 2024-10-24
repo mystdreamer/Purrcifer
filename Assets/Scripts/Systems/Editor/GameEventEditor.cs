@@ -4,49 +4,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Purrcifer.Data.Xml;
-using System.IO;
-using System.Xml.Serialization;
 using System.Linq;
 
 namespace GameEditor.GameEvent
 {
-    [System.Serializable]
-    public class GameEventData
-    {
-        public bool validated = false;
-        public bool validName = true;
-        public bool validID = true;
-        public string name;
-        public int id;
-        public bool state;
-
-        public string GetLabel(bool selected)
-        {
-            string prefix = (selected) ? "<color=yellow> -- </color>" : "";
-            string suffix = (validated) ? "<color=yellow> [VALID] </color>" : "<color=red> [INVALID] </color>";
-            return prefix + name + " [id: " + id + "]" + suffix;
-        }
-
-        public TextField GetTextField()
-        {
-            return new TextField("Event Name") { value = name };
-        }
-
-        public IntegerField GetIntField()
-        {
-            return new IntegerField("Event ID") { value = id };
-        }
-
-        public void Validate(GameEventData eventData)
-        {
-            validName = (name != eventData.name);
-            validID = (id != eventData.id);
-            validated = (validName && validID);
-        }
-    }
 
     [System.Serializable]
-    public class GameEventDataSerializationWrapper
+    public class GameEventDataWrapper
     {
         public GameEventData[] events;
     }
@@ -77,10 +41,10 @@ namespace GameEditor.GameEvent
         {
             if (eventData == null)
             {
-                if(GameEditorSerialization.CheckFileExists(GameEditorSerialization.DataPath, GameEditorSerialization.fileName))
+                if(GameEventSerialization.CheckFileExists(GameEventSerialization.DataPath, GameEventSerialization.fileName))
                 {
-                    GameEventDataSerializationWrapper wrapper =
-                        GameEditorSerialization.Deserialize<GameEventDataSerializationWrapper>(GameEditorSerialization.FullPath);
+                    GameEventDataWrapper wrapper =
+                        GameEventSerialization.Deserialize<GameEventDataWrapper>(GameEventSerialization.FullPath);
 
                     eventData = wrapper.events.ToList();
                 }
@@ -245,10 +209,10 @@ namespace GameEditor.GameEvent
             else
             {
                 Debug.Log("Saving file. ");
-                GameEventDataSerializationWrapper wrapper = new GameEventDataSerializationWrapper();
+                GameEventDataWrapper wrapper = new GameEventDataWrapper();
                 wrapper.events = eventData.ToArray();
-                GameEditorSerialization.CheckPathExists(GameEditorSerialization.DataPath);
-                GameEditorSerialization.Serialize<GameEventDataSerializationWrapper>(wrapper, GameEditorSerialization.FullPath);
+                GameEventSerialization.CheckPathExists(GameEventSerialization.DataPath);
+                GameEventSerialization.Serialize<GameEventDataWrapper>(wrapper, GameEventSerialization.FullPath);
             }
         }
         #endregion
@@ -300,10 +264,14 @@ namespace GameEditor.GameEvent
     {
         public static List<GameEventData> DefaultEvents()
         {
-            if (GameEditorSerialization.CheckFileExists(GameEditorSerialization.DataPath, GameEditorSerialization.fileName))
+            bool fileExists =
+                GameEventSerialization.CheckFileExists(GameEventSerialization.DataPath,
+                GameEventSerialization.fileName);
+
+            if (fileExists)
             {
-                GameEventDataSerializationWrapper wrapper =
-                    GameEditorSerialization.Deserialize<GameEventDataSerializationWrapper>(GameEditorSerialization.FullPath);
+                GameEventDataWrapper wrapper =
+                    GameEventSerialization.Deserialize<GameEventDataWrapper>(GameEventSerialization.FullPath);
 
                 return wrapper.events.ToList();
             }
@@ -311,90 +279,6 @@ namespace GameEditor.GameEvent
             {
                 throw new System.Exception("Could not find defaults events, are you sure they exist?");
             }
-        }
-    }
-
-    /// <summary>
-    /// XML serializer for generic types. 
-    /// </summary>
-    public static class GameEditorSerialization
-    {
-        /// <summary>
-        /// The string specifying the folder in which to create alignment data. 
-        /// </summary>
-        public static string folderName = "/Data/";
-        public static string fileName = "Events.xml";
-
-        /// <summary>
-        /// The folder path for serialized data.  
-        /// </summary>
-        public static string DataPath => Application.dataPath + folderName;
-        public static string FullPath => Application.dataPath + folderName + fileName;
-
-        /// <summary>
-        /// Generic XML Serializer.  
-        /// </summary>
-        /// <typeparam name="T"> The type of file to be serialized. </typeparam>
-        /// <param name="type"> The file reference. </param>
-        /// <param name="fileName"> The file name to serialize the data to. </param>
-        public static void Serialize<T>(T type, string path)
-        {
-            XmlSerializer s = new XmlSerializer(typeof(T));
-            Stream stream = new FileStream(path, FileMode.Create);
-            s.Serialize(stream, type);
-            stream.Close();
-
-#if DEBUG
-            Debug.Log("File Path: " + path);
-#endif
-        }
-
-        /// <summary>
-        /// Generic XML deserializer. 
-        /// </summary>
-        /// <typeparam name="T"> The file type to deserialize. </typeparam>
-        /// <param name="fileName"> The name of the file to deserialize. </param>
-        /// <returns> A deserialized instance of type T. </returns>
-        public static T Deserialize<T>(string path)
-        {
-            XmlSerializer s = new XmlSerializer(typeof(T));
-            Stream stream = new FileStream(path, FileMode.OpenOrCreate);
-            var output = s.Deserialize(stream);
-            stream.Close();
-            return (T)output;
-        }
-
-        /// <summary>
-        /// Check if the data file exists.
-        /// </summary>
-        /// <param name="path"> The path to serialize to. </param>
-        /// <returns> True if the file exist. </returns>
-        public static bool DataExists(string path)
-        {
-            return File.Exists(path);
-        }
-
-        public static void CheckPathExists(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-        }
-
-        public static bool CheckFileExists(string path, string filename)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            if (File.Exists(path + filename))
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }

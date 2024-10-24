@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class Manager_BossKills : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public bool popwormKilled; 
+    public bool leechKilled;
+    public GameObject leechModel;
+    public GameObject popwormModel;
+}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+public class ManagerBase : MonoBehaviour
+{
+    
 }
