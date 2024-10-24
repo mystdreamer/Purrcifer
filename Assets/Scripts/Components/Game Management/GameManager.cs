@@ -94,6 +94,11 @@ public partial class GameManager : MonoBehaviour
         {
             _playerState.Health += 1;
         }
+
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            DataManager.DataCarrier.RuntimeData.UpdateData();
+        }
 #endif
     }
 

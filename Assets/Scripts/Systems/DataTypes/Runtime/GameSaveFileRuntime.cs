@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.IO;
+using Purrcifer.LevelLoading;
 
 namespace Purrcifer.Data.Player
 {
@@ -230,6 +231,7 @@ namespace Purrcifer.Data.Player
             };
         }
 
+        #region Defaulting Functions.
         public GameSaveFileRuntime GetDefaultPlayerData()
         {
             return new GameSaveFileRuntime()
@@ -283,6 +285,7 @@ namespace Purrcifer.Data.Player
                 bgmVolume = DefaultSettingsData.BGM_VOLUME,
             };
         }
+        #endregion
 
         public static GameSaveFileRuntime LoadData()
         {
@@ -311,8 +314,41 @@ namespace Purrcifer.Data.Player
             return runtime;
         }
 
+        public void UpdateData()
+        {
+            if (GameManager.Instance.PlayerState != null)
+            {
+                PlayerState state = GameManager.Instance.PlayerState;
+
+                maxHealth = state.HealthMaxCap;
+                currentHealth = state.Health;
+                baseDamage = state.BaseDamage;
+                damageMultiplier = state.DamageMultiplier;
+                criticalHitDamage = state.CriticalHitDamage;
+                criticalHitChance = state.CriticalHitChance;
+                movementSpeed = state.MovementSpeed;
+                attackRate = state.AttackRate;
+                talismanCount = state.Talismans;
+            }
+        }
+
         public void SaveData()
         {
+            if(GameManager.Instance.PlayerState != null)
+            {
+                PlayerState state = GameManager.Instance.PlayerState;
+
+                maxHealth = state.HealthMaxCap;
+                currentHealth = state.Health;
+                baseDamage = state.BaseDamage;
+                damageMultiplier = state.DamageMultiplier;
+                criticalHitDamage = state.CriticalHitDamage;
+                criticalHitChance = state.CriticalHitChance;
+                movementSpeed = state.MovementSpeed;
+                attackRate = state.AttackRate;
+                talismanCount = state.Talismans;
+            }
+
             string path = XML_Serialization.PersistPath + XML_Serialization.gameSaveFileName;
             XML_Serialization.AssureDirectoryExists(XML_Serialization.PersistPath);
             XML_Serialization.Serialize<GameSaveFileXML>((GameSaveFileXML)this, path);

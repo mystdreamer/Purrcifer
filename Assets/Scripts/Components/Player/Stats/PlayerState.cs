@@ -161,7 +161,7 @@ public class PlayerState : MonoBehaviour
     }
     #endregion
 
-    public float MovementSpeed => _movementStats.moveSpeed; 
+    public float MovementSpeed => _movementStats.moveSpeed;
 
     #region Powerup/Consumable Accessors. 
     public int Talismans
@@ -253,6 +253,11 @@ public class PlayerState : MonoBehaviour
         runtime.movementSpeed = _movementStats.moveSpeed;
     }
     #endregion
+
+    public void PushData()
+    {
+        DataManager.DataCarrier.Instance.SetPlayerData(this);
+    }
 
     private void Update()
     {

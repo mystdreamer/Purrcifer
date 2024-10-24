@@ -11,6 +11,7 @@ public class LevelLoadTrigger : MonoBehaviour
         if(other.gameObject.CompareTag("Player") && !loading)
         {
             loading = true;
+            GameManager.Instance.PlayerState.PushData(); 
             GameManager.LoadLevel(levelIDToLoad, false);
         }
     }
