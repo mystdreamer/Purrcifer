@@ -361,7 +361,7 @@ public partial class GameManager : MonoBehaviour
     public void SetPlayerDataEvent(PlayerEventData data)
     {
         Debug.Log("Item collected: Applying event data.");
-        
+
     }
 }
 
@@ -516,6 +516,30 @@ public partial class GameManager : MonoBehaviour
         else
         {
             Debug.LogError("SoundManager not found when loading level");
+        }
+
+        // Apply a wall stopper to all enemies in scene (ensure they do not go out of bounds)
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        GameObject[] enemies = Object.FindObjectsByType<GameObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy.layer == enemyLayer)
+            {
+                // // Apply Rigidbody settings if it doesn't already exist
+                // Rigidbody rb = enemy.GetComponent<Rigidbody>();
+                // if (rb == null)
+                // {
+                //     rb = enemy.AddComponent<Rigidbody>();
+                //     rb.isKinematic = false; // Ensure it's not kinematic for collisions
+                // }
+
+                // Add CollisionStopper behavior to all enemies
+                if (enemy.GetComponent<CollisionStopper>() == null)
+                {
+                    enemy.AddComponent<CollisionStopper>();
+                }
+            }
         }
 
         // Enable the world clock.
