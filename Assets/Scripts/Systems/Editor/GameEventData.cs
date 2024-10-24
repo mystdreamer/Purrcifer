@@ -1,13 +1,19 @@
-﻿using UnityEngine.UIElements;
+﻿using System.Xml.Serialization;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 namespace GameEditor.GameEvent
 {
     [System.Serializable]
     public class GameEventData
     {
+        [XmlIgnore]
         public bool validated = false;
+        [XmlIgnore]
         public bool validName = true;
+        [XmlIgnore]
         public bool validID = true;
+        
         public string name;
         public int id;
         public bool state;

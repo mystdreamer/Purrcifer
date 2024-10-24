@@ -16,6 +16,8 @@ namespace DataManager
         /// </summary>
         [SerializeField] private GameSaveFileRuntime _runtime;
 
+        [SerializeField] private PlayerGameEventData _gameEvent;
+
         /// <summary>
         /// Returns the current instance of the data manager. 
         /// </summary>
@@ -30,6 +32,8 @@ namespace DataManager
         }
 
         public static PlayerInputs PlayerInputs => Instance._runtime.playerInputs;
+
+        public static PlayerGameEventData PlayerEventData => Instance._gameEvent;
 
         /// <summary>
         /// Returns the currently saved level from save data. 
@@ -58,20 +62,8 @@ namespace DataManager
         /// </summary>
         private void LoadData()
         {
-            //Set the path of the file. 
-            string path = XML_Serialization.AppDirPath + "GS.xml";
-            bool fileExists = XML_Serialization.DataExists(XML_Serialization.AppDirPath + "GS.xml");
-
-            //If the file doesn't exist create one, else load data. 
-            if (!fileExists)
-            {
-                _runtime = GameSaveFileRuntime.Default();
-            }
-            else
-            {
-                GameSaveFileXML xml = XML_Serialization.Deserialize<GameSaveFileXML>(path);
-                _runtime = (GameSaveFileRuntime)xml;
-            }
+            _runtime = GameSaveFileRuntime.LoadData();
+            _gameEvent = new PlayerGameEventData();
         }
 
         /// <summary>
@@ -79,9 +71,8 @@ namespace DataManager
         /// </summary>
         private void SaveData()
         {
-            string path = XML_Serialization.PersistDirPath + "GS.xml";
-            XML_Serialization.CheckPathExists(XML_Serialization.PersistDirPath);
-            XML_Serialization.Serialize<GameSaveFileXML>((GameSaveFileXML)_runtime, path);
+            _runtime.SaveData();
+            _gameEvent.SaveEvents();
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<GameEventDataSerializationWrapper xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<GameEventDataWrapper xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <events>
     <GameEventData>
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>E_FIRST_RUN_FAILED</name>
+      <name>Popworm_Killed</name>
       <id>1001</id>
       <state>false</state>
     </GameEventData>
@@ -13,7 +13,7 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>E_FIRST_RUN_COMPLETE</name>
+      <name>Leech_Killed</name>
       <id>1002</id>
       <state>false</state>
     </GameEventData>
@@ -21,7 +21,103 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>E_SWORD_UNLOCKED</name>
+      <name>Pills_Unlocked</name>
+      <id>1003</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Mask_Collected</name>
+      <id>1004</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Stopwatch_collected</name>
+      <id>1005</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>BigBookOfPain_Collected</name>
+      <id>1006</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>LittleBookOfPain_Collected</name>
+      <id>1007</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>BurningHeart_Collected</name>
+      <id>1008</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Flesh_Collected</name>
+      <id>1009</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Sugar_Collected</name>
+      <id>1010</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Cookie_Collected</name>
+      <id>1011</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>ChocolateCollected</name>
+      <id>1012</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Heart_Collected</name>
+      <id>1013</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Tank_Unlocked</name>
+      <id>2002</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>GlassCannon_Unlocked</name>
       <id>2001</id>
       <state>false</state>
     </GameEventData>
@@ -29,7 +125,7 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>E_STOPWATCH_UNLOCKED</name>
+      <name>Hammer_Unlocked</name>
       <id>3001</id>
       <state>false</state>
     </GameEventData>
@@ -37,9 +133,25 @@
       <validated>true</validated>
       <validName>true</validName>
       <validID>true</validID>
-      <name>E_FIRST_BOSS_KO</name>
-      <id>4001</id>
+      <name>KnifeUnlocked</name>
+      <id>3002</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>SacDag_Unlocked</name>
+      <id>3003</id>
+      <state>false</state>
+    </GameEventData>
+    <GameEventData>
+      <validated>true</validated>
+      <validName>true</validName>
+      <validID>true</validID>
+      <name>Spear_Unlocked</name>
+      <id>3004</id>
       <state>false</state>
     </GameEventData>
   </events>
-</GameEventDataSerializationWrapper>
+</GameEventDataWrapper>

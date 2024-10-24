@@ -14,19 +14,14 @@ namespace Purrcifer.Data.Xml
         /// </summary>
         public static string folderName = "/Data/";
 
-        /// <summary>
-        /// The folder path for serialized data.  
-        /// </summary>
-        public static string PersistDirPath
-        {
-            get { return Application.persistentDataPath + "/"; }
-        }
+        public const string gameSaveFileName = "GS.xml";
+        public const string SavedEventXML = "E.xml";
+        public const string DefaultEventXML = "D_E.xml";
 
         /// <summary>
         /// The folder path for serialized data.  
         /// </summary>
-        public static string AppDirPath =>
-            Application.dataPath + folderName;
+        public static string PersistPath => Application.persistentDataPath + folderName;
 
         /// <summary>
         /// Generic XML Serializer.  
@@ -46,6 +41,20 @@ namespace Purrcifer.Data.Xml
 #endif
         }
 
+        public static T AttemptDeserialization<T>(string path, string fileName, out bool successful)
+        {
+            AssureDirectoryExists(path);
+
+            if(DataExists(path + fileName))
+            {
+                successful = true;
+                return Deserialize<T>(path + fileName);
+            }
+            successful = false;
+
+            return default(T);
+        }
+
         /// <summary>
         /// Generic XML deserializer. 
         /// </summary>
@@ -55,10 +64,21 @@ namespace Purrcifer.Data.Xml
         public static T Deserialize<T>(string path)
         {
             XmlSerializer s = new XmlSerializer(typeof(T));
-            Stream stream = new FileStream(path, FileMode.OpenOrCreate);
+            Stream stream = new FileStream(path, FileMode.Open);
             var output = s.Deserialize(stream);
             stream.Close();
             return (T)output;
+        }
+
+        public static void CheckFileState(string dirPath, string fileName, out bool directoryExists, out bool fileExists)
+        {
+            //Check if the directory existed or had to be created. 
+            AssureDirectoryExists(dirPath, out bool created);
+            directoryExists = true;
+            if (created) //The directory didn't exist and was made.
+                fileExists = false;
+            else //Check if the file exists in the directory. 
+                fileExists = DataExists(dirPath);
         }
 
         /// <summary>
@@ -71,12 +91,20 @@ namespace Purrcifer.Data.Xml
             return File.Exists(path);
         }
 
-        public static void CheckPathExists(string path)
+        public static void AssureDirectoryExists(string path, out bool created)
         {
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
+                created = true;
             }
+            created = false;
+        }
+
+        public static void AssureDirectoryExists(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
     }
 }

@@ -3,11 +3,10 @@ using UnityEngine;
 public class Manager_ItemCollection : MonoBehaviour
 {
     public bool pillsUnlocked;
-    public bool swordUnlocked;
     public bool maskUnlocked;
     public bool stopwatchUnlocked;
     public bool bigBookOfPainUnlocked;
-    public bool smallBookOfPainUnlocked;
+    public bool littleBookOfPainUnlocked;
     public bool burningHeartUnlocked;
     public bool fleshUnlocked;
     public bool sugarUnlocked;
@@ -16,11 +15,10 @@ public class Manager_ItemCollection : MonoBehaviour
     public bool normalHeartUnlocked;
 
     public GameObject pillsPrefab;
-    public GameObject swordPrefab;
     public GameObject maskPrefab;
     public GameObject stopwatchPrefab;
     public GameObject bigBookOfPainPrefab;
-    public GameObject smallBookOfPainPrefab;
+    public GameObject littleBookOfPainPrefab;
     public GameObject burningHeartPrefab;
     public GameObject fleshPrefab;
     public GameObject sugarPrefab;

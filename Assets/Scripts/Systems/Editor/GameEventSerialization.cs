@@ -13,13 +13,13 @@ namespace GameEditor.GameEvent
         /// The string specifying the folder in which to create alignment data. 
         /// </summary>
         public static string folderName = "/Data/";
-        public static string fileName = "Events.xml";
+        public static string fileName = "D_E.xml";
 
         /// <summary>
         /// The folder path for serialized data.  
         /// </summary>
         public static string DataPath => Application.persistentDataPath + folderName;
-        public static string FullPath => Application.persistentDataPath + folderName + fileName;
+        public static string FullPath => DataPath + fileName;
 
         /// <summary>
         /// Generic XML Serializer.  

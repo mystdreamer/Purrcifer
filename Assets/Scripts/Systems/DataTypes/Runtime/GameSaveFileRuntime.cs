@@ -1,14 +1,83 @@
-﻿using DataManager;
-using Purrcifer.Data.Defaults;
+﻿using Purrcifer.Data.Defaults;
 using Purrcifer.Data.Xml;
 using Purrcifer.PlayerData;
 using Purrcifer.PlayerDataCore;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.IO;
+using UnityEditor.PackageManager;
+using UnityEditor;
 
 namespace Purrcifer.Data.Player
 {
+    [System.Serializable]
+    public class PlayerGameEventData
+    {
+        [System.Serializable]
+        public class GameEventData
+        {
+            public string name;
+            public int id;
+            public bool state;
+        }
+
+        [System.Serializable]
+        public class GameEventDataWrapper
+        {
+            public GameEventData[] events;
+        }
+
+        public GameEventDataWrapper playerEvents;
+
+        private string DefaultEventPath => XML_Serialization.PersistPath + XML_Serialization.DefaultEventXML;
+        private string SavedEventPath => XML_Serialization.PersistPath + XML_Serialization.SavedEventXML;
+
+        public PlayerGameEventData()
+        {
+            LoadEvents();
+        }
+
+        public void LoadEvents()
+        {
+            GameEventDataWrapper wrapper;
+
+            //Load the saved version of the events.
+            wrapper = XML_Serialization.AttemptDeserialization<GameEventDataWrapper>(
+                XML_Serialization.PersistPath,
+                XML_Serialization.SavedEventXML,
+                out bool succeedESF
+                );
+            if (succeedESF)
+            {
+                playerEvents = wrapper;
+                return;
+            }
+
+            //Load default version of the events.
+            wrapper = XML_Serialization.AttemptDeserialization<GameEventDataWrapper>(
+                XML_Serialization.PersistPath,
+                XML_Serialization.DefaultEventXML,
+                out bool succeedDE
+                );
+            if (succeedDE)
+            {
+                playerEvents = wrapper;
+                SaveEvents();
+                return;
+            }
+
+            throw new System.Exception("No default event data");
+        }
+
+        public void SaveEvents()
+        {
+            GameEventDataWrapper gedw = playerEvents;
+            XML_Serialization.AssureDirectoryExists(XML_Serialization.PersistPath);
+            XML_Serialization.Serialize<GameEventDataWrapper>(gedw, SavedEventPath);
+            Debug.Log("Event serialization path: " + SavedEventPath);
+        }
+    }
 
     [System.Serializable]
     public class GameSaveFileRuntime
@@ -118,6 +187,40 @@ namespace Purrcifer.Data.Player
             };
         }
 
+        public static GameSaveFileRuntime LoadData()
+        {
+            GameSaveFileRuntime runtime = new GameSaveFileRuntime();
+            bool defaulted = false;
+
+            //Set the path of the file. 
+            string path = XML_Serialization.PersistPath + XML_Serialization.gameSaveFileName;
+            bool fileExists = XML_Serialization.DataExists(path);
+
+            //If the file doesn't exist create one, else load data. 
+            if (!fileExists)
+            {
+                defaulted = true;
+                runtime = GameSaveFileRuntime.Default();
+            }
+            else
+            {
+                GameSaveFileXML xml = XML_Serialization.Deserialize<GameSaveFileXML>(path);
+                runtime = (GameSaveFileRuntime)xml;
+            }
+
+            if (defaulted)
+                runtime.SaveData();
+
+            return runtime;
+        }
+
+        public void SaveData()
+        {
+            string path = XML_Serialization.PersistPath + XML_Serialization.gameSaveFileName;
+            XML_Serialization.AssureDirectoryExists(XML_Serialization.PersistPath);
+            XML_Serialization.Serialize<GameSaveFileXML>((GameSaveFileXML)this, path);
+        }
+
         public static explicit operator GameSaveFileXML(GameSaveFileRuntime data)
         {
             return new GameSaveFileXML()
@@ -187,7 +290,8 @@ namespace Purrcifer.Data.Player
                 sfxVolume = data.sfxVolume,
                 uiVolume = data.uiVolume,
                 bgmVolume = data.bgmVolume,
-                playerInputs = new PlayerInputs() {
+                playerInputs = new PlayerInputs()
+                {
                     key_m_up = (KeyCode)data.key_m_up,
                     key_m_down = (KeyCode)data.key_m_down,
                     key_m_right = (KeyCode)data.key_m_right,
