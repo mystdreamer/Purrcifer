@@ -324,7 +324,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 0.9545998, g: 1, b: 0.8632076, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -454,9 +454,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldLight: {fileID: 1307754136}
-  colorNormal: {r: 0.9850408, g: 1, b: 0.8066038, a: 1}
-  colorWitchingHour: {r: 0.6509434, g: 0, b: 0.5887699, a: 1}
-  colorHell: {r: 1, g: 0, b: 0, a: 1}
+  colorNormal: {r: 1, g: 0.92147136, b: 0.5330188, a: 1}
+  colorWitchingHour: {r: 1, g: 0.20283027, b: 0.2028302, a: 1}
+  colorHell: {r: 0.7400498, g: 0.24056602, b: 1, a: 1}
 --- !u!4 &2052126354
 Transform:
   m_ObjectHideFlags: 0
