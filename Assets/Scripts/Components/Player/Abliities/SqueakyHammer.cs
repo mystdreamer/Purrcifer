@@ -35,10 +35,11 @@ public class HammerHitCollider : MonoBehaviour
         Vector3 directionVector = other.transform.position - gameObject.transform.position;
         Rigidbody body;
         other.TryGetComponent<Rigidbody>(out body);
-        if (body != null)
-        {
-            StartCoroutine(ApplyForce(body, directionVector.normalized, hRadius.force));
-        }
+        
+        //if (body != null)
+        //{
+        //    StartCoroutine(ApplyForce(body, directionVector.normalized, hRadius.force));
+        //}
 
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
@@ -60,22 +61,22 @@ public class HammerHitCollider : MonoBehaviour
         }
     }
 
-    private IEnumerator ApplyForce(Rigidbody body, Vector3 direction, float force)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            if (body != null)
-            {
-                body.linearVelocity = Vector3.zero;
-                body.AddForce(direction * force/10);
-                yield return new WaitForFixedUpdate();
-            }
-            else
-            {
-                yield return true;
-            }
-        }
-    }
+    //private IEnumerator ApplyForce(Rigidbody body, Vector3 direction, float force)
+    //{
+    //    for (int i = 0; i < 10; i++)
+    //    {
+    //        if (body != null)
+    //        {
+    //            body.linearVelocity = Vector3.zero;
+    //            body.AddForce(direction * force/10);
+    //            yield return new WaitForFixedUpdate();
+    //        }
+    //        else
+    //        {
+    //            yield return true;
+    //        }
+    //    }
+    //}
 
     public static GameObject GenerateHitSphere(HammerRadius hRadius, float damage)
     {

@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.IO;
-using UnityEditor.PackageManager;
-using UnityEditor;
-using System.Xml.Linq;
 
 namespace Purrcifer.Data.Player
 {
