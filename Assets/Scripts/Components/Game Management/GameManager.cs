@@ -12,10 +12,7 @@ using Purrcifer.PlayerData;
 using DataManager;
 using Purrcifer.Data.Player;
 using Purrcifer.PlayerDataCore;
-<<<<<<< Updated upstream
 using UnityEngine.Rendering;
-=======
->>>>>>> Stashed changes
 using System.Collections.Generic;
 
 public partial class GameManager : MonoBehaviour
