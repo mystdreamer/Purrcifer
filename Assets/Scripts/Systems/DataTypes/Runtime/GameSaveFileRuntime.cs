@@ -8,6 +8,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor.PackageManager;
 using UnityEditor;
+using System.Xml.Linq;
 
 namespace Purrcifer.Data.Player
 {
@@ -76,6 +77,94 @@ namespace Purrcifer.Data.Player
             XML_Serialization.AssureDirectoryExists(XML_Serialization.PersistPath);
             XML_Serialization.Serialize<GameEventDataWrapper>(gedw, SavedEventPath);
             Debug.Log("Event serialization path: " + SavedEventPath);
+        }
+
+        public bool GetEventSate(string name, bool state)
+        {
+            GameEventData data = GetEventState(name);
+
+            if (data != null) return data.state;
+            else Debug.Log("Event Entry[" + name + "] could not be found");
+            return false;
+        }
+
+        public bool GetEventSate(int eventID, bool state)
+        {
+            GameEventData data = GetEventState(eventID);
+
+            if (data != null) data.state = state;
+            else Debug.Log("Event Entry[" + eventID + "] could not be found");
+            return false;
+        }
+
+        public List<GameEventData> GetCompletedEvents()
+        {
+            List<GameEventData> completed = new List<GameEventData>();
+
+            for (int i = 0; i < playerEvents.events.Length; i++)
+            {
+                if (playerEvents.events[i].state)
+                    completed.Add(playerEvents.events[i]);
+            }
+
+            return completed;
+        }
+
+        public List<GameEventData> GetIncompleteEvents()
+        {
+            List<GameEventData> completed = new List<GameEventData>();
+
+            for (int i = 0; i < playerEvents.events.Length; i++)
+            {
+                if (!playerEvents.events[i].state)
+                    completed.Add(playerEvents.events[i]);
+            }
+
+            return completed;
+        }
+
+        public void SetEventSate(string name, bool state)
+        {
+            GameEventData data = GetEventState(name);
+
+            if (data != null)
+            {
+                data.state = state;
+            }
+            else
+                Debug.Log("Event Entry[" + name + "] could not be found");
+        }
+
+        public void SetEventSate(int eventID, bool state)
+        {
+            GameEventData data = GetEventStateByID(id);
+
+            if (data != null)
+            {
+                data.state = state;
+            }
+            else
+                Debug.Log("Event Entry[" + eventID + "] could not be found");
+        }
+
+        public GameEventData GetEventState(string name)
+        {
+            for (int i = 0; i < playerEvents.events.Length; i++)
+            {
+                if (playerEvents.events[i].name == name)
+                    return playerEvents.events[i];
+            }
+            return null;
+        }
+
+        public GameEventData GetEventState(int id)
+        {
+            for (int i = 0; i < playerEvents.events.Length; i++)
+            {
+                if (playerEvents.events[i].id == id)
+                    return playerEvents.events[i];
+            }
+            return null;
         }
     }
 
