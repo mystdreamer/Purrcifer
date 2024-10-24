@@ -1,4 +1,4 @@
-﻿using Purrcifer.Data.Defaults;
+using Purrcifer.Data.Defaults;
 using Purrcifer.Data.Xml;
 using Purrcifer.PlayerData;
 using Purrcifer.PlayerDataCore;
