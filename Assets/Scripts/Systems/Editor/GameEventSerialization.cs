@@ -18,7 +18,7 @@ namespace GameEditor.GameEvent
         /// <summary>
         /// The folder path for serialized data.  
         /// </summary>
-        public static string DataPath => Application.persistentDataPath + folderName;
+        public static string DataPath => Application.streamingAssetsPath + folderName;
         public static string FullPath => DataPath + fileName;
 
         /// <summary>

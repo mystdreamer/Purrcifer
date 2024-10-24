@@ -31,6 +31,7 @@ namespace Purrcifer.Data.Player
 
         public GameEventDataWrapper playerEvents;
 
+        private string BaseEventPath => Application.streamingAssetsPath + "/Data/D_E.xml";
         private string DefaultEventPath => XML_Serialization.PersistPath + XML_Serialization.DefaultEventXML;
         private string SavedEventPath => XML_Serialization.PersistPath + XML_Serialization.SavedEventXML;
 
@@ -56,6 +57,8 @@ namespace Purrcifer.Data.Player
             }
 
             //Load default version of the events.
+            CopyDefaultEvents();
+
             wrapper = XML_Serialization.AttemptDeserialization<GameEventDataWrapper>(
                 XML_Serialization.PersistPath,
                 XML_Serialization.DefaultEventXML,
@@ -77,6 +80,14 @@ namespace Purrcifer.Data.Player
             XML_Serialization.AssureDirectoryExists(XML_Serialization.PersistPath);
             XML_Serialization.Serialize<GameEventDataWrapper>(gedw, SavedEventPath);
             Debug.Log("Event serialization path: " + SavedEventPath);
+        }
+
+        private void CopyDefaultEvents()
+        {
+            Debug.Log(Application.streamingAssetsPath);
+            string path = BaseEventPath;
+            string newFilePath = DefaultEventPath;
+            File.Copy(path, newFilePath, true);
         }
 
         public bool GetEventSate(string name, bool state)
@@ -137,7 +148,7 @@ namespace Purrcifer.Data.Player
 
         public void SetEventSate(int eventID, bool state)
         {
-            GameEventData data = GetEventStateByID(id);
+            GameEventData data = GetEventState(eventID);
 
             if (data != null)
             {

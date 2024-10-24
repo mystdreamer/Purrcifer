@@ -1,6 +1,7 @@
 using Purrcifer.Data.Player;
 using UnityEngine;
 using Purrcifer.Data.Xml;
+using System.IO;
 
 namespace DataManager
 {
