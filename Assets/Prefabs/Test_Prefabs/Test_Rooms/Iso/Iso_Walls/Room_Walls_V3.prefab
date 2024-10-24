@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7311484344854745860}
   - component: {fileID: 6829173886628220186}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Left_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.6, y: 0.5, z: 0}
-  m_LocalScale: {x: 14, y: 1, z: 3.8}
+  m_LocalScale: {x: 14, y: 5, z: 3.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 364694366974422939}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 333072916231455376}
   - component: {fileID: 6524105363390372661}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Door Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 6.5846}
+  m_LocalScale: {x: 1, y: 5, z: 6.5846}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4126717088777386501}
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4462193032376420994}
   - component: {fileID: 8500803480890431503}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Left Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.62, y: 0.5, z: 0}
-  m_LocalScale: {x: 17.258688, y: 1, z: 3.8}
+  m_LocalScale: {x: 17.258688, y: 5, z: 3.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1219151374350750527}
@@ -235,7 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2247302822001531006}
   - component: {fileID: 7442213470568554865}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Full Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 16.11, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 20}
+  m_LocalScale: {x: 1, y: 5, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7325654628177267564}
@@ -406,7 +406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2315555900934507957}
   - component: {fileID: 8566421740416639324}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Right Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.61, y: 0.5, z: 10.25}
-  m_LocalScale: {x: 14, y: 1, z: 3.8280334}
+  m_LocalScale: {x: 14, y: 5, z: 3.8280334}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5158968742462415389}
@@ -459,7 +459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6140773463632189374}
   - component: {fileID: 6718590370827183158}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Right Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 8.79}
-  m_LocalScale: {x: 36, y: 1, z: 1}
+  m_LocalScale: {x: 36, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7880569257296953641}
@@ -914,7 +914,7 @@ GameObject:
   - component: {fileID: 1282174492840779986}
   - component: {fileID: 6415584099800293409}
   - component: {fileID: 1705040565691922059}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bottom_Door Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -931,7 +931,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 8.81}
-  m_LocalScale: {x: 8, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2887038219643745487}
@@ -1638,7 +1638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3173713041417354634}
   - component: {fileID: 5526278331062608725}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Wall Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1655,7 +1655,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -16.11, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 18.359707}
+  m_LocalScale: {x: 1, y: 5, z: 18.359707}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3868749709382797730}
@@ -1691,7 +1691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2330466586184723379}
   - component: {fileID: 757635134683800242}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Door Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1707,8 +1707,8 @@ Transform:
   m_GameObject: {fileID: 1701754778095421124}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.11, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 5.4212}
+  m_LocalPosition: {x: -17.11, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 5, z: 5.4212}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5267409817292621102}
@@ -2045,7 +2045,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3017936752480281664}
   - component: {fileID: 4220397420398495319}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Upper Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2062,7 +2062,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8, y: 1, z: 6.19}
+  m_LocalScale: {x: 2.8, y: 5, z: 6.19}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 288714342429502540}
@@ -2131,7 +2131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7904093192326081925}
   - component: {fileID: 4821106193826757075}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Upper Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2148,7 +2148,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8, y: 1, z: 8.068745}
+  m_LocalScale: {x: 2.8, y: 5, z: 8.068745}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6195816416534919975}
@@ -2184,7 +2184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 764217724375218688}
   - component: {fileID: 3673446432034896068}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bottom_Door Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2201,7 +2201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 8.83}
-  m_LocalScale: {x: 8, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7636530178790613322}
@@ -2419,7 +2419,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9108435744662774097}
   - component: {fileID: 5151990824669035376}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Lower Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2436,7 +2436,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3.4}
-  m_LocalScale: {x: 2.8, y: 1, z: 6.7005005}
+  m_LocalScale: {x: 2.8, y: 5, z: 6.7005005}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4587073102186778953}
@@ -2741,7 +2741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6435262530476619435}
   - component: {fileID: 2580873908155450609}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Wall Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2758,7 +2758,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 16.11, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 5}
+  m_LocalScale: {x: 1, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3583756932676128290}
@@ -2946,7 +2946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677668604843015690}
   - component: {fileID: 4525418711856445708}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Right Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2963,7 +2963,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.8, y: 0.5, z: 0}
-  m_LocalScale: {x: 13.758518, y: 1, z: 3.8}
+  m_LocalScale: {x: 13.758518, y: 5, z: 3.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3886467614393231751}
@@ -3203,7 +3203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9189247113332450479}
   - component: {fileID: 3015709701727975683}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bottom_Door Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3220,7 +3220,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 9}
-  m_LocalScale: {x: 8, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4844650035896648083}
@@ -3288,7 +3288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2758237661511323174}
   - component: {fileID: 7072304849831651272}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Upper Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3305,7 +3305,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8, y: 1, z: 6.3155003}
+  m_LocalScale: {x: 2.8, y: 5, z: 6.3155003}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3762696352297650838}
@@ -3710,7 +3710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3890674371651971983}
   - component: {fileID: 5343037468464885508}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Lower Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3727,7 +3727,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -0.1}
-  m_LocalScale: {x: 2.8, y: 1, z: 8.29875}
+  m_LocalScale: {x: 2.8, y: 5, z: 8.29875}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7986950688203101803}
@@ -3967,7 +3967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2847665627938175774}
   - component: {fileID: 2556320919235360324}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Upper Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3984,7 +3984,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8, y: 1, z: 6.5649996}
+  m_LocalScale: {x: 2.8, y: 5, z: 6.5649996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6056417783670836375}
@@ -4053,7 +4053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 685741967118301719}
   - component: {fileID: 7927367871725160921}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Left Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4070,7 +4070,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.47, y: 0.5, z: 0}
-  m_LocalScale: {x: 14, y: 1, z: 3.828033}
+  m_LocalScale: {x: 14, y: 5, z: 3.828033}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 727867798013241292}
@@ -4171,7 +4171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7875829147032827118}
   - component: {fileID: 8458059927936034267}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Full Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4188,7 +4188,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 16.120003, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 4.67}
+  m_LocalScale: {x: 1, y: 5, z: 4.67}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2160924843830365853}
@@ -4290,7 +4290,7 @@ GameObject:
   - component: {fileID: 4873565338691721341}
   - component: {fileID: 4766016656211056457}
   - component: {fileID: 7742282886683886560}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bottom_Door Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4307,7 +4307,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -8.82}
-  m_LocalScale: {x: 8, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9176104255686747546}
@@ -4532,7 +4532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2267422050665974190}
   - component: {fileID: 4931286127678217640}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Right_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4549,7 +4549,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.64, y: 0.5, z: 0}
-  m_LocalScale: {x: 14, y: 1, z: 3.8}
+  m_LocalScale: {x: 14, y: 5, z: 3.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6319166618614353279}
@@ -4796,7 +4796,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2181936757277149668}
   - component: {fileID: 5460270062724747459}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Left_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4813,7 +4813,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.84, y: 0.5, z: 0}
-  m_LocalScale: {x: 14, y: 1, z: 3.8}
+  m_LocalScale: {x: 14, y: 5, z: 3.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8022599712555712334}
@@ -4849,7 +4849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1943351826529535993}
   - component: {fileID: 1630495748551187353}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4866,7 +4866,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -8.81}
-  m_LocalScale: {x: 36, y: 1, z: 1}
+  m_LocalScale: {x: 36, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3677655203862213763}
@@ -4902,7 +4902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1391999818934667267}
   - component: {fileID: 1259139046162197215}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4919,7 +4919,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -8.809998}
-  m_LocalScale: {x: 5, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6725455251896978672}
@@ -4955,7 +4955,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1748837006853024770}
   - component: {fileID: 1848039331771961333}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bottom_Door_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4972,7 +4972,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: -9}
-  m_LocalScale: {x: 8, y: 1, z: 1}
+  m_LocalScale: {x: 8, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5069290582478196670}
@@ -5429,7 +5429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4409884799070835151}
   - component: {fileID: 93511296664626055}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Lower Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5446,7 +5446,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8, y: 1, z: 6.225}
+  m_LocalScale: {x: 2.8, y: 5, z: 6.225}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3449196872545896597}
@@ -5767,7 +5767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4322643435043559161}
   - component: {fileID: 4301578521234108990}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightWall_Lower Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5784,7 +5784,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.8, y: 1, z: 6.124}
+  m_LocalScale: {x: 2.8, y: 5, z: 6.124}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 602855641399312647}
@@ -5907,7 +5907,7 @@ GameObject:
   - component: {fileID: 1954342725452304558}
   - component: {fileID: 4894688212583365064}
   - component: {fileID: 7488796582122590691}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Door Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5924,7 +5924,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 16.11, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 7.2666}
+  m_LocalScale: {x: 1, y: 5, z: 7.2666}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7742067485397172826}
@@ -6283,7 +6283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7799046969254007047}
   - component: {fileID: 5160815789253157147}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BottomWall_Door_Right_Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6300,7 +6300,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.66, y: 0.5, z: 0}
-  m_LocalScale: {x: 14, y: 1, z: 3.8}
+  m_LocalScale: {x: 14, y: 5, z: 3.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5746371282886765}
@@ -6728,7 +6728,7 @@ GameObject:
   - component: {fileID: 106532260473792860}
   - component: {fileID: 7673226768764591310}
   - component: {fileID: 3154691436400892168}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left_Door Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6744,8 +6744,8 @@ Transform:
   m_GameObject: {fileID: 9118186503221179076}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.12, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 6.5871997}
+  m_LocalPosition: {x: 17.12, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 5, z: 6.5871997}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1701202431607945226}
