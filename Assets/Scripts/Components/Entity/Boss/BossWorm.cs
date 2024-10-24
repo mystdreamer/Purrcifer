@@ -582,6 +582,11 @@ public class BossWorm : Boss
         StopAllCoroutines();
         Destroy(bossSpawn);
         UIManager.DisableBossHealthBar();
+        if (GameManager.Instance.PlayerState.Alive)
+        {
+            DataManager.DataCarrier.SetEventState(1001, true);
+            DataManager.DataCarrier.PlayerEventData.SaveEvents();
+        }
         gameObject.SetActive(false);
     }
 

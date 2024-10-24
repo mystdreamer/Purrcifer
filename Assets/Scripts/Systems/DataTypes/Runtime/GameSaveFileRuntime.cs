@@ -90,20 +90,20 @@ namespace Purrcifer.Data.Player
             File.Copy(path, newFilePath, true);
         }
 
-        public bool GetEventSate(string name, bool state)
+        public bool GetEventState(string name)
         {
-            GameEventData data = GetEventState(name);
+            GameEventData data = GetEvent(name);
 
             if (data != null) return data.state;
             else Debug.Log("Event Entry[" + name + "] could not be found");
             return false;
         }
 
-        public bool GetEventSate(int eventID, bool state)
+        public bool GetEventState(int eventID)
         {
-            GameEventData data = GetEventState(eventID);
+            GameEventData data = GetEvent(eventID);
 
-            if (data != null) data.state = state;
+            if (data != null) return data.state;
             else Debug.Log("Event Entry[" + eventID + "] could not be found");
             return false;
         }
@@ -134,9 +134,9 @@ namespace Purrcifer.Data.Player
             return completed;
         }
 
-        public void SetEventSate(string name, bool state)
+        public void SetEventState(string name, bool state)
         {
-            GameEventData data = GetEventState(name);
+            GameEventData data = GetEvent(name);
 
             if (data != null)
             {
@@ -146,9 +146,9 @@ namespace Purrcifer.Data.Player
                 Debug.Log("Event Entry[" + name + "] could not be found");
         }
 
-        public void SetEventSate(int eventID, bool state)
+        public void SetEventState(int eventID, bool state)
         {
-            GameEventData data = GetEventState(eventID);
+            GameEventData data = GetEvent(eventID);
 
             if (data != null)
             {
@@ -158,7 +158,7 @@ namespace Purrcifer.Data.Player
                 Debug.Log("Event Entry[" + eventID + "] could not be found");
         }
 
-        public GameEventData GetEventState(string name)
+        public GameEventData GetEvent(string name)
         {
             for (int i = 0; i < playerEvents.events.Length; i++)
             {
@@ -168,7 +168,7 @@ namespace Purrcifer.Data.Player
             return null;
         }
 
-        public GameEventData GetEventState(int id)
+        public GameEventData GetEvent(int id)
         {
             for (int i = 0; i < playerEvents.events.Length; i++)
             {

@@ -1,15 +1,19 @@
+using DataManager;
 using UnityEngine;
 
 public class Manager_WeaponCollection : MonoBehaviour
 {
-    public bool hammerUnlocked;
-    public bool knifeUnlocked;
-    public bool sacDagUnlocked;
-    public bool spearUnlocked;
+    public GameObject hammerObject;
+    public GameObject knifeObject;
+    public GameObject sacDaggerObject;
+    public GameObject spearObject;
 
-    public bool hammerObject;
-    public bool knifeObject;
-    public bool sacDaggerObject;
-    public bool spearObj;
+    private void Start()
+    {
+        hammerObject.SetActive(DataCarrier.GetEventState(3001));
+        knifeObject.SetActive(DataCarrier.GetEventState(3002));
+        sacDaggerObject.SetActive(DataCarrier.GetEventState(3003));
+        spearObject.SetActive(DataCarrier.GetEventState(3003));
+    }
 
 }

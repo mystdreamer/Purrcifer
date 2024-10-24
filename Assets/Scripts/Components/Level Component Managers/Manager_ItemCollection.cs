@@ -1,19 +1,8 @@
+using DataManager;
 using UnityEngine;
 
 public class Manager_ItemCollection : MonoBehaviour
 {
-    public bool pillsUnlocked;
-    public bool maskUnlocked;
-    public bool stopwatchUnlocked;
-    public bool bigBookOfPainUnlocked;
-    public bool littleBookOfPainUnlocked;
-    public bool burningHeartUnlocked;
-    public bool fleshUnlocked;
-    public bool sugarUnlocked;
-    public bool cookieUnlocked;
-    public bool chocolateUnlocked;
-    public bool normalHeartUnlocked;
-
     public GameObject pillsPrefab;
     public GameObject maskPrefab;
     public GameObject stopwatchPrefab;
@@ -24,5 +13,20 @@ public class Manager_ItemCollection : MonoBehaviour
     public GameObject sugarPrefab;
     public GameObject cookiePrefab;
     public GameObject chocolatePrefab;
-    public GameObject normalHeartPrefab;
+    public GameObject normalHeartPrefab;       
+
+    private void Start()
+    {
+        pillsPrefab.SetActive(DataCarrier.GetEventState(1003));
+        maskPrefab.SetActive(DataCarrier.GetEventState(1004));
+        stopwatchPrefab.SetActive(DataCarrier.GetEventState(1005));
+        bigBookOfPainPrefab.SetActive(DataCarrier.GetEventState(1006));
+        littleBookOfPainPrefab.SetActive(DataCarrier.GetEventState(1007));
+        burningHeartPrefab.SetActive(DataCarrier.GetEventState(1008));
+        fleshPrefab.SetActive(DataCarrier.GetEventState(1009));
+        sugarPrefab.SetActive(DataCarrier.GetEventState(1010));
+        cookiePrefab.SetActive(DataCarrier.GetEventState(1011));
+        chocolatePrefab.SetActive(DataCarrier.GetEventState(1012));
+        normalHeartPrefab.SetActive(DataCarrier.GetEventState(1013));
+    }
 }

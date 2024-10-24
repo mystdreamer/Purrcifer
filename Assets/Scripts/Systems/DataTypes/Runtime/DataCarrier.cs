@@ -118,5 +118,13 @@ namespace DataManager
         /// Used to reset the data currently attributed to the game. 
         /// </summary>
         public void ResetPlayerData() => _runtime = _runtime.GetDefaultPlayerData();
+
+        public static bool GetEventState(int id) => PlayerEventData.GetEventState(id);
+
+        public static bool GetEventState(string name) => PlayerEventData.GetEventState(name);
+
+        public static void SetEventState(int id, bool value) => PlayerEventData.SetEventState(id, value);
+
+        public static void SetEventState(string name, bool value) => PlayerEventData.SetEventState(name, value);
     }
 }
