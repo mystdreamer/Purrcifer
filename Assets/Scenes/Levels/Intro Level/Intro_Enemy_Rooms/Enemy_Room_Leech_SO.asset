@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798b924d531b1744faddfd38241567d5, type: 3}
   m_Name: Enemy_Room_Leech_SO
   m_EditorClassIdentifier: 
-  roomName: 
+  roomName: Room_Enemy_Leech
   roomID: 21475
   weighting: 1
-  roomPrefab: {fileID: 0}
+  roomPrefab: {fileID: 6216162527419025023, guid: 10a0a1f8234ea4b4fb93c568919d233b, type: 3}
