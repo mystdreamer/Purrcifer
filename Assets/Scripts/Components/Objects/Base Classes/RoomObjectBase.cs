@@ -103,6 +103,12 @@ public abstract class SubEntity : RoomSubObject
         set => _health.MaxCap = value;
     }
 
+    public Vector3 Position
+    {
+        get => transform.position;
+        set => transform.position = value;
+    }
+
     public void InitialiseHealth(int current, int min, int max)
     {
         _health = new EntityHealth(min, max, current);
@@ -114,4 +120,41 @@ public abstract class SubEntity : RoomSubObject
     internal abstract void HealthChangedEvent(float lastValue, float currentValue);
     internal abstract void OnDeathEvent();
     internal abstract void InvincibilityActivated();
+}
+
+public abstract class ThreeEntityBase : Entity
+{
+    [SerializeField] internal SubEntity subEntityNormal;
+    [SerializeField] internal SubEntity subEntityWitching;
+    [SerializeField] internal SubEntity subEntityHell;
+    [SerializeField] internal SubEntity current;
+    internal Vector3 GetCurrentPosition => 
+        (current != null) ? current.Position : transform.position;
+
+    internal void UpdateSubEntity(WorldState state)
+    {
+        SubEntity last = current;
+        SubEntity nextChild = null;
+
+        switch (state)
+        {
+            case WorldState.WORLD_START:
+                nextChild = subEntityNormal;
+                break;
+            case WorldState.WORLD_WITCHING:
+                nextChild = subEntityWitching;
+                break;
+            case WorldState.WORLD_HELL:
+                nextChild = subEntityHell;
+                break;
+        }
+        if (nextChild == null)
+            return;
+
+        nextChild.Position = current.Position;
+        current.Position = gameObject.transform.position;
+        current.gameObject.SetActive(false);
+        nextChild.gameObject.SetActive(true);
+        current = nextChild;
+    }
 }
