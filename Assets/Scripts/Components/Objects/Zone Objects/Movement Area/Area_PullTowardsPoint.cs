@@ -2,27 +2,28 @@
 using Purrcifer.Object.PhysicsManipulators;
 using UnityEngine;
 
-public class Area_PullTowardsPoint : InZone
+public class Area_PullTowardsPoint : RoomObjectBase
 {
     public ObjectPhysFxPullTowardsPoint pullTowards;
+    bool isActive = false;
 
-    internal override void Update()
+    internal override void OnAwakeObject()
     {
-        base.Update();
-
-        if (IsActive)
-        {
-            Debug.Log("Object is active: Applying Pull. ");
-            pullTowards.ApplyEffect();
-        }
+        isActive = true;
     }
 
-    internal override void OnEnterZone() { }
+    internal override void OnSleepObject()
+    {
+        isActive = false;
+    }
 
-    internal override void OnExitZone() { }
+    private void Update()
+    {
+        pullTowards.ApplyEffect();
+    }
 
     internal override void WorldUpdateReceiver(WorldState state)
     {
-        //Apply world state changes. 
+
     }
 }

@@ -19,14 +19,35 @@ public class ItemSpawner : MonoBehaviour
     /// <summary>
     /// The current spawned item. 
     /// </summary>
-    public GameObject itemSpawned; 
+    public GameObject itemSpawned;
 
     void Start()
     {
-        ///Get an item type to spawn. 
-        itemDataSO = MasterTree.Instance.GetItemSpawnTreasureRoomSO;
-        //Spawn the item and update its position. 
-        GameObject itemSpawned = GameObject.Instantiate(itemDataSO.powerupPedistoolPrefab);
-        itemSpawned.transform.position = itemSpawnPoint.transform.position;
+        StartCoroutine(SelectItem());
+    }
+
+    IEnumerator SelectItem()
+    {
+        ItemDataSO selected;
+        bool verifiedDrop = false;
+        while (!verifiedDrop)
+        {
+            selected = MasterTree.Instance.GetItemSpawnTreasureRoomSO;
+            if (selected != null)
+            {
+                if (selected.powerupPedistoolPrefab != null)
+                {
+                    verifiedDrop = true;
+                    itemDataSO = selected;
+
+                    //Spawn the item and update its position. 
+                    GameObject itemSpawned = GameObject.Instantiate(itemDataSO.powerupPedistoolPrefab);
+                    itemSpawned.transform.position = itemSpawnPoint.transform.position;
+                    yield return true;
+                }
+            }
+
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 }
