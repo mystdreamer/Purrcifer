@@ -326,8 +326,8 @@ public class BossWorm : Boss
                 yield return null;
             }
 
-            Destroy(currentDuplicate);
             Destroy(telegraph);
+            Destroy(currentDuplicate);
             attackComplete = true;
         }
 
@@ -459,7 +459,7 @@ public class BossWorm : Boss
     {
         StartCoroutine(dashAttack.PreformAttack(Camera.main.transform.position));
 
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.45F);
 
         dashAttack.attackStarted = false;
         dashAttack.attackComplete = false;

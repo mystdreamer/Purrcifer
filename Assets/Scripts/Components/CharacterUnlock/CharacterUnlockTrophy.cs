@@ -16,7 +16,7 @@ public class CharacterUnlockTrophy : MonoBehaviour
 
     private void ResolveCollision(GameObject obj)
     {
-        if (obj.CompareTag("Player"))
+        if (obj.CompareTag("Player") && !collected)
         {
             collected = true;
             bool glassUnlocked = DataManager.DataCarrier.GetEventState(2001);
