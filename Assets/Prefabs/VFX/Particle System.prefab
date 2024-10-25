@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 1447740704122834296}
   - component: {fileID: 1806204745791826982}
   - component: {fileID: 531222359713633803}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1447740704122834296
 Transform:
   m_ObjectHideFlags: 0
