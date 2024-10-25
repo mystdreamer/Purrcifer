@@ -2,6 +2,7 @@ using Purrcifer.BossAI;
 using Purrcifer.Data.Defaults;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class BossWorm : Boss
@@ -279,54 +280,56 @@ public class BossWorm : Boss
     [System.Serializable]
     public class DashAttack
     {
+        private Vector3 _telegraphOffset = new Vector3(0, 0, 18);
+        private float _roomWidth = DefaultRoomData.DEFAULT_WIDTH;
+        private float _roomHeight = DefaultRoomData.DEFAULT_HEIGHT;
+        private float _attackTime = 2f;
         public float offset;
-        float roomWidth = DefaultRoomData.DEFAULT_WIDTH;
-        float roomHeight = DefaultRoomData.DEFAULT_HEIGHT;
-        float attackTime = 2f;
         public float speed = 1f;
         public GameObject downDashObjectPrefab;
         public GameObject dashTelegraph;
         public bool attackStarted = false;
         public bool attackComplete = false;
-        public float telegraphOffset = 0.25F;
-        public float GetDivisionAWidth => roomWidth / 3;
-        public float HalfBossPosHeight => (roomHeight / 2) + offset;
+
+        public float GetDivisionAWidth => _roomWidth / 3;
+        public float HalfBossPosHeight => (_roomHeight / 2) + offset;
         public int GetRandomZone => UnityEngine.Random.Range(1, 4);
+        private float BossMovementStep => _roomHeight / _attackTime;
 
         public IEnumerator PreformAttack(Vector3 roomCenter)
         {
             attackStarted = true;
             float width = GetDivisionAWidth;
-            float height = roomHeight;
-            float step = roomHeight / attackTime;
+            float height = _roomHeight;
+            float step = _roomHeight / _attackTime;
             float currentTime = 0;
 
             Vector3 attackCenter = CalculateAttackCenter(roomCenter);
-            Vector3 bossInitalPoint = Vector3.zero;
-            Vector3 bossEndPoint = Vector3.zero;
-            CalculateBossPoints(attackCenter, ref bossInitalPoint, ref bossEndPoint);
-            bossInitalPoint.y = 1;
+            Vector3 bossIPoint = Vector3.zero;
+            Vector3 bossEPoint = Vector3.zero;
+            CalculateBossPoints(attackCenter, ref bossIPoint, ref bossEPoint);
+            bossIPoint.y = 1;
 
             GameObject currentDuplicate = GameObject.Instantiate(downDashObjectPrefab);
             GameObject telegraph = GameObject.Instantiate(dashTelegraph);
-            currentDuplicate.transform.position = bossInitalPoint;
-            telegraph.transform.position = bossInitalPoint + new Vector3(0, 0, 18);
+            currentDuplicate.transform.position = bossIPoint;
+            telegraph.transform.position = bossIPoint + new Vector3(0, 0, 18);
 
             //Show telegraph.
             telegraph.SetActive(true);
             yield return new WaitForSeconds(0.55F);
+            Destroy(telegraph);
 
             //Move boss item. 
             currentDuplicate.SetActive(true);
 
-            while (currentTime < attackTime)
+            while (currentTime < _attackTime)
             {
                 currentTime += Time.deltaTime;
                 currentDuplicate.transform.position += Vector3.back * speed;
                 yield return null;
             }
 
-            Destroy(telegraph);
             Destroy(currentDuplicate);
             attackComplete = true;
         }
@@ -338,12 +341,12 @@ public class BossWorm : Boss
             switch (zone)
             {
                 case 1:
-                    attackCenter.x -= (roomWidth / 2) - 8; //Move point to min point.
+                    attackCenter.x -= (_roomWidth / 2) - 8; //Move point to min point.
                     break;
                 case 2:
                     break;
                 case 3:
-                    attackCenter.x += (roomWidth / 2) - 5; //Move point to min point.
+                    attackCenter.x += (_roomWidth / 2) - 5; //Move point to min point.
                     break;
             }
 
@@ -379,7 +382,7 @@ public class BossWorm : Boss
             //Spawn bullet. 
             GameObject spawn = BulletControllerWorm.GenerateScale(prefabToSpawn, initialPoint + spawnPos, Vector3.one, new Vector3(30, 0, 30), 0.5F, 0.002F);
 
-            yield return new WaitForSeconds(0.6F);
+            yield return new WaitForSeconds(0.26F);
             spawn.GetComponent<BulletControllerWorm>().growthActive = true;
 
             yield return new WaitForSeconds(1.6F);
@@ -409,7 +412,7 @@ public class BossWorm : Boss
     public DashAttack dashAttack;
     public SpawnAttack spawnAttack;
     public BossState bossState = BossState.INACTIVE;
-    private int[] randArr = { 1, 2, 3, 4 };
+    private int[] randArr = { 1, 2, 2, 2, 3, 3, 4 };
     float idleDuration = 0.95F;
     public GameObject standingPrefab;
 
