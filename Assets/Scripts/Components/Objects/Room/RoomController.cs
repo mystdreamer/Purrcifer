@@ -2,9 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
-using Purrcifer.Data.Defaults;
 using Room.WallController;
-using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -51,7 +49,7 @@ public struct RoomDetector
 public class RoomController : MonoBehaviour
 {
     private const float ROOM_CLOSE_DELAY = 1.5f;
-    private const float ROOM_OPEN_DELAY = 0.15f;
+    private const float ROOM_OPEN_DELAY = 0.05f;
     private float activeStateCheckInterval = 5f;
     private float lastActiveStateCheckTime;
     private NavMeshSurface navMeshSurface;
@@ -100,8 +98,8 @@ public class RoomController : MonoBehaviour
         // Bake NavMesh for this room
         BakeNavMesh();
         Debug.Log($"Room {gameObject.name}: Initialized with state {roomState}");
-        GetAllChildren();
-        SetObjectsActiveState(false);
+        GetRoomObjects();
+        SetObjectActiveState(false);
     }
 
     private void Update()
@@ -118,6 +116,127 @@ public class RoomController : MonoBehaviour
             lastActiveStateCheckTime = Time.time;
         }
     }
+
+    #region Nav Mesh
+    private void BakeNavMesh()
+    {
+        // Get or add NavMeshSurface component
+        navMeshSurface = GetComponent<NavMeshSurface>();
+        if (navMeshSurface == null)
+        {
+            navMeshSurface = gameObject.AddComponent<NavMeshSurface>();
+        }
+
+        // Configure NavMeshSurface
+        navMeshSurface.collectObjects = CollectObjects.Children;
+        navMeshSurface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+
+        if (navMeshSurface != null)
+        {
+            try
+            {
+                navMeshSurface.BuildNavMesh();
+                Debug.Log($"Room {gameObject.name}: NavMesh baked successfully");
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Room {gameObject.name}: NavMesh baking failed - {ex.Message}");
+            }
+        }
+    }
+    #endregion
+
+    #region State Management
+    private void StateMachine()
+    {
+        if (roomState == RoomState.INACTIVE)
+        {
+            UpdateSleepState();
+        }
+        else if (roomState == RoomState.ACTIVE)
+        {
+            SetObjectActiveState(true);
+            UpdateActiveState();
+        }
+    }
+
+    private void UpdateSleepState()
+    {
+        if (roomDetector.PlayerInRoom(PlayerPosition))
+        {
+            if (RoomObjectsCompleted())
+            {
+                //Debug.Log($"Room {gameObject.name}: Already completed, staying in sleep state");
+                return;
+            }
+
+            //Debug.Log($"Room {gameObject.name}: Player entered, transitioning from sleep state");
+            roomState = RoomState.TRANSITIONING;
+            StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
+        }
+    }
+
+    private void UpdateActiveState()
+    {
+        bool roomContentsCheck = RoomObjectsCompleted();
+        if (roomContentsCheck && roomState != RoomState.TRANSITIONING)
+        {
+            //Debug.Log($"Room {gameObject.name}: Room completed, transitioning from active state");
+            roomState = RoomState.TRANSITIONING;
+            StartCoroutine(DisableDelayOperation(ROOM_CLOSE_DELAY));
+        }
+    }
+
+    private IEnumerator EnableDelayOperation(float time)
+    {
+        if (roomState == RoomState.COMPLETED)
+            yield return true;
+
+        yield return new WaitForSeconds(time);
+        SetLockState = true;
+        SetRoomContentsEnableState(true);
+        hasPlayedCompletionSound = false;
+        roomState = RoomState.ACTIVE;
+    }
+
+    private IEnumerator DisableDelayOperation(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SetLockState = false;
+
+        SetRoomContentsEnableState(false);
+        roomState = RoomState.COMPLETED;
+    }
+
+    private void SetRoomContentsEnableState(bool state)
+    {
+        SetObjectActiveState(state, true);
+    }
+    #endregion
+
+    #region Room Object State Management.
+
+    private void GetRoomObjects()
+    {
+        RoomObjectBase[] _roomObjects = GetComponentsInChildren<RoomObjectBase>();
+        List<RoomObjectBase> roomObjectsOnParent = GetComponentsInParent<RoomObjectBase>().ToList();
+        roomObjectsOnParent.AddRange(_roomObjects);
+        roomObjects = roomObjectsOnParent.ToArray();
+    }
+
+    private void SetObjectActiveState(bool state, bool effect = false)
+    {
+        for (int i = 0; i < roomObjects.Length; i++)
+        {
+            if (roomObjects[i] != null)
+            {
+                roomObjects[i].gameObject.SetActive(state);
+                if(state && effect) ((IRoomObject)roomObjects[i]).AwakenObject();
+                else if(state && effect) ((IRoomObject)roomObjects[i]).SleepObject();
+            }
+        }
+    }
+    #endregion
 
     #region Door Control
 
@@ -165,122 +284,8 @@ public class RoomController : MonoBehaviour
                 break;
         }
     }
-    #endregion
 
-    #region Set Up Room Object State
-
-
-
-    #endregion
-
-    #region Nav Mesh
-    private void BakeNavMesh()
-    {
-        // Get or add NavMeshSurface component
-        navMeshSurface = GetComponent<NavMeshSurface>();
-        if (navMeshSurface == null)
-        {
-            navMeshSurface = gameObject.AddComponent<NavMeshSurface>();
-        }
-
-        // Configure NavMeshSurface
-        navMeshSurface.collectObjects = CollectObjects.Children;
-        navMeshSurface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
-
-        if (navMeshSurface != null)
-        {
-            try
-            {
-                navMeshSurface.BuildNavMesh();
-                Debug.Log($"Room {gameObject.name}: NavMesh baked successfully");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"Room {gameObject.name}: NavMesh baking failed - {ex.Message}");
-            }
-        }
-    }
-    #endregion
-
-    #region State Management
-    private void StateMachine()
-    {
-        if (roomState == RoomState.INACTIVE)
-        {
-            UpdateSleepState();
-        }
-        else if (roomState == RoomState.ACTIVE)
-        {
-            SetObjectsActiveState(true);
-            UpdateActiveState();
-        }
-    }
-
-    private void UpdateSleepState()
-    {
-        if (roomDetector.PlayerInRoom(PlayerPosition))
-        {
-            if (ItemsCompleted())
-            {
-                //Debug.Log($"Room {gameObject.name}: Already completed, staying in sleep state");
-                return;
-            }
-
-            //Debug.Log($"Room {gameObject.name}: Player entered, transitioning from sleep state");
-            roomState = RoomState.TRANSITIONING;
-            StartCoroutine(EnableDelayOperation(ROOM_OPEN_DELAY));
-        }
-    }
-
-    private void UpdateActiveState()
-    {
-        bool roomContentsCheck = ItemsCompleted();
-        if (roomContentsCheck && roomState != RoomState.TRANSITIONING)
-        {
-            //Debug.Log($"Room {gameObject.name}: Room completed, transitioning from active state");
-            roomState = RoomState.TRANSITIONING;
-            StartCoroutine(DisableDelayOperation(ROOM_CLOSE_DELAY));
-        }
-    }
-
-    private IEnumerator EnableDelayOperation(float time)
-    {
-        //Debug.Log($"Room {gameObject.name}: Starting enable delay");
-        yield return new WaitForSeconds(time);
-        SetLockState = true;
-        EnableInterfaces();
-    }
-
-    private IEnumerator DisableDelayOperation(float time)
-    {
-        //Debug.Log($"Room {gameObject.name}: Starting disable delay");
-        yield return new WaitForSeconds(time);
-        SetLockState = false;
-        DisableInterfaces();
-    }
-
-    private void EnableInterfaces()
-    {
-        if (roomState == RoomState.COMPLETED)
-        {
-            //Debug.Log($"Room {gameObject.name}: Attempt to enable already completed room blocked");
-            return;
-        }
-
-        //Debug.Log($"Room {gameObject.name}: Enabling interfaces");
-        SetRoomContentsEnableState(true);
-        hasPlayedCompletionSound = false;
-        roomState = RoomState.ACTIVE;
-    }
-
-    private void DisableInterfaces()
-    {
-        //Debug.Log($"Room {gameObject.name}: Disabling interfaces");
-        SetRoomContentsEnableState(false);
-        roomState = RoomState.COMPLETED;
-    }
-
-    private bool ItemsCompleted()
+    private bool RoomObjectsCompleted()
     {
         bool allCompleted = true;
         bool allDestroyed = true;
@@ -311,46 +316,6 @@ public class RoomController : MonoBehaviour
         }
 
         return completed;
-    }
-
-    private void SetRoomContentsEnableState(bool state)
-    {
-        //Debug.Log($"Room {gameObject.name}: Setting contents state to {state}");
-        for (int i = 0; i < roomObjects.Length; i++)
-        {
-            if (roomObjects[i] != null)
-            {
-                if (state)
-                {
-                    SetObjectsActiveState(true);
-                    ((IRoomObject)roomObjects[i]).AwakenObject();
-                }
-                else
-                {
-                    SetObjectsActiveState(false);
-                    ((IRoomObject)roomObjects[i]).SleepObject();
-                }
-            }
-        }
-    }
-    #endregion
-
-    #region Room Object State Management.
-    private void GetAllChildren()
-    {
-        RoomObjectBase[] _roomObjects = GetComponentsInChildren<RoomObjectBase>();
-        List<RoomObjectBase> roomObjectsOnParent = GetComponentsInParent<RoomObjectBase>().ToList();
-        roomObjectsOnParent.AddRange(_roomObjects);
-        roomObjects = roomObjectsOnParent.ToArray();
-    }
-
-    private void SetObjectsActiveState(bool state)
-    {
-        for (int i = 0; i < roomObjects.Length; i++)
-        {
-            if (roomObjects[i] != null)
-                roomObjects[i].gameObject.SetActive(state);
-        }
     }
     #endregion
 
