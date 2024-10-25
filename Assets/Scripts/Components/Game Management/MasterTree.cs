@@ -1,4 +1,6 @@
 using ItemPool;
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +17,8 @@ public class MasterTree : MonoBehaviour
 
     public ItemTree itemTree;
     public RoomTree roomTree;
+
+    public List<GameObject> consumables;
 
     public static MasterTree Instance => _instance;
 

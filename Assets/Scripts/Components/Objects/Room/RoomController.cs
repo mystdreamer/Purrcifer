@@ -4,6 +4,9 @@ using UnityEngine.AI;
 using Unity.AI.Navigation;
 using Purrcifer.Data.Defaults;
 using Room.WallController;
+using NUnit.Framework;
+using System.Linq;
+using System.Collections.Generic;
 
 /// <summary>
 /// Enum representation of the rooms state. 
@@ -49,15 +52,21 @@ public class RoomController : MonoBehaviour
 {
     private const float ROOM_CLOSE_DELAY = 1.5f;
     private const float ROOM_OPEN_DELAY = 0.15f;
+    private float activeStateCheckInterval = 5f;
+    private float lastActiveStateCheckTime;
+    private NavMeshSurface navMeshSurface;
+    private bool hasPlayedCompletionSound = false;
+    private WallType wallType;
     public RoomState roomState;
     private GameObject playerReference;
     public RoomDetector roomDetector;
     public RoomObjectBase[] roomObjects;
-    private NavMeshSurface navMeshSurface;
-    private bool hasPlayedCompletionSound = false;
 
-    private float activeStateCheckInterval = 5f;
-    private float lastActiveStateCheckTime;
+    public MapIntMarkers roomType;
+    public RoomWallData up;
+    public RoomWallData down;
+    public RoomWallData left;
+    public RoomWallData right;
 
     #region Properties
     private GameObject Player
@@ -88,25 +97,16 @@ public class RoomController : MonoBehaviour
 
     private void Awake()
     {
-        // Get or add NavMeshSurface component
-        navMeshSurface = GetComponent<NavMeshSurface>();
-        if (navMeshSurface == null)
-        {
-            navMeshSurface = gameObject.AddComponent<NavMeshSurface>();
-        }
-
-        // Configure NavMeshSurface
-        navMeshSurface.collectObjects = CollectObjects.Children;
-        navMeshSurface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
-
         // Bake NavMesh for this room
         BakeNavMesh();
         Debug.Log($"Room {gameObject.name}: Initialized with state {roomState}");
+        GetAllChildren();
+        SetObjectsActiveState(false);
     }
 
     private void Update()
     {
-        if (Player == null || roomState == RoomState.COMPLETED)
+        if (Player == null | roomState == RoomState.COMPLETED)
             return;
 
         StateMachine();
@@ -120,13 +120,6 @@ public class RoomController : MonoBehaviour
     }
 
     #region Door Control
-    [SerializeField] private WallType wallType;
-    public MapIntMarkers roomType;
-
-    public RoomWallData up;
-    public RoomWallData down;
-    public RoomWallData left;
-    public RoomWallData right;
 
     public bool SetLockState
     {
@@ -174,9 +167,39 @@ public class RoomController : MonoBehaviour
     }
     #endregion
 
+    #region Set Up Room Object State
+    private void GetAllChildren()
+    {
+        RoomObjectBase[] roomObjects = GetComponentsInChildren<RoomObjectBase>();
+        List<RoomObjectBase> roomObjectsOnParent = GetComponentsInParent<RoomObjectBase>().ToList();
+        roomObjectsOnParent.AddRange(roomObjects);
+        roomObjects = roomObjectsOnParent.ToArray();
+    }
+
+    private void SetObjectsActiveState(bool state)
+    {
+        for (int i = 0; i < roomObjects.Length; i++)
+        {
+            if (roomObjects[i] != null)
+                roomObjects[i].gameObject.SetActive(state);
+        }
+    }
+    #endregion
+
     #region Nav Mesh
     private void BakeNavMesh()
     {
+        // Get or add NavMeshSurface component
+        navMeshSurface = GetComponent<NavMeshSurface>();
+        if (navMeshSurface == null)
+        {
+            navMeshSurface = gameObject.AddComponent<NavMeshSurface>();
+        }
+
+        // Configure NavMeshSurface
+        navMeshSurface.collectObjects = CollectObjects.Children;
+        navMeshSurface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+
         if (navMeshSurface != null)
         {
             try
@@ -201,6 +224,7 @@ public class RoomController : MonoBehaviour
         }
         else if (roomState == RoomState.ACTIVE)
         {
+            SetObjectsActiveState(true);
             UpdateActiveState();
         }
     }
@@ -310,9 +334,15 @@ public class RoomController : MonoBehaviour
             if (roomObjects[i] != null)
             {
                 if (state)
+                {
+                    SetObjectsActiveState(true);
                     ((IRoomObject)roomObjects[i]).AwakenObject();
+                }
                 else
+                {
+                    SetObjectsActiveState(false);
                     ((IRoomObject)roomObjects[i]).SleepObject();
+                }
             }
         }
     }

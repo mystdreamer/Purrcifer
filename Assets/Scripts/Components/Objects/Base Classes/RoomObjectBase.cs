@@ -31,10 +31,6 @@ public abstract class RoomObjectBase : WorldObject, IRoomObject
     /// </summary>
     private bool _objectCompleted = false;
 
-    protected RoomObjectBase()
-    {
-    }
-
     /// <summary>
     /// Represents whether the object has completed or not. 
     /// </summary>
@@ -84,4 +80,38 @@ public abstract class RoomObjectBase : WorldObject, IRoomObject
     /// Implement Object sleep logic here. 
     /// </summary>
     internal abstract void OnSleepObject();
+}
+
+public abstract class RoomSubObject : WorldObject
+{
+
+}
+
+public abstract class SubEntity : RoomSubObject
+{
+    [SerializeField] EntityHealth _health;
+
+    public float CurrentHealth
+    {
+        get => _health.Health;
+        set => _health.Health = value;
+    }
+
+    public float MaxHealth
+    {
+        get => _health.MaxCap;
+        set => _health.MaxCap = value;
+    }
+
+    public void InitialiseHealth(int current, int min, int max)
+    {
+        _health = new EntityHealth(min, max, current);
+    }
+
+    public abstract void EnableSubObject();
+    public abstract void DisableSubObject();
+    internal abstract void SetWorldState(WorldState state);
+    internal abstract void HealthChangedEvent(float lastValue, float currentValue);
+    internal abstract void OnDeathEvent();
+    internal abstract void InvincibilityActivated();
 }

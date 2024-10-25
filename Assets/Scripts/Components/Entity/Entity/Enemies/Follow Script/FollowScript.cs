@@ -2,7 +2,7 @@ using Purrcifer.Data.Defaults;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FollowScript : Entity
+public class FollowScript : SubEntity
 {
     public State enemyState = State.INACTIVE;
     public GameObject playerInstance;
@@ -33,7 +33,7 @@ public class FollowScript : Entity
         }
     }
 
-    internal override void OnAwakeObject()
+    public override void EnableSubObject()
     {
         shownPosition = gameObject.transform.position;
         playerInstance = GameManager.Instance.Player;
@@ -45,7 +45,7 @@ public class FollowScript : Entity
         // Debug.Log("Enemy is active and NavMeshAgent enabled.");
     }
 
-    internal override void OnSleepObject()
+    public override void DisableSubObject()
     {
         // Set enemy state to inactive and disable NavMeshAgent
         enemyState = State.INACTIVE;
@@ -54,7 +54,6 @@ public class FollowScript : Entity
         // Debug.Log("Enemy is inactive and NavMeshAgent disabled.");
     }
 
-    internal override void HealthChangedEvent(float lastValue, float currentValue) { }
 
     internal override void OnDeathEvent()
     {
@@ -63,7 +62,12 @@ public class FollowScript : Entity
         gameObject.SetActive(false);
     }
 
+    internal override void HealthChangedEvent(float lastValue, float currentValue) { }
+
     internal override void InvincibilityActivated() { }
 
     internal override void SetWorldState(WorldState state) { }
+
+    internal override void WorldUpdateReceiver(WorldState state) { }
+
 }
