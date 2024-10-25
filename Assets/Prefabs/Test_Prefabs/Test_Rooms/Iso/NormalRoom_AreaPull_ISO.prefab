@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45b837011b07744da83dfc39139c083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 1
+  isAwake: 0
   pullTowards:
     center: {fileID: 5431580163478679606}
     force: 300

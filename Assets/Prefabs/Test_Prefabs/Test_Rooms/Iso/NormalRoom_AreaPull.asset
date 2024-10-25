@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798b924d531b1744faddfd38241567d5, type: 3}
   m_Name: NormalRoom_AreaPull
   m_EditorClassIdentifier: 
-  roomName: 
+  roomName: NormalRoomAreaPull
   roomID: 49614
-  weighting: 1
-  roomPrefab: {fileID: 0}
+  weighting: 54
+  roomPrefab: {fileID: 8726367936895663735, guid: fdb34463f062ebe4b833863f592123d7, type: 3}

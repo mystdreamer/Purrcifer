@@ -8,36 +8,24 @@ public class Area_PushWaveConstantDirection : InZone
     public ObjectEventTicker objectEventTicker;
     public ObjectPhysFXPushDirection direction;
 
-    internal override void Start()
+    private void OnEnable()
     {
-        base.Start();
-        objectEventTicker.Enable = true;
+        Ticker = objectEventTicker;
+        objectEventTicker.Enable = true;   
     }
 
-    internal override void Update()
+    internal override void WorldUpdateReceiver(WorldState state)
     {
-        base.Update();
+        //Apply world state changes. 
+    }
 
+    internal override void UpdateObject()
+    {
         if (IsActive && objectEventTicker.TickComplete)
         {
             //Apply forces to the object. 
             objectEventTicker.TickComplete = false;
             direction.ApplyEffect();
         }
-    }
-
-    internal override void OnEnterZone()
-    {
-        objectEventTicker.Enable = true;
-    }
-
-    internal override void OnExitZone()
-    {
-        objectEventTicker.Enable = false;
-    }
-
-    internal override void WorldUpdateReceiver(WorldState state)
-    {
-        //Apply world state changes. 
     }
 }

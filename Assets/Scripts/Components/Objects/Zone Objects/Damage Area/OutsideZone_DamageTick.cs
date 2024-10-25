@@ -6,38 +6,23 @@ public class OutsideZone_DamageTick : OutsideZone
 {
     public ObjectEventTicker eventTicker;
 
-    internal override void Start()
+    private void OnEnable()
     {
-        base.Start();
-
-        if(eventTicker == null)
-            eventTicker = gameObject.GetComponent<ObjectEventTicker>();
-    }
-
-    internal override void Update()
-    {
-        base.Update();
-
-        if (eventTicker.TickComplete)
-        {
-            GameManager.Instance.PlayerState.Health -= 1; 
-            eventTicker.TickComplete = false;
-        }
-    }
-
-    internal override void OnEnterZone()
-    {
-        eventTicker.Enable = false;
-    }
-
-    internal override void OnExitZone()
-    {
-        eventTicker.Enable = true;
+        Ticker = eventTicker;
     }
 
     internal override void WorldUpdateReceiver(WorldState state)
     {
         //Do world state setting stuff here. 
+    }
+
+    internal override void UpdateObject()
+    {
+        if (eventTicker.TickComplete)
+        {
+            GameManager.Instance.PlayerState.Health -= 1;
+            eventTicker.TickComplete = false;
+        }
     }
 }
 

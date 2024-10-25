@@ -7,50 +7,53 @@ using Unity.VisualScripting;
 /// </summary>
 public abstract class ZoneObject : RoomObjectBase
 {
-    [SerializeField] private bool insideArea = false;
+    [SerializeField] private bool isAwake = false;
     internal bool detectionInverted = false;
 
-    internal bool InZone => (detectionInverted) ? !insideArea : insideArea;
+    internal bool InZone => (detectionInverted) ? !isAwake : isAwake;
 
-    public bool IsActive => (ObjectActive && InZone);
+    public bool IsActive => isAwake;
 
-    //internal Vector3 GetVector =>
-    //    new Vector3(
-    //        area.width / DefaultRoomData.DEFAULT_WIDTH, 
-    //        1, 
-    //        area.height / DefaultRoomData.DEFAULT_WIDTH);
+    public ObjectEventTicker Ticker { get; set; }
 
-    internal virtual void Start()
+    private void Awake()
     {
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
+        if (activationType == ObjectActivationType.ON_OBJECT_START)
         {
-            insideArea = true;
-            OnEnterZone();
+            isAwake = true;
+            if (Ticker != null)
+                Ticker.Enable = true;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    internal override void OnAwakeObject()
     {
-        if (other.gameObject.tag == "Player")
-        {
-            insideArea = false;
-            OnExitZone();
-        }
+        base.ObjectComplete = true;
+
+        if (activationType == ObjectActivationType.ON_OBJECT_START)
+            return;
+
+        isAwake = true;
+
+        if (Ticker != null)
+            Ticker.Enable = true;
     }
 
-    internal virtual void Update()
-    {
+    internal override void OnSleepObject() {
+        base.ObjectComplete = true;
+
+        if (activationType == ObjectActivationType.ON_OBJECT_START)
+            return;
+        isAwake = false;
+
+        if (Ticker != null)
+            Ticker.Enable = false;
     }
 
-    internal override void OnAwakeObject() => ObjectComplete = true;
+    internal void FixedUpdate()
+    {
+        UpdateObject();
+    }
 
-    internal override void OnSleepObject() { }
-
-    internal abstract void OnEnterZone();
-
-    internal abstract void OnExitZone();
+    internal abstract void UpdateObject();
 }
