@@ -64,7 +64,7 @@ MonoBehaviour:
     complete: 0
   dashAttack:
     offset: 0
-    speed: 1
+    speed: 0.5
     downDashObjectPrefab: {fileID: 7966181162527593840}
     dashTelegraph: {fileID: 5223667971529942286}
     attackStarted: 0
