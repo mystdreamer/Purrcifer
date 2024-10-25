@@ -19,7 +19,8 @@ public class Area_PullTowardsPoint : RoomObjectBase
 
     private void Update()
     {
-        pullTowards.ApplyEffect();
+        if (isActive)
+            pullTowards.ApplyEffect();
     }
 
     internal override void WorldUpdateReceiver(WorldState state)
