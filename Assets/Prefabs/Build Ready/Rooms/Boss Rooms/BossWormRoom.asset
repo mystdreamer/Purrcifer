@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 798b924d531b1744faddfd38241567d5, type: 3}
-  m_Name: Popworm Boss Room SO
+  m_Name: BossWormRoom
   m_EditorClassIdentifier: 
-  roomName: Popworm_BossRoom
-  roomID: 30785
-  weighting: 100
-  roomPrefab: {fileID: 0}
+  roomName: BossWormRoom
+  roomID: 17021
+  weighting: 50
+  roomPrefab: {fileID: 8821325590592115198, guid: 36bac0bb8772fbe47a522e901c810028, type: 3}

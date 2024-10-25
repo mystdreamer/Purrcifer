@@ -1,5 +1,3 @@
-using JetBrains.Annotations;
-using NUnit.Framework.Constraints;
 using Purrcifer.BossAI;
 using Purrcifer.Data.Defaults;
 using System.Collections;
@@ -57,22 +55,18 @@ public class BossWorm : Boss
             transform.localScale = currentScaleIncrement;
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.tag == "Player")
-            {
-                GameManager.Instance.PlayerState.Health -= 1;
-            }
-            if (deactivateOnCollision)
-                Destroy(gameObject);
-        }
+        private void OnCollisionEnter(Collision collision) => ResolveCollision(gameObject);
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other) => ResolveCollision(gameObject);
+
+        private void ResolveCollision(GameObject collision)
         {
-            if (other.gameObject.tag == "Player")
+            if (gameObject.tag == "Player")
             {
                 GameManager.Instance.PlayerState.Health -= 1;
             }
+            if (gameObject.name == "Crystal" | hasDirection)
+                GameObject.Destroy(gameObject);
         }
 
         private IEnumerator LifeTime(float time)
@@ -394,7 +388,6 @@ public class BossWorm : Boss
         }
     }
 
-
     public enum BossState
     {
         NONE = -1,
@@ -406,6 +399,12 @@ public class BossWorm : Boss
         INACTIVE = 100,
     }
 
+    private const float SHORT_WAIT = 0.85F;
+    private const float HIDE_BOSS_DELAY = 1.5f;
+    private const float INTER_UPDATE_DELAY = 0.01f;
+    private GameObject bossSpawn;
+    private bool bossShowing = false;
+    private float emergenceDistance = 6F;
     public BlockingAttack blockingAttack;
     public DashAttack dashAttack;
     public SpawnAttack spawnAttack;
@@ -414,10 +413,7 @@ public class BossWorm : Boss
     float idleDuration = 0.95F;
     public GameObject standingPrefab;
 
-    private void Update()
-    {
-        StateManager();
-    }
+    private void Update() => StateManager();
 
     private void StateManager()
     {
@@ -506,14 +502,14 @@ public class BossWorm : Boss
         while (!bossShowing)
             yield return null;
 
-        yield return new WaitForSeconds(0.85F);
+        yield return new WaitForSeconds(SHORT_WAIT);
 
         StartCoroutine(spawnAttack.PreformAttack(Camera.main.transform.position));
 
         while (!spawnAttack.attackComplete)
             yield return null;
 
-        yield return new WaitForSeconds(0.85F);
+        yield return new WaitForSeconds(SHORT_WAIT);
         StartCoroutine(HideBoss());
 
         while (bossShowing)
@@ -523,10 +519,6 @@ public class BossWorm : Boss
         Destroy(bossSpawn);
         bossState = BossState.IDLE;
     }
-
-    private GameObject bossSpawn;
-    private bool bossShowing = false;
-    private float emergenceDistance = 6F;
 
     private IEnumerator ShowBoss(Vector3 position)
     {
@@ -541,7 +533,7 @@ public class BossWorm : Boss
         {
             moved += emergenceDistance * Time.deltaTime;
             bossSpawn.transform.position += new Vector3(0, emergenceDistance * Time.deltaTime, 0);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(INTER_UPDATE_DELAY);
         }
 
         bossShowing = true;
@@ -551,13 +543,13 @@ public class BossWorm : Boss
     {
         float moved = emergenceDistance;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(HIDE_BOSS_DELAY);
 
         while (moved > 0)
         {
             moved -= emergenceDistance * Time.deltaTime;
             bossSpawn.transform.position -= new Vector3(0, emergenceDistance * Time.deltaTime, 0);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(INTER_UPDATE_DELAY);
         }
 
         BHealth.Invincible = true;
