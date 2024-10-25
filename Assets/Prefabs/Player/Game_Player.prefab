@@ -144,7 +144,8 @@ GameObject:
   - component: {fileID: -1506104437716613488}
   - component: {fileID: -2997040644782630545}
   - component: {fileID: 4303913190361274760}
-  m_Layer: 0
+  - component: {fileID: 2213819318121151305}
+  m_Layer: 7
   m_Name: Game_Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -426,7 +427,7 @@ MonoBehaviour:
   _canFire: 1
   hammerRadius:
     radius: 2
-    force: 500
+    force: 400
   prefabs:
     up: {fileID: 3131659126539707706, guid: c37d5d8331c19d840affcfe3e3083e52, type: 3}
     down: {fileID: 4091450846482434350, guid: f9f9198f0a1295c42b7cbe6644cc81f6, type: 3}
@@ -551,6 +552,21 @@ MonoBehaviour:
   lightWorldStart: {fileID: 7648678817935041893}
   lightWorldWitching: {fileID: 1094184499431089669}
   lightWorldHell: {fileID: 3070425824195492516}
+--- !u!114 &2213819318121151305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831002017157304993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd245e48e1b4850469b66244515c43a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.5
+  targetObject: {fileID: 6831002017157304993}
+  excludeObjects: []
 --- !u!1 &7615232871699686041
 GameObject:
   m_ObjectHideFlags: 0
