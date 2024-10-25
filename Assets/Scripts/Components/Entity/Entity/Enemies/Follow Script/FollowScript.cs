@@ -54,7 +54,6 @@ public class FollowScript : SubEntity
         // Debug.Log("Enemy is inactive and NavMeshAgent disabled.");
     }
 
-
     internal override void OnDeathEvent()
     {
         // Optionally disable the NavMeshAgent when the enemy dies
@@ -69,5 +68,4 @@ public class FollowScript : SubEntity
     internal override void SetWorldState(WorldState state) { }
 
     internal override void WorldUpdateReceiver(WorldState state) { }
-
 }

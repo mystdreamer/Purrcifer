@@ -168,22 +168,9 @@ public class RoomController : MonoBehaviour
     #endregion
 
     #region Set Up Room Object State
-    private void GetAllChildren()
-    {
-        RoomObjectBase[] roomObjects = GetComponentsInChildren<RoomObjectBase>();
-        List<RoomObjectBase> roomObjectsOnParent = GetComponentsInParent<RoomObjectBase>().ToList();
-        roomObjectsOnParent.AddRange(roomObjects);
-        roomObjects = roomObjectsOnParent.ToArray();
-    }
 
-    private void SetObjectsActiveState(bool state)
-    {
-        for (int i = 0; i < roomObjects.Length; i++)
-        {
-            if (roomObjects[i] != null)
-                roomObjects[i].gameObject.SetActive(state);
-        }
-    }
+
+
     #endregion
 
     #region Nav Mesh
@@ -344,6 +331,25 @@ public class RoomController : MonoBehaviour
                     ((IRoomObject)roomObjects[i]).SleepObject();
                 }
             }
+        }
+    }
+    #endregion
+
+    #region Room Object State Management.
+    private void GetAllChildren()
+    {
+        RoomObjectBase[] _roomObjects = GetComponentsInChildren<RoomObjectBase>();
+        List<RoomObjectBase> roomObjectsOnParent = GetComponentsInParent<RoomObjectBase>().ToList();
+        roomObjectsOnParent.AddRange(_roomObjects);
+        roomObjects = roomObjectsOnParent.ToArray();
+    }
+
+    private void SetObjectsActiveState(bool state)
+    {
+        for (int i = 0; i < roomObjects.Length; i++)
+        {
+            if (roomObjects[i] != null)
+                roomObjects[i].gameObject.SetActive(state);
         }
     }
     #endregion
