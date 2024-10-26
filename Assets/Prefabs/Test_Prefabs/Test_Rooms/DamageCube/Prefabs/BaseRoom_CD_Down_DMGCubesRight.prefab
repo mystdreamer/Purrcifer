@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8062089249293210650}
   - component: {fileID: 879780830016906984}
   m_Layer: 0
-  m_Name: BaseRoom_CD_Down Right
+  m_Name: BaseRoom_CD_Down_DMGCubesRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

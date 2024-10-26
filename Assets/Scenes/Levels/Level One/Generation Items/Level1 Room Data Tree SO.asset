@@ -22,6 +22,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2a8f886ff6857324ea2baaa865e80ecc, type: 2}
   - {fileID: 11400000, guid: e6734ce7b9865384094a3b05ea2f47ca, type: 2}
   - {fileID: 11400000, guid: 6d056f2e89774d74bacbcb66a7d8f265, type: 2}
+  - {fileID: 11400000, guid: 057a0274a6bce2144911f2b77677e153, type: 2}
+  - {fileID: 11400000, guid: 2354c059ce8e86644918410212ccddc0, type: 2}
+  - {fileID: 11400000, guid: 46c879e3dc9e9b446a8806f10c2c32c8, type: 2}
+  - {fileID: 11400000, guid: 639b68c6cf4370b4cb33b0e660d34b70, type: 2}
+  - {fileID: 11400000, guid: 0adffaeba7e83164f85d735f77447ee8, type: 2}
+  - {fileID: 11400000, guid: b5dde62f0b1d1fb4281f9550d1a9c092, type: 2}
+  - {fileID: 11400000, guid: 2c592f04d4bffa245ad70444ad4c8062, type: 2}
+  - {fileID: 11400000, guid: 4b6fe6e21687d7e4593025329475e830, type: 2}
+  - {fileID: 11400000, guid: 39713e9e37ff02645a444275724c1e0b, type: 2}
+  - {fileID: 11400000, guid: ae59e9494eac4c340922c146b81b0aa7, type: 2}
+  - {fileID: 11400000, guid: 05e453710c6e959468ce8dc671f8ceba, type: 2}
+  - {fileID: 11400000, guid: 6dfe2198e65b0ba4ab678963804e3f7e, type: 2}
+  - {fileID: 11400000, guid: 2d0bf607029c3a94f8ccee385ae562e2, type: 2}
+  - {fileID: 11400000, guid: 343574bfeb2a7214abbd2e528bc72ec9, type: 2}
+  - {fileID: 11400000, guid: b44a10af786ccab449df3e9e9ca1d09e, type: 2}
+  - {fileID: 11400000, guid: 8563e728ff569a04293e79d0843c7c45, type: 2}
+  - {fileID: 11400000, guid: 56655e3003320904c8c18e7d7a6e663b, type: 2}
+  - {fileID: 11400000, guid: 175aad713d300114b8a2d9344d80650b, type: 2}
+  - {fileID: 11400000, guid: 230e1c69cf76d2d43a49312ee4823e39, type: 2}
+  - {fileID: 11400000, guid: ea5ccd336a59f3b4e95633f110dc6459, type: 2}
+  - {fileID: 11400000, guid: 81e0f6f976dfb12479291dc649411726, type: 2}
+  - {fileID: 11400000, guid: 68e618fca9819e94197f4aafabb99bf2, type: 2}
+  - {fileID: 11400000, guid: 881c337169db2404480034f0f477ddd0, type: 2}
+  - {fileID: 11400000, guid: 900067aa215e04c44bfa639aa5201042, type: 2}
+  - {fileID: 11400000, guid: 02727977c73e9c64fbb312a33f029c64, type: 2}
   bossRooms:
   - {fileID: 11400000, guid: 7a22aae52d854464a89436b0e2ff95b3, type: 2}
   treasureRooms:

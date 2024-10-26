@@ -36,7 +36,7 @@ Transform:
   - {fileID: 3691338519946041800}
   - {fileID: 4850709853269435079}
   - {fileID: 4984923708852535890}
-  - {fileID: 5912376235661221568}
+  - {fileID: 9148837094491593117}
   - {fileID: 369288313993454816}
   - {fileID: 1700305199976326608}
   - {fileID: 1348568592722670376}
@@ -58,7 +58,8 @@ MonoBehaviour:
   roomState: 1
   roomDetector:
     roomTransform: {fileID: 2398674837622389250}
-  roomObjects: []
+  roomObjects:
+  - {fileID: 76340065357255686}
   roomType: 2
   up: {fileID: 6398244698432825739}
   down: {fileID: 1020667394191262344}
@@ -135,38 +136,6 @@ MonoBehaviour:
   blendDistance: 1
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 9b51f060aa047e84f8f1169008539349, type: 2}
---- !u!1 &1483930863229201680
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5912376235661221568}
-  m_Layer: 0
-  m_Name: PhysicsEffects_ConstantDirection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5912376235661221568
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1483930863229201680}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 9148837094491593117}
-  m_Father: {fileID: 2398674837622389250}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3932538674158084210
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,12 +345,12 @@ GameObject:
   - component: {fileID: 3146503890046881284}
   - component: {fileID: 76340065357255686}
   m_Layer: 0
-  m_Name: Particle System DownFacing
+  m_Name: Particle System DownFacingCD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9148837094491593117
 Transform:
   m_ObjectHideFlags: 0
@@ -391,11 +360,11 @@ Transform:
   m_GameObject: {fileID: 5974859747685886824}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.81, z: 8.53}
+  m_LocalPosition: {x: 0, y: 0.81, z: 8.529999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5912376235661221568}
+  m_Father: {fileID: 2398674837622389250}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &6972542821019158043
 ParticleSystem:
