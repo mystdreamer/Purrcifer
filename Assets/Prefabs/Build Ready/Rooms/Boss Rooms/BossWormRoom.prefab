@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3511890155862031959}
   - component: {fileID: 5310592524205914794}
-  - component: {fileID: 3481842156399240456}
   m_Layer: 0
   m_Name: BossWormRoom
   m_TagString: Untagged
@@ -32,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 163900585722511975}
-  - {fileID: 8366563622599814984}
+  - {fileID: 7160466539778867811}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5310592524205914794
@@ -51,20 +50,52 @@ MonoBehaviour:
   roomDetector:
     roomTransform: {fileID: 3511890155862031959}
   roomObjects:
-  - {fileID: 3481842156399240456}
-  wallType: 0
+  - {fileID: 1757667124828326136}
   roomType: 0
   up: {fileID: 1348018652211949790}
   down: {fileID: 4923593154746440669}
   left: {fileID: 6021157258579172179}
   right: {fileID: 5497309442337344614}
---- !u!114 &3481842156399240456
+--- !u!1 &8904349815671245315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7160466539778867811}
+  - component: {fileID: 1757667124828326136}
+  m_Layer: 0
+  m_Name: BossWormController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7160466539778867811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8904349815671245315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8366563622599814984}
+  m_Father: {fileID: 3511890155862031959}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1757667124828326136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8821325590592115198}
+  m_GameObject: {fileID: 8904349815671245315}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e83313077c78344088243264453d7f6, type: 3}
@@ -185,7 +216,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 3511890155862031959}
+    m_TransformParent: {fileID: 7160466539778867811}
     m_Modifications:
     - target: {fileID: 4189333899693248034, guid: 51a048ea788ab8a41a132445ea1b7646, type: 3}
       propertyPath: m_LocalPosition.x
@@ -205,15 +236,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4189333899693248034, guid: 51a048ea788ab8a41a132445ea1b7646, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4189333899693248034, guid: 51a048ea788ab8a41a132445ea1b7646, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4189333899693248034, guid: 51a048ea788ab8a41a132445ea1b7646, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4189333899693248034, guid: 51a048ea788ab8a41a132445ea1b7646, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

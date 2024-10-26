@@ -64,6 +64,7 @@ public class BossWorm : Boss
         {
             if (gameObject.tag == "Player")
             {
+                Debug.Log("Collision wit player");
                 GameManager.Instance.PlayerState.Health -= 1;
             }
             if (gameObject.name == "Crystal" | hasDirection)
@@ -89,6 +90,7 @@ public class BossWorm : Boss
         public static GameObject GenerateScale(GameObject bulletPrefab, Vector3 position, Vector3 initialSize, Vector3 growthSize, float lifetime, float speed)
         {
             GameObject obj = GameObject.Instantiate(bulletPrefab);
+            obj.tag = "Enemy";
             BulletControllerWorm controller = obj.AddComponent<BulletControllerWorm>();
             obj.transform.position = new Vector3(position.x, 0, position.z);
             controller.speed = speed;

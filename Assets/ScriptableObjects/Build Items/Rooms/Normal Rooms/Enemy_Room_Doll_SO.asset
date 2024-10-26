@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798b924d531b1744faddfd38241567d5, type: 3}
   m_Name: Enemy_Room_Doll_SO
   m_EditorClassIdentifier: 
-  roomName: 
+  roomName: Enemy_Room_Doll_SO
   roomID: 86219
   weighting: 10
   roomPrefab: {fileID: 6216162527419025023, guid: faac251011702bc4a87a8aac43c3b579, type: 3}
