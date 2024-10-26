@@ -13,8 +13,6 @@ public class AreaPushConstantDirection : InZone
 
     internal override void UpdateObject()
     {
-        base.FixedUpdate();
-
         if (IsActive)
             direction.ApplyEffect();
     }

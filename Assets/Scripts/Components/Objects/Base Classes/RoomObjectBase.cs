@@ -10,7 +10,8 @@ public interface IRoomObject
 public enum ObjectActivationType
 {
     ON_ROOM_ACTIVATION, 
-    ON_OBJECT_START
+    ON_OBJECT_START,
+    CUSTOM_ACTIVATED, 
 }
 
 /// <summary>
@@ -58,6 +59,8 @@ public abstract class RoomObjectBase : WorldObject, IRoomObject
     /// </summary>
     void IRoomObject.AwakenObject()
     {
+        if (activationType == ObjectActivationType.CUSTOM_ACTIVATED)
+            return;
         _objectActive = true;
         OnAwakeObject();
     }

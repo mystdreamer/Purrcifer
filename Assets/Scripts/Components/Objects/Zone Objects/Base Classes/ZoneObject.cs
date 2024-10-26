@@ -50,7 +50,7 @@ public abstract class ZoneObject : RoomObjectBase
             Ticker.Enable = false;
     }
 
-    internal void FixedUpdate()
+    private void Update()
     {
         UpdateObject();
     }
