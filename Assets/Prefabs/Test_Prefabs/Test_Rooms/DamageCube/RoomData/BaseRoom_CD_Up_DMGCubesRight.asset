@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798b924d531b1744faddfd38241567d5, type: 3}
+  m_Name: BaseRoom_CD_Up_DMGCubesRight
+  m_EditorClassIdentifier: 
+  roomName: BaseRoom_CD_Up_DMGCubesRight
+  roomID: 92905
+  weighting: 15
+  roomPrefab: {fileID: 7765769210941658764, guid: 793cc1e53c263e3409c013f4f335c74b, type: 3}

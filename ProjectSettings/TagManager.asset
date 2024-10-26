@@ -20,7 +20,7 @@ TagManager:
   - Void
   - Consumable
   - Weapon
-  - 
+  - IgnoreCamera
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: IgnoreCamera
+    uniqueID: 2024275749
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1
@@ -52,3 +55,4 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
+  - IgnoreCame
