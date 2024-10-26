@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13458b9f02334242bc44a057974ce84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13458b9f02334242bc44a057974ce84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -896,7 +896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13458b9f02334242bc44a057974ce84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 2
   _health:
     _healthRange:
       min: 0

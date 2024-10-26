@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2833426843022761911
 Transform:
   m_ObjectHideFlags: 0
@@ -670,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c84c4bf96fc5a34590bfdc0c20013a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -972,7 +972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2881197622624852893
 Transform:
   m_ObjectHideFlags: 0
@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c84c4bf96fc5a34590bfdc0c20013a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -1207,7 +1207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4929287096021087599
 Transform:
   m_ObjectHideFlags: 0
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c84c4bf96fc5a34590bfdc0c20013a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activationType: 0
+  activationType: 2
   _health:
     _healthRange:
       min: 0

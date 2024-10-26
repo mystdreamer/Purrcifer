@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225df15fab20f2e42b34457584d8a28d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -406,6 +407,9 @@ MonoBehaviour:
       current: 0
     _invincible: 0
     _invincibilityLength: 0
+  container:
+    lastState: 0
+    currentState: 0
   enemyState: 0
   playerInstance: {fileID: 0}
   enemy: {fileID: 0}
@@ -677,6 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225df15fab20f2e42b34457584d8a28d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -684,6 +689,9 @@ MonoBehaviour:
       current: 0
     _invincible: 0
     _invincibilityLength: 0
+  container:
+    lastState: 0
+    currentState: 0
   enemyState: 0
   playerInstance: {fileID: 0}
   enemy: {fileID: 0}
@@ -906,6 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225df15fab20f2e42b34457584d8a28d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationType: 2
   _health:
     _healthRange:
       min: 0
@@ -913,6 +922,9 @@ MonoBehaviour:
       current: 0
     _invincible: 0
     _invincibilityLength: 0
+  container:
+    lastState: 0
+    currentState: 0
   enemyState: 0
   playerInstance: {fileID: 0}
   enemy: {fileID: 0}
