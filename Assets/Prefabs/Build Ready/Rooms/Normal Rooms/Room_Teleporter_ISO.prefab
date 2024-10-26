@@ -1636,7 +1636,6 @@ MonoBehaviour:
   - {fileID: 8966472301849944063}
   - {fileID: 6619049035731349058}
   - {fileID: 8823315183122759214}
-  wallType: 0
   roomType: 0
   up: {fileID: 47974667577854334}
   down: {fileID: 6218189628348260989}
@@ -3775,7 +3774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationType: 1
-  insideArea: 0
+  isAwake: 0
   eventTicker: {fileID: 2504055739787331600}
 --- !u!114 &2504055739787331600
 MonoBehaviour:
@@ -4412,7 +4411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationType: 1
-  insideArea: 0
+  isAwake: 0
   eventTicker: {fileID: 8629344145584922864}
 --- !u!114 &8629344145584922864
 MonoBehaviour:
@@ -7072,6 +7071,18 @@ PrefabInstance:
     - target: {fileID: 2400532838595087763, guid: dfa9450e9280cb7409549cbafb27a4cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665088904556314253, guid: dfa9450e9280cb7409549cbafb27a4cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628989741824404208, guid: dfa9450e9280cb7409549cbafb27a4cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4709986645255466919, guid: dfa9450e9280cb7409549cbafb27a4cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6089337005994266305, guid: dfa9450e9280cb7409549cbafb27a4cc, type: 3}
       propertyPath: m_Name
